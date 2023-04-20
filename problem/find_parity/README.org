@@ -35,7 +35,7 @@ def brute_force_1(word):
 
 This approach just computes the parity of a single word by examining every bit in the word. It also uses bitwise XOR to only store 1 or 0 (instead of actually storing the actual number of bits). Because of the way XOR works, when the number of bits is odd (starting with the very first 1-bit), the parity is set to 1. Then if another 1-bit comes along (even) it is XOR-ed against the previously-calculated parity bit 1 to become 0. Then if another bit (odd) comes along, the 0 is XOR-ed against it to become 1 again, and so forth.
 
-The space complexity is O(1) because we only store 0 or 1 for the parity bit. The time complexity is O(n) where n is the word size.
+The space complexity is O(1) because we only store 0 or 1 for the parity bit. The time complexity is $O(n)$ where $n$ is the word size.
 
 ** Brute force (clear lowest bit trick)
 
@@ -49,7 +49,7 @@ def brute_force_2(word):
   return parity_bit
 #+end_src
 
-Here we use the ~word &= word - 1~ trick to clear the lowest 1-bit in a word. This is a classic bitwise trick. This is an improvement over ~word >>= 1~ because we no longer have to examine every single bit. So our time complexity drops to O(k) where k is the number of bits set.
+Here we use the ~word &= word - 1~ trick to clear the lowest 1-bit in a word. This is a classic bitwise trick. This is an improvement over ~word >>= 1~ because we no longer have to examine every single bit. So our time complexity drops to $O(k)$ where $k$ is the number of bits set.
 
 * Tests
 
