@@ -43,6 +43,7 @@ all:
 
 #+begin_src gitignore :tangle .gitignore :eval no
 **/__pycache__
+**/*.html
 #+end_src
 
 * Bibliography
