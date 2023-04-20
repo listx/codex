@@ -19,11 +19,13 @@ Examples:
 
 Design an algorithm for computing the parity of a large number of 64-bit words.
 
-* Brute force
+* Solutions
 
-#+name: brute_force
+** Brute force
+
+#+name: brute_force_1
 #+begin_src python
-def parity(word):
+def brute_force_1(word):
   parity_bit = 0
   while word:
     parity_bit ^= word & 1
@@ -35,21 +37,43 @@ This approach just computes the parity of a single word by examining every bit i
 
 The space complexity is O(1) because we only store 0 or 1 for the parity bit. The time complexity is O(n) where n is the word size.
 
+** Brute force (clear lowest bit trick)
+
+#+name: brute_force_2
+#+begin_src python
+def brute_force_2(word):
+  parity_bit = 0
+  while word:
+    parity_bit ^= 1
+    word &= word - 1
+  return parity_bit
+#+end_src
+
+Here we use the ~word &= word - 1~ trick to clear the lowest 1-bit in a word. This is a classic bitwise trick. This is an improvement over ~word >>= 1~ because we no longer have to examine every single bit. So our time complexity drops to O(k) where k is the number of bits set.
+
 * Tests
 
 #+begin_src python :session test :tangle test_parity.py
 import unittest
 
-<<brute_force>>
+<<brute_force_1>>
+
+<<brute_force_2>>
 
 class TestParity(unittest.TestCase):
-  def test_bf(self):
-    self.assertEqual(parity(0b0), 0)
-    self.assertEqual(parity(0b1), 1)
-    self.assertEqual(parity(0b1011), 1)
-    self.assertEqual(parity(0b1000010000), 0)
-    self.assertEqual(parity(0b11), 0)
-    self.assertEqual(parity(0b11111), 1)
+  cases = [
+    (0b0, 0),
+    (0b1, 1),
+    (0b1011, 1),
+    (0b1000010000, 0),
+    (0b11, 0),
+    (0b11111, 1),
+  ]
+
+  def test_brute_force(self):
+    for word, parity_bit in self.cases:
+      self.assertEqual(brute_force_1(word), parity_bit)
+      self.assertEqual(brute_force_2(word), parity_bit)
 
 if __name__ == "__main__":
   unittest.main(exit=False)

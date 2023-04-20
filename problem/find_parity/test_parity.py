@@ -1,20 +1,33 @@
 import unittest
 
-def parity(word):
+def brute_force_1(word):
   parity_bit = 0
   while word:
     parity_bit ^= word & 1
     word >>= 1
   return parity_bit
 
+def brute_force_2(word):
+  parity_bit = 0
+  while word:
+    parity_bit ^= 1
+    word &= word - 1
+  return parity_bit
+
 class TestParity(unittest.TestCase):
-  def test_bf(self):
-    self.assertEqual(parity(0b0), 0)
-    self.assertEqual(parity(0b1), 1)
-    self.assertEqual(parity(0b1011), 1)
-    self.assertEqual(parity(0b1000010000), 0)
-    self.assertEqual(parity(0b11), 0)
-    self.assertEqual(parity(0b11111), 1)
+  cases = [
+    (0b0, 0),
+    (0b1, 1),
+    (0b1011, 1),
+    (0b1000010000, 0),
+    (0b11, 0),
+    (0b11111, 1),
+  ]
+
+  def test_brute_force(self):
+    for word, parity_bit in self.cases:
+      self.assertEqual(brute_force_1(word), parity_bit)
+      self.assertEqual(brute_force_2(word), parity_bit)
 
 if __name__ == "__main__":
   unittest.main(exit=False)
