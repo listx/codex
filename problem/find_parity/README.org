@@ -2,6 +2,8 @@
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
 
+#+BIBLIOGRAPHY: ../../citations.bib
+
 * Introduction
 
 /Parity/ of a word is defined as =1= if there are an odd number of 1-bits in the word, and =0= otherwise.
@@ -35,7 +37,7 @@ def brute_force_1(word):
 
 This approach just computes the parity of a single word by examining every bit in the word. It also uses bitwise XOR to only store 1 or 0 (instead of actually storing the actual number of bits). Because of the way XOR works, when the number of bits is odd (starting with the very first 1-bit), the parity is set to 1. Then if another 1-bit comes along (even) it is XOR-ed against the previously-calculated parity bit 1 to become 0. Then if another bit (odd) comes along, the 0 is XOR-ed against it to become 1 again, and so forth.
 
-The space complexity is O(1) because we only store 0 or 1 for the parity bit. The time complexity is $O(n)$ where $n$ is the word size.
+The space complexity is $O(1)$ because we only store 0 or 1 for the parity bit. The time complexity is $O(n)$ where $n$ is the word size.
 
 ** Brute force (clear lowest bit trick)
 
@@ -51,6 +53,35 @@ def brute_force_2(word):
 
 Here we use the ~word &= word - 1~ trick to clear the lowest 1-bit in a word. This is a classic bitwise trick. This is an improvement over ~word >>= 1~ because we no longer have to examine every single bit. So our time complexity drops to $O(k)$ where $k$ is the number of bits set.
 
+** Brute force (use word-level XOR)
+
+#+name: brute_force_3
+#+begin_src python
+def brute_force_3(word):
+  word ^= word >> 32
+  word ^= word >> 16
+  word ^= word >> 8
+  word ^= word >> 4
+  word ^= word >> 2
+  word ^= word >> 1
+  return word & 1
+#+end_src
+
+In [cite:@adnan_aziz_elements_2016] this solution is not treated as a brute force approach, however it still feels like a brute force approach because of the repetitive nature of the XOR and shift instructions. This solution takes advantage of the fact that the "XOR of a group of bits is its parity". That is, the parity of a word is the same as taking the parity of the left and right half bits of the word and XOR-ing them together. In the above approach we simply repeat this procedure to get from a 64-bit word to a 1-bit word, and calculate the parity of this 1-bit word (which is the same as AND-ing it with 1).
+
+Tho time complexity is reduced to $O(\log{}n)$ where $n$ is the word size. This is about 20% faster on random input than the previous version, although on sparse inputs the previous one is faster [cite:@adnan_aziz_elements_2016].
+
+** Table lookup (caching)
+
+Because there are $2^64$ possible values, we cannot use a hash table for 64-bit inputs directly. Instead we can use a 16-bit input ($2^16 = 65536$ values), and just do 4 lookups for a 64-bit word (because there are 4 16-bit words in a 64-bit word). Then we just take the XOR of these lookups to get the overall parity.
+
+#+name: caching
+#+begin_src python
+def caching(word):
+  # TODO
+  return
+#+end_src
+
 * Tests
 
 #+begin_src python :session test :tangle test_parity.py
@@ -59,6 +90,10 @@ import unittest
 <<brute_force_1>>
 
 <<brute_force_2>>
+
+<<brute_force_3>>
+
+<<caching>>
 
 class TestParity(unittest.TestCase):
   cases = [
@@ -74,6 +109,8 @@ class TestParity(unittest.TestCase):
     for word, parity_bit in self.cases:
       self.assertEqual(brute_force_1(word), parity_bit)
       self.assertEqual(brute_force_2(word), parity_bit)
+      self.assertEqual(brute_force_3(word), parity_bit)
+      self.assertEqual(caching(word), parity_bit)
 
 if __name__ == "__main__":
   unittest.main(exit=False)
@@ -85,3 +122,7 @@ The below =__init__.py= bit allows Python to discover the unit tests.
 
 #+begin_src python :tangle __init__.py :exports none
 #+end_src
+
+* References
+#+CITE_EXPORT: csl ../../deps/styles/ieee.csl
+#+PRINT_BIBLIOGRAPHY:
