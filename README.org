@@ -1,0 +1,29 @@
+#+title: Codex
+
+# Include additional CSS styles. Sadly the readtheorg theme does not appear to
+# come bundled with Haskell syntax colors, so we have to generate these ourselves.
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+
+# Set default header argument for all source code blocks. The "no-export" means
+# that we do not expand noweb references when exporting (weaving) --- the fact
+# that this is not the default option is odd.
+#+PROPERTY: header-args :noweb no-export
+
+# Number the top 5 levels of headings; since h1 is the tile, this means headings
+# up to 4 numbers --- e.g., "1.2.3.4".
+#+OPTIONS: H:5
+
+#+BIBLIOGRAPHY: citations.bib
+
+* Introduction
+
+This project aims to capture my notes for studying various programming problems (data structures and algorithms).
+
+* Layout
+
+Every problem gets its own =.org= file. The name of the problem is used as the filename.
+
+* Bibliography
+
+- Adnan Aziz, Tsung-Hsien Lee, Tsung-Hsien Lee. Elements of Programming Interviews in Python: The Insiders’ Guide. CreateSpace Independent Publishing Platform (15 Sept. 2016), 2016.
