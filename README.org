@@ -10,7 +10,7 @@
 # that this is not the default option is odd.
 #+PROPERTY: header-args :noweb no-export
 
-# Number the top 5 levels of headings; since h1 is the tile, this means headings
+# Number the top 5 levels of headings; since h1 is the title, this means headings
 # up to 4 numbers --- e.g., "1.2.3.4".
 #+OPTIONS: H:5
 
@@ -22,7 +22,28 @@ This project aims to capture my notes for studying various programming problems 
 
 * Layout
 
-Every problem gets its own =.org= file. The name of the problem is used as the filename.
+Every problem gets its own =.org= file. The solutions are all in Python. All solutions are "standalone" in that none of them use any libraries other than what's provided by Python's standard libraries.
+
+Below is a table of every problem, with tags that give a brief description of each one.
+
+| Name                      | Tags    |
+|---------------------------+---------|
+| Find parity of many words | bitwise |
+
+* Houskeeping and boilerplate
+
+** Makefile
+
+#+begin_src makefile :tangle Makefile :eval no
+all:
+	python -m unittest discover -s problem
+#+end_src
+
+** gitignore
+
+#+begin_src gitignore :tangle .gitignore :eval no
+**/__pycache__
+#+end_src
 
 * Bibliography
 
