@@ -124,5 +124,5 @@ The below =__init__.py= bit allows Python to discover the unit tests.
 #+end_src
 
 * References
-#+CITE_EXPORT: csl ../../deps/styles/ieee.csl
+#+CITE_EXPORT: csl ../../deps/styles/apa.csl
 #+PRINT_BIBLIOGRAPHY:
