@@ -1,3 +1,4 @@
 **/__pycache__
 **/*.auctex-auto
 **/*.html
+**/*.hypothesis

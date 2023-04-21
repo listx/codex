@@ -1,4 +1,6 @@
 #+title: Find parity of words
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
 
@@ -19,13 +21,13 @@ Examples:
 
 * Problem statement
 
-Design an algorithm for computing the parity of a large number of 64-bit words.
+Design an algorithm for computing the parity of a large number of 64-bit words [cite:@epip 27].
 
 * Solutions
 
 ** Brute force
 
-#+name: brute_force_1
+#+name: __NREF__brute_force_1
 #+begin_src python
 def brute_force_1(word):
   parity_bit = 0
@@ -41,7 +43,7 @@ The space complexity is $O(1)$ because we only store 0 or 1 for the parity bit. 
 
 ** Brute force (clear lowest bit trick)
 
-#+name: brute_force_2
+#+name: __NREF__brute_force_2
 #+begin_src python
 def brute_force_2(word):
   parity_bit = 0
@@ -55,7 +57,7 @@ Here we use the ~word &= word - 1~ trick to clear the lowest 1-bit in a word. Th
 
 ** Brute force (use word-level XOR)
 
-#+name: brute_force_3
+#+name: __NREF__brute_force_3
 #+begin_src python
 def brute_force_3(word):
   word ^= word >> 32
@@ -71,29 +73,90 @@ In [cite:@epip 29-30] this solution is not treated as a brute force approach, ho
 
 Tho time complexity is reduced to $O(\log{}n)$ where $n$ is the word size. This is about 20% faster on random input than the previous version, although on sparse inputs the previous one is faster [cite:@epip 30].
 
+** Brute force (use word-level XOR with in-register table lookup)
+
+#+name: __NREF__brute_force_4
+#+begin_src python
+def brute_force_4(word):
+  word ^= word >> 32
+  word ^= word >> 16
+  word ^= word >> 8
+  word ^= word >> 4
+  word = 0x6996 >> (word & 0xf)
+  return word & 1
+#+end_src
+
+This is a small improvement over the previous version, noted in [cite:@hd 97]. The use of the =0x6996= constant is called an "in-register table lookup". Sadly the book does not explain how to compute this constant.
+
+According to https://graphics.stanford.edu/~seander/bithacks.html#ParityParallel, the =0x6996= is =0110 1001 1001 0110= in binary, and "is like a miniature 16-bit parity-table indexed by the low four bits" in the word.
+
+** Black magic
+
+#+name: __NREF__black_magic
+#+begin_src python
+def black_magic(word):
+  word ^= word >> 1
+  word ^= word >> 2
+  word &= 0x1111111111111111
+  word *= 0x1111111111111111
+  return (word >> 60) & 1
+#+end_src
+
+This method is also from [cite:@hd 97-98], but the explanation remains terse.
+
 ** Table lookup (caching)
 
-Because there are $2^64$ possible values, we cannot use a hash table for 64-bit inputs directly. Instead we can use a 16-bit input ($2^16 = 65536$ values), and just do 4 lookups for a 64-bit word (because there are 4 16-bit words in a 64-bit word). Then we just take the XOR of these lookups to get the overall parity.
+Because there are $2^64$ possible values, we cannot use a hash table for 64-bit inputs directly. Instead we can use a 16-bit input ($2^16 = 65536$ values), and just do 4 16-bit word lookups (because there are 4 16-bit words in a 64-bit word). Then we just take the XOR of these lookups to get the overall parity. Because the keys for the lookups can just be the raw 16-bit words, we can use these keys as indices to a list, instead of using a dictionary.
 
-#+name: caching
+#+name: __NREF__caching
 #+begin_src python
+
+PARITY = [brute_force_3(word) for word in range(1 << 16)]
+MASK_SIZE = 16
+BIT_MASK = 0xffff
+
 def caching(word):
-  # TODO
-  return
+  a = PARITY[word >> (3 * MASK_SIZE)]
+  b = PARITY[(word >> (2 * MASK_SIZE)) & BIT_MASK]
+  c = PARITY[(word >> MASK_SIZE) & BIT_MASK]
+  d = PARITY[word & BIT_MASK]
+  return a ^ b ^ c ^ d
+#+end_src
+
+The time complexity is just $O(n/L)$, where $L$ is the width of the cached results and $n$ is the word size. This assumes that the shift operations take $O(1)$ time. In our case, $L$ is 16 and $n$ is 64, so there are $64/16 = 4$ terms to look up.
+
+** Word-level XOR and caching
+
+This is an approach that combines the word-level XOR method with caching to achieve an even greater speedup.
+
+#+name: __NREF__caching_xor
+#+begin_src python
+def caching_xor(word):
+  word ^= word >> 32
+  word ^= word >> 16
+  return PARITY[word & BIT_MASK]
 #+end_src
 
 * Tests
 
-#+begin_src python :session test :tangle test_parity.py
+#+begin_src python :eval no :session test :tangle test_parity.py
+from hypothesis import given, strategies as st
+
 import unittest
 
-<<brute_force_1>>
+__NREF__brute_force_1
 
-<<brute_force_2>>
+__NREF__brute_force_2
 
-<<brute_force_3>>
+__NREF__brute_force_3
 
-<<caching>>
+__NREF__brute_force_4
+
+__NREF__caching
+
+__NREF__caching_xor
+
+__NREF__black_magic
 
 class TestParity(unittest.TestCase):
   cases = [
@@ -103,14 +166,29 @@ class TestParity(unittest.TestCase):
     (0b1000010000, 0),
     (0b11, 0),
     (0b11111, 1),
+    (0b1000000000000000000000000000000000000000000000000000000000000000, 1),
+    (0b1000000000000000000000000000000000000000100000000000000000000000, 0),
   ]
 
-  def test_brute_force(self):
+  def test_simple_cases(self):
     for word, parity_bit in self.cases:
       self.assertEqual(brute_force_1(word), parity_bit)
       self.assertEqual(brute_force_2(word), parity_bit)
       self.assertEqual(brute_force_3(word), parity_bit)
+      self.assertEqual(brute_force_4(word), parity_bit)
       self.assertEqual(caching(word), parity_bit)
+      self.assertEqual(caching_xor(word), parity_bit)
+      self.assertEqual(black_magic(word), parity_bit)
+
+  @given(st.integers(min_value=0, max_value=((1<<64) - 1)))
+  def test_random(self, word):
+    parity_bit = black_magic(word)
+    self.assertEqual(brute_force_1(word), parity_bit)
+    self.assertEqual(brute_force_2(word), parity_bit)
+    self.assertEqual(brute_force_3(word), parity_bit)
+    self.assertEqual(brute_force_4(word), parity_bit)
+    self.assertEqual(caching(word), parity_bit)
+    self.assertEqual(caching_xor(word), parity_bit)
 
 if __name__ == "__main__":
   unittest.main(exit=False)
@@ -124,5 +202,5 @@ The below =__init__.py= bit allows Python to discover the unit tests.
 #+end_src
 
 * References
-#+CITE_EXPORT: csl ../../deps/styles/apa.csl
+#+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
 #+PRINT_BIBLIOGRAPHY:
