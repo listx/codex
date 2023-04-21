@@ -47,6 +47,7 @@ all:
 **/*.html
 #+end_src
 
-* Bibliography
 
-- Adnan Aziz, Tsung-Hsien Lee, Tsung-Hsien Lee. Elements of Programming Interviews in Python: The Insiders’ Guide. CreateSpace Independent Publishing Platform (15 Sept. 2016), 2016.
+* References
+#+CITE_EXPORT: csl deps/styles/apa.csl
+#+PRINT_BIBLIOGRAPHY:

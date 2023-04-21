@@ -67,9 +67,9 @@ def brute_force_3(word):
   return word & 1
 #+end_src
 
-In [cite:@adnan_aziz_elements_2016] this solution is not treated as a brute force approach, however it still feels like a brute force approach because of the repetitive nature of the XOR and shift instructions. This solution takes advantage of the fact that the "XOR of a group of bits is its parity". That is, the parity of a word is the same as taking the parity of the left and right half bits of the word and XOR-ing them together. In the above approach we simply repeat this procedure to get from a 64-bit word to a 1-bit word, and calculate the parity of this 1-bit word (which is the same as AND-ing it with 1).
+In [cite:@epip 29-30] this solution is not treated as a brute force approach, however it still feels like a brute force approach because of the repetitive nature of the XOR and shift instructions. This solution takes advantage of the fact that the "XOR of a group of bits is its parity". That is, the parity of a word is the same as taking the parity of the left and right half bits of the word and XOR-ing them together. In the above approach we simply repeat this procedure to get from a 64-bit word to a 1-bit word, and calculate the parity of this 1-bit word (which is the same as AND-ing it with 1).
 
-Tho time complexity is reduced to $O(\log{}n)$ where $n$ is the word size. This is about 20% faster on random input than the previous version, although on sparse inputs the previous one is faster [cite:@adnan_aziz_elements_2016].
+Tho time complexity is reduced to $O(\log{}n)$ where $n$ is the word size. This is about 20% faster on random input than the previous version, although on sparse inputs the previous one is faster [cite:@epip 30].
 
 ** Table lookup (caching)
 
