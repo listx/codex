@@ -1,0 +1,159 @@
+#+title: Rectangle overlap (intersection)
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Introduction
+
+Consider rectangles whose sides are parallel to the X and Y axes. Let a rectangle be defined by 4 fields: the X and Y coordinate of its bottom-left corner, and its width and height.
+
+#+header: :noweb-ref __NREF__overlapping_rectangle
+#+begin_src python
+import collections
+Rect = collections.namedtuple('Rect', ('x', 'y', 'width', 'height'))
+#+end_src
+
+FIXME: Insert Tikz diagram.
+
+* Problem statement
+
+Write a function which checks if two rectangles have a nonempty overlap; if the overlap is nonempty, return the rectangle formed by their overlap [cite:@epip 39]. Two rectangles are considered to be overlapping if they share the same side.
+
+* Insights
+
+Enumerating all the ways in which two rectangles can overlap is rather difficult. Instead we can just check if there is no overlap horizontally and vertically, separately.
+
+* Solution
+
+First just consider horizontal overlap. The check to see if there is *no* overlap is simple: if the rightmost point of Rect A is less than the leftmost point of Rect B, there is no overlap. We can encode this as =a_R < b_L=. Of course, it may be the case that Rect A is further right on the X axis than Rectnagle B, in which case the roles are reversed and we have to check if Rect A's leftmost point is indeed greater than the rightmost point of Rect B (=a_L > b_R=). These two conditions form the basis of =no_horizontal_overlap()= below.
+
+By symmetry, the code for =no_vertical_overlap()= is rather similar.
+
+#+header: :noweb-ref __NREF__overlapping_rectangle
+#+begin_src python
+def no_horizontal_overlap(a, b):
+  # "L" means leftmost point
+  # "R" means rightmost point
+  a_L = a.x
+  a_R = a.x + a.width
+  b_L = b.x
+  b_R = b.x + b.width
+  return a_R < b_L or a_L > b_R
+def no_vertical_overlap(a, b):
+  # "B" means bottommost point
+  # "T" means topmost point
+  a_B = a.y
+  a_T = a.y + a.height
+  b_B = b.y
+  b_T = b.y + b.height
+  return a_T < b_B or a_B > b_T
+def no_overlap(a, b):
+  return no_horizontal_overlap(a, b) or no_vertical_overlap(a, b)
+#+end_src
+
+The code in [cite:@epip 40] actually does the opposite to check for overlap (instead of no-overlap). And so they use ~a_R >= b_L and a_L <= b_R~ instead. However that code is a tiny bit slower because of the use of =and= instead of =or= as we've done here.
+
+Now that we can check if there is no overlap, we can proceed to calculating the actual overlapping (smaller) rectangle.
+
+#+header: :noweb-ref __NREF__overlapping_rectangle
+#+begin_src python
+def overlapping_rectangle(a, b):
+  if no_overlap(a, b):
+    return None
+  a_L = a.x
+  a_R = a.x + a.width
+  b_L = b.x
+  b_R = b.x + b.width
+  a_B = a.y
+  a_T = a.y + a.height
+  b_B = b.y
+  b_T = b.y + b.height
+#+end_src
+
+Now that we have all of our points defined, first consider the $(X, Y)$ coordinate (lower-left corner) of the overlapping rectangle (let's call this rectangle =v=). What is the leftmost side of =v=? It's just the max of either =a= or =b=, because we already know that they overlap:
+
+#+begin_example
+aaaaaaa
+     bbbb
+     |
+     `- this point, b_L, is what we want
+#+end_example
+
+Again, we have to account for the case where the rectangles are reversed, where Rect B is on the left:
+
+#+begin_example
+bbbbbbb
+     aaaa
+     |
+     `- this point, a_L, is what we want
+#+end_example
+
+So we need to get either =a_L= or =b_L=. In both cases, this value is =max(a_L, b_L)=. For the Y axis, similar logic follows and we need to use =max(a_B, b_B)=.
+
+#+header: :noweb-ref __NREF__overlapping_rectangle
+#+begin_src python
+  v_x = max(a_L, b_L)
+  v_y = max(a_B, b_B)
+#+end_src
+
+What about width the width? The width is the rightmost point subtracted by the leftmost point. We already know the leftmost point of =v=, =v_x=. So we just need to calculate the rightmost point. We can get the rightmost point by taking the minimum of the rightmost points of either =a= or =b=. Using the same examples from above, we can see
+
+#+begin_example
+      ,- this point, a_R, is what we want
+      |
+aaaaaaa
+     bbbb
+#+end_example
+
+and also the reversed case
+
+#+begin_example
+      ,- this point, b_R, is what we want
+      |
+bbbbbbb
+     aaaa
+#+end_example
+
+where in both cases, the value is =min(a_R, b_R)=. Then we can just subtract =v_x= from it to get the width. By symmetry, the calculation of v_height is essentially the same.
+
+#+header: :noweb-ref __NREF__overlapping_rectangle
+#+begin_src python
+  v_width = min(a_R, b_R) - v_x
+  v_height = min(a_T, b_T) - v_y
+  return Rect(v_x, v_y, v_width, v_height)
+#+end_src
+
+* Tests
+
+#+begin_src python :eval no :session test :tangle test_rectangle_intersection.py
+import unittest
+
+__NREF__overlapping_rectangle
+
+class TestOverlappingRect(unittest.TestCase):
+  cases = [
+    (Rect(0, 0, 1, 1), Rect(2, 2, 0, 0), None),
+    (Rect(0, 0, 1, 1), Rect(2, 2, 0, 0), None),
+    (Rect(0, 0, 1, 1), Rect(1, 1, 0, 0), Rect(1, 1, 0, 0)),
+    (Rect(0, 0, 5, 5), Rect(1, 1, 2, 6), Rect(1, 1, 2, 4)),
+  ]
+
+  def test_simple_cases(self):
+    for a, b, result in self.cases:
+      self.assertEqual(overlapping_rectangle(a, b), result)
+      # Also check the reverse (when we swap the order of the rectangles).
+      self.assertEqual(overlapping_rectangle(b, a), result)
+
+if __name__ == "__main__":
+  unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :tangle __init__.py :exports none
+#+end_src
+
+* References
+#+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
+#+PRINT_BIBLIOGRAPHY:

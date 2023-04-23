@@ -27,9 +27,10 @@ Every problem gets its own =.org= file. The solutions are all in Python. All sol
 Below is a table of every problem, with tags that give a brief description of each one.
 
 #+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
-| Name   | Tags    | Sources                 |
-|--------+---------+-------------------------|
-| [[file:problem/parity/README.org][Parity]] | bitwise | [cite:@epip 27; @hd 96] |
+| Name              | Tags     | Sources                 |
+|-------------------+----------+-------------------------|
+| [[file:problem/parity/README.org][Parity]]            | bitwise  | [cite:@epip 27; @hd 96] |
+| [[file:problem/rectangle_overlap/README.org][Rectangle overlap]] | geometry | [cite:@epip 39]         |
 
 * Houskeeping and boilerplate
 

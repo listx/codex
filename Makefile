@@ -28,6 +28,7 @@ tangle-sources: README-org
 README-org: build-literate-org
 	$(call run_emacs,(org-babel-tangle),README.org)
 	$(call run_emacs,(org-babel-tangle),problem/parity/README.org)
+	$(call run_emacs,(org-babel-tangle),problem/rectangle_overlap/README.org)
 
 .PHONY: build-literate-org tangle-sources
 
@@ -44,6 +45,7 @@ README.html:
 	$(call run_emacs,(codex-publish),README.org)
 	sed -i 's/.csl-left-margin{float: left; padding-right: 0em/.csl-left-margin{float: left; padding-right: 1em/' README.html
 	$(call run_emacs,(codex-publish),problem/parity/README.org)
+	$(call run_emacs,(codex-publish),problem/rectangle_overlap/README.org)
 
 test:
 	python -m unittest discover -s problem
