@@ -2,3 +2,5 @@
 **/*.auctex-auto
 **/*.html
 **/*.hypothesis
+tangle
+weave

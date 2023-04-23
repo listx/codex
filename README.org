@@ -32,55 +32,36 @@ Below is a table of every problem, with tags that give a brief description of ea
 | [[file:problem/parity/README.org][Parity]]            | bitwise  | [cite:@epip 27; @hd 96] |
 | [[file:problem/rectangle_overlap/README.org][Rectangle overlap]] | geometry | [cite:@epip 39]         |
 
-* Houskeeping and boilerplate
-
-** Org mode HTML export
+* Literate Programming Build System
 
 #+include: "build-literate.org" :lines "2-"
 
-** Development environment (Nix shell)
-
-This is taken from https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1.
-
-Note that we first have to do =nix-shell --pure= in Mool's toplevel directory, then =cd= into =moolc= and only from here we are able to do =stack exec -- ghci= to see the right version of GHC.
-
-This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (e.g., running unit tests) for all of the various languages we use.
-
-#+name: Main development shell
-#+caption: =shell.nix=
-#+begin_src nix :tangle shell.nix :eval no
-let
-  # Nixpkgs snapshot.
-  sources = import ./package/nix/sources.nix;
-  # The final "pkgs" attribute with all the bells and whistles of our overlays.
-  pkgs = import sources.nixpkgs {};
-in
-
-# This is our development shell.
-pkgs.mkShell ({
-  buildInputs = [
-    # Tangling and weaving for Literate Programming.
-    pkgs.emacs
-    pkgs.inkscape
-    pkgs.pdf2svg
-
-    # Misc
-    pkgs.git
-
-    pkgs.python39Packages.hypothesis
-  ];
-})
-#+end_src
-
-** gitignore
-
-#+begin_src gitignore :tangle .gitignore :eval no
-**/__pycache__
-**/*.auctex-auto
-**/*.html
-**/*.hypothesis
-#+end_src
-
 * References
+
+#+begin_src bibtex :tangle citations.bib :eval no :exports none
+@book{epip,
+    title = {Elements of Programming Interviews in Python: The Insiders' Guide},
+    isbn = {9781537713946},
+    shorttitle = {Elements of Programming Interviews in Python},
+    language = {eng},
+    publisher = {CreateSpace Independent Publishing Platform (15 Sept. 2016)},
+    author = {Aziz, Adnan and Lee, Tsung-Hsien and Prakash, Amit},
+    month = sep,
+    year = {2016},
+    note = {OCLC: 1308498466},
+}
+
+@book{hd,
+    title = {Hacker's Delight},
+    edition = {2nd ed},
+    isbn = {9780321842688},
+    publisher = {Addison-Wesley},
+    author = {Warren, Henry S.},
+    year = {2013},
+    keywords = {Computer programming},
+    address = {Upper Saddle River, NJ},
+}
+#+end_src
+
 #+CITE_EXPORT: csl ~/prog/codex/deps/styles/ieee.csl
 #+PRINT_BIBLIOGRAPHY:

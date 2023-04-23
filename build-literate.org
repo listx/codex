@@ -1,4 +1,4 @@
-#+title: Build System for Literate Programming
+#+title: Literate Programming Build System
 #+PROPERTY: header-args :noweb no-export
 
 * Overview of how LP is used in this project
@@ -66,30 +66,41 @@ PROCS := $(shell nproc)
 define run_emacs
 	emacs $(2) --quick --batch --kill --load $(PROJ_ROOT)/codex.el --eval="$(1)"
 endef
+src = $(shell find problem/ -type f -name '*.org')
+woven_html = $(patsubst problem/%.org, problem/%.html, $(src))
+# problem/foo problem/bar ...
+problem_dirs = $(shell find problem -maxdepth 1 -type d | sort | tail -n+2)
+# foo bar ...
+problem_dirs_without_prefix = $(subst problem/,,$(problem_dirs))
+
+define weave_org
+
+$(1): $(2)
+	@echo weaving $(2)
+	$(call run_emacs,(codex-publish),$(2))
+
+endef
 
 all: tangle weave
+.PHONY: all
 
 __NREF__Makefile-tangle
 
 weave: build-html
 
-weave-quick:
-	CODEX_LP_QUICK=1 make -C ${PROJ_ROOT} -j$(PROCS) build-html
-.PHONY: weave-quick
+build-html: README.html $(woven_html)
+.PHONY: build-html
 
-build-html: README.html
-
-README.html:
+README.html: build-literate.org
 	$(call run_emacs,(batch-org-gen-css-and-exit \"README.org\"),)
 	$(call run_emacs,(codex-publish),README.org)
 	sed -i 's/.csl-left-margin{float: left; padding-right: 0em/.csl-left-margin{float: left; padding-right: 1em/' README.html
-	$(call run_emacs,(codex-publish),problem/parity/README.org)
-	$(call run_emacs,(codex-publish),problem/rectangle_overlap/README.org)
 
-test:
+$(foreach p,$(problem_dirs_without_prefix),$(eval $(call weave_org,problem/$(p)/README.html,problem/$(p)/README.org)))
+
+test: all
 	python -m unittest discover -s problem
-
-.PHONY: all weave README.html
+.PHONY: test
 
 # Enter development environment.
 shell:
@@ -1051,6 +1062,7 @@ Disable backup files for =codex.el= (that look like =codex.el~=) when we invoke 
 (setq make-backup-files nil)
 (setq org-src-preserve-indentation t)
 
+; See https://stackoverflow.com/a/27285582/437583.
 (defun codex-test-file-name ()
   (concat "test_" (file-name-nondirectory (directory-file-name (file-name-directory (buffer-file-name))))  ".py"))
 
@@ -1332,6 +1344,17 @@ In order to still show the HTML textual diff, we can run =git diff --text=.
 
 Note that the above setting to treat HTML files as binary data prevents them from being considered for =git add -p=. In order to add them, use =git add -u= instead.
 
+** gitignore
+
+#+begin_src gitignore :tangle .gitignore :eval no
+,**/__pycache__
+,**/*.auctex-auto
+,**/*.html
+,**/*.hypothesis
+tangle
+weave
+#+end_src
+
 * Tangling (generating the source code)
 
 Tangling is simply the act of collecting the =#+begin_src ... #+end_src= blocks and arranging them into the various target (source code) files. Every source code block is given a unique name.
@@ -1340,30 +1363,70 @@ We simply tangle all major =*.org= files in the toplevel Makefile.
 
 #+name: __NREF__Makefile-tangle
 #+begin_src makefile
-do-tangle: tangle-sources
-.PHONY: do-tangle
-
 # Currently we don't have any optimizations for tangling, but we still set CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.
-tangle:
-	CODEX_LP_QUICK=1 make -C $(PROJ_ROOT) -j$(PROCS) do-tangle
-.PHONY: tangle
+$(all_tangled_sources) tangle &: $(src)
+	@echo tangling in parallel
+	CODEX_LP_QUICK=1 make -C $(PROJ_ROOT) -j$(PROCS) $(all_tangled_sources)
+	touch tangle
 
-build-literate-org:
+build_literate_org_output = codex.el .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
+all_tangled_sources = citations.bib $(build_literate_org_output) $(foreach p,$(problem_dirs_without_prefix),problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
+
+$(build_literate_org_output) &: build-literate.org
 	# Generate the toplevel Makefile (this file) and image/Makefile (overwriting
 	# them if necessary). In a way this bootstraps the whole
 	# literate-programming pipeline. Note that these files are different than
 	# the ones used to compile the tangled source code.
 	$(call run_emacs,(org-babel-tangle),build-literate.org)
 
-# Generate source code.
-tangle-sources: README-org
-
-README-org: build-literate-org
+citations.bib: README.org
 	$(call run_emacs,(org-babel-tangle),README.org)
-	$(call run_emacs,(org-babel-tangle),problem/parity/README.org)
-	$(call run_emacs,(org-babel-tangle),problem/rectangle_overlap/README.org)
 
-.PHONY: build-literate-org tangle-sources
+define tangle_tests
+
+$(1) $(2) &: $(3)
+	@echo tangling $(3)
+	$(call run_emacs,(org-babel-tangle),$(3))
+
+endef
+
+# See https://stackoverflow.com/a/9694782/437583.
+$(foreach p,$(problem_dirs_without_prefix),$(eval $(call tangle_tests,problem/$(p)/__init__.py,problem/$(p)/test_$(p).py,problem/$(p)/README.org)))
+#+end_src
+
+* Development environment (Nix shell)
+
+This is taken from https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1.
+
+Note that we first have to do =nix-shell --pure= in Mool's toplevel directory, then =cd= into =moolc= and only from here we are able to do =stack exec -- ghci= to see the right version of GHC.
+
+This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (e.g., running unit tests) for all of the various languages we use.
+
+#+name: Main development shell
+#+caption: =shell.nix=
+#+begin_src nix :tangle shell.nix :eval no
+let
+  # Nixpkgs snapshot.
+  sources = import ./package/nix/sources.nix;
+  # The final "pkgs" attribute with all the bells and whistles of our overlays.
+  pkgs = import sources.nixpkgs {};
+in
+
+# This is our development shell.
+pkgs.mkShell ({
+  buildInputs = [
+    # Tangling and weaving for Literate Programming.
+    pkgs.emacs
+    pkgs.inkscape
+    pkgs.pdf2svg
+
+    # Misc
+    pkgs.git
+    pkgs.less
+
+    pkgs.python39Packages.hypothesis
+  ];
+})
 #+end_src
 
 * Glossary

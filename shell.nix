@@ -15,6 +15,7 @@ pkgs.mkShell ({
 
     # Misc
     pkgs.git
+    pkgs.less
 
     pkgs.python39Packages.hypothesis
   ];

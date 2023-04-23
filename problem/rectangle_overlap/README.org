@@ -99,7 +99,7 @@ So we need to get either =a_L= or =b_L=. In both cases, this value is =max(a_L, 
   v_y = max(a_B, b_B)
 #+end_src
 
-What about width the width? The width is the rightmost point subtracted by the leftmost point. We already know the leftmost point of =v=, =v_x=. So we just need to calculate the rightmost point. We can get the rightmost point by taking the minimum of the rightmost points of either =a= or =b=. Using the same examples from above, we can see
+What about width the width? The width is the rightmost point subtracted by the leftmost point. We already know the leftmost point of =v=, =v_x=. So we just need to calculate the rightmost point. We can get the rightmost point by taking the minimum of the rightmost points of either =a= or =b=. Using the same examples from above, we have
 
 #+begin_example
       ,- this point, a_R, is what we want

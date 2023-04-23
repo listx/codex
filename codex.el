@@ -590,4 +590,9 @@ with class 'color and highest min-color value."
 ; (print-args-and-ret face-attribute)
 (setq make-backup-files nil)
 (setq org-src-preserve-indentation t)
+
+; See https://stackoverflow.com/a/27285582/437583.
+(defun codex-test-file-name ()
+  (concat "test_" (file-name-nondirectory (directory-file-name (file-name-directory (buffer-file-name))))  ".py"))
+
 (setq org-html-doctype "html5")
