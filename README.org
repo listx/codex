@@ -26,9 +26,9 @@ Every problem gets its own =.org= file. The solutions are all in Python. All sol
 
 Below is a table of every problem, with tags that give a brief description of each one.
 
-| Name        | Tags    |
-|-------------+---------|
-| [[file:problem/find_parity/README.org][Find parity]] | bitwise |
+| Name   | Tags    |
+|--------+---------|
+| [[file:problem/parity/README.org][Parity]] | bitwise |
 
 * Houskeeping and boilerplate
 

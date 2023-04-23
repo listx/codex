@@ -27,7 +27,7 @@ tangle-sources: README-org
 # Sadly, orgmode does not support including files for tangling. This means we have to tangle each org file separately, even though they all come together into main.org.
 README-org: build-literate-org
 	$(call run_emacs,(org-babel-tangle),README.org)
-	$(call run_emacs,(org-babel-tangle),problem/find_parity/README.org)
+	$(call run_emacs,(org-babel-tangle),problem/parity/README.org)
 
 .PHONY: build-literate-org tangle-sources
 
@@ -42,7 +42,7 @@ build-html: README.html
 README.html:
 	$(call run_emacs,(batch-org-gen-css-and-exit \"README.org\"),)
 	$(call run_emacs,(codex-publish),README.org)
-	$(call run_emacs,(codex-publish),problem/find_parity/README.org)
+	$(call run_emacs,(codex-publish),problem/parity/README.org)
 
 test:
 	python -m unittest discover -s problem

@@ -1,4 +1,4 @@
-#+title: Find parity of words
+#+title: Parity
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
 #+PROPERTY: header-args :noweb no-export
@@ -12,6 +12,7 @@
 
 Examples:
 
+#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 |       Word | Number of 1-bits set | Parity |
 |------------+----------------------+--------|
 |       1011 | 3 (odd)              |      1 |
@@ -29,6 +30,7 @@ Consider the simple case of the single bit. Computing the parity here is simple 
 
 Now consider the next-simplest case of 2 1-bit words. The bitwise XOR (exclusive OR) instruction itself can compute the parity directly.
 
+#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 | A | B | A XOR B (Parity) |
 |---+---+------------------|
 | 0 | 0 |                0 |
@@ -88,7 +90,7 @@ def xor_fold(word):
 
 The key to this solution [cite:@epip 29-30] is that we are essentially "folding" the word into itself over and over again until we just get a single bit left. Every "fold" is a XOR instruction, which is used to cancel out even pairs of 1-bits.
 
-Basically, what we want to do is get rid of pairs of 1-bits set in the word. So imagine if there are 57 1-bits set in a 64-bit word. If we can keep subtracting by 2 over and over again (removing pairs of 1-bits), we'll eventually arrive at just "1", which is the parity. Or, if there are 48 bits set, continually subtracting 2 at a time will make us arrive at 0, which again is the parity. The interesting thing to note here is that we can perform multiple "subtract 2" operations in parallel, because of the way word-level XOR-ing works.
+Basically, what we want to do is get rid of pairs of 1-bits set in the word. So imagine if there are 57 1-bits set in a 64-bit word. If we can keep subtracting by 2 over and over again (removing pairs of 1-bits), we'll eventually arrive at just "1", which is the parity. Or, if there are 48 bits set, continually subtracting 2 at a time will make us arrive at 0, which again is the parity. The interesting thing to note here is that we can perform multiple "subtract 2" operations in parallel, because of the way XOR-ing works.
 
 Let's use a real example below to see what this actually means with some pseudocode. The first line
 
@@ -176,6 +178,7 @@ def xor_fold_lookup(word):
 
 This is a small improvement over the previous version, noted in [cite:@hd 97]. The use of the =0x6996= constant is called an "in-register table lookup". Basically, once we get down to 4 bits, there are only 16 possibilities left, because 4 bits can only represent $2^{4} = 16$ unique numbers, 0 to 15. The =0x6996= constant is simply computed by looking at all possible numbers 0 to 15, computing their parity, and assigning this to a new bit string. That is, the =0110 1001 1001 0110= in binary get from the Parity column below is =0x6996= in hexadecimal.
 
+#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 | Number (Decimal) | Number (binary) | Parity |
 |------------------+-----------------+--------|
 |               15 |            1111 |      0 |
@@ -258,9 +261,9 @@ It should now be obvious that we simply want to tally up the total number of 1 b
   `- Tally up this first column with plain addition.
 #+end_example
 
-The column we want to tally up above is exactly what we want to do, because doing a plain addition on these bits will give us the total number of bits in G. Then we can just AND it with 1 to check if this total is odd to get the parity. The naive way to do this is to literally write the shifts and additions.
+The column we want to tally up above is exactly what we want to do, because doing a plain addition on these bits will give us the total number of bits in G. Then we can just AND it with 1 to check if this total is odd to get the parity. Note that the partial sum of the second column can go up to a maximum of 15 (because the last nibble from =G << 60= is always 0), so there is no fear of a carry from the second column contaminating the first column. Similarly, note that none of the other columns can be greater than 15, so again there is no fear of any contamination from any carries.
 
-However we can do better, because the arithmetic operation of multiplication does precisely the same thing! This is why we multiply G by the same ~0x1111111111111111~ constant. This ends up adding the 1-bits in the first column together, putting the sum into the high-order hex digit. The sum is anything from 0 to 16 (each nibble's parity), so we just have to AND it with 1 to check if this sum is even or odd.
+The naive way to sum up the first column is to literally write the shifts and additions. However we can do better, because the arithmetic operation of multiplication does precisely the same thing! This is why we multiply G by the same ~0x1111111111111111~ constant. This ends up adding the 1-bits in the first column together, putting the sum into the high-order hex digit. The sum is anything from 0 to 16 (each nibble's parity), so we just have to AND it with 1 to check if this sum is even or odd.
 
 The multiplication by the constant ~0x1111111111111111~ can be thought of as 16 different shifts and additions. Below is an illustration:
 
@@ -354,7 +357,7 @@ The high-order nibble is ~0011 = 3~, so we have 3 bits. If we AND it with 1, we 
 
 Going back to our 64-bit example, we can see that multiplying by ~0x1111111111111111~ will similarly end up summing the number of bits in each nibble into the high-order nibble. Note that if the sum is 16, we'll end up getting =0000= in the nibble because the =1= will carry over into the 65th bit index, out of range for our 64-bit word. However it doesn't matter because AND-ing it with 1 will still get us 0 (parity 0) which is the correct answer.
 
-** Table lookup (caching)
+** 16-bit caching
 
 Because there are $2^64$ possible values, we cannot use a hash table for 64-bit inputs directly. Instead we can use a 16-bit input ($2^16 = 65536$ values), and just do 4 16-bit word lookups (because there are 4 16-bit words in a 64-bit word). Then we just take the XOR of these lookups to get the overall parity. Because the keys for the lookups can just be the raw 16-bit words, we can use these keys as indices to a list, instead of using a dictionary.
 
@@ -375,9 +378,9 @@ Note that we don't have to mask the lower 16 bits for calculating =a= above, bec
 
 The time complexity is just $O(n/L)$, where $L$ is the width of the cached results and $n$ is the word size. This assumes that the shift operations take $O(1)$ time. In our case, $L$ is 16 and $n$ is 64, so there are $64/16 = 4$ terms to look up.
 
-** Word-level XOR and caching
+** XOR-fold with caching
 
-This is an approach that combines the word-level XOR method with caching to achieve an even greater speedup.
+This is an approach that combines XOR-folding with caching to achieve an even greater speedup.
 
 #+name: __NREF__xor_fold_caching
 #+begin_src python

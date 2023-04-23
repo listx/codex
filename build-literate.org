@@ -80,7 +80,7 @@ build-html: README.html
 README.html:
 	$(call run_emacs,(batch-org-gen-css-and-exit \"README.org\"),)
 	$(call run_emacs,(codex-publish),README.org)
-	$(call run_emacs,(codex-publish),problem/find_parity/README.org)
+	$(call run_emacs,(codex-publish),problem/parity/README.org)
 
 test:
 	python -m unittest discover -s problem
@@ -1197,6 +1197,24 @@ h7 {
     margin-top: 1em;
 }
 
+code {
+    background: #eee;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    white-space: nowrap;
+}
+
+thead {
+    background: #eee;
+}
+
+pre {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #999;
+    border-radius: 5px;
+}
+
 __NREF__css-source-code-block-body
 __NREF__css-source-code-block-captions
 __NREF__css-source-code-block-child-link-from-parent
@@ -1229,7 +1247,7 @@ __NREF__css-source-code-block-child-link-from-parent
 
 /* Source code block body. */
 .org-src-container pre.src {
-    background-color: #f7fffd;
+    background-color: #eee;
 }
 
 #+end_src
@@ -1331,7 +1349,7 @@ tangle-sources: README-org
 
 README-org: build-literate-org
 	$(call run_emacs,(org-babel-tangle),README.org)
-	$(call run_emacs,(org-babel-tangle),problem/find_parity/README.org)
+	$(call run_emacs,(org-babel-tangle),problem/parity/README.org)
 
 .PHONY: build-literate-org tangle-sources
 #+end_src
