@@ -82,6 +82,7 @@ build-html: README.html
 README.html:
 	$(call run_emacs,(batch-org-gen-css-and-exit \"README.org\"),)
 	$(call run_emacs,(codex-publish),README.org)
+	sed -i 's/.csl-left-margin{float: left; padding-right: 0em/.csl-left-margin{float: left; padding-right: 1em/' README.html
 	$(call run_emacs,(codex-publish),problem/parity/README.org)
 
 test:
