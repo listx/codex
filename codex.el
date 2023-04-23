@@ -589,4 +589,5 @@ with class 'color and highest min-color value."
 ; (print-args-and-ret face-background)
 ; (print-args-and-ret face-attribute)
 (setq make-backup-files nil)
+(setq org-src-preserve-indentation t)
 (setq org-html-doctype "html5")

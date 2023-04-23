@@ -1048,6 +1048,7 @@ Disable backup files for =codex.el= (that look like =codex.el~=) when we invoke 
 #+name: __NREF__codex_dot_el-misc
 #+begin_src emacs-lisp
 (setq make-backup-files nil)
+(setq org-src-preserve-indentation t)
 __NREF__set_html5
 #+end_src
 
