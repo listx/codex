@@ -128,7 +128,7 @@ where in both cases, the value is =min(a_R, b_R)=. Then we can just subtract =v_
 
 * Tests
 
-#+begin_src python :eval no :session test :tangle test_rectangle_overlap.py
+#+begin_src python :eval no :session test :tangle (codex-test-file-name)
 import unittest
 
 __NREF__overlapping_rectangle
