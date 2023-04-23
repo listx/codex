@@ -35,7 +35,7 @@ Below is a table of every problem, with tags that give a brief description of ea
 
 ** Org mode HTML export
 
-#+include: "build-literate.org" :lines "16-"
+#+include: "build-literate.org" :lines "2-"
 
 ** Development environment (Nix shell)
 

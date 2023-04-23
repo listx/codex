@@ -11,7 +11,7 @@ The vast majority of software projects do not use LP, for various reasons. This 
 
 We use noweb-style references, in the form =<<foo>>=, in source code blocks to delegate source code bits to other blocks. In the example below, the =parent-block= refers to 2 other child blocks for its definition.
 
-#+begin_example
+#+begin_src org
 ,#+name: parent-block
 ,#+begin_src bash
 echo "Hello from the parent block"
@@ -37,7 +37,7 @@ echo -n "I am "
 ,#+begin_src bash
 echo "child 2"
 ,#+end_src
-#+end_example
+#+end_src
 
 This example illustrates the two ways to define a child block: either as a single code block with =#+name: NAME=, or as multiple blocks with =#+header: :noweb-ref NAME=.  In this doc, we call them [[monoblock][monoblocks]] and [[polyblock][polyblocks]] respectively. Polyblocks are concatenated together in the order they appear in the overall Org file; this final concatenated version is what gets inserted into the noweb reference in the parent block.
 
@@ -252,6 +252,7 @@ Why do we even need these source code blocks to link back to their parents? The 
 #+begin_src org
 ,#+name: parent-block
 ,#+begin_src bash
+echo "Hello from the parent block"
 __NREF__child-block-1
 __NREF__child-block-2
 ,#+end_src
@@ -704,32 +705,33 @@ This is a helper function to parse the HTML output for a source code block.
 
 Consider the following code:
 
-#+begin_example
-#+name: parent-block
-#+begin_src bash
+#+begin_src org
+,#+name: parent-block
+,#+begin_src bash
+echo "Hello from the parent block"
 __NREF__child-block-1
 __NREF__child-block-2
-#+end_src
+,#+end_src
 
 ...
 
-#+name: child-block-1
-#+begin_src bash
+,#+name: child-block-1
+,#+begin_src bash
 echo "I am child 1"
-#+end_src
+,#+end_src
 
 ...
 
-#+header: :noweb-ref child-block-2
-#+begin_src bash
+,#+header: :noweb-ref child-block-2
+,#+begin_src bash
 echo -n "I am "
-#+end_src
+,#+end_src
 
-#+header: :noweb-ref child-block-2
-#+begin_src bash
+,#+header: :noweb-ref child-block-2
+,#+begin_src bash
 echo "child 2"
+,#+end_src
 #+end_src
-#+end_example
 
 What we want to do is to make the =__NREF__child-block-1= and =__NREF__child-block-2= references inside =parent-block= to link to their definitions, so that the reader can just click on them to go to see how they're defined. Unfortunately Org mode doesn't do this by default so we have to do this ourselves.
 
