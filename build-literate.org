@@ -47,12 +47,14 @@ Weaving is conceptually simpler than tangling because there is no extra step ---
 
 Weaving for requires the following dependencies:
 
-| Dependency    | Why                              | How to install it |
-| GNU Make      |                                  | ?                 |
-| emacs         |                                  |                   |
-| texlive       | Diagrams                         |                   |
-| pdf2svg       | Diagrams                         |                   |
-| inkscape      | Diagrams                         |                   |
+#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
+| Dependency | Why      | How to install it |
+|------------+----------+-------------------|
+| GNU Make   |          | ?                 |
+| emacs      |          |                   |
+| texlive    | Diagrams |                   |
+| pdf2svg    | Diagrams |                   |
+| inkscape   | Diagrams |                   |
 
 For Codex, we have a top-level =Makefile= so that we can run some =make= commands on the command line (instead of needing to invoke emacs directly).
 
