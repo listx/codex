@@ -2,21 +2,21 @@ from hypothesis import given, strategies as st
 
 import unittest
 
-def brute_force_1(word):
+def brute_force(word):
   parity_bit = 0
   while word:
     parity_bit ^= word & 1
     word >>= 1
   return parity_bit
 
-def brute_force_2(word):
+def clear_lsb(word):
   parity_bit = 0
   while word:
     parity_bit ^= 1
     word &= word - 1
   return parity_bit
 
-def brute_force_3(word):
+def xor_fold(word):
   word ^= word >> 32
   word ^= word >> 16
   word ^= word >> 8
@@ -25,7 +25,7 @@ def brute_force_3(word):
   word ^= word >> 1
   return word & 1
 
-def brute_force_4(word):
+def xor_fold_lookup(word):
   word ^= word >> 32
   word ^= word >> 16
   word ^= word >> 8
@@ -34,23 +34,21 @@ def brute_force_4(word):
   return word & 1
 
 
-PARITY = [brute_force_3(word) for word in range(1 << 16)]
-MASK_SIZE = 16
-BIT_MASK = 0xffff
+PARITY = [xor_fold(word) for word in range(1 << 16)]
 
 def caching(word):
-  a = PARITY[word >> (3 * MASK_SIZE)]
-  b = PARITY[(word >> (2 * MASK_SIZE)) & BIT_MASK]
-  c = PARITY[(word >> MASK_SIZE) & BIT_MASK]
-  d = PARITY[word & BIT_MASK]
+  a = PARITY[word >> 48]
+  b = PARITY[word >> 32 & 0xffff]
+  c = PARITY[word >> 16 & 0xffff]
+  d = PARITY[word       & 0xffff]
   return a ^ b ^ c ^ d
 
-def caching_xor(word):
+def xor_fold_caching(word):
   word ^= word >> 32
   word ^= word >> 16
-  return PARITY[word & BIT_MASK]
+  return PARITY[word & 0xffff]
 
-def black_magic(word):
+def xor_fold_nibbles(word):
   word ^= word >> 1
   word ^= word >> 2
   word &= 0x1111111111111111
@@ -71,23 +69,24 @@ class TestParity(unittest.TestCase):
 
   def test_simple_cases(self):
     for word, parity_bit in self.cases:
-      self.assertEqual(brute_force_1(word), parity_bit)
-      self.assertEqual(brute_force_2(word), parity_bit)
-      self.assertEqual(brute_force_3(word), parity_bit)
-      self.assertEqual(brute_force_4(word), parity_bit)
+      self.assertEqual(brute_force(word), parity_bit)
+      self.assertEqual(clear_lsb(word), parity_bit)
+      self.assertEqual(xor_fold(word), parity_bit)
+      self.assertEqual(xor_fold_lookup(word), parity_bit)
       self.assertEqual(caching(word), parity_bit)
-      self.assertEqual(caching_xor(word), parity_bit)
-      self.assertEqual(black_magic(word), parity_bit)
+      self.assertEqual(xor_fold_caching(word), parity_bit)
+      self.assertEqual(xor_fold_nibbles(word), parity_bit)
 
   @given(st.integers(min_value=0, max_value=((1<<64) - 1)))
   def test_random(self, word):
-    parity_bit = black_magic(word)
-    self.assertEqual(brute_force_1(word), parity_bit)
-    self.assertEqual(brute_force_2(word), parity_bit)
-    self.assertEqual(brute_force_3(word), parity_bit)
-    self.assertEqual(brute_force_4(word), parity_bit)
+    parity_bit = xor_fold_nibbles(word)
+    self.assertEqual(brute_force(word), parity_bit)
+    self.assertEqual(clear_lsb(word), parity_bit)
+    self.assertEqual(xor_fold(word), parity_bit)
+    self.assertEqual(xor_fold_lookup(word), parity_bit)
     self.assertEqual(caching(word), parity_bit)
-    self.assertEqual(caching_xor(word), parity_bit)
+    self.assertEqual(xor_fold_caching(word), parity_bit)
+    self.assertEqual(xor_fold_nibbles(word), parity_bit)
 
 if __name__ == "__main__":
   unittest.main(exit=False)
