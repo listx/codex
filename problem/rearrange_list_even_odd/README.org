@@ -120,6 +120,7 @@ In this case, =idx_even= is 6, but there are 7 even numbers in the list. So we h
 
 * Tests
 
+#+name: test
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 from hypothesis import given, strategies as st
 import unittest

@@ -128,6 +128,7 @@ where in both cases, the value is =min(a_R, b_R)=. Then we can just subtract =v_
 
 * Tests
 
+#+name: test
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 import unittest
 

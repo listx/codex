@@ -230,7 +230,7 @@ With a list, we can operate efficiently on both ends at the same time (that is, 
 <div id="outline-container-h-Solution" class="outline-2">
 <h2 id="h-Solution"><span class="section-number-2">3.</span> Solution</h2>
 <div class="outline-text-2" id="text-h-Solution">
-<div class="org-src-container"><pre class="src src-python" id="org0000000"><span class="org-keyword">def</span> <span class="org-function-name">even_odd</span>(ints):
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">even_odd</span>(ints):
   <span class="org-variable-name">idx_even</span> = 0
   <span class="org-variable-name">idx_odd</span> = <span class="org-builtin">len</span>(ints) - 1
 
@@ -245,11 +245,11 @@ With a list, we can operate efficiently on both ends at the same time (that is, 
   <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
     <span class="org-variable-name">idx_even</span> += 1
   <span class="org-keyword">return</span> idx_even
-</pre></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; rearrange_list_even_odd</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__rearrange_list_even_odd">#1</a></span></div></div><p>
 In <code>even_odd()</code>, the given list of numbers is modified in-place so that all the even numbers are placed in front of the list. We use 2 indices, <code>idx_even</code> and <code>idx_odd</code>, and they are set to the left-edge and right-edge of the list, respectively. Below is an example with the list <code>[13, 40, 20, 18, 7,  9,  8]</code>.
 </p>
 
-<pre class="example" id="org0000002">
+<pre class="example" id="org0000004">
 13 40 20 18 7  9  11  (numbers)
 0  1  2  3  4  5  6   (list index)
 |                 |
@@ -260,7 +260,7 @@ In <code>even_odd()</code>, the given list of numbers is modified in-place so th
 The element <code>11</code> is odd, so we decrement <code>idx_odd</code>. This happens a couple more times because both <code>9</code> and <code>7</code> are odd.
 </p>
 
-<pre class="example" id="org0000003">
+<pre class="example" id="org0000005">
 13 40 20 18 7  9  11  (numbers)
 0  1  2  3  4  5  6   (list index)
 |        |
@@ -273,7 +273,7 @@ The element <code>11</code> is odd, so we decrement <code>idx_odd</code>. This h
 Now <code>ints[idx_odd]</code> is <code>18</code> and it is not odd. So we must swap (and increment <code>idx_even</code>).
 </p>
 
-<pre class="example" id="org0000004">
+<pre class="example" id="org0000006">
 18 40 20 13 7  9  11  (numbers)
 0  1  2  3  4  5  6   (list index)
    |     |
@@ -332,7 +332,7 @@ So much for the <code>while</code> loop. As for the calculation of the number of
 We have to increment <code>idx_even</code> in such a case because this means that the number it is looking at after the <code>while</code> loop finished was <b>not</b> "thrown over" explicitly by the swapping code path in the loop. This can happen for the case where every number is even &#x2014; in this case we end up incrementing <code>idx_even</code> until it equals <code>idx_odd</code> (at the tail end of the list), when the loop terminates. Example:
 </p>
 
-<pre class="example" id="org0000005">
+<pre class="example" id="org0000007">
 0  2  4  6  8  10 12  (numbers)
 0  1  2  3  4  5  6   (list index)
                   |
@@ -349,10 +349,10 @@ In this case, <code>idx_even</code> is 6, but there are 7 even numbers in the li
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">4.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
-<div class="org-src-container"><pre class="src src-python"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
+<div class="org-src-container"><pre class="src src-python" id="org0000002"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
 <span class="org-keyword">import</span> unittest
 
-__NREF__rearrange_list_even_odd
+<span class="codex-child-link-from-parent"><a href="#__NREF__rearrange_list_even_odd">rearrange_list_even_odd</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
   <span class="org-variable-name">cases</span> = [
