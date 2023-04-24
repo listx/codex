@@ -404,7 +404,7 @@ When matching, reference is stored in match group 1."
              (cond ((string-prefix-p "__NREF__" source-block-name)
                     (concat
                       "<span class=\"codex-caption-source-code-block-name\">"
-                      "&#x1f33f; "
+                      "&#x1f4c4; "
                       (string-remove-prefix "__NREF__" source-block-name)
                       "</span>"))
                    (t

@@ -382,7 +382,7 @@ Seen another way, the XOR instruction can cancel out even numbers of bits (zeros
     parity_bit ^= word &amp; 1
     <span class="org-variable-name">word</span> &gt;&gt;= 1
   <span class="org-keyword">return</span> parity_bit
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; brute_force</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__brute_force">#1</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; brute_force</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__brute_force">#1</a></span></div></div><p>
 This approach just computes the parity of a single word by examining every bit in the word. It also uses bitwise XOR to only store 1 or 0 (instead of actually storing the actual number of bits). Because of the way XOR works, when the number of bits is odd (starting with the very first 1-bit), the parity is set to 1. Then if another 1-bit comes along (even) it is XOR-ed against the previously-calculated parity bit 1 to become 0. Then if another bit (odd) comes along, the 0 is XOR-ed against it to become 1 again, and so forth.
 </p>
 
@@ -401,7 +401,7 @@ The space complexity is \(O(1)\) because we only store 0 or 1 for the parity bit
     parity_bit ^= 1
     <span class="org-variable-name">word</span> &amp;= word - 1
   <span class="org-keyword">return</span> parity_bit
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; clear_lsb</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__clear_lsb">#2</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; clear_lsb</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__clear_lsb">#2</a></span></div></div><p>
 Here we use the <code>word &amp;= word - 1</code> trick to clear the lowest 1-bit in a word (aka the Least Significant Bit, or LSB). This is a classic bitwise trick. This is an improvement over <code>word &gt;&gt;= 1</code> because we no longer have to examine every single bit. So our time complexity drops to \(O(k)\) where \(k\) is the number of bits set.
 </p>
 
@@ -422,7 +422,7 @@ Our worst-case time complexity is still the same as the brute force approach tho
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
   <span class="org-keyword">return</span> word &amp; 1
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; xor_fold</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold">#3</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; xor_fold</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold">#3</a></span></div></div><p>
 The key to this solution (<a href="#citeproc_bib_item_1">Aziz et al., 2016, pp. 29–30</a>) is that we are essentially "folding" the word into itself over and over again until we just get a single bit left. Every "fold" is a XOR instruction, which is used to cancel out even pairs of 1-bits.
 </p>
 
@@ -533,7 +533,7 @@ Tho time complexity is reduced to \(O(\log{}n)\) where \(n\) is the word size. T
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 4
   <span class="org-variable-name">word</span> = 0x6996 &gt;&gt; (word &amp; 0xf)
   <span class="org-keyword">return</span> word &amp; 1
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; xor_fold_lookup</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold_lookup">#4</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; xor_fold_lookup</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold_lookup">#4</a></span></div></div><p>
 This is a small improvement over the previous version, noted in (<a href="#citeproc_bib_item_2">Warren, 2013, p. 97</a>). The use of the <code>0x6996</code> constant is called an "in-register table lookup". Basically, once we get down to 4 bits, there are only 16 possibilities left, because 4 bits can only represent \(2^{4} = 16\) unique numbers, 0 to 15. The <code>0x6996</code> constant is simply computed by looking at all possible numbers 0 to 15, computing their parity, and assigning this to a new bit string. That is, the <code>0110 1001 1001 0110</code> in binary get from the Parity column below is <code>0x6996</code> in hexadecimal.
 </p>
 
@@ -665,7 +665,7 @@ This is a small improvement over the previous version, noted in (<a href="#citep
   <span class="org-variable-name">word</span> &amp;= 0x1111111111111111
   <span class="org-variable-name">word</span> *= 0x1111111111111111
   <span class="org-keyword">return</span> (word &gt;&gt; 60) &amp; 1
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; xor_fold_nibbles</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold_nibbles">#5</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; xor_fold_nibbles</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold_nibbles">#5</a></span></div></div><p>
 This method is also from (<a href="#citeproc_bib_item_2">Warren, 2013, pp. 97–98</a>). It uses XOR-folding to get the parity of each nibble (4-bit word) with the first 3 lines. Then it uses a multiplication trick to get the sum of bits from each of these parity-of-nibble chunks into the high-order nibble, before finally AND-ing this nibble with 1 to check if it is even or odd.
 </p>
 
@@ -853,7 +853,7 @@ Because there are \(2^64\) possible values, we cannot use a hash table for 64-bi
   <span class="org-variable-name">c</span> = PARITY[word &gt;&gt; 16 &amp; 0xffff]
   <span class="org-variable-name">d</span> = PARITY[word       &amp; 0xffff]
   <span class="org-keyword">return</span> a ^ b ^ c ^ d
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; caching</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__caching">#6</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; caching</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__caching">#6</a></span></div></div><p>
 Note that we don't have to mask the lower 16 bits for calculating <code>a</code> above, because shifting down by 48 bits only leaves 16 bits of information (everything else is cleared to 0). For the others, we have to mask by <code>0xffff</code> (16 bits) to only grab the relevant 16-bit areas.
 </p>
 
@@ -874,7 +874,7 @@ This is an approach that combines XOR-folding with caching to achieve an even gr
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
   <span class="org-keyword">return</span> PARITY[word &amp; 0xffff]
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; xor_fold_caching</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold_caching">#7</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; xor_fold_caching</span><span class="codex-caption-parent-link"><a href="#org0000002">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__xor_fold_caching">#7</a></span></div></div>
 </div>
 </div>
 </div>

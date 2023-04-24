@@ -477,7 +477,7 @@ endef
 
 define weave_org
 
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">2</span>)
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">2</span>) build-literate.org
         <span class="org-type">@</span><span class="org-makefile-shell">echo weaving $(</span><span class="org-makefile-shell"><span class="org-variable-name">2</span></span><span class="org-makefile-shell">)</span>
         $(<span class="org-variable-name">call</span> run_emacs,(codex-publish),$(<span class="org-variable-name">2</span>))
 
@@ -563,7 +563,7 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-html-filter-src-blocks">codex-html-filter-src-blocks</a></span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-prettify-source-code-captions">codex-prettify-source-code-captions</a></span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-human-readable-src-block-ids">codex-human-readable-src-block-ids</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-codex-publish</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-codex-publish">#3</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-codex-publish</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-codex-publish">#3</a></span></div></div>
 </div>
 
 <div id="outline-container-h-Modify-the-Org-buffer" class="outline-6">
@@ -577,7 +577,7 @@ Here we modify the Org mode buffer, by using <code>org-export-before-parsing-hoo
  '(codex-smart-source-code-block-captions
    codex-UID-for-all-headlines
    codex-UID-for-all-polyblocks))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-publish-modify-org</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-modify-org">#4</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-publish-modify-org</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-modify-org">#4</a></span></div></div>
 </div>
 </div>
 
@@ -595,7 +595,7 @@ Phase 1: In the first phase, we use the generated HTML data to populate the <cod
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-HTML-1">(org-export-filter-src-block-functions
  '(codex-populate-child-HTML_ID-hash-table
    codex-populate-org_id-human_id-hash-table))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-publish-modify-HTML-1</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-modify-HTML-1">#5</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-publish-modify-HTML-1</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-modify-HTML-1">#5</a></span></div></div><p>
 Phase 2: In this phase we perform the linking from parent blocks to child blocks.
 </p>
 
@@ -604,7 +604,7 @@ Phase 2: In this phase we perform the linking from parent blocks to child blocks
    codex-prettify-source-code-captions))
 (org-export-filter-final-output-functions
  '(codex-replace-ord_ids-with-human_ids))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-publish-modify-HTML-2</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-modify-HTML-2">#6</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-publish-modify-HTML-2</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-modify-HTML-2">#6</a></span></div></div>
 </div>
 </div>
 
@@ -616,7 +616,7 @@ Do not hardcode colors into the HTML. Instead refer to CSS class names, to be st
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-publish-use-css">(org-html-htmlize-output-type 'css)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-publish-use-css</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-use-css">#7</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-publish-use-css</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-publish-use-css">#7</a></span></div></div>
 </div>
 </div>
 </div>
@@ -676,7 +676,7 @@ We can use the KEY to go to that buffer position and insert the caption. However
         (insert caption)))))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__smart-source-code-block-captions-helpers">smart-source-code-block-captions-helpers</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; smart-source-code-block-captions</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__smart-source-code-block-captions">#8</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; smart-source-code-block-captions</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__smart-source-code-block-captions">#8</a></span></div></div><p>
 (We'll get to the helper functions <code>__NREF__smart-source-code-block-captions-helpers</code> later as they obscure the big picture.)
 </p>
 
@@ -729,7 +729,7 @@ Th first thing we need is a list of parent source code blocks. We consider a sou
 (org-element-map (org-element-parse-buffer) 'src-block
   (<span class="org-keyword">lambda</span> (src-block)
      (<span class="org-keyword">if</span> (codex-is-parent-block src-block) src-block)))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; parent-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__parent-blocks">#9</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; parent-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__parent-blocks">#9</a></span></div></div><p>
 Then we construct the <code>child-parent-hash-table</code>. For each parent block, we get all of its children (<code>child-names</code>), and use this data to construct a child-parent association:
 </p>
 
@@ -742,7 +742,7 @@ Then we construct the <code>child-parent-hash-table</code>. For each parent bloc
       (mapc (<span class="org-keyword">lambda</span> (child-name) (puthash child-name parent-name hash-table)) child-names)))
    parent-blocks)
   hash-table)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; child-parent-hash-table</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__child-parent-hash-table">#10</a></span></div></div><div class="org-src-container"><pre class="src src-emacs-lisp">(make-hash-table <span class="org-builtin">:test</span> 'equal)
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; child-parent-hash-table</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__child-parent-hash-table">#10</a></span></div></div><div class="org-src-container"><pre class="src src-emacs-lisp">(make-hash-table <span class="org-builtin">:test</span> 'equal)
 (apply 'make-hash-table '<span class="org-builtin">:test</span> 'equal
   (mapcan (<span class="org-keyword">lambda</span> (parent-name)
             (mapcan (<span class="org-keyword">lambda</span> (child-name) (list child-name 1)) '('c1 'c2 'c3))) <span class="org-warning">'(p1 p2)))</span>
@@ -764,7 +764,7 @@ Let's grab all source code blocks:
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__all-src-blocks">(org-element-map (org-element-parse-buffer) 'src-block 'identity)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; all-src-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-polyblocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__all-src-blocks">#11</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; all-src-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-polyblocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__all-src-blocks">#11</a></span></div></div><p>
 And now we can finally construct <code>smart-captions</code>:
 </p>
 
@@ -786,7 +786,7 @@ And now we can finally construct <code>smart-captions</code>:
               SCB_LINK_TO_PARENT
               <span class="org-string">"\n"</span>)))
       (<span class="org-keyword">when</span> parent (cons pos smart-caption)))))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; smart-captions</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__smart-captions">#12</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; smart-captions</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__smart-captions">#12</a></span></div></div><p>
 We used some helper functions up in <a href="#__NREF__smart-source-code-block-captions"><code>__NREF__smart-source-code-block-captions</code></a>; let's examine them now.
 </p>
 
@@ -794,14 +794,14 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-noweb-children">codex-get-noweb-children</a></span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-noweb-ref-name">codex-get-noweb-ref-name</a></span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-src-block-name">codex-get-src-block-name</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; smart-source-code-block-captions-helpers</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__smart-source-code-block-captions-helpers">#13</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; smart-source-code-block-captions-helpers</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__smart-source-code-block-captions-helpers">#13</a></span></div></div><p>
 <code>codex-is-parent-block</code> checks whether a source code block is a parent (contains noweb references to other child blocks in the form <code>__NREF__child-name</code>).
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-is-parent-block">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-is-parent-block</span> (src-block)
   (<span class="org-keyword">let</span> ((body (org-element-property <span class="org-builtin">:value</span> src-block)))
     (codex-get-noweb-children body)))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-is-parent-block</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-is-parent-block">#14</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-is-parent-block</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-is-parent-block">#14</a></span></div></div><p>
 <code>codex-get-noweb-children</code> extracts all noweb references in the form "<code>&lt;&lt;NAME&gt;&gt;</code>" from a given multiline string, returning a list of all such NAMEs. This function expects at most 1 noweb reference per line. The return type is a list of strings.
 </p>
 
@@ -814,7 +814,7 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
                        (match-string-no-properties 1 line)))
                   lines))))
     refs))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-get-noweb-children</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-noweb-children">#15</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-get-noweb-children</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-noweb-children">#15</a></span></div></div><p>
 <code>codex-get-noweb-ref-name</code> gets the string <code>FOO</code> in a <code>#+header: :noweb-ref FOO</code> line for a source code block.
 </p>
 
@@ -829,7 +829,7 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
                    (match-string-no-properties 1 header)))
              headers)))))
     noweb-ref-name))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-get-noweb-ref-name</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-noweb-ref-name">#16</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-get-noweb-ref-name</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-noweb-ref-name">#16</a></span></div></div><p>
 <code>codex-get-src-block-name</code> grabs the name of a (child) source code block. A child block can either be named directly with the <code>#+name: NAME</code> line, or indirectly with <code>#+header: noweb-ref NAME</code> (as we saw with <code>codex-get-noweb-ref-name</code>). We save the direct/indirect information as string, and this is used as the <a href="#coderef-SCB_POLYBLOCK_INDICATOR" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-SCB_POLYBLOCK_INDICATOR');" onmouseout="CodeHighlightOff(this, 'coderef-SCB_POLYBLOCK_INDICATOR');"><code>SCB_POLYBLOCK_INDICATOR</code></a>.
 </p>
 
@@ -839,7 +839,7 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
     (<span class="org-keyword">if</span> name-direct
         `(,name-direct <span class="org-string">""</span>)
         `(,name-indirect <span class="org-string">"(polyblock)"</span>))))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-get-src-block-name</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-src-block-name">#17</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-get-src-block-name</span><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-src-block-name">#17</a></span></div></div>
 </div>
 </div>
 
@@ -879,7 +879,7 @@ For each heading, we insert a <code>CUSTOM_ID</code> property which takes preced
             (insert insertion)))))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__get-unique-id">get-unique-id</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; UID-for-all-headlines</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__UID-for-all-headlines">#18</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; UID-for-all-headlines</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__UID-for-all-headlines">#18</a></span></div></div><p>
 <code>codex-get-unique-id</code> converts a given headline to its canonical form (every non-word character converted to a dash) and performs a lookup against the hash table. If the entry exists, it looks up a <code>entry-N</code> value in a loop with <code>N</code> increasing until it sees that no such key exists.
 </p>
 
@@ -904,7 +904,7 @@ For each heading, we insert a <code>CUSTOM_ID</code> property which takes preced
     (replace-regexp-in-string <span class="org-string">"[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">A-Za-z0-9]"</span> <span class="org-string">"-"</span> s)
     <span class="org-string">"-"</span>
     <span class="org-string">"-"</span>))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; get-unique-id</span><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-headlines">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__get-unique-id">#19</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; get-unique-id</span><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-headlines">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__get-unique-id">#19</a></span></div></div>
 </div>
 </div>
 
@@ -957,7 +957,7 @@ Note that we only name the first polyblock in the set of polyblocks that share t
               (name-field-with-uid (cdr polyblock-UID)))
             (goto-char pos)
             (insert name-field-with-uid)))))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; UID-for-all-polyblocks</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__UID-for-all-polyblocks">#20</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; UID-for-all-polyblocks</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__UID-for-all-polyblocks">#20</a></span></div></div>
 </div>
 </div>
 </div>
@@ -1021,7 +1021,7 @@ We have to do a search-and-replace across the entire file because we may also ha
                 (format <span class="org-string">" href=\"#%s\""</span> v) html-oneline))))
        codex-org_id-human_id-hash-table)
       (codex-to-multi-line html-oneline))))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-human-readable-src-block-ids</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-human-readable-src-block-ids">#21</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-human-readable-src-block-ids</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-human-readable-src-block-ids">#21</a></span></div></div>
 </div>
 </div>
 
@@ -1099,7 +1099,7 @@ For the last step, we want to additionally parse the inner "Listing N &#x2026; P
              (<span class="org-keyword">cond</span> ((string-prefix-p <span class="org-string">"__NREF__"</span> source-block-name)
                     (concat
                       <span class="org-string">"&lt;span class=\"codex-caption-source-code-block-name\"&gt;"</span>
-                      <span class="org-string">"&amp;#x1f33f; "</span>
+                      <span class="org-string">"&amp;#x1f4c4; "</span>
                       (string-remove-prefix <span class="org-string">"__NREF__"</span> source-block-name)
                       <span class="org-string">"&lt;/span&gt;"</span>))
                    (t
@@ -1147,7 +1147,7 @@ For the last step, we want to additionally parse the inner "Listing N &#x2026; P
         <span class="org-string">"&lt;/div&gt;"</span>)))))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-source-block-html-parts-without-newlines">codex-get-source-block-html-parts-without-newlines</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-prettify-source-code-captions</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-prettify-source-code-captions">#22</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-prettify-source-code-captions</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-prettify-source-code-captions">#22</a></span></div></div><p>
 This is a helper function to parse the HTML output for a source code block.
 </p>
 
@@ -1166,7 +1166,7 @@ This is a helper function to parse the HTML output for a source code block.
            (body (<span class="org-keyword">progn</span> (string-match <span class="org-string">"&lt;pre [</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">&gt;]+&gt;.*?&lt;/pre&gt;"</span> one-line)
                         (match-string-no-properties 0 one-line))))
       `(,leading-div ,caption ,body)))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-get-source-block-html-parts-without-newlines</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-prettify-source-code-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-source-block-html-parts-without-newlines">#23</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-get-source-block-html-parts-without-newlines</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-prettify-source-code-captions">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-get-source-block-html-parts-without-newlines">#23</a></span></div></div>
 </div>
 </div>
 
@@ -1315,7 +1315,7 @@ The only thing remaining is the construction of <code>child-HTML_ID-hash-table</
 <span class="codex-child-link-from-parent"><a href="#__NREF__custom-noweb-delimiters">custom-noweb-delimiters</a></span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__babel-load-languages">babel-load-languages</a></span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__evaluate-all-blocks">evaluate-all-blocks</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex-html-filter-src-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-html-filter-src-blocks">#24</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex-html-filter-src-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex-html-filter-src-blocks">#24</a></span></div></div><p>
 Note that we need to evaluate this lisp code if we want to run <code>C-c C-v t</code> to tangle code blocks properly in an interactive manner from an Emacs editing session.
 </p>
 
@@ -1355,14 +1355,14 @@ FIXME: Evaluate this snippet of code when loading this file for editing purposes
 <span class="org-doc">Match any reference, or only those matching REGEXP, if non-nil.</span>
 <span class="org-doc">When matching, reference is stored in match group 1."</span>
   (codex-nref-rx t))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; custom-noweb-delimiters</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__custom-noweb-delimiters">#25</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; custom-noweb-delimiters</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__custom-noweb-delimiters">#25</a></span></div></div><p>
 We need to do this; otherwise we cannot evaluate any source code blocks during weaving (while running emacs from the command line in batch mode).
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__babel-load-languages"><span class="org-comment-delimiter">;</span><span class="org-comment">(org-babel-do-load-languages</span>
 <span class="org-comment-delimiter">; </span><span class="org-comment">'org-babel-load-languages '((shell . t)))</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; babel-load-languages</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__babel-load-languages">#26</a></span></div></div><div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__evaluate-all-blocks">(<span class="org-keyword">setq</span> org-confirm-babel-evaluate nil)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; evaluate-all-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__evaluate-all-blocks">#27</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; babel-load-languages</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__babel-load-languages">#26</a></span></div></div><div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__evaluate-all-blocks">(<span class="org-keyword">setq</span> org-confirm-babel-evaluate nil)
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; evaluate-all-blocks</span><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__evaluate-all-blocks">#27</a></span></div></div>
 </div>
 </div>
 </div>
@@ -1389,7 +1389,7 @@ Generate <code>syntax-highlighting.css</code> and quit emacs. This function is d
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Without this, batch-org-gen-css-and-exit produces a near-empty CSS file.</span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__enable-syntax-highlighting-from-batch-mode">enable-syntax-highlighting-from-batch-mode</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-autogenerate-css</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-autogenerate-css">#28</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-autogenerate-css</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-autogenerate-css">#28</a></span></div></div><p>
 Sadly, <code>batch-org-gen-css-and-exit</code> by itself generates a near-blank CSS file. So we have to use code from <a href="https://emacs.stackexchange.com/questions/38437/org-mode-batch-export-missing-syntax-highlighting">https://emacs.stackexchange.com/questions/38437/org-mode-batch-export-missing-syntax-highlighting</a>:
 </p>
 
@@ -1478,7 +1478,7 @@ Sadly, <code>batch-org-gen-css-and-exit</code> by itself generates a near-blank 
 <span class="org-comment-delimiter">; </span><span class="org-comment">(print-args-and-ret face-foreground)</span>
 <span class="org-comment-delimiter">; </span><span class="org-comment">(print-args-and-ret face-background)</span>
 <span class="org-comment-delimiter">; </span><span class="org-comment">(print-args-and-ret face-attribute)</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; enable-syntax-highlighting-from-batch-mode</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-autogenerate-css">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__enable-syntax-highlighting-from-batch-mode">#29</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; enable-syntax-highlighting-from-batch-mode</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-autogenerate-css">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__enable-syntax-highlighting-from-batch-mode">#29</a></span></div></div>
 </div>
 </div>
 
@@ -1498,7 +1498,7 @@ Org mode also injects an HTML comment (not visible to the user) to record the ti
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism">(<span class="org-keyword">setq</span> org-export-time-stamp-file nil)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-fix-nondeterminism</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-fix-nondeterminism">#30</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-fix-nondeterminism</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-fix-nondeterminism">#30</a></span></div></div>
 </div>
 </div>
 
@@ -1510,7 +1510,7 @@ By default Org mode appends visible metadata at the bottom of the HTML document,
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> org-html-postamble nil)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-fix-nondeterminism</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="##deadlink">#31</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-fix-nondeterminism</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="##deadlink">#31</a></span></div></div>
 </div>
 </div>
 
@@ -1530,7 +1530,7 @@ See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">h
      (<span class="org-keyword">while</span> (rassq new references) (<span class="org-keyword">setq</span> new (+ new 1)))
      new))
 (advice-add #'org-export-new-reference <span class="org-builtin">:override</span> #'org-export-deterministic-reference)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-fix-nondeterminism</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="##deadlink">#32</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-fix-nondeterminism</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="##deadlink">#32</a></span></div></div>
 </div>
 </div>
 </div>
@@ -1550,7 +1550,7 @@ Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</
   (concat <span class="org-string">"test_"</span> (file-name-nondirectory (directory-file-name (file-name-directory (buffer-file-name))))  <span class="org-string">".py"</span>))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__set_html5">set_html5</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-misc</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-misc">#33</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-misc</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-misc">#33</a></span></div></div>
 </div>
 
 <div id="outline-container-h-Use-HTML5-export--not-XML--to-un-break-MathJax" class="outline-6">
@@ -1561,7 +1561,7 @@ By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a C
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__set_html5">(<span class="org-keyword">setq</span> org-html-doctype <span class="org-string">"html5"</span>)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; set_html5</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-misc">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__set_html5">#34</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; set_html5</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-misc">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__set_html5">#34</a></span></div></div>
 </div>
 </div>
 
@@ -1611,7 +1611,7 @@ NOTE: Actually, this doesn't work because we need to inject "ID" properties ever
 (<span class="org-keyword">require</span> '<span class="org-constant">magit-section</span>)
 (add-to-list 'load-path (concat (getenv <span class="org-string">"PWD"</span>) <span class="org-string">"/deps/elisp/nix-mode"</span>))
 (<span class="org-keyword">require</span> '<span class="org-constant">nix-mode</span>)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-imports</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-imports">#35</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-imports</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-imports">#35</a></span></div></div>
 </div>
 </div>
 
@@ -1634,7 +1634,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-org-html-fontify-code</span> (code lang) (org-html-encode-plain-text code))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-profiling">codex_dot_el-profiling</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-performance-optimization</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-performance-optimization">#36</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-performance-optimization</span><span class="codex-caption-parent-link"><a href="#code-codex-el--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-performance-optimization">#36</a></span></div></div>
 </div>
 
 <div id="outline-container-h-Profiling" class="outline-6">
@@ -1655,7 +1655,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
   (profiler-stop)
   (profiler-report)
   (profiler-report-write-profile <span class="org-string">"emacs-profile-tangle.txt"</span>) t)
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; codex_dot_el-profiling</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-performance-optimization">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-profiling">#37</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; codex_dot_el-profiling</span><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-performance-optimization">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__codex_dot_el-profiling">#37</a></span></div></div>
 </div>
 </div>
 </div>
@@ -1770,7 +1770,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
     <span class="org-css-property">background-color</span>: <span class="custom">#eee</span>;
 }
 
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; css-source-code-block-body</span><span class="codex-caption-parent-link"><a href="#code-style-css--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__css-source-code-block-body">#39</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; css-source-code-block-body</span><span class="codex-caption-parent-link"><a href="#code-style-css--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__css-source-code-block-body">#39</a></span></div></div>
 </div>
 </div>
 
@@ -1798,7 +1798,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
 <span class="org-css-selector">.codex-caption-listing-number </span>{
     <span class="org-css-property">margin-right</span>: 5px;
 }
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; css-source-code-block-captions</span><span class="codex-caption-parent-link"><a href="#code-style-css--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__css-source-code-block-captions">#40</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; css-source-code-block-captions</span><span class="codex-caption-parent-link"><a href="#code-style-css--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__css-source-code-block-captions">#40</a></span></div></div>
 </div>
 </div>
 
@@ -1818,7 +1818,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
     <span class="org-css-property">color</span>: <span class="custom">#ffffff</span>;
     <span class="org-css-property">font-weight</span>: bold;
 }
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; css-source-code-block-child-link-from-parent</span><span class="codex-caption-parent-link"><a href="#code-style-css--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__css-source-code-block-child-link-from-parent">#41</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; css-source-code-block-child-link-from-parent</span><span class="codex-caption-parent-link"><a href="#code-style-css--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__css-source-code-block-child-link-from-parent">#41</a></span></div></div>
 </div>
 </div>
 </div>
@@ -1912,7 +1912,7 @@ endef
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">See https://stackoverflow.com/a/9694782/437583.</span>
 $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),$(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> tangle_tests,problem/$(<span class="org-variable-name">p</span>)/__init__.py,problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py,problem/$(<span class="org-variable-name">p</span>)/README.org)))
-</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f33f; Makefile-tangle</span><span class="codex-caption-parent-link"><a href="#code-Makefile--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__Makefile-tangle">#43</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-source-code-block-name">&#x1f4c4; Makefile-tangle</span><span class="codex-caption-parent-link"><a href="#code-Makefile--code">PARENT</a></span><span class="codex-caption-listing-number"><a href="#__NREF__Makefile-tangle">#43</a></span></div></div>
 </div>
 </div>
 
