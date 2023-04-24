@@ -1282,7 +1282,7 @@ __NREF__css-source-code-block-child-link-from-parent
 .codex-caption {
     font-family: "monospace";
     text-align: right;
-    background-color: #e8fffd;
+    background-color: #ddd;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
