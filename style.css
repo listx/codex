@@ -91,12 +91,15 @@ pre {
     background-color: #eee;
 }
 
+
 .codex-caption {
     font-family: "monospace";
     text-align: right;
     background-color: #ddd;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .codex-caption-source-code-block-name {
@@ -106,22 +109,50 @@ pre {
 }
 
 .codex-caption-parent-link {
+    margin-top: 5px;
     margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: bold;
+}
+.codex-caption-parent-link a {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: #ffffff;
+    background-color: #38ad3d;
+}
+.codex-caption-parent-link a:hover {
+    background-color: #389ffd;
+    text-decoration: none;
+}
+
+.codex-caption-link-symbol a {
+    margin-right: 5px;
+}
+.codex-caption-link-symbol a:hover {
+    text-decoration: none;
 }
 
 .codex-caption-listing-number {
     margin-right: 5px;
 }
+
 .codex-child-link-from-parent {
     padding-left: 5px;
     padding-right: 5px;
-    background-color: #389ffd;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #00f;
-    border-radius: 3px;
+    font-weight: bold;
 }
 .codex-child-link-from-parent a {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     color: #ffffff;
-    font-weight: bold;
+    background-color: #389ffd;
+}
+.codex-child-link-from-parent a:hover {
+    background-color: #38ad3d;
+    text-decoration: none;
 }

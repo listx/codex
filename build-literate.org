@@ -113,10 +113,15 @@ shell:
 #+caption: =codex.el=
 #+begin_src emacs-lisp :tangle codex.el :eval no
 __NREF__codex_dot_el-performance-optimization
+
 __NREF__codex_dot_el-imports
+
 __NREF__codex_dot_el-fix-nondeterminism
+
 __NREF__codex_dot_el-codex-publish
+
 __NREF__codex_dot_el-autogenerate-css
+
 __NREF__codex_dot_el-misc
 #+end_src
 
@@ -139,14 +144,18 @@ __NREF__codex_dot_el-misc
 (defun codex-publish-1 ()
   (let (
         __NREF__codex-publish-modify-org
+
         __NREF__codex-publish-modify-HTML-1
+
         __NREF__codex-publish-use-css)
     (org-html-export-to-html)))
 
 (defun codex-publish-2 ()
   (let (
         __NREF__codex-publish-modify-org
+
         __NREF__codex-publish-modify-HTML-2
+
         __NREF__codex-publish-use-css)
     ;; Debugging
     ;(message "codex-child-HTML_ID-hash-table: %s" codex-child-HTML_ID-hash-table)
@@ -155,12 +164,16 @@ __NREF__codex_dot_el-misc
 
 ;; Modify Org buffer
 __NREF__smart-source-code-block-captions
+
 __NREF__UID-for-all-headlines
+
 __NREF__UID-for-all-polyblocks
 
 ;; Modify HTML
 __NREF__codex-html-filter-src-blocks
+
 __NREF__codex-prettify-source-code-captions
+
 __NREF__codex-human-readable-src-block-ids
 #+end_src
 
@@ -369,8 +382,11 @@ We used some helper functions up in [[__NREF__smart-source-code-block-captions][
 #+name: __NREF__smart-source-code-block-captions-helpers
 #+begin_src emacs-lisp
 __NREF__codex-is-parent-block
+
 __NREF__codex-get-noweb-children
+
 __NREF__codex-get-noweb-ref-name
+
 __NREF__codex-get-src-block-name
 #+end_src
 
@@ -643,7 +659,6 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
              (cond ((string-prefix-p "__NREF__" source-block-name)
                     (concat
                       "<span class=\"codex-caption-source-code-block-name\">"
-                      "&#x1f4c4; "
                       (string-remove-prefix "__NREF__" source-block-name)
                       "</span>"))
                    (t
@@ -661,8 +676,13 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
                caption-parts))
            (parent-id
              (if parent-id-match
-                 (format "<span class=\"codex-caption-parent-link\"><a href=\"%s\">PARENT</a></span>"
-                   (match-string-no-properties 1 caption-parts))
+                 (format "<span class=\"codex-caption-parent-link\"><a href=\"%s\">%s</a></span>"
+                   (match-string-no-properties 1 caption-parts) (string-remove-prefix "__NREF__" source-block-name))
+                 ""))
+           (link-symbol
+             (if parent-id-match
+                 (format "<span class=\"codex-caption-link-symbol\"><a href=\"#%s\">&#x1f517;</a></span>"
+                   pre-id)
                  ""))
            (listing-number-match
              (string-match
@@ -684,9 +704,8 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
         body-with-newlines
         "</div>"
         "<div class=\"codex-caption\">"
-        source-block-name-styled
         parent-id
-        listing-number
+        link-symbol
         "</div>"
         "</div>")))))
 
@@ -847,7 +866,9 @@ The only thing remaining is the construction of =child-HTML_ID-hash-table=. We c
   (replace-regexp-in-string "<<<NEWLINE>>>" "\n" s))
 
 __NREF__custom-noweb-delimiters
+
 __NREF__babel-load-languages
+
 __NREF__evaluate-all-blocks
 #+end_src
 
@@ -1239,7 +1260,9 @@ pre {
 }
 
 __NREF__css-source-code-block-body
+
 __NREF__css-source-code-block-captions
+
 __NREF__css-source-code-block-child-link-from-parent
 #+end_src
 
@@ -1285,6 +1308,8 @@ __NREF__css-source-code-block-child-link-from-parent
     background-color: #ddd;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .codex-caption-source-code-block-name {
@@ -1294,7 +1319,30 @@ __NREF__css-source-code-block-child-link-from-parent
 }
 
 .codex-caption-parent-link {
+    margin-top: 5px;
     margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: bold;
+}
+.codex-caption-parent-link a {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: #ffffff;
+    background-color: #38ad3d;
+}
+.codex-caption-parent-link a:hover {
+    background-color: #389ffd;
+    text-decoration: none;
+}
+
+.codex-caption-link-symbol a {
+    margin-right: 5px;
+}
+.codex-caption-link-symbol a:hover {
+    text-decoration: none;
 }
 
 .codex-caption-listing-number {
@@ -1309,15 +1357,19 @@ __NREF__css-source-code-block-child-link-from-parent
 .codex-child-link-from-parent {
     padding-left: 5px;
     padding-right: 5px;
-    background-color: #389ffd;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #00f;
-    border-radius: 3px;
+    font-weight: bold;
 }
 .codex-child-link-from-parent a {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     color: #ffffff;
-    font-weight: bold;
+    background-color: #389ffd;
+}
+.codex-child-link-from-parent a:hover {
+    background-color: #38ad3d;
+    text-decoration: none;
 }
 #+end_src
 

@@ -20,6 +20,7 @@
   (profiler-stop)
   (profiler-report)
   (profiler-report-write-profile "emacs-profile-tangle.txt") t)
+
 ;; Built-in packages (distributed with Emacs).
 (require 'tex-mode)
 (require 'elisp-mode)
@@ -43,6 +44,7 @@
 (require 'magit-section)
 (add-to-list 'load-path (concat (getenv "PWD") "/deps/elisp/nix-mode"))
 (require 'nix-mode)
+
 (setq org-export-time-stamp-file nil)
 (setq org-html-postamble nil)
 (defun org-export-deterministic-reference (references)
@@ -50,6 +52,7 @@
      (while (rassq new references) (setq new (+ new 1)))
      new))
 (advice-add #'org-export-new-reference :override #'org-export-deterministic-reference)
+
 ; This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).
 (if (getenv "CODEX_LP_QUICK")
     (progn
@@ -68,9 +71,11 @@
          '(codex-smart-source-code-block-captions
            codex-UID-for-all-headlines
            codex-UID-for-all-polyblocks))
+
         (org-export-filter-src-block-functions
          '(codex-populate-child-HTML_ID-hash-table
            codex-populate-org_id-human_id-hash-table))
+
         (org-html-htmlize-output-type 'css))
     (org-html-export-to-html)))
 
@@ -80,11 +85,13 @@
          '(codex-smart-source-code-block-captions
            codex-UID-for-all-headlines
            codex-UID-for-all-polyblocks))
+
         (org-export-filter-src-block-functions
          '(codex-link-to-children-from-parent-body
            codex-prettify-source-code-captions))
         (org-export-filter-final-output-functions
          '(codex-replace-ord_ids-with-human_ids))
+
         (org-html-htmlize-output-type 'css))
     ;; Debugging
     ;(message "codex-child-HTML_ID-hash-table: %s" codex-child-HTML_ID-hash-table)
@@ -138,6 +145,7 @@
 (defun codex-is-parent-block (src-block)
   (let ((body (org-element-property :value src-block)))
     (codex-get-noweb-children body)))
+
 (defun codex-get-noweb-children (s)
   (let* ((lines (split-string s "\n"))
          (refs (-remove 'null
@@ -147,6 +155,7 @@
                        (match-string-no-properties 1 line)))
                   lines))))
     refs))
+
 (defun codex-get-noweb-ref-name (source-code-block)
   (let* ((headers (org-element-property :header source-code-block))
          (noweb-ref-name
@@ -158,12 +167,14 @@
                    (match-string-no-properties 1 header)))
              headers)))))
     noweb-ref-name))
+
 (defun codex-get-src-block-name (src-block)
   (let* ((name-direct (org-element-property :name src-block))
          (name-indirect (codex-get-noweb-ref-name src-block)))
     (if name-direct
         `(,name-direct "")
         `(,name-indirect "(polyblock)"))))
+
 (defun codex-UID-for-all-headlines (_backend)
   (let* ((all-headlines
            (org-element-map (org-element-parse-buffer) 'headline 'identity))
@@ -209,6 +220,7 @@
     (replace-regexp-in-string "[^A-Za-z0-9]" "-" s)
     "-"
     "-"))
+
 (defun codex-UID-for-all-polyblocks (_)
   (let* ((all-src-blocks
            (org-element-map (org-element-parse-buffer) 'src-block 'identity))
@@ -354,9 +366,12 @@
 Match any reference, or only those matching REGEXP, if non-nil.
 When matching, reference is stored in match group 1."
   (codex-nref-rx t))
+
 ;(org-babel-do-load-languages
 ; 'org-babel-load-languages '((shell . t)))
+
 (setq org-confirm-babel-evaluate nil)
+
 (defun codex-prettify-source-code-captions (src-block-html backend info)
   (when (org-export-derived-backend-p backend 'html)
     ;; Break up source block into 3 subparts --- the leading <div ...>, the <label ...></label> (if any) and
@@ -404,7 +419,6 @@ When matching, reference is stored in match group 1."
              (cond ((string-prefix-p "__NREF__" source-block-name)
                     (concat
                       "<span class=\"codex-caption-source-code-block-name\">"
-                      "&#x1f4c4; "
                       (string-remove-prefix "__NREF__" source-block-name)
                       "</span>"))
                    (t
@@ -422,8 +436,13 @@ When matching, reference is stored in match group 1."
                caption-parts))
            (parent-id
              (if parent-id-match
-                 (format "<span class=\"codex-caption-parent-link\"><a href=\"%s\">PARENT</a></span>"
-                   (match-string-no-properties 1 caption-parts))
+                 (format "<span class=\"codex-caption-parent-link\"><a href=\"%s\">%s</a></span>"
+                   (match-string-no-properties 1 caption-parts) (string-remove-prefix "__NREF__" source-block-name))
+                 ""))
+           (link-symbol
+             (if parent-id-match
+                 (format "<span class=\"codex-caption-link-symbol\"><a href=\"#%s\">&#x1f517;</a></span>"
+                   pre-id)
                  ""))
            (listing-number-match
              (string-match
@@ -445,9 +464,8 @@ When matching, reference is stored in match group 1."
         body-with-newlines
         "</div>"
         "<div class=\"codex-caption\">"
-        source-block-name-styled
         parent-id
-        listing-number
+        link-symbol
         "</div>"
         "</div>")))))
 
@@ -466,6 +484,7 @@ When matching, reference is stored in match group 1."
            (body (progn (string-match "<pre [^>]+>.*?</pre>" one-line)
                         (match-string-no-properties 0 one-line))))
       `(,leading-div ,caption ,body)))
+
 ; Define a global hash table for mapping Org-mode-generated ids (that look like "org00012") for source code blocks to a more human-readable ID.
 (setq codex-org_id-human_id-hash-table (make-hash-table :test 'equal))
 
@@ -493,6 +512,7 @@ When matching, reference is stored in match group 1."
                 (format " href=\"#%s\"" v) html-oneline))))
        codex-org_id-human_id-hash-table)
       (codex-to-multi-line html-oneline))))
+
 (defun batch-org-gen-css-and-exit (org-file)
   (find-file org-file)
   (font-lock-flush)
@@ -588,6 +608,7 @@ with class 'color and highest min-color value."
 ; (print-args-and-ret face-foreground)
 ; (print-args-and-ret face-background)
 ; (print-args-and-ret face-attribute)
+
 (setq make-backup-files nil)
 (setq org-src-preserve-indentation t)
 
