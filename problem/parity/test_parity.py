@@ -1,5 +1,4 @@
 from hypothesis import given, strategies as st
-
 import unittest
 
 def brute_force(word):

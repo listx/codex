@@ -1,0 +1,174 @@
+#+title: Rearrange list (even, odd)
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+Given a list of numbers, rearrange the elements so that the even numbers appear first [cite:@epip 41]. Return the number of even numbers found.
+
+* Insights
+
+With a list, we can operate efficiently on both ends at the same time (that is, instead of traversing only left-to-right, we can also traverse right-to-left at the same time).
+
+* Solution
+
+#+header: :noweb-ref __NREF__rearrange_list_even_odd
+#+begin_src python
+def even_odd(ints):
+  idx_even = 0
+  idx_odd = len(ints) - 1
+
+  while idx_even < idx_odd:
+    if ints[idx_odd] & 1:
+      idx_odd -= 1
+    else:
+      ints[idx_even], ints[idx_odd] = ints[idx_odd], ints[idx_even]
+      idx_even += 1
+
+  # Return the number of even numbers found.
+  if ints and ints[idx_even] & 1 == 0:
+    idx_even += 1
+  return idx_even
+#+end_src
+
+In =even_odd()=, the given list of numbers is modified in-place so that all the even numbers are placed in front of the list. We use 2 indices, =idx_even= and =idx_odd=, and they are set to the left-edge and right-edge of the list, respectively. Below is an example with the list =[13, 40, 20, 18, 7,  9,  8]=.
+
+#+begin_example
+13 40 20 18 7  9  11  (numbers)
+0  1  2  3  4  5  6   (list index)
+|                 |
+`- idx_even       `- idx_odd
+#+end_example
+
+The element =11= is odd, so we decrement =idx_odd=. This happens a couple more times because both =9= and =7= are odd.
+
+#+begin_example
+13 40 20 18 7  9  11  (numbers)
+0  1  2  3  4  5  6   (list index)
+|        |
+`- idx_even
+         |
+         `- idx_odd
+#+end_example
+
+Now =ints[idx_odd]= is =18= and it is not odd. So we must swap (and increment =idx_even=).
+
+#+begin_example
+18 40 20 13 7  9  11  (numbers)
+0  1  2  3  4  5  6   (list index)
+   |     |
+   `- idx_even
+         |
+         `- idx_odd
+#+end_example
+
+
+=40= is even (and so is =20=) so we end up hitting this code path a couple more times, so =idx_even= eventually gets incremented to =3=, and at this point the =while= loop terminates.
+
+Let's have a closer look at the =while= loop inside =even_odd()=.
+
+#+begin_src python
+  while idx_even < idx_odd:
+    ...
+#+end_src
+
+The =idx_even < idx_odd= just means to stop processing whenever the two indices cross over each other (because we must uphold the guarantee of having the odd numbers on the right side of the list when we're done processing).
+
+Now let's check the =if= condition.
+
+#+begin_src python
+    if ints[idx_odd] & 1:
+      idx_odd -= 1
+#+end_src
+
+This part is straightforward --- if we observe that the number which =idx_odd= is pointing to is already odd, it's already in the correct position. So the only thing left to do is to decrement =idx_odd= so that we can consider the next number to the left.
+
+Now comes the swapping behavior.
+
+#+begin_src python
+    else:
+      ints[idx_even], ints[idx_odd] = ints[idx_odd], ints[idx_even]
+      idx_even += 1
+#+end_src
+
+We hit this branch if =idx_odd= is pointing to an *even* number. We know that because this number is even, we want to push it to the left edge of the list. Luckily we already have a pointer for this, =idx_even=. So we perform a swap to throw over the number we just looked at (=ints[idx_odd]=) over to the "even" side. The number that we get in return as a result of the swap (namely, =ints[idx_even]=) may or may not be odd. However it doesn't matter because we'll check it in the next iteration of the loop.
+
+Lastly we have to increment =idx_even= because we know that we just gave it an even number (the one we threw over to the even side). In other words the even side grew by 1 number, so it makes sense to increment =idx_even= to reflect this growth.
+
+So much for the =while= loop. As for the calculation of the number of even numbers, this is just the =idx_even= index, plus 1 if =idx_even= is currently looking at an even number (after the loop is done incrementing it).
+
+#+begin_src python
+  if ints and ints[idx_even] & 1 == 0:
+    idx_even += 1
+#+end_src
+
+We have to increment =idx_even= in such a case because this means that the number it is looking at after the =while= loop finished was *not* "thrown over" explicitly by the swapping code path in the loop. This can happen for the case where every number is even --- in this case we end up incrementing =idx_even= until it equals =idx_odd= (at the tail end of the list), when the loop terminates. Example:
+
+#+begin_example
+0  2  4  6  8  10 12  (numbers)
+0  1  2  3  4  5  6   (list index)
+                  |
+                  `- idx_odd
+                  `- idx_even
+#+end_example
+
+In this case, =idx_even= is 6, but there are 7 even numbers in the list. So we have to add 1 to get the correct answer. For all other cases, where =idx_even= is looking at an odd number, this means that the number immediately to the left of =idx_even= is the last even number. So there's nothing more to adjust and we already have the correct value, so we do nothing.
+
+* Tests
+
+#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+from hypothesis import given, strategies as st
+import unittest
+
+__NREF__rearrange_list_even_odd
+
+class Test(unittest.TestCase):
+  cases = [
+    ([],        [],        0),
+    ([0],       [0],       1),
+    ([1],       [1],       0),
+    ([0, 2],    [2, 0],    2),
+    ([1, 2],    [2, 1],    1),
+    ([0, 2, 3], [2, 0, 3], 2),
+    ([0, 3, 2], [2, 0, 3], 2),
+    ([1, 3, 5], [1, 3, 5], 0),
+    ([2, 4, 6], [6, 2, 4], 3),
+  ]
+
+  def test_simple_cases(self):
+    for given_ints, expected_ints, expected_evens in self.cases:
+      got_evens = even_odd(given_ints)
+
+      self.assertEqual(given_ints, expected_ints)
+      self.assertEqual(got_evens, expected_evens)
+
+  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=0, max_size=16))
+  def test_random(self, given_ints):
+    even_nums = even_odd(given_ints)
+    # If we found some even numbers, these elements must actually all be even.
+    # And the remaining elements (if any) must all be odd.
+    if even_nums > 0:
+      for i in range(0, even_nums):
+        self.assertFalse(given_ints[i] & 1)
+      for j in range(even_nums, len(given_ints)):
+        self.assertTrue(given_ints[j] & 1)
+    # If we did not find any even numbers, but the given list was not empty,
+    # then it means that all numbers in the list are odd.
+    elif given_ints:
+      for j in range(0, len(given_ints)):
+        self.assertTrue(given_ints[j] & 1)
+
+if __name__ == "__main__":
+  unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :tangle __init__.py :exports none
+#+end_src
+
+* References
+#+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
+#+PRINT_BIBLIOGRAPHY:

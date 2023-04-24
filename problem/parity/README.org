@@ -394,7 +394,6 @@ def xor_fold_caching(word):
 
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 from hypothesis import given, strategies as st
-
 import unittest
 
 __NREF__brute_force
