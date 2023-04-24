@@ -1213,7 +1213,7 @@ li {
 }
 
 table {
-    margin: 0 auto;
+    margin: 1em auto 0em auto;
 }
 
 /* Center all images. */
