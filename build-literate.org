@@ -1349,7 +1349,6 @@ Note that the above setting to treat HTML files as binary data prevents them fro
 #+begin_src gitignore :tangle .gitignore :eval no
 ,**/__pycache__
 ,**/*.auctex-auto
-,**/*.html
 ,**/*.hypothesis
 tangle
 weave
