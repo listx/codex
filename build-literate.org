@@ -75,7 +75,7 @@ problem_dirs_without_prefix = $(subst problem/,,$(problem_dirs))
 
 define weave_org
 
-$(1): $(2)
+$(1): $(2) build-literate.org
 	@echo weaving $(2)
 	$(call run_emacs,(codex-publish),$(2))
 
