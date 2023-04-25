@@ -1,4 +1,4 @@
-#+title: Rearrange list (even, odd)
+#+title: Rearrange list (2-way partitioning)
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
 #+PROPERTY: header-args :noweb no-export
