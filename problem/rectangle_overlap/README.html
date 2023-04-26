@@ -241,7 +241,7 @@ Consider rectangles whose sides are parallel to the X and Y axes. Let a rectangl
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__overlapping_rectangle"><span class="org-keyword">import</span> collections
 <span class="org-variable-name">Rect</span> = collections.namedtuple(<span class="org-string">'Rect'</span>, (<span class="org-string">'x'</span>, <span class="org-string">'y'</span>, <span class="org-string">'width'</span>, <span class="org-string">'height'</span>))
 </pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle">&#x1f517;</a></span></div></div><p>
-FIXME: Insert Tikz diagram.
+FIXME: Insert Tikz diagram. In the meantime, see (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 39</a>).
 </p>
 </div>
 </div>
@@ -250,7 +250,7 @@ FIXME: Insert Tikz diagram.
 <h2 id="h-Problem-statement"><span class="section-number-2">2.</span> Problem statement</h2>
 <div class="outline-text-2" id="text-h-Problem-statement">
 <p>
-Write a function which checks if two rectangles have a nonempty overlap; if the overlap is nonempty, return the rectangle formed by their overlap (<a href="#citeproc_bib_item_1">Aziz et al., 2016, p. 39</a>). Two rectangles are considered to be overlapping if they share the same side.
+Write a function which checks if two rectangles have a nonempty overlap; if the overlap is nonempty, return the rectangle formed by their overlap (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 39</a>). Two rectangles are considered to be overlapping if they share the same side.
 </p>
 </div>
 </div>
@@ -294,7 +294,7 @@ By symmetry, the code for <code>no_vertical_overlap()</code> is rather similar.
 <span class="org-keyword">def</span> <span class="org-function-name">no_overlap</span>(a, b):
   <span class="org-keyword">return</span> no_horizontal_overlap(a, b) <span class="org-keyword">or</span> no_vertical_overlap(a, b)
 </pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
-The code in (<a href="#citeproc_bib_item_1">Aziz et al., 2016, p. 40</a>) actually does the opposite to check for overlap (instead of no-overlap). And so they use <code>a_R &gt;= b_L and a_L &lt;= b_R</code> instead. However that code is a tiny bit slower because of the use of <code>and</code> instead of <code>or</code> as we've done here.
+The code in (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 40</a>) actually does the opposite to check for overlap (instead of no-overlap). And so they use <code>a_R &gt;= b_L and a_L &lt;= b_R</code> instead. However that code is a tiny bit slower because of the use of <code>and</code> instead of <code>or</code> as we've done here.
 </p>
 
 <p>
@@ -404,7 +404,7 @@ where in both cases, the value is <code>min(a_R, b_R)</code>. Then we can just s
 <h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2016). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (15 Sept. 2016).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
 </div>
 </div>
 </div>
