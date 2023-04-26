@@ -27,12 +27,12 @@ Every problem gets its own =.org= file. The solutions are all in Python. All sol
 Below is a table of every problem, with tags that give a brief description of each one, and references.
 
 #+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
-| Name                | Tags                | Sources                                                                     |
-|---------------------+---------------------+-----------------------------------------------------------------------------|
-| [[file:problem/parity/README.org][Parity]]              | bitwise             | [cite:@epip 27; @hd 96]                                                     |
-| [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]   | geometry            | [cite:@epip 39]                                                             |
-| [[file:problem/rearrange_list_even_odd/README.org][Rearrange list]]      | array, partitioning | [cite:@epip 41]                                                             |
-| [[file:problem/dutch_national_flag/README.org][Dutch national flag]] | array, partitioning | [cite:@epip 43; @levitin 200; @sedgewick 296-301; @pearls 123; @cormen 186] |
+| Name                | Tags                | Sources                                                                                      |
+|---------------------+---------------------+----------------------------------------------------------------------------------------------|
+| [[file:problem/parity/README.org][Parity]]              | bitwise             | [cite:@epip 27; @hd 96]                                                                      |
+| [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]   | geometry            | [cite:@epip 39]                                                                              |
+| [[file:problem/rearrange_list_even_odd/README.org][Rearrange list]]      | array, partitioning | [cite:@epip 41]                                                                              |
+| [[file:problem/dutch_national_flag/README.org][Dutch national flag]] | array, partitioning | [cite:@epip 43; @levitin 200; @sedgewick 296-301; @pearls 123; @cormen 186; @skiena 125-126] |
 
 * Literate Programming Build System
 
@@ -117,6 +117,18 @@ Below is a table of every problem, with tags that give a brief description of ea
     publisher = {Addison-Wesley},
     keywords = {Computer programming},
     address = {Reading, Mass},
+}
+
+@book{skiena,
+    title = {The algorithm design manual},
+    author = {Skiena, Steven S.},
+    edition = {2nd ed},
+    year = {2008},
+    isbn = {9781848000698 9781848000704},
+    publisher = {Springer},
+    note = {OCLC: ocn228582051},
+    keywords = {Computer algorithms},
+    address = {London},
 }
 #+end_src
 

@@ -224,6 +224,8 @@ A variation of the "fat pivot" algorithm puts the elements equal to the pivot on
 
 [cite:@cormen 186] sadly only poses the Dutch National Flag as a problem and leaves the analysis of it mostly up to the reader.
 
+[cite:@skiena 125-126] gives a good intuitive explanation of traditional quicksort's performance characteristics.
+
 * References
 #+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
 #+PRINT_BIBLIOGRAPHY:
