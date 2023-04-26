@@ -211,6 +211,19 @@ if __name__ == "__main__":
 #+begin_src python :tangle __init__.py :exports none
 #+end_src
 
+* Final remarks
+
+The idea of partitioning is useful for implementing /quicksort/, because we can recursively call this function to sort a large list. There are two variations to do quicksort-style partitioning:
+
+1. (Dutch National Flag style, aka "fat pivot" [cite:@pearls 123]) elements equal to the pivot are gathered together in a single partitioning step, and
+2. (traditional quicksort) there are 2 partitions (elements less than, elements greater than) on each side of just a single "pivot" element.)
+
+The "fat pivot" style as presented here performs better in cases where there are a significant number of duplicate elements [cite:@sedgewick 296]. For example, if the entire list only has duplicates (e.g., every element is "7"), the traditional 3-way partitioning step of quicksort will still recurse repeatedly (because it only sorts 1 element (the pivot element) at a time), whereas the "fat pivot" style will not need te recurse at all as it will detect all duplicate elements in a single invocation.
+
+A variation of the "fat pivot" algorithm puts the elements equal to the pivot on both the left and right ends of the array [cite:@sedgewick 306], and does a final swap of these elements into the middle of the list (to sit between the less-than and greater-than elements). This variant "appears to be best in practice" [cite:@taocp3 635], and appeared after "15 further years of experience" after Robert Sedgewick's analysis of traditional quicksort in the late 1970's [cite:@taocp3 122].
+
+[cite:@cormen 186] sadly only poses the Dutch National Flag as a problem and leaves the analysis of it mostly up to the reader.
+
 * References
 #+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
 #+PRINT_BIBLIOGRAPHY:

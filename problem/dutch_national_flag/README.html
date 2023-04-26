@@ -204,7 +204,8 @@
 <li><a href="#h-Insights">2. Insights</a></li>
 <li><a href="#h-Solution">3. Solution</a></li>
 <li><a href="#h-Tests">4. Tests</a></li>
-<li><a href="#h-References">5. References</a></li>
+<li><a href="#h-Final-remarks">5. Final remarks</a></li>
+<li><a href="#h-References">6. References</a></li>
 </ul>
 </div>
 </div>
@@ -213,7 +214,7 @@
 <h2 id="h-Problem-statement"><span class="section-number-2">1.</span> Problem statement</h2>
 <div class="outline-text-2" id="text-h-Problem-statement">
 <p>
-Given N objects colored red, white, or blue, sort them so that objects of the same colors are grouped together. The groups should be red, white, and blue. (<a href="#citeproc_bib_item_1">Aziz et al., 2016, p. 43</a>). Bonus: return the number of red and white objects, if any.
+Given N objects colored red, white, or blue, sort them so that objects of the same colors are grouped together. The groups should be red, white, and blue. (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 43</a>). Bonus: return the number of red and white objects, if any.
 </p>
 </div>
 </div>
@@ -447,11 +448,41 @@ In this case, we "throw over" the number to the right side of the list (to <code
 </div>
 </div>
 
+<div id="outline-container-h-Final-remarks" class="outline-2">
+<h2 id="h-Final-remarks"><span class="section-number-2">5.</span> Final remarks</h2>
+<div class="outline-text-2" id="text-h-Final-remarks">
+<p>
+The idea of partitioning is useful for implementing <i>quicksort</i>, because we can recursively call this function to sort a large list. There are two variations to do quicksort-style partitioning:
+</p>
+
+<ol class="org-ol">
+<li>(Dutch National Flag style, aka "fat pivot" (<a href="#citeproc_bib_item_2">Bentley, 2000, p. 123</a>)) elements equal to the pivot are gathered together in a single partitioning step, and</li>
+<li>(traditional quicksort) there are 2 partitions (elements less than, elements greater than) on each side of just a single "pivot" element.)</li>
+</ol>
+
+<p>
+The "fat pivot" style as presented here performs better in cases where there are a significant number of duplicate elements (<a href="#citeproc_bib_item_5">Sedgewick &#38; Wayne, 2011, p. 296</a>). For example, if the entire list only has duplicates (e.g., every element is "7"), the traditional 3-way partitioning step of quicksort will still recurse repeatedly (because it only sorts 1 element (the pivot element) at a time), whereas the "fat pivot" style will not need te recurse at all as it will detect all duplicate elements in a single invocation.
+</p>
+
+<p>
+A variation of the "fat pivot" algorithm puts the elements equal to the pivot on both the left and right ends of the array (<a href="#citeproc_bib_item_5">Sedgewick &#38; Wayne, 2011, p. 306</a>), and does a final swap of these elements into the middle of the list (to sit between the less-than and greater-than elements). This variant "appears to be best in practice" (<a href="#citeproc_bib_item_4">Knuth, 1997, p. 635</a>), and appeared after "15 further years of experience" after Robert Sedgewick's analysis of traditional quicksort in the late 1970's (<a href="#citeproc_bib_item_4">Knuth, 1997, p. 122</a>).
+</p>
+
+<p>
+(<a href="#citeproc_bib_item_3">Cormen, 2009, p. 186</a>) sadly only poses the Dutch National Flag as a problem and leaves the analysis of it mostly up to the reader.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h-References" class="outline-2">
-<h2 id="h-References"><span class="section-number-2">5.</span> References</h2>
+<h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2016). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (15 Sept. 2016).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Bentley, J. L. (2000). <i>Programming pearls</i> (2nd ed). Addison-Wesley.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_3"></a>Cormen, T. H. (2009). <i>Introduction to algorithms</i> (3rd ed). MIT Press.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_4"></a>Knuth, D. E. (1997). <i>The art of computer programming</i> (2nd ed). Addison-Wesley.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_5"></a>Sedgewick, R., &#38; Wayne, K. D. (2011). <i>Algorithms</i> (4th ed). Addison-Wesley.</div>
 </div>
 </div>
 </div>

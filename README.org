@@ -24,15 +24,15 @@ This project aims to capture my notes for studying various programming problems 
 
 Every problem gets its own =.org= file. The solutions are all in Python. All solutions are "standalone" in that none of them use any libraries other than what's provided by Python's standard libraries.
 
-Below is a table of every problem, with tags that give a brief description of each one.
+Below is a table of every problem, with tags that give a brief description of each one, and references.
 
 #+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
-| Name                | Tags                | Sources                 |
-|---------------------+---------------------+-------------------------|
-| [[file:problem/parity/README.org][Parity]]              | bitwise             | [cite:@epip 27; @hd 96] |
-| [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]   | geometry            | [cite:@epip 39]         |
-| [[file:problem/rearrange_list_even_odd/README.org][Rearrange list]]      | array, partitioning | [cite:@epip 41]         |
-| [[file:problem/dutch_national_flag/README.org][Dutch national flag]] | array, partitioning | [cite:@epip 43]         |
+| Name                | Tags                | Sources                                                                     |
+|---------------------+---------------------+-----------------------------------------------------------------------------|
+| [[file:problem/parity/README.org][Parity]]              | bitwise             | [cite:@epip 27; @hd 96]                                                     |
+| [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]   | geometry            | [cite:@epip 39]                                                             |
+| [[file:problem/rearrange_list_even_odd/README.org][Rearrange list]]      | array, partitioning | [cite:@epip 41]                                                             |
+| [[file:problem/dutch_national_flag/README.org][Dutch national flag]] | array, partitioning | [cite:@epip 43; @levitin 200; @sedgewick 296-301; @pearls 123; @cormen 186] |
 
 * Literate Programming Build System
 
