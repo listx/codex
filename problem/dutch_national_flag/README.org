@@ -216,7 +216,7 @@ if __name__ == "__main__":
 The idea of partitioning is useful for implementing /quicksort/, because we can recursively call this function to sort a large list. There are two variations to do quicksort-style partitioning:
 
 1. (Dutch National Flag style, aka "fat pivot" [cite:@pearls 123]) elements equal to the pivot are gathered together in a single partitioning step, and
-2. (traditional quicksort) there are 2 partitions (elements less than, elements greater than) on each side of just a single "pivot" element.)
+2. (traditional quicksort) there are 2 partitions (elements less than, elements greater than) on each side of just a single "pivot" element).
 
 The "fat pivot" style as presented here performs better in cases where there are a significant number of duplicate elements [cite:@sedgewick 296]. For example, if the entire list only has duplicates (e.g., every element is "7"), the traditional 3-way partitioning step of quicksort will still recurse repeatedly (because it only sorts 1 element (the pivot element) at a time), whereas the "fat pivot" style will not need te recurse at all as it will detect all duplicate elements in a single invocation.
 
