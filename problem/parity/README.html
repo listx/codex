@@ -302,7 +302,7 @@ Examples:
 <h2 id="h-Problem-statement"><span class="section-number-2">2.</span> Problem statement</h2>
 <div class="outline-text-2" id="text-h-Problem-statement">
 <p>
-Design an algorithm for computing the parity of a large number of 64-bit words (<a href="#citeproc_bib_item_1">Aziz et al., 2016, p. 27</a>).
+Design an algorithm for computing the parity of a large number of 64-bit words (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 27</a>).
 </p>
 </div>
 </div>
@@ -423,7 +423,7 @@ Our worst-case time complexity is still the same as the brute force approach tho
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
   <span class="org-keyword">return</span> word &amp; 1
 </pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold">&#x1f517;</a></span></div></div><p>
-The key to this solution (<a href="#citeproc_bib_item_1">Aziz et al., 2016, pp. 29–30</a>) is that we are essentially "folding" the word into itself over and over again until we just get a single bit left. Every "fold" is a XOR instruction, which is used to cancel out even pairs of 1-bits.
+The key to this solution (<a href="#citeproc_bib_item_1">Aziz et al., 2018, pp. 29–30</a>) is that we are essentially "folding" the word into itself over and over again until we just get a single bit left. Every "fold" is a XOR instruction, which is used to cancel out even pairs of 1-bits.
 </p>
 
 <p>
@@ -518,7 +518,7 @@ It should be obvious now why we do <code>word &amp; 1</code> at the end &#x2014;
 </p>
 
 <p>
-Tho time complexity is reduced to \(O(\log{}n)\) where \(n\) is the word size. This makes sense because whatever the word size, we repeatedly "fold" it in half until we get down to just 1 bit we care about. This is about 20% faster on random input than the previous version, although on sparse inputs the previous one is faster (<a href="#citeproc_bib_item_1">Aziz et al., 2016, p. 30</a>).
+Tho time complexity is reduced to \(O(\log{}n)\) where \(n\) is the word size. This makes sense because whatever the word size, we repeatedly "fold" it in half until we get down to just 1 bit we care about. This is about 20% faster on random input than the previous version, although on sparse inputs the previous one is faster (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 30</a>).
 </p>
 </div>
 </div>
@@ -942,7 +942,7 @@ This is an approach that combines XOR-folding with caching to achieve an even gr
 <h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2016). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (15 Sept. 2016).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Warren, H. S. (2013). <i>Hacker’s delight</i> (2nd ed). Addison-Wesley.</div>
 </div>
 </div>

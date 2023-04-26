@@ -16,6 +16,10 @@
 
 #+BIBLIOGRAPHY: ./citations.bib
 
+* Copyright notice
+
+The [[file:COPYRIGHT][COPYRIGHT]] file governs everything in this repository, including the generated HTML files. All source code listings are placed under the [[file:LICENSE][Apache License, Version 2.0]]. Basically all prose surrounding the code listings is copyrighted by the author (Linus Arver), but the source code blocks are open-sourced.
+
 * Introduction
 
 This project aims to capture my notes for studying various programming problems (data structures and algorithms).

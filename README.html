@@ -200,90 +200,100 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#h-Introduction">1. Introduction</a></li>
-<li><a href="#h-Layout">2. Layout</a></li>
-<li><a href="#h-Literate-Programming-Build-System">3. Literate Programming Build System</a>
+<li><a href="#h-Copyright-notice">1. Copyright notice</a></li>
+<li><a href="#h-Introduction">2. Introduction</a></li>
+<li><a href="#h-Layout">3. Layout</a></li>
+<li><a href="#h-Literate-Programming-Build-System">4. Literate Programming Build System</a>
 <ul>
-<li><a href="#h-Overview-of-how-LP-is-used-in-this-project">3.1. Overview of how LP is used in this project</a>
+<li><a href="#h-Overview-of-how-LP-is-used-in-this-project">4.1. Overview of how LP is used in this project</a>
 <ul>
-<li><a href="#h-Source-code-blocks--monoblocks-and-polyblocks">3.1.1. Source code blocks: monoblocks and polyblocks</a></li>
+<li><a href="#h-Source-code-blocks--monoblocks-and-polyblocks">4.1.1. Source code blocks: monoblocks and polyblocks</a></li>
 </ul>
 </li>
-<li><a href="#h-Weaving--generating-the-docs">3.2. Weaving (generating the docs)</a>
+<li><a href="#h-Weaving--generating-the-docs">4.2. Weaving (generating the docs)</a>
 <ul>
-<li><a href="#h-Emacs-customizations-for-HTML-export--codex-el">3.2.1. Emacs customizations for HTML export (codex.el)</a>
+<li><a href="#h-Emacs-customizations-for-HTML-export--codex-el">4.2.1. Emacs customizations for HTML export (codex.el)</a>
 <ul>
-<li><a href="#h-Toplevel-publishing-function---codex-publish-">3.2.1.1. Toplevel publishing function (<code>codex-publish</code>)</a>
+<li><a href="#h-Toplevel-publishing-function---codex-publish-">4.2.1.1. Toplevel publishing function (<code>codex-publish</code>)</a>
 <ul>
-<li><a href="#h-Modify-the-Org-buffer">3.2.1.1.1. Modify the Org buffer</a></li>
-<li><a href="#h-Modify-the-HTML">3.2.1.1.2. Modify the HTML</a></li>
-<li><a href="#h-Miscellaneous-export-settings">3.2.1.1.3. Miscellaneous export settings</a></li>
+<li><a href="#h-Modify-the-Org-buffer">4.2.1.1.1. Modify the Org buffer</a></li>
+<li><a href="#h-Modify-the-HTML">4.2.1.1.2. Modify the HTML</a></li>
+<li><a href="#h-Miscellaneous-export-settings">4.2.1.1.3. Miscellaneous export settings</a></li>
 </ul>
 </li>
-<li><a href="#h-Org-modifications">3.2.1.2. Org modifications</a>
+<li><a href="#h-Org-modifications">4.2.1.2. Org modifications</a>
 <ul>
-<li><a href="#h-Smart-source-code-block-captions">3.2.1.2.1. Smart source code block captions</a></li>
-<li><a href="#h-Human-readable-UIDs--Headings--aka-headlines">3.2.1.2.2. Human-readable UIDs (Headings, aka headlines)</a></li>
-<li><a href="#h-Give-polyblocks-a----name-------field--HTML-ID">3.2.1.2.3. Give polyblocks a <code>#+name: ...</code> field (HTML ID)</a></li>
+<li><a href="#h-Smart-source-code-block-captions">4.2.1.2.1. Smart source code block captions</a></li>
+<li><a href="#h-Human-readable-UIDs--Headings--aka-headlines">4.2.1.2.2. Human-readable UIDs (Headings, aka headlines)</a></li>
+<li><a href="#h-Give-polyblocks-a----name-------field--HTML-ID">4.2.1.2.3. Give polyblocks a <code>#+name: ...</code> field (HTML ID)</a></li>
 </ul>
 </li>
-<li><a href="#h-HTML-modifications">3.2.1.3. HTML modifications</a>
+<li><a href="#h-HTML-modifications">4.2.1.3. HTML modifications</a>
 <ul>
-<li><a href="#h-Use-human-readable-HTML-IDs-for-source-code-links">3.2.1.3.1. Use human-readable HTML IDs for source code links</a></li>
-<li><a href="#h-Pretty-source-code-captions">3.2.1.3.2. Pretty source code captions</a></li>
-<li><a href="#h-Link-noweb-references--link-to-child-block-from-parent-block">3.2.1.3.3. Link noweb references (link to child block from parent block)</a></li>
+<li><a href="#h-Use-human-readable-HTML-IDs-for-source-code-links">4.2.1.3.1. Use human-readable HTML IDs for source code links</a></li>
+<li><a href="#h-Pretty-source-code-captions">4.2.1.3.2. Pretty source code captions</a></li>
+<li><a href="#h-Link-noweb-references--link-to-child-block-from-parent-block">4.2.1.3.3. Link noweb references (link to child block from parent block)</a></li>
 </ul>
 </li>
-<li><a href="#h-Autogenerate-CSS-for-syntax-highlighting-of-source-code-blocks">3.2.1.4. Autogenerate CSS for syntax highlighting of source code blocks</a></li>
-<li><a href="#h-Fix-non-determinism">3.2.1.5. Fix non-determinism</a>
+<li><a href="#h-Autogenerate-CSS-for-syntax-highlighting-of-source-code-blocks">4.2.1.4. Autogenerate CSS for syntax highlighting of source code blocks</a></li>
+<li><a href="#h-Fix-non-determinism">4.2.1.5. Fix non-determinism</a>
 <ul>
-<li><a href="#h-Do-not-insert-current-time-as-HTML-comment">3.2.1.5.1. Do not insert current time as HTML comment</a></li>
-<li><a href="#h-Do-not-insert-current-Org-mode-version">3.2.1.5.2. Do not insert current Org mode version</a></li>
-<li><a href="#h-Do-not-use-random-numbers-for-the-HTML--id--attribute">3.2.1.5.3. Do not use random numbers for the HTML "id" attribute</a></li>
+<li><a href="#h-Do-not-insert-current-time-as-HTML-comment">4.2.1.5.1. Do not insert current time as HTML comment</a></li>
+<li><a href="#h-Do-not-insert-current-Org-mode-version">4.2.1.5.2. Do not insert current Org mode version</a></li>
+<li><a href="#h-Do-not-use-random-numbers-for-the-HTML--id--attribute">4.2.1.5.3. Do not use random numbers for the HTML "id" attribute</a></li>
 </ul>
 </li>
-<li><a href="#h-Misc-settings">3.2.1.6. Misc settings</a>
+<li><a href="#h-Misc-settings">4.2.1.6. Misc settings</a>
 <ul>
-<li><a href="#h-Use-HTML5-export--not-XML--to-un-break-MathJax">3.2.1.6.1. Use HTML5 export, not XML (to un-break MathJax)</a></li>
-<li><a href="#h-move-this-bit-into-a-snippet-that-s-autoloaded-upon-opening-up-this-org-file--and-any-other-org-file-that-we-use">3.2.1.6.2. <span class="todo TODO">TODO</span> move this bit into a snippet that's autoloaded upon opening up this org file (and any other org file that we use)</a></li>
+<li><a href="#h-Use-HTML5-export--not-XML--to-un-break-MathJax">4.2.1.6.1. Use HTML5 export, not XML (to un-break MathJax)</a></li>
+<li><a href="#h-move-this-bit-into-a-snippet-that-s-autoloaded-upon-opening-up-this-org-file--and-any-other-org-file-that-we-use">4.2.1.6.2. <span class="todo TODO">TODO</span> move this bit into a snippet that's autoloaded upon opening up this org file (and any other org file that we use)</a></li>
 </ul>
 </li>
-<li><a href="#h-Imports">3.2.1.7. Imports</a></li>
-<li><a href="#h-Performance-optimizations">3.2.1.8. Performance optimizations</a>
+<li><a href="#h-Imports">4.2.1.7. Imports</a></li>
+<li><a href="#h-Performance-optimizations">4.2.1.8. Performance optimizations</a>
 <ul>
-<li><a href="#h-Profiling">3.2.1.8.1. Profiling</a></li>
+<li><a href="#h-Profiling">4.2.1.8.1. Profiling</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#h-Additional--hand-tweaked--CSS">3.2.2. Additional (hand-tweaked) CSS</a>
+<li><a href="#h-Additional--hand-tweaked--CSS">4.2.2. Additional (hand-tweaked) CSS</a>
 <ul>
-<li><a href="#h-Source-code-block-body">3.2.2.1. Source code block body</a></li>
-<li><a href="#h-Source-code-block-captions">3.2.2.2. Source code block captions</a></li>
-<li><a href="#h-Links-to-child-source-block-from-parent">3.2.2.3. Links to child source block from parent</a></li>
+<li><a href="#h-Source-code-block-body">4.2.2.1. Source code block body</a></li>
+<li><a href="#h-Source-code-block-captions">4.2.2.2. Source code block captions</a></li>
+<li><a href="#h-Links-to-child-source-block-from-parent">4.2.2.3. Links to child source block from parent</a></li>
 </ul>
 </li>
-<li><a href="#h-Diagrams">3.2.3. Diagrams</a></li>
-<li><a href="#h-Ignore-woven-HTML-from--git-diff">3.2.4. Ignore woven HTML from <code>git diff</code></a>
+<li><a href="#h-Diagrams">4.2.3. Diagrams</a></li>
+<li><a href="#h-Ignore-woven-HTML-from--git-diff">4.2.4. Ignore woven HTML from <code>git diff</code></a>
 <ul>
-<li><a href="#h-git-add--p">3.2.4.1. <code>git add -p</code></a></li>
+<li><a href="#h-git-add--p">4.2.4.1. <code>git add -p</code></a></li>
 </ul>
 </li>
-<li><a href="#h-gitignore">3.2.5. gitignore</a></li>
+<li><a href="#h-gitignore">4.2.5. gitignore</a></li>
 </ul>
 </li>
-<li><a href="#h-Tangling--generating-the-source-code">3.3. Tangling (generating the source code)</a></li>
-<li><a href="#h-Development-environment--Nix-shell">3.4. Development environment (Nix shell)</a></li>
-<li><a href="#h-Glossary">3.5. Glossary</a></li>
+<li><a href="#h-Tangling--generating-the-source-code">4.3. Tangling (generating the source code)</a></li>
+<li><a href="#h-Development-environment--Nix-shell">4.4. Development environment (Nix shell)</a></li>
+<li><a href="#h-Glossary">4.5. Glossary</a></li>
 </ul>
 </li>
-<li><a href="#h-References">4. References</a></li>
+<li><a href="#h-References">5. References</a></li>
 </ul>
 </div>
 </div>
 
+<div id="outline-container-h-Copyright-notice" class="outline-2">
+<h2 id="h-Copyright-notice"><span class="section-number-2">1.</span> Copyright notice</h2>
+<div class="outline-text-2" id="text-h-Copyright-notice">
+<p>
+The <a href="COPYRIGHT">COPYRIGHT</a> file governs everything in this repository, including the generated HTML files. All source code listings are placed under the <a href="LICENSE">Apache License, Version 2.0</a>. Basically all prose surrounding the code listings is copyrighted by the author (Linus Arver), but the source code blocks are open-sourced.
+</p>
+</div>
+</div>
+
 <div id="outline-container-h-Introduction" class="outline-2">
-<h2 id="h-Introduction"><span class="section-number-2">1.</span> Introduction</h2>
+<h2 id="h-Introduction"><span class="section-number-2">2.</span> Introduction</h2>
 <div class="outline-text-2" id="text-h-Introduction">
 <p>
 This project aims to capture my notes for studying various programming problems (data structures and algorithms).
@@ -292,7 +302,7 @@ This project aims to capture my notes for studying various programming problems 
 </div>
 
 <div id="outline-container-h-Layout" class="outline-2">
-<h2 id="h-Layout"><span class="section-number-2">2.</span> Layout</h2>
+<h2 id="h-Layout"><span class="section-number-2">3.</span> Layout</h2>
 <div class="outline-text-2" id="text-h-Layout">
 <p>
 Every problem gets its own <code>.org</code> file. The solutions are all in Python. All solutions are "standalone" in that none of them use any libraries other than what's provided by Python's standard libraries.
@@ -349,12 +359,12 @@ Below is a table of every problem, with tags that give a brief description of ea
 </div>
 
 <div id="outline-container-h-Literate-Programming-Build-System" class="outline-2">
-<h2 id="h-Literate-Programming-Build-System"><span class="section-number-2">3.</span> Literate Programming Build System</h2>
+<h2 id="h-Literate-Programming-Build-System"><span class="section-number-2">4.</span> Literate Programming Build System</h2>
 <div class="outline-text-2" id="text-h-Literate-Programming-Build-System">
 </div>
 
 <div id="outline-container-h-Overview-of-how-LP-is-used-in-this-project" class="outline-3">
-<h3 id="h-Overview-of-how-LP-is-used-in-this-project"><span class="section-number-3">3.1.</span> Overview of how LP is used in this project</h3>
+<h3 id="h-Overview-of-how-LP-is-used-in-this-project"><span class="section-number-3">4.1.</span> Overview of how LP is used in this project</h3>
 <div class="outline-text-3" id="text-h-Overview-of-how-LP-is-used-in-this-project">
 <p>
 Codex is written with <a href="https://en.wikipedia.org/wiki/Literate_programming">Literate Programming</a> (LP) and uses it for both the executables and libraries. All source code is generated by "tangling" the <code>*.org</code> (Org) files and these Org files act as the source of truth. Tangling is done by loading these files into Emacs and then running some <code>org-mode</code> functions. These Org files are also the source of truth for all HTML documentation (what you are reading now), and similarly the HTML is generated by invoking some functions from <code>org-mode</code>. The outputs of both tangling and weaving are checked into version control.
@@ -366,7 +376,7 @@ The vast majority of software projects do not use LP, for various reasons. This 
 </div>
 
 <div id="outline-container-h-Source-code-blocks--monoblocks-and-polyblocks" class="outline-4">
-<h4 id="h-Source-code-blocks--monoblocks-and-polyblocks"><span class="section-number-4">3.1.1.</span> Source code blocks: monoblocks and polyblocks</h4>
+<h4 id="h-Source-code-blocks--monoblocks-and-polyblocks"><span class="section-number-4">4.1.1.</span> Source code blocks: monoblocks and polyblocks</h4>
 <div class="outline-text-4" id="text-h-Source-code-blocks--monoblocks-and-polyblocks">
 <p>
 We use noweb-style references, in the form <code>&lt;&lt;foo&gt;&gt;</code>, in source code blocks to delegate source code bits to other blocks. In the example below, the <code>parent-block</code> refers to 2 other child blocks for its definition.
@@ -405,7 +415,7 @@ This example illustrates the two ways to define a child block: either as a singl
 </div>
 
 <div id="outline-container-h-Weaving--generating-the-docs" class="outline-3">
-<h3 id="h-Weaving--generating-the-docs"><span class="section-number-3">3.2.</span> Weaving (generating the docs)</h3>
+<h3 id="h-Weaving--generating-the-docs"><span class="section-number-3">4.2.</span> Weaving (generating the docs)</h3>
 <div class="outline-text-3" id="text-h-Weaving--generating-the-docs">
 <p>
 Weaving is conceptually simpler than tangling because there is no extra step &#x2014; the output is an HTML page and that is something that we can use directly (unlike program source code, which may require additional compilation into a binary, depending on the language). We also limit ourselves to only HTML for simplicity (in particular, we don't have to worry about page breaks).
@@ -517,7 +527,7 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 </div>
 
 <div id="outline-container-h-Emacs-customizations-for-HTML-export--codex-el" class="outline-4">
-<h4 id="h-Emacs-customizations-for-HTML-export--codex-el"><span class="section-number-4">3.2.1.</span> Emacs customizations for HTML export (codex.el)</h4>
+<h4 id="h-Emacs-customizations-for-HTML-export--codex-el"><span class="section-number-4">4.2.1.</span> Emacs customizations for HTML export (codex.el)</h4>
 <div class="outline-text-4" id="text-h-Emacs-customizations-for-HTML-export--codex-el">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="code-codex-el--code"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
 
@@ -534,7 +544,7 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 </div>
 
 <div id="outline-container-h-Toplevel-publishing-function---codex-publish-" class="outline-5">
-<h5 id="h-Toplevel-publishing-function---codex-publish-"><span class="section-number-5">3.2.1.1.</span> Toplevel publishing function (<code>codex-publish</code>)</h5>
+<h5 id="h-Toplevel-publishing-function---codex-publish-"><span class="section-number-5">4.2.1.1.</span> Toplevel publishing function (<code>codex-publish</code>)</h5>
 <div class="outline-text-5" id="text-h-Toplevel-publishing-function---codex-publish-">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-codex-publish"><span class="org-comment-delimiter">; </span><span class="org-comment">This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).</span>
 (<span class="org-keyword">if</span> (getenv <span class="org-string">"CODEX_LP_QUICK"</span>)
@@ -586,7 +596,7 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 </div>
 
 <div id="outline-container-h-Modify-the-Org-buffer" class="outline-6">
-<h6 id="h-Modify-the-Org-buffer"><span class="section-number-6">3.2.1.1.1.</span> Modify the Org buffer</h6>
+<h6 id="h-Modify-the-Org-buffer"><span class="section-number-6">4.2.1.1.1.</span> Modify the Org buffer</h6>
 <div class="outline-text-6" id="text-h-Modify-the-Org-buffer">
 <p>
 Here we modify the Org mode buffer, by using <code>org-export-before-parsing-hook</code>. This takes a list of functions that are free to modify the Org mode buffer before each Org element in the buffer gets converted into HTML. For now we just give it a single function, <code>codex-link-child-src-blocks-to-parents</code>.
@@ -601,7 +611,7 @@ Here we modify the Org mode buffer, by using <code>org-export-before-parsing-hoo
 </div>
 
 <div id="outline-container-h-Modify-the-HTML" class="outline-6">
-<h6 id="h-Modify-the-HTML"><span class="section-number-6">3.2.1.1.2.</span> Modify the HTML</h6>
+<h6 id="h-Modify-the-HTML"><span class="section-number-6">4.2.1.1.2.</span> Modify the HTML</h6>
 <div class="outline-text-6" id="text-h-Modify-the-HTML">
 <p>
 Here we modify the final HTML. This is useful for adding in final tweaks to the HTML that is difficult to accomplish at the Org-mode buffer level.
@@ -628,7 +638,7 @@ Phase 2: In this phase we perform the linking from parent blocks to child blocks
 </div>
 
 <div id="outline-container-h-Miscellaneous-export-settings" class="outline-6">
-<h6 id="h-Miscellaneous-export-settings"><span class="section-number-6">3.2.1.1.3.</span> Miscellaneous export settings</h6>
+<h6 id="h-Miscellaneous-export-settings"><span class="section-number-6">4.2.1.1.3.</span> Miscellaneous export settings</h6>
 <div class="outline-text-6" id="text-h-Miscellaneous-export-settings">
 <p>
 Do not hardcode colors into the HTML. Instead refer to CSS class names, to be stylized by an external CSS file.
@@ -641,12 +651,12 @@ Do not hardcode colors into the HTML. Instead refer to CSS class names, to be st
 </div>
 
 <div id="outline-container-h-Org-modifications" class="outline-5">
-<h5 id="h-Org-modifications"><span class="section-number-5">3.2.1.2.</span> Org modifications</h5>
+<h5 id="h-Org-modifications"><span class="section-number-5">4.2.1.2.</span> Org modifications</h5>
 <div class="outline-text-5" id="text-h-Org-modifications">
 </div>
 
 <div id="outline-container-h-Smart-source-code-block-captions" class="outline-6">
-<h6 id="h-Smart-source-code-block-captions"><span class="section-number-6">3.2.1.2.1.</span> Smart source code block captions</h6>
+<h6 id="h-Smart-source-code-block-captions"><span class="section-number-6">4.2.1.2.1.</span> Smart source code block captions</h6>
 <div class="outline-text-6" id="text-h-Smart-source-code-block-captions">
 <p>
 We want every source code block to have a caption (<code>#+caption: ...</code>) to have the following items:
@@ -866,7 +876,7 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
 </div>
 
 <div id="outline-container-h-Human-readable-UIDs--Headings--aka-headlines" class="outline-6">
-<h6 id="h-Human-readable-UIDs--Headings--aka-headlines"><span class="section-number-6">3.2.1.2.2.</span> Human-readable UIDs (Headings, aka headlines)</h6>
+<h6 id="h-Human-readable-UIDs--Headings--aka-headlines"><span class="section-number-6">4.2.1.2.2.</span> Human-readable UIDs (Headings, aka headlines)</h6>
 <div class="outline-text-6" id="text-h-Human-readable-UIDs--Headings--aka-headlines">
 <p>
 We want all headings to have HTML IDs that are patterned after their text. This way we can have IDs like <code>some-heading-name-1</code> (where the trailing <code>-1</code> is only used to disambiguate against another heading of the same name) instead of <code>org00000a1</code>.
@@ -931,18 +941,18 @@ For each heading, we insert a <code>CUSTOM_ID</code> property which takes preced
 </div>
 
 <div id="outline-container-h-Give-polyblocks-a----name-------field--HTML-ID" class="outline-6">
-<h6 id="h-Give-polyblocks-a----name-------field--HTML-ID"><span class="section-number-6">3.2.1.2.3.</span> Give polyblocks a <code>#+name: ...</code> field (HTML ID)</h6>
+<h6 id="h-Give-polyblocks-a----name-------field--HTML-ID"><span class="section-number-6">4.2.1.2.3.</span> Give polyblocks a <code>#+name: ...</code> field (HTML ID)</h6>
 <div class="outline-text-6" id="text-h-Give-polyblocks-a----name-------field--HTML-ID">
 <p>
 Only source code blocks that have a <code>#+name: ...</code> field (org name field) get an HTML ID (org ID) assigned to it. The problem with polyblocks is that they are not assigned an org name field by default.
 </p>
 
 <p>
-Of course, we still want all polyblock to have an HTML ID, which can then be extracted by <a href="#coderef-codex-get-src-block-HTML_ID" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-codex-get-src-block-HTML_ID');" onmouseout="CodeHighlightOff(this, 'coderef-codex-get-src-block-HTML_ID');"><code>codex-get-src-block-HTML_ID</code></a> to build up the <code>child-HTML_ID-hash-table</code> in <a href="#h-Link-noweb-references--link-to-child-block-from-parent-block">3.2.1.3.3</a>. If we don't do this then parent source code blocks won't be able to link to the polyblock at all.
+Of course, we still want all polyblock to have an HTML ID, which can then be extracted by <a href="#coderef-codex-get-src-block-HTML_ID" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-codex-get-src-block-HTML_ID');" onmouseout="CodeHighlightOff(this, 'coderef-codex-get-src-block-HTML_ID');"><code>codex-get-src-block-HTML_ID</code></a> to build up the <code>child-HTML_ID-hash-table</code> in <a href="#h-Link-noweb-references--link-to-child-block-from-parent-block">4.2.1.3.3</a>. If we don't do this then parent source code blocks won't be able to link to the polyblock at all.
 </p>
 
 <p>
-(Monoblocks with a <code>#+name: ...</code> field get a unique HTML ID assigned to it in the form <code>orgN</code> where <code>N</code> is a hexadecimal number. By default Org generates a random number for <code>N</code>, but we use a simple counter that increments, starting from 0 (see <a href="#h-Do-not-use-random-numbers-for-the-HTML--id--attribute">3.2.1.5.3</a>).)
+(Monoblocks with a <code>#+name: ...</code> field get a unique HTML ID assigned to it in the form <code>orgN</code> where <code>N</code> is a hexadecimal number. By default Org generates a random number for <code>N</code>, but we use a simple counter that increments, starting from 0 (see <a href="#h-Do-not-use-random-numbers-for-the-HTML--id--attribute">4.2.1.5.3</a>).)
 </p>
 
 <p>
@@ -985,12 +995,12 @@ Note that we only name the first polyblock in the set of polyblocks that share t
 </div>
 
 <div id="outline-container-h-HTML-modifications" class="outline-5">
-<h5 id="h-HTML-modifications"><span class="section-number-5">3.2.1.3.</span> HTML modifications</h5>
+<h5 id="h-HTML-modifications"><span class="section-number-5">4.2.1.3.</span> HTML modifications</h5>
 <div class="outline-text-5" id="text-h-HTML-modifications">
 </div>
 
 <div id="outline-container-h-Use-human-readable-HTML-IDs-for-source-code-links" class="outline-6">
-<h6 id="h-Use-human-readable-HTML-IDs-for-source-code-links"><span class="section-number-6">3.2.1.3.1.</span> Use human-readable HTML IDs for source code links</h6>
+<h6 id="h-Use-human-readable-HTML-IDs-for-source-code-links"><span class="section-number-6">4.2.1.3.1.</span> Use human-readable HTML IDs for source code links</h6>
 <div class="outline-text-6" id="text-h-Use-human-readable-HTML-IDs-for-source-code-links">
 <p>
 Recall that there are 2 types of source code blocks: <a href="#org0000000">monoblocks</a> and <a href="#org0000002">polyblocks</a>.
@@ -1048,7 +1058,7 @@ We have to do a search-and-replace across the entire file because we may also ha
 </div>
 
 <div id="outline-container-h-Pretty-source-code-captions" class="outline-6">
-<h6 id="h-Pretty-source-code-captions"><span class="section-number-6">3.2.1.3.2.</span> Pretty source code captions</h6>
+<h6 id="h-Pretty-source-code-captions"><span class="section-number-6">4.2.1.3.2.</span> Pretty source code captions</h6>
 <div class="outline-text-6" id="text-h-Pretty-source-code-captions">
 <p>
 Here there are basically 3 things we have to keep track of:
@@ -1196,7 +1206,7 @@ This is a helper function to parse the HTML output for a source code block.
 </div>
 
 <div id="outline-container-h-Link-noweb-references--link-to-child-block-from-parent-block" class="outline-6">
-<h6 id="h-Link-noweb-references--link-to-child-block-from-parent-block"><span class="section-number-6">3.2.1.3.3.</span> Link noweb references (link to child block from parent block)</h6>
+<h6 id="h-Link-noweb-references--link-to-child-block-from-parent-block"><span class="section-number-6">4.2.1.3.3.</span> Link noweb references (link to child block from parent block)</h6>
 <div class="outline-text-6" id="text-h-Link-noweb-references--link-to-child-block-from-parent-block">
 <p>
 Consider the following code:
@@ -1395,7 +1405,7 @@ We need to do this; otherwise we cannot evaluate any source code blocks during w
 </div>
 
 <div id="outline-container-h-Autogenerate-CSS-for-syntax-highlighting-of-source-code-blocks" class="outline-5">
-<h5 id="h-Autogenerate-CSS-for-syntax-highlighting-of-source-code-blocks"><span class="section-number-5">3.2.1.4.</span> Autogenerate CSS for syntax highlighting of source code blocks</h5>
+<h5 id="h-Autogenerate-CSS-for-syntax-highlighting-of-source-code-blocks"><span class="section-number-5">4.2.1.4.</span> Autogenerate CSS for syntax highlighting of source code blocks</h5>
 <div class="outline-text-5" id="text-h-Autogenerate-CSS-for-syntax-highlighting-of-source-code-blocks">
 <p>
 See <a href="https://emacs.stackexchange.com/questions/31439/how-to-get-colored-syntax-highlighting-of-code-blocks-in-asynchronous-org-mode-e">https://emacs.stackexchange.com/questions/31439/how-to-get-colored-syntax-highlighting-of-code-blocks-in-asynchronous-org-mode-e</a>, specifically <a href="https://emacs.stackexchange.com/a/36759">https://emacs.stackexchange.com/a/36759</a>.
@@ -1510,7 +1520,7 @@ Sadly, <code>batch-org-gen-css-and-exit</code> by itself generates a near-blank 
 </div>
 
 <div id="outline-container-h-Fix-non-determinism" class="outline-5">
-<h5 id="h-Fix-non-determinism"><span class="section-number-5">3.2.1.5.</span> Fix non-determinism</h5>
+<h5 id="h-Fix-non-determinism"><span class="section-number-5">4.2.1.5.</span> Fix non-determinism</h5>
 <div class="outline-text-5" id="text-h-Fix-non-determinism">
 <p>
 There are some things that Org mode does that annoyingly break determinism. Here we take care to set things right so that we can have reprducible, stable HTML output.
@@ -1518,7 +1528,7 @@ There are some things that Org mode does that annoyingly break determinism. Here
 </div>
 
 <div id="outline-container-h-Do-not-insert-current-time-as-HTML-comment" class="outline-6">
-<h6 id="h-Do-not-insert-current-time-as-HTML-comment"><span class="section-number-6">3.2.1.5.1.</span> Do not insert current time as HTML comment</h6>
+<h6 id="h-Do-not-insert-current-time-as-HTML-comment"><span class="section-number-6">4.2.1.5.1.</span> Do not insert current time as HTML comment</h6>
 <div class="outline-text-6" id="text-h-Do-not-insert-current-time-as-HTML-comment">
 <p>
 Org mode also injects an HTML comment (not visible to the user) to record the time that the HTML was generated. We disable this because it breaks deterministic output. See <a href="https://emacs.stackexchange.com/questions/50117/how-to-disable-commented-date-in-org-mode-html-export">this link</a> for more info.
@@ -1530,7 +1540,7 @@ Org mode also injects an HTML comment (not visible to the user) to record the ti
 </div>
 
 <div id="outline-container-h-Do-not-insert-current-Org-mode-version" class="outline-6">
-<h6 id="h-Do-not-insert-current-Org-mode-version"><span class="section-number-6">3.2.1.5.2.</span> Do not insert current Org mode version</h6>
+<h6 id="h-Do-not-insert-current-Org-mode-version"><span class="section-number-6">4.2.1.5.2.</span> Do not insert current Org mode version</h6>
 <div class="outline-text-6" id="text-h-Do-not-insert-current-Org-mode-version">
 <p>
 By default Org mode appends visible metadata at the bottom of the HTML document, including the Org version used to generate the document. We suppress this information.
@@ -1542,7 +1552,7 @@ By default Org mode appends visible metadata at the bottom of the HTML document,
 </div>
 
 <div id="outline-container-h-Do-not-use-random-numbers-for-the-HTML--id--attribute" class="outline-6">
-<h6 id="h-Do-not-use-random-numbers-for-the-HTML--id--attribute"><span class="section-number-6">3.2.1.5.3.</span> Do not use random numbers for the HTML "id" attribute</h6>
+<h6 id="h-Do-not-use-random-numbers-for-the-HTML--id--attribute"><span class="section-number-6">4.2.1.5.3.</span> Do not use random numbers for the HTML "id" attribute</h6>
 <div class="outline-text-6" id="text-h-Do-not-use-random-numbers-for-the-HTML--id--attribute">
 <p>
 Stop randomized ids from being generated every time. Instead count from 0 and work our way up.
@@ -1563,7 +1573,7 @@ See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">h
 </div>
 
 <div id="outline-container-h-Misc-settings" class="outline-5">
-<h5 id="h-Misc-settings"><span class="section-number-5">3.2.1.6.</span> Misc settings</h5>
+<h5 id="h-Misc-settings"><span class="section-number-5">4.2.1.6.</span> Misc settings</h5>
 <div class="outline-text-5" id="text-h-Misc-settings">
 <p>
 Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</code>) when we invoke Emacs from the <a href="#code-Makefile--code">1</a>.
@@ -1581,7 +1591,7 @@ Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</
 </div>
 
 <div id="outline-container-h-Use-HTML5-export--not-XML--to-un-break-MathJax" class="outline-6">
-<h6 id="h-Use-HTML5-export--not-XML--to-un-break-MathJax"><span class="section-number-6">3.2.1.6.1.</span> Use HTML5 export, not XML (to un-break MathJax)</h6>
+<h6 id="h-Use-HTML5-export--not-XML--to-un-break-MathJax"><span class="section-number-6">4.2.1.6.1.</span> Use HTML5 export, not XML (to un-break MathJax)</h6>
 <div class="outline-text-6" id="text-h-Use-HTML5-export--not-XML--to-un-break-MathJax">
 <p>
 By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a CDATA tag, and we run into the same problem described on this email that has gone unanswered: <a href="https://www.mail-archive.com/emacs-orgmode@gnu.org/msg140821.html">https://www.mail-archive.com/emacs-orgmode@gnu.org/msg140821.html</a>. It appears that this is because the document is exported as XML, not HTMl. Setting the document type to <code>html5</code>, as below, appears to make the CDATA tag magically disappear.
@@ -1593,7 +1603,7 @@ By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a C
 </div>
 
 <div id="outline-container-h-move-this-bit-into-a-snippet-that-s-autoloaded-upon-opening-up-this-org-file--and-any-other-org-file-that-we-use" class="outline-6">
-<h6 id="h-move-this-bit-into-a-snippet-that-s-autoloaded-upon-opening-up-this-org-file--and-any-other-org-file-that-we-use"><span class="section-number-6">3.2.1.6.2.</span> <span class="todo TODO">TODO</span> move this bit into a snippet that's autoloaded upon opening up this org file (and any other org file that we use)</h6>
+<h6 id="h-move-this-bit-into-a-snippet-that-s-autoloaded-upon-opening-up-this-org-file--and-any-other-org-file-that-we-use"><span class="section-number-6">4.2.1.6.2.</span> <span class="todo TODO">TODO</span> move this bit into a snippet that's autoloaded upon opening up this org file (and any other org file that we use)</h6>
 <div class="outline-text-6" id="text-h-move-this-bit-into-a-snippet-that-s-autoloaded-upon-opening-up-this-org-file--and-any-other-org-file-that-we-use">
 <div class="org-src-container"><pre class="src src-emacs-lisp" id="org0000044">(<span class="org-keyword">setq</span> org-id-link-to-org-use-id 't)
 </pre></div><p>
@@ -1613,7 +1623,7 @@ NOTE: Actually, this doesn't work because we need to inject "ID" properties ever
 </div>
 
 <div id="outline-container-h-Imports" class="outline-5">
-<h5 id="h-Imports"><span class="section-number-5">3.2.1.7.</span> Imports</h5>
+<h5 id="h-Imports"><span class="section-number-5">4.2.1.7.</span> Imports</h5>
 <div class="outline-text-5" id="text-h-Imports">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-imports"><span class="org-comment-delimiter">;; </span><span class="org-comment">Built-in packages (distributed with Emacs).</span>
 (<span class="org-keyword">require</span> '<span class="org-constant">tex-mode</span>)
@@ -1643,7 +1653,7 @@ NOTE: Actually, this doesn't work because we need to inject "ID" properties ever
 </div>
 
 <div id="outline-container-h-Performance-optimizations" class="outline-5">
-<h5 id="h-Performance-optimizations"><span class="section-number-5">3.2.1.8.</span> Performance optimizations</h5>
+<h5 id="h-Performance-optimizations"><span class="section-number-5">4.2.1.8.</span> Performance optimizations</h5>
 <div class="outline-text-5" id="text-h-Performance-optimizations">
 <p>
 This "optimization" is inspired by <a href="https://www.reddit.com/r/emacs/comments/mmdeei/comment/gtvryvy">https://www.reddit.com/r/emacs/comments/mmdeei/comment/gtvryvy</a>. There, the idea was to ignore hooks associated with major modes for the source code blocks, Because they use <code>org-publish</code> and we don't, we can't use the same code but we can still use the same idea. In particular, <code>org-html-export-to-html</code> calls <code>org-html-fontify-code</code> to perform syntax highlighting of source code blocks.
@@ -1665,7 +1675,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 </div>
 
 <div id="outline-container-h-Profiling" class="outline-6">
-<h6 id="h-Profiling"><span class="section-number-6">3.2.1.8.1.</span> Profiling</h6>
+<h6 id="h-Profiling"><span class="section-number-6">4.2.1.8.1.</span> Profiling</h6>
 <div class="outline-text-6" id="text-h-Profiling">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-profiling">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-publish-profile</span> ()
   (<span class="org-keyword">interactive</span>)
@@ -1689,7 +1699,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 </div>
 
 <div id="outline-container-h-Additional--hand-tweaked--CSS" class="outline-4">
-<h4 id="h-Additional--hand-tweaked--CSS"><span class="section-number-4">3.2.2.</span> Additional (hand-tweaked) CSS</h4>
+<h4 id="h-Additional--hand-tweaked--CSS"><span class="section-number-4">4.2.2.</span> Additional (hand-tweaked) CSS</h4>
 <div class="outline-text-4" id="text-h-Additional--hand-tweaked--CSS">
 <p>
 We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add link) theme that we use.
@@ -1771,7 +1781,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
 </div>
 
 <div id="outline-container-h-Source-code-block-body" class="outline-5">
-<h5 id="h-Source-code-block-body"><span class="section-number-5">3.2.2.1.</span> Source code block body</h5>
+<h5 id="h-Source-code-block-body"><span class="section-number-5">4.2.2.1.</span> Source code block body</h5>
 <div class="outline-text-5" id="text-h-Source-code-block-body">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-block-body"><span class="org-css-selector">.org-src-container </span>{
     <span class="org-css-property">margin-top</span>: 1em;
@@ -1804,7 +1814,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
 </div>
 
 <div id="outline-container-h-Source-code-block-captions" class="outline-5">
-<h5 id="h-Source-code-block-captions"><span class="section-number-5">3.2.2.2.</span> Source code block captions</h5>
+<h5 id="h-Source-code-block-captions"><span class="section-number-5">4.2.2.2.</span> Source code block captions</h5>
 <div class="outline-text-5" id="text-h-Source-code-block-captions">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-block-captions"><span class="org-css-selector">.codex-caption </span>{
     <span class="org-css-property">font-family</span>: <span class="org-string">"monospace"</span>;
@@ -1857,7 +1867,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
 </div>
 
 <div id="outline-container-h-Links-to-child-source-block-from-parent" class="outline-5">
-<h5 id="h-Links-to-child-source-block-from-parent"><span class="section-number-5">3.2.2.3.</span> Links to child source block from parent</h5>
+<h5 id="h-Links-to-child-source-block-from-parent"><span class="section-number-5">4.2.2.3.</span> Links to child source block from parent</h5>
 <div class="outline-text-5" id="text-h-Links-to-child-source-block-from-parent">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-block-child-link-from-parent"><span class="org-css-selector">.codex-child-link-from-parent </span>{
     <span class="org-css-property">padding-left</span>: 5px;
@@ -1882,7 +1892,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
 </div>
 
 <div id="outline-container-h-Diagrams" class="outline-4">
-<h4 id="h-Diagrams"><span class="section-number-4">3.2.3.</span> Diagrams</h4>
+<h4 id="h-Diagrams"><span class="section-number-4">4.2.3.</span> Diagrams</h4>
 <div class="outline-text-4" id="text-h-Diagrams">
 <p>
 The code used to generate the diagrams used in this doc is <a href="image.html">here</a>. We don't discuss that code in this doc because it would make this doc even more verbose.
@@ -1891,7 +1901,7 @@ The code used to generate the diagrams used in this doc is <a href="image.html">
 </div>
 
 <div id="outline-container-h-Ignore-woven-HTML-from--git-diff" class="outline-4">
-<h4 id="h-Ignore-woven-HTML-from--git-diff"><span class="section-number-4">3.2.4.</span> Ignore woven HTML from <code>git diff</code></h4>
+<h4 id="h-Ignore-woven-HTML-from--git-diff"><span class="section-number-4">4.2.4.</span> Ignore woven HTML from <code>git diff</code></h4>
 <div class="outline-text-4" id="text-h-Ignore-woven-HTML-from--git-diff">
 <p>
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from <code>git diff</code> by treating them as binary data.
@@ -1908,7 +1918,7 @@ In order to still show the HTML textual diff, we can run <code>git diff --text</
 </div>
 
 <div id="outline-container-h-git-add--p" class="outline-5">
-<h5 id="h-git-add--p"><span class="section-number-5">3.2.4.1.</span> <code>git add -p</code></h5>
+<h5 id="h-git-add--p"><span class="section-number-5">4.2.4.1.</span> <code>git add -p</code></h5>
 <div class="outline-text-5" id="text-h-git-add--p">
 <p>
 Note that the above setting to treat HTML files as binary data prevents them from being considered for <code>git add -p</code>. In order to add them, use <code>git add -u</code> instead.
@@ -1918,7 +1928,7 @@ Note that the above setting to treat HTML files as binary data prevents them fro
 </div>
 
 <div id="outline-container-h-gitignore" class="outline-4">
-<h4 id="h-gitignore"><span class="section-number-4">3.2.5.</span> gitignore</h4>
+<h4 id="h-gitignore"><span class="section-number-4">4.2.5.</span> gitignore</h4>
 <div class="outline-text-4" id="text-h-gitignore">
 <div class="org-src-container"><pre class="src src-gitignore">**/__pycache__
 **/*.auctex-auto
@@ -1931,7 +1941,7 @@ weave
 </div>
 
 <div id="outline-container-h-Tangling--generating-the-source-code" class="outline-3">
-<h3 id="h-Tangling--generating-the-source-code"><span class="section-number-3">3.3.</span> Tangling (generating the source code)</h3>
+<h3 id="h-Tangling--generating-the-source-code"><span class="section-number-3">4.3.</span> Tangling (generating the source code)</h3>
 <div class="outline-text-3" id="text-h-Tangling--generating-the-source-code">
 <p>
 Tangling is simply the act of collecting the <code>#+begin_src ... #+end_src</code> blocks and arranging them into the various target (source code) files. Every source code block is given a unique name.
@@ -1975,7 +1985,7 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 </div>
 
 <div id="outline-container-h-Development-environment--Nix-shell" class="outline-3">
-<h3 id="h-Development-environment--Nix-shell"><span class="section-number-3">3.4.</span> Development environment (Nix shell)</h3>
+<h3 id="h-Development-environment--Nix-shell"><span class="section-number-3">4.4.</span> Development environment (Nix shell)</h3>
 <div class="outline-text-3" id="text-h-Development-environment--Nix-shell">
 <p>
 This is taken from <a href="https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1">https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1</a>.
@@ -2016,7 +2026,7 @@ pkgs.mkShell ({
 </div>
 
 <div id="outline-container-h-Glossary" class="outline-3">
-<h3 id="h-Glossary"><span class="section-number-3">3.5.</span> Glossary</h3>
+<h3 id="h-Glossary"><span class="section-number-3">4.5.</span> Glossary</h3>
 <div class="outline-text-3" id="text-h-Glossary">
 <ul class="org-ul">
 <li><a id="org0000000"></a> <b>monoblock</b>: an Org mode source code block with a <code>#+name: ...</code> field. This block is an independent block and there are no other blocks with the same name.</li>
@@ -2031,7 +2041,7 @@ pkgs.mkShell ({
 </div>
 
 <div id="outline-container-h-References" class="outline-2">
-<h2 id="h-References"><span class="section-number-2">4.</span> References</h2>
+<h2 id="h-References"><span class="section-number-2">5.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-left-margin{float: left; padding-right: 1em;}
  .csl-right-inline{margin: 0 0 0 1em;}</style><div class="csl-bib-body">
