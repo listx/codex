@@ -43,25 +43,80 @@ Below is a table of every problem, with tags that give a brief description of ea
 #+begin_src bibtex :tangle citations.bib :eval no :exports none
 @book{epip,
     title = {Elements of Programming Interviews in Python: The Insiders' Guide},
+    author = {Aziz, Adnan and Lee, Tsung-Hsien and Prakash, Amit},
+    year = {2018},
     isbn = {9781537713946},
     shorttitle = {Elements of Programming Interviews in Python},
     language = {eng},
-    publisher = {CreateSpace Independent Publishing Platform (15 Sept. 2016)},
-    author = {Aziz, Adnan and Lee, Tsung-Hsien and Prakash, Amit},
-    month = sep,
-    year = {2016},
+    publisher = {CreateSpace Independent Publishing Platform (25 July. 2018)},
+    month = jul,
     note = {OCLC: 1308498466},
 }
 
 @book{hd,
     title = {Hacker's Delight},
+    author = {Warren, Henry S.},
     edition = {2nd ed},
+    year = {2013},
     isbn = {9780321842688},
     publisher = {Addison-Wesley},
-    author = {Warren, Henry S.},
-    year = {2013},
     keywords = {Computer programming},
     address = {Upper Saddle River, NJ},
+}
+
+@book{taocp3,
+    title = {The Art of Computer Programming},
+    author = {Knuth, Donald Ervin},
+    edition = {2nd ed},
+    year = {1997},
+    isbn = {9780201896831 9780201896848 9780201896855},
+    publisher = {Addison-Wesley},
+    keywords = {Computer programming, Computer algorithms},
+    address = {Reading, Mass},
+}
+
+@book{cormen,
+    title = {Introduction to algorithms},
+    editor = {Cormen, Thomas H.},
+    edition = {3rd ed},
+    year = {2009},
+    isbn = {9780262033848 9780262533058},
+    publisher = {MIT Press},
+    note = {OCLC: ocn311310321},
+    keywords = {Computer programming, Computer algorithms},
+    address = {Cambridge, Mass},
+}
+
+@book{sedgewick,
+    title = {Algorithms},
+    author = {Sedgewick, Robert and Wayne, Kevin Daniel},
+    edition = {4th ed},
+    year = {2011},
+    isbn = {9780321573513},
+    publisher = {Addison-Wesley},
+    keywords = {Computer algorithms, Textbooks},
+    address = {Upper Saddle River, NJ},
+}
+
+@book{levitin,
+    title = {Algorithmic puzzles},
+    author = {Levitin, Anany and Levitin, Maria},
+    year = {2011},
+    isbn = {9780199740444},
+    publisher = {Oxford University Press},
+    keywords = {Mathematical recreations, Algorithms},
+    address = {Oxford ; New York},
+}
+
+@book{pearls,
+    title = {Programming pearls},
+    author = {Bentley, Jon Louis},
+    edition = {2nd ed},
+    year = {2000},
+    isbn = {9780201657883},
+    publisher = {Addison-Wesley},
+    keywords = {Computer programming},
+    address = {Reading, Mass},
 }
 #+end_src
 
