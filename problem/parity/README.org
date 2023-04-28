@@ -56,7 +56,7 @@ This approach just computes the parity of a single word by examining every bit i
 
 The space complexity is $O(1)$ because we only store 0 or 1 for the parity bit. The time complexity is $O(n)$ where $n$ is the word size.
 
-** Clear lowest set bit
+*** Clear lowest set bit
 
 #+name: __NREF__clear_lsb
 #+begin_src python

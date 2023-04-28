@@ -226,13 +226,16 @@
 <li><a href="#h-Insights">3. Insights</a></li>
 <li><a href="#h-Solutions">4. Solutions</a>
 <ul>
-<li><a href="#h-Brute-force">4.1. Brute force</a></li>
-<li><a href="#h-Clear-lowest-set-bit">4.2. Clear lowest set bit</a></li>
-<li><a href="#h-XOR-folding">4.3. XOR-folding</a></li>
-<li><a href="#h-XOR-folding-with-in-register-table-lookup">4.4. XOR-folding with in-register table lookup</a></li>
-<li><a href="#h-XOR-fold-by-nibbles">4.5. XOR-fold by nibbles</a></li>
-<li><a href="#h-16-bit-caching">4.6. 16-bit caching</a></li>
-<li><a href="#h-XOR-fold-with-caching">4.7. XOR-fold with caching</a></li>
+<li><a href="#h-Brute-force">4.1. Brute force</a>
+<ul>
+<li><a href="#h-Clear-lowest-set-bit">4.1.1. Clear lowest set bit</a></li>
+</ul>
+</li>
+<li><a href="#h-XOR-folding">4.2. XOR-folding</a></li>
+<li><a href="#h-XOR-folding-with-in-register-table-lookup">4.3. XOR-folding with in-register table lookup</a></li>
+<li><a href="#h-XOR-fold-by-nibbles">4.4. XOR-fold by nibbles</a></li>
+<li><a href="#h-16-bit-caching">4.5. 16-bit caching</a></li>
+<li><a href="#h-XOR-fold-with-caching">4.6. XOR-fold with caching</a></li>
 </ul>
 </li>
 <li><a href="#h-Tests">5. Tests</a></li>
@@ -411,11 +414,10 @@ This approach just computes the parity of a single word by examining every bit i
 The space complexity is \(O(1)\) because we only store 0 or 1 for the parity bit. The time complexity is \(O(n)\) where \(n\) is the word size.
 </p>
 </div>
-</div>
 
-<div id="outline-container-h-Clear-lowest-set-bit" class="outline-3">
-<h3 id="h-Clear-lowest-set-bit"><span class="section-number-3">4.2.</span> Clear lowest set bit</h3>
-<div class="outline-text-3" id="text-h-Clear-lowest-set-bit">
+<div id="outline-container-h-Clear-lowest-set-bit" class="outline-4">
+<h4 id="h-Clear-lowest-set-bit"><span class="section-number-4">4.1.1.</span> Clear lowest set bit</h4>
+<div class="outline-text-4" id="text-h-Clear-lowest-set-bit">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__clear_lsb"><span class="org-keyword">def</span> <span class="org-function-name">clear_lsb</span>(word):
   <span class="org-variable-name">parity_bit</span> = 0
   <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
@@ -431,9 +433,10 @@ Our worst-case time complexity is still the same as the brute force approach tho
 </p>
 </div>
 </div>
+</div>
 
 <div id="outline-container-h-XOR-folding" class="outline-3">
-<h3 id="h-XOR-folding"><span class="section-number-3">4.3.</span> XOR-folding</h3>
+<h3 id="h-XOR-folding"><span class="section-number-3">4.2.</span> XOR-folding</h3>
 <div class="outline-text-3" id="text-h-XOR-folding">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__xor_fold"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
@@ -545,7 +548,7 @@ Tho time complexity is reduced to \(O(\log{}n)\) where \(n\) is the word size. T
 </div>
 
 <div id="outline-container-h-XOR-folding-with-in-register-table-lookup" class="outline-3">
-<h3 id="h-XOR-folding-with-in-register-table-lookup"><span class="section-number-3">4.4.</span> XOR-folding with in-register table lookup</h3>
+<h3 id="h-XOR-folding-with-in-register-table-lookup"><span class="section-number-3">4.3.</span> XOR-folding with in-register table lookup</h3>
 <div class="outline-text-3" id="text-h-XOR-folding-with-in-register-table-lookup">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__xor_fold_lookup"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_lookup</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
@@ -678,7 +681,7 @@ This is a small improvement over the previous version, noted in (<a href="#citep
 
 
 <div id="outline-container-h-XOR-fold-by-nibbles" class="outline-3">
-<h3 id="h-XOR-fold-by-nibbles"><span class="section-number-3">4.5.</span> XOR-fold by nibbles</h3>
+<h3 id="h-XOR-fold-by-nibbles"><span class="section-number-3">4.4.</span> XOR-fold by nibbles</h3>
 <div class="outline-text-3" id="text-h-XOR-fold-by-nibbles">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__xor_fold_nibbles"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_nibbles</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
@@ -859,7 +862,7 @@ Going back to our 64-bit example, we can see that multiplying by <code>0x1111111
 </div>
 
 <div id="outline-container-h-16-bit-caching" class="outline-3">
-<h3 id="h-16-bit-caching"><span class="section-number-3">4.6.</span> 16-bit caching</h3>
+<h3 id="h-16-bit-caching"><span class="section-number-3">4.5.</span> 16-bit caching</h3>
 <div class="outline-text-3" id="text-h-16-bit-caching">
 <p>
 Because there are \(2^64\) possible values, we cannot use a hash table for 64-bit inputs directly. Instead we can use a 16-bit input (\(2^16 = 65536\) values), and just do 4 16-bit word lookups (because there are 4 16-bit words in a 64-bit word). Then we just take the XOR of these lookups to get the overall parity. Because the keys for the lookups can just be the raw 16-bit words, we can use these keys as indices to a list, instead of using a dictionary.
@@ -885,7 +888,7 @@ The time complexity is just \(O(n/L)\), where \(L\) is the width of the cached r
 </div>
 
 <div id="outline-container-h-XOR-fold-with-caching" class="outline-3">
-<h3 id="h-XOR-fold-with-caching"><span class="section-number-3">4.7.</span> XOR-fold with caching</h3>
+<h3 id="h-XOR-fold-with-caching"><span class="section-number-3">4.6.</span> XOR-fold with caching</h3>
 <div class="outline-text-3" id="text-h-XOR-fold-with-caching">
 <p>
 This is an approach that combines XOR-folding with caching to achieve an even greater speedup.
