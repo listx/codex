@@ -258,6 +258,8 @@ Examples:
 <colgroup>
 <col  class="org-right">
 
+<col  class="org-right">
+
 <col  class="org-left">
 
 <col  class="org-right">
@@ -265,32 +267,37 @@ Examples:
 <thead>
 <tr>
 <th scope="col" class="org-right">Word</th>
-<th scope="col" class="org-left">Number of 1-bits set</th>
+<th scope="col" class="org-right">Number of 1-bits</th>
+<th scope="col" class="org-left">Even or odd</th>
 <th scope="col" class="org-right">Parity</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="org-right">1011</td>
-<td class="org-left">3 (odd)</td>
+<td class="org-right">3</td>
+<td class="org-left">odd</td>
 <td class="org-right">1</td>
 </tr>
 
 <tr>
 <td class="org-right">1000010000</td>
-<td class="org-left">2 (even)</td>
+<td class="org-right">2</td>
+<td class="org-left">even</td>
 <td class="org-right">0</td>
 </tr>
 
 <tr>
 <td class="org-right">11</td>
-<td class="org-left">2 (even)</td>
+<td class="org-right">2</td>
+<td class="org-left">even</td>
 <td class="org-right">0</td>
 </tr>
 
 <tr>
 <td class="org-right">11111</td>
-<td class="org-left">5 (odd)</td>
+<td class="org-right">5</td>
+<td class="org-left">odd</td>
 <td class="org-right">1</td>
 </tr>
 </tbody>
@@ -311,11 +318,11 @@ Design an algorithm for computing the parity of a large number of 64-bit words (
 <h2 id="h-Insights"><span class="section-number-2">3.</span> Insights</h2>
 <div class="outline-text-2" id="text-h-Insights">
 <p>
-Consider the simple case of the single bit. Computing the parity here is simple as there is nothing more to do. That is, the parity of a 1-bit is 1, and the parity of 0 is 0.
+Consider the simple case of the single bit. Computing the parity here is simple as there is nothing more to do. That is, the parity of a 1-bit is 1, and the parity of a 0-bit is 0.
 </p>
 
 <p>
-Now consider the next-simplest case of 2 1-bit words. The bitwise XOR (exclusive OR) instruction itself can compute the parity directly.
+Now consider the next-simplest case of 2-bit words. There are 4 possible 2-bit words, <code>00</code>, <code>11</code>, <code>01</code>, and <code>10</code>. We can compute the parity by looking at a 2-bit word as 2 separate 1-bit words. So in this case we can split up the 2-bit word into A and B, the high-order and low-order bits, respectively. Then comes the trick &#x2014; we can use the bitwise XOR (exclusive OR) instruction of <code>A XOR B</code> to compute the parity of the original 2-bit word.
 </p>
 
 <table>
@@ -327,34 +334,48 @@ Now consider the next-simplest case of 2 1-bit words. The bitwise XOR (exclusive
 <col  class="org-right">
 
 <col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
 </colgroup>
 <thead>
 <tr>
+<th scope="col" class="org-right">2-bit word</th>
+<th scope="col" class="org-right">Parity</th>
 <th scope="col" class="org-right">A</th>
 <th scope="col" class="org-right">B</th>
-<th scope="col" class="org-right">A XOR B (Parity)</th>
+<th scope="col" class="org-right">A XOR B</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td class="org-right">00</td>
 <td class="org-right">0</td>
 <td class="org-right">0</td>
 <td class="org-right">0</td>
-</tr>
-
-<tr>
-<td class="org-right">1</td>
-<td class="org-right">1</td>
 <td class="org-right">0</td>
 </tr>
 
 <tr>
+<td class="org-right">11</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">01</td>
+<td class="org-right">1</td>
 <td class="org-right">0</td>
 <td class="org-right">1</td>
 <td class="org-right">1</td>
 </tr>
 
 <tr>
+<td class="org-right">10</td>
+<td class="org-right">1</td>
 <td class="org-right">1</td>
 <td class="org-right">0</td>
 <td class="org-right">1</td>
@@ -363,7 +384,7 @@ Now consider the next-simplest case of 2 1-bit words. The bitwise XOR (exclusive
 </table>
 
 <p>
-Seen another way, the XOR instruction can cancel out even numbers of bits (zeros them out). This property is exactly what we need, and as we can see later, can be used to work on multiple bits at the same time.
+Seen another way, the XOR instruction can cancel out even numbers of bits (zeros them out) in a larger word. As you can imagine, we can use this property to compute the parity of 4-bit words, 8-bit words, etc.
 </p>
 </div>
 </div>

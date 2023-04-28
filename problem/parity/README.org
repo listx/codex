@@ -12,12 +12,12 @@
 
 Examples:
 
-|       Word | Number of 1-bits set | Parity |
-|------------+----------------------+--------|
-|       1011 | 3 (odd)              |      1 |
-| 1000010000 | 2 (even)             |      0 |
-|         11 | 2 (even)             |      0 |
-|      11111 | 5 (odd)              |      1 |
+|       Word | Number of 1-bits | Even or odd | Parity |
+|------------+------------------+-------------+--------|
+|       1011 |                3 | odd         |      1 |
+| 1000010000 |                2 | even        |      0 |
+|         11 |                2 | even        |      0 |
+|      11111 |                5 | odd         |      1 |
 
 * Problem statement
 
@@ -25,18 +25,18 @@ Design an algorithm for computing the parity of a large number of 64-bit words [
 
 * Insights
 
-Consider the simple case of the single bit. Computing the parity here is simple as there is nothing more to do. That is, the parity of a 1-bit is 1, and the parity of 0 is 0.
+Consider the simple case of the single bit. Computing the parity here is simple as there is nothing more to do. That is, the parity of a 1-bit is 1, and the parity of a 0-bit is 0.
 
-Now consider the next-simplest case of 2 1-bit words. The bitwise XOR (exclusive OR) instruction itself can compute the parity directly.
+Now consider the next-simplest case of 2-bit words. There are 4 possible 2-bit words, =00=, =11=, =01=, and =10=. We can compute the parity by looking at a 2-bit word as 2 separate 1-bit words. So in this case we can split up the 2-bit word into A and B, the high-order and low-order bits, respectively. Then comes the trick --- we can use the bitwise XOR (exclusive OR) instruction of =A XOR B= to compute the parity of the original 2-bit word.
 
-| A | B | A XOR B (Parity) |
-|---+---+------------------|
-| 0 | 0 |                0 |
-| 1 | 1 |                0 |
-| 0 | 1 |                1 |
-| 1 | 0 |                1 |
+ | 2-bit word | Parity | A | B | A XOR B |
+ |------------+--------+---+---+---------|
+ |         00 |      0 | 0 | 0 |       0 |
+ |         11 |      0 | 1 | 1 |       0 |
+ |         01 |      1 | 0 | 1 |       1 |
+ |         10 |      1 | 1 | 0 |       1 |
 
-Seen another way, the XOR instruction can cancel out even numbers of bits (zeros them out). This property is exactly what we need, and as we can see later, can be used to work on multiple bits at the same time.
+Seen another way, the XOR instruction can cancel out even numbers of bits (zeros them out) in a larger word. As you can imagine, we can use this property to compute the parity of 4-bit words, 8-bit words, etc.
 
 * Solutions
 
