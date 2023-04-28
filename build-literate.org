@@ -11,6 +11,10 @@ The vast majority of software projects do not use LP, for various reasons. This 
 
 We use noweb-style references, in the form =<<foo>>=, in source code blocks to delegate source code bits to other blocks. In the example below, the =parent-block= refers to 2 other child blocks for its definition.
 
+#+begin_comment
+The =,#+name: ...=, =,#+begin_src ...= and =,#+end_src= in the =org= source blocks have a leading comma but this comma is only for Org's own parser to disambiguate against actual source code blocks in this file. The leading comma is stripped during HTML export.
+#+end_comment
+
 #+begin_src org
 ,#+name: parent-block
 ,#+begin_src bash
