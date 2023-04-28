@@ -12,7 +12,6 @@
 
 Examples:
 
-#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 |       Word | Number of 1-bits set | Parity |
 |------------+----------------------+--------|
 |       1011 | 3 (odd)              |      1 |
@@ -30,7 +29,6 @@ Consider the simple case of the single bit. Computing the parity here is simple 
 
 Now consider the next-simplest case of 2 1-bit words. The bitwise XOR (exclusive OR) instruction itself can compute the parity directly.
 
-#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 | A | B | A XOR B (Parity) |
 |---+---+------------------|
 | 0 | 0 |                0 |
@@ -178,7 +176,6 @@ def xor_fold_lookup(word):
 
 This is a small improvement over the previous version, noted in [cite:@hd 97]. The use of the =0x6996= constant is called an "in-register table lookup". Basically, once we get down to 4 bits, there are only 16 possibilities left, because 4 bits can only represent $2^{4} = 16$ unique numbers, 0 to 15. The =0x6996= constant is simply computed by looking at all possible numbers 0 to 15, computing their parity, and assigning this to a new bit string. That is, the =0110 1001 1001 0110= in binary get from the Parity column below is =0x6996= in hexadecimal.
 
-#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 | Number (Decimal) | Number (binary) | Parity |
 |------------------+-----------------+--------|
 |               15 |            1111 |      0 |

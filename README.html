@@ -317,7 +317,7 @@ Every problem gets its own <code>README.org</code> file in its own subfolder. Th
 The problems are drawn from <a href="#citeproc_bib_item_1">[1]</a>. Other reference materials are cited where applicable. Below is a table of every problem, with tags that give a brief description of each one, and references.
 </p>
 
-<table border="2" cellpadding="6" rules="all" frame="border" class="problems-table">
+<table class="problems-table">
 
 
 <colgroup>
@@ -436,7 +436,7 @@ Weaving is conceptually simpler than tangling because there is no extra step &#x
 Weaving for requires the following dependencies:
 </p>
 
-<table border="2" cellpadding="6" rules="all" frame="border">
+<table>
 
 
 <colgroup>
@@ -1717,7 +1717,7 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="code-style-css--code"><span class="org-css-selector">a </span>{
-    <span class="org-css-property">color</span>: <span class="custom-2">#0000ff</span>;
+    <span class="org-css-property">color</span>: <span class="custom-3">#0000ff</span>;
 }
 
 <span class="org-css-selector">body, p, li, h1, h2, h3, h4, h5, h6, legend </span>{
@@ -1738,6 +1738,13 @@ We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add
 
 <span class="org-css-selector">table </span>{
     <span class="org-css-property">margin</span>: 1em auto 0em auto;
+}
+<span class="org-css-selector">table, th, td </span>{
+    <span class="org-css-property">border</span>: 1px solid <span class="custom-2">black</span>;
+    <span class="org-css-property">border-collapse</span>: collapse;
+}
+<span class="org-css-selector">th, td </span>{
+    <span class="org-css-property">padding</span>: 3px 6px;
 }
 
 <span class="org-comment-delimiter">/* </span><span class="org-comment">Center all images.</span><span class="org-comment-delimiter"> */</span>

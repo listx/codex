@@ -51,7 +51,6 @@ Weaving is conceptually simpler than tangling because there is no extra step ---
 
 Weaving for requires the following dependencies:
 
-#+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 | Dependency | Why      | How to install it |
 |------------+----------+-------------------|
 | GNU Make   |          | ?                 |
@@ -1218,6 +1217,13 @@ li {
 
 table {
     margin: 1em auto 0em auto;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 3px 6px;
 }
 
 /* Center all images. */
