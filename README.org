@@ -30,6 +30,12 @@ Every problem gets its own =README.org= file in its own subfolder. The solutions
 
 The problems are drawn from [cite:@epip]. Other reference materials are cited where applicable. Below is a table of every problem, with tags that give a brief description of each one, and references.
 
+#+HTML_HEAD: <style type="text/css">
+#+HTML_HEAD: .problems-table col:nth-of-type(1) { width:  40%; }
+#+HTML_HEAD: .problems-table col:nth-of-type(2) { width: 30%; }
+#+HTML_HEAD: .problems-table col:nth-of-type(3) { width: 30%; }
+#+HTML_HEAD: </style>
+#+ATTR_HTML: :class problems-table
 #+ATTR_HTML: :border 2 :cellpadding 6 :rules all :frame border
 | Name                    | Tags                | Sources                                                                                      |
 |-------------------------+---------------------+----------------------------------------------------------------------------------------------|
