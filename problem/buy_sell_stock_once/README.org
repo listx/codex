@@ -8,7 +8,7 @@
 
 * Problem statement
 
-Given a list of prices for a stock, determine the optimum day to buy and sell the stock once to maximize profit [cite:@epip 51]. That is, the list of prices is the opening price on each trading day, and the (fictional) constraint is that you may buy the stock once and sell it once, with the goal of maximizing your profit margins.
+Given a list of prices for a stock over the past N days (one price per day), determine the optimum days to buy and sell the stock once to maximize profit [cite:@epip 51].
 
 ** Inputs and outputs
 
