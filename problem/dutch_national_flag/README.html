@@ -414,7 +414,8 @@ In this case, we "throw over" the number to the right side of the list (to <code
       <span class="org-keyword">self</span>.assertEqual(got_lt, expected_lt)
       <span class="org-keyword">self</span>.assertEqual(got_eq, expected_eq)
 
-  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=16, max_size=16), st.integers(min_value=0, max_value=15))
+  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=16, max_size=16),
+         st.integers(min_value=0, max_value=15))
   <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_nums, idx_pivot):
     <span class="org-comment-delimiter"># </span><span class="org-comment">Save the pivot now, because given_nums will get modified in-place (which</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">means given_nums[idx_pivot] could point to a different value later).</span>

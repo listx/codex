@@ -3,7 +3,7 @@ import unittest
 
 from typing import Optional
 
-def brute_force(prices: list[int]) -> Optional[tuple[int, int]]:
+def brute_force(prices: list[int]) -> Optional[tuple[int, int, int]]:
   if not prices:
     return None
 
@@ -21,7 +21,7 @@ def brute_force(prices: list[int]) -> Optional[tuple[int, int]]:
   # If no profitable trade found, return None.
   return None
 
-def optimal(prices: list[int]) -> Optional[tuple[int, int]]:
+def optimal(prices: list[int]) -> Optional[tuple[int, int, int]]:
   if not prices:
     return None
 
@@ -35,7 +35,7 @@ def optimal(prices: list[int]) -> Optional[tuple[int, int]]:
 
     max_profit_if_sell_now = price - min_price_so_far
     max_profit_prev = max_profit
-    max_profit = max(max_profit_if_sell_now, max_profit)
+    max_profit = max(int(max_profit_if_sell_now), max_profit)
 
     if max_profit > max_profit_prev:
       transaction_dates = (buy_date, date, max_profit)

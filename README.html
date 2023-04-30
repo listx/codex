@@ -510,7 +510,7 @@ define weave_org
 
 endef
 
-<span class="org-makefile-targets">all</span>: tangle weave
+<span class="org-makefile-targets">all</span>: check weave
 <span class="org-makefile-targets">.PHONY</span>: all
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__Makefile-tangle">Makefile-tangle</a></span>
@@ -527,9 +527,23 @@ endef
 
 $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),$(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> weave_org,problem/$(<span class="org-variable-name">p</span>)/README.html,problem/$(<span class="org-variable-name">p</span>)/README.org)))
 
-<span class="org-makefile-targets">test</span>: all
+<span class="org-makefile-targets">check</span>: lint test
+<span class="org-makefile-targets">.PHONY</span>: check
+
+<span class="org-makefile-targets">test</span>: tangle
         python -m unittest discover -s problem
 <span class="org-makefile-targets">.PHONY</span>: test
+
+<span class="org-makefile-targets">lint</span>: mypy ruff
+<span class="org-makefile-targets">.PHONY</span>: lint
+
+<span class="org-makefile-targets">mypy</span>: tangle
+        mypy problem/*/test_*.py
+<span class="org-makefile-targets">.PHONY</span>: mypy
+
+<span class="org-makefile-targets">ruff</span>: tangle
+        ruff problem/*/test_*.py
+<span class="org-makefile-targets">.PHONY</span>: ruff
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Enter development environment.</span>
 <span class="org-makefile-targets">shell</span>:

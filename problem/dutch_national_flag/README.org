@@ -176,7 +176,8 @@ class Test(unittest.TestCase):
       self.assertEqual(got_lt, expected_lt)
       self.assertEqual(got_eq, expected_eq)
 
-  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=16, max_size=16), st.integers(min_value=0, max_value=15))
+  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=16, max_size=16),
+         st.integers(min_value=0, max_value=15))
   def test_random(self, given_nums, idx_pivot):
     # Save the pivot now, because given_nums will get modified in-place (which
     # means given_nums[idx_pivot] could point to a different value later).

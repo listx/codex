@@ -18,7 +18,7 @@ $(1): $(2) build-literate.org
 
 endef
 
-all: tangle weave
+all: check weave
 .PHONY: all
 
 # Currently we don't have any optimizations for tangling, but we still set CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.
@@ -63,9 +63,23 @@ README.html: build-literate.org README.org
 
 $(foreach p,$(problem_dirs_without_prefix),$(eval $(call weave_org,problem/$(p)/README.html,problem/$(p)/README.org)))
 
-test: all
+check: lint test
+.PHONY: check
+
+test: tangle
 	python -m unittest discover -s problem
 .PHONY: test
+
+lint: mypy ruff
+.PHONY: lint
+
+mypy: tangle
+	mypy problem/*/test_*.py
+.PHONY: mypy
+
+ruff: tangle
+	ruff problem/*/test_*.py
+.PHONY: ruff
 
 # Enter development environment.
 shell:
