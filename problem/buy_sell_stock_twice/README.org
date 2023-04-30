@@ -1,0 +1,214 @@
+#+title: Buy and sell stock twice
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+This is the same problem as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] but with the difference that we can buy and sell again within the same range [cite:@epip 53]. This means that you can buy/sell once, or twice, in order to maximize the profit.
+
+** Inputs and outputs
+
+- Input
+  - list of stock prices (positive numbers)
+- Output
+  - day to buy the stock
+  - day to sell the stock
+  - day to buy the stock
+  - day to sell the stock
+  - the realized profit margin
+
+** Housekeeping
+
+There are a lot of moving parts to keep track of. Let's use a data type to keep things orderly.
+
+#+header: :noweb-ref __NREF__buy_sell_twice
+#+begin_src python
+from typing import Optional
+
+import collections
+TXN = collections.namedtuple('TXN', ('buy_date', 'sell_date', 'profit'))
+#+end_src
+
+* Insights
+
+We can divide up the prices into two sublists. The first sublist is a buy/sell window, and the second sublist is another separate buy/sell window.
+
+#+begin_example
+prices = [1,   2,   3,   1,   2,   3]
+
+split1 = [1,   2]  [3,   1,   2,   3]
+split2 = [1,   2,   3]   [1,  2,   3]
+split3 = [1,   2,   3,   1]  [2,   3]
+#+end_example
+
+This way, we can consider the maximum possible buy/sell profit margin (same algorithm as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]) of each sublist. Then we can work with these 2 buy/sell profits and just sum them up as we consider each split.
+
+The downside with the above approach is that we we're not reusing the information gleaned from the earlier splits in the later splits. So there's some level of duplicate work.
+
+Instead we can do a 2-pass algorithm. In the first pass, we record the max possible profit if we're selling on that day. This pass is basically the same as the optimum solution in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]. The algorithim there iterates through each price, keeps a running /minimum/ price seen (this assumes buying at that time), and records a profit or loss by selling on the day it is looking at..
+
+Then we can do a second pass by iterating through each day in reverse, getting the max profit if we we're /buying/ on that day --- this is the "reverse" of the first pass because we track the running /maximum price/ (thereby assuming that we /sell/ on that day). The current day we're looking at is the day of the second purchase. During this second pass we can use the information from the first pass to determine the max possible profit for buying and selling twice.
+
+* Solutions
+
+** Brute force
+
+First get the optimum buy/sell dates if we are only buying and selling just once.
+
+#+header: :noweb-ref __NREF__buy_sell_twice
+#+begin_src python
+def brute_force(prices: list[int]) -> Optional[TXN]:
+  if not prices:
+    return None
+
+  max_profit_so_far = 0
+  for buy_date, price_buy in enumerate(prices):
+    for sell_date in range(buy_date + 1, len(prices)):
+      profit = prices[sell_date] - price_buy
+      if profit > max_profit_so_far:
+        max_profit_so_far = profit
+        transaction_dates = TXN(buy_date, sell_date, profit)
+
+  if max_profit_so_far:
+    return transaction_dates
+
+  # If no profitable trade found, return None.
+  return None
+#+end_src
+
+Now split up the given list into 2 sublists, where each sublist must have length 2 or greater. The length must be at least 2, because this is the minimum length for buying and selling. Now run =brute_force= against each of these sublists. If the two buy/sell transactions' combined profit is greater than the single transaction's profit, we take note of it.
+
+#+header: :noweb-ref __NREF__buy_sell_twice
+#+begin_src python
+def brute_force_sublists(prices: list[int]
+  ) -> Optional[tuple[TXN, TXN]]:
+
+  # There are 2 sublists and each one must have at least 2 items.
+  if len(prices) < 4:
+    return None
+
+  # Divide up prices into sublists.
+  sublists = [(prices[0:i], prices[i:])
+   for i in range(0, len(prices))
+   if i > 1 and len(prices) - i > 1]
+
+  txn_dates = None
+  max_sell_twice = 0
+  for list1, list2 in sublists:
+    txn1 = brute_force(list1)
+    txn2 = brute_force(list2)
+    if txn1 is not None and txn2 is not None:
+      if txn1.profit + txn2.profit > max_sell_twice:
+        # The indices (dates) for txn2 are wrong because list2 will start at its
+        # own index 0. So we need to give the dates an offset.
+        txn2 = txn2._replace(buy_date = txn2.buy_date + len(list1))
+        txn2 = txn2._replace(sell_date = txn2.sell_date + len(list1))
+
+        txn_dates = (txn1, txn2)
+        max_sell_twice = max(txn1.profit + txn2.profit,
+                             max_sell_twice)
+
+  if max_sell_twice:
+    return txn_dates
+
+  return None
+#+end_src
+
+Now that we know how to calculate the max profit for a single transaction as well as two transactions, we just have to compare them and see which one has a greater profit.
+
+#+header: :noweb-ref __NREF__buy_sell_twice
+#+begin_src python
+def brute_force_maybe_sell_twice(prices: list[int]
+  ) -> Optional[tuple[Optional[TXN], Optional[TXN]]]:
+
+  txn = brute_force(prices)
+  txn_pair = brute_force_sublists(prices)
+
+  # If there's no way to make a profit with a single sale, give up.
+  if txn is None:
+    return None
+
+  if txn_pair is None:
+    return txn, None
+
+  max_sell_twice = txn_pair[0].profit + txn_pair[1].profit
+
+  if max_sell_twice > txn.profit:
+    return txn_pair
+
+  # If the max_sell_twice profit wasn't bigger, then the best we got is the one
+  # from the one sale in txn.
+  return txn, None
+#+end_src
+
+*** Complexity
+- Time: $O(n^4)$
+- Space: $O(1)$
+
+*** Tweaks
+
+If we use the =optimal()= algorithm in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] and use that to replace the call to =brute_force()=, we can get the time complexity down to $O(n^2)$, because for each sublist, we will call =optimal()= (which has $O(n)$ time complexity).
+
+** Two-pass algorithm
+
+The first pass is basically the same as =optimal()= from [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]], but applied twice -- once "forward" and again "backward".
+
+TODO
+
+*** Complexity
+- Time: $O(n)$
+- Space: $O(n)$
+
+* Tests
+
+#+name: test
+#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+from hypothesis import given, strategies as st
+import unittest
+
+from typing import Optional
+
+__NREF__buy_sell_twice
+
+class Test(unittest.TestCase):
+  cases = [
+    ([],                          None),
+    ([0],                         None),
+    ([0, 0, 0, 0],                None),
+    ([3, 2, 1],                   None),
+    ([5, 25, 100, 50],            (TXN(0, 2, 95), None)),
+    ([5, 25, 100, 1, 50, 99],     (TXN(0, 2, 95), TXN(3, 5, 98))),
+    ([1, 2, 3, 4, 5, 1, 5, 1, 4], (TXN(0, 4, 4),  TXN(5, 6, 4))),
+  ]
+
+  def test_simple_cases(self):
+    for given_prices, expected in self.cases:
+      self.assertEqual(brute_force_maybe_sell_twice(given_prices), expected)
+
+  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0, max_size=14))
+  def test_random(self, given_prices: list[int]):
+    gotSingle = brute_force(given_prices)
+    gotDouble = brute_force_maybe_sell_twice(given_prices)
+
+    # If we say that we should buy/sell twice, then it must be because we can
+    # make more money than buying and selling only once.
+    if (gotSingle is not None
+        and gotDouble is not None
+        and gotDouble[0] is not None
+        and gotDouble[1] is not None):
+      self.assertGreater(gotDouble[0].profit + gotDouble[1].profit, gotSingle.profit)
+
+if __name__ == "__main__":
+  unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :tangle __init__.py :exports none
+#+end_src
+
+* References
+#+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
+#+PRINT_BIBLIOGRAPHY:
