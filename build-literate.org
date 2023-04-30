@@ -112,11 +112,11 @@ lint: mypy ruff
 .PHONY: lint
 
 mypy: tangle
-	mypy problem/*/test_*.py
+	mypy problem
 .PHONY: mypy
 
 ruff: tangle
-	ruff problem/*/test_*.py
+	ruff problem
 .PHONY: ruff
 
 # Enter development environment.

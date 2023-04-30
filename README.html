@@ -538,11 +538,11 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 <span class="org-makefile-targets">.PHONY</span>: lint
 
 <span class="org-makefile-targets">mypy</span>: tangle
-        mypy problem/*/test_*.py
+        mypy problem
 <span class="org-makefile-targets">.PHONY</span>: mypy
 
 <span class="org-makefile-targets">ruff</span>: tangle
-        ruff problem/*/test_*.py
+        ruff problem
 <span class="org-makefile-targets">.PHONY</span>: ruff
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Enter development environment.</span>
