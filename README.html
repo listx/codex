@@ -2010,10 +2010,6 @@ This is taken from <a href="https://github.com/tweag/haskell-stack-nix-example/b
 </p>
 
 <p>
-Note that we first have to do <code>nix-shell --pure</code> in Mool's toplevel directory, then <code>cd</code> into <code>moolc</code> and only from here we are able to do <code>stack exec -- ghci</code> to see the right version of GHC.
-</p>
-
-<p>
 This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (e.g., running unit tests) for all of the various languages we use.
 </p>
 
@@ -2036,7 +2032,10 @@ pkgs.mkShell ({
     pkgs.git
     pkgs.less
 
+    <span class="org-comment"># Python testing and linting.</span>
     pkgs.python39Packages.hypothesis
+    pkgs.python39Packages.mypy
+    pkgs.ruff
   ];
 })
 </pre></div><div class="codex-caption"></div></div>

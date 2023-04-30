@@ -1459,8 +1459,6 @@ $(foreach p,$(problem_dirs_without_prefix),$(eval $(call tangle_tests,problem/$(
 
 This is taken from https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1.
 
-Note that we first have to do =nix-shell --pure= in Mool's toplevel directory, then =cd= into =moolc= and only from here we are able to do =stack exec -- ghci= to see the right version of GHC.
-
 This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (e.g., running unit tests) for all of the various languages we use.
 
 #+name: Main development shell
@@ -1485,7 +1483,10 @@ pkgs.mkShell ({
     pkgs.git
     pkgs.less
 
+    # Python testing and linting.
     pkgs.python39Packages.hypothesis
+    pkgs.python39Packages.mypy
+    pkgs.ruff
   ];
 })
 #+end_src
