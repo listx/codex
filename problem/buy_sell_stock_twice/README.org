@@ -233,6 +233,44 @@ Obviously there must be two transactions in order to maximize profit here, buyin
 - Time: $O(n)$, because we have 2 passes, each length $n$ over the list of prices. Instead of $2n$ we just have $n$ because that's how Big-Oh notation works.
 - Space: $O(n)$, because we have to create a new array, =profit_txn1=, which is equal to the size of the list of prices.
 
+** Single-pass algorithm
+
+This algorithm only requirse a single pass, and also only uses $O(1)$ space complexity, improving on the two-pass algorithm [cite:@se112007]. It is able to do this by keeping track of three maximum values. It is slightly different than the style of solutions we've looked at so far because it does not keep track of the buy and sell dates.
+
+#+header: :noweb-ref __NREF__buy_sell_twice
+#+begin_src python
+def single_pass_maybe_sell_twice(prices: list[int]
+  ) -> Optional[int]:
+  if len(prices) < 2:
+    return None
+
+  min_price_so_far = float('inf')
+  max_profit_after_first_sell = 0
+  max_profit_after_second_buy = float('-inf')
+  max_profit_after_second_sell = 0
+
+  for price in prices:
+    min_price_so_far = min(price, min_price_so_far)
+    max_profit_after_first_sell = max(
+      int(price - min_price_so_far),
+      max_profit_after_first_sell)
+    max_profit_after_second_buy = max(
+      max_profit_after_first_sell - price,
+      max_profit_after_second_buy)
+    max_profit_after_second_sell = max(
+      int(price + max_profit_after_second_buy),
+      max_profit_after_second_sell)
+
+  if max_profit_after_second_sell:
+    return max_profit_after_second_sell
+
+  return None
+#+end_src
+
+*** Complexity
+- Time: $O(n)$, because we do a single pass over all elements.
+- Space: $O(1)$, because we only need to keep track of a fixed number of variables, independent of the size of the list of prices.
+
 * Tests
 
 #+name: test
@@ -285,6 +323,13 @@ class Test(unittest.TestCase):
     # Check that the other solutions agree with brute force.
     self.assertEqual(two_pass_maybe_sell_twice(given_prices),
                      got_maybe_sell_twice)
+
+    if (got_maybe_sell_twice is not None
+        and got_maybe_sell_twice[0] is not None
+        and got_maybe_sell_twice[1] is not None):
+      self.assertEqual(single_pass_maybe_sell_twice(given_prices),
+                       got_maybe_sell_twice[0].profit +
+                       got_maybe_sell_twice[1].profit )
 
 if __name__ == "__main__":
   unittest.main(exit=False)

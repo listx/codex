@@ -241,6 +241,11 @@
 <li><a href="#h-Complexity-1">3.2.1. Complexity</a></li>
 </ul>
 </li>
+<li><a href="#h-Single-pass-algorithm">3.3. Single-pass algorithm</a>
+<ul>
+<li><a href="#h-Complexity-2">3.3.1. Complexity</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#h-Tests">4. Tests</a></li>
@@ -531,6 +536,53 @@ Obviously there must be two transactions in order to maximize profit here, buyin
 </div>
 </div>
 </div>
+
+<div id="outline-container-h-Single-pass-algorithm" class="outline-3">
+<h3 id="h-Single-pass-algorithm"><span class="section-number-3">3.3.</span> Single-pass algorithm</h3>
+<div class="outline-text-3" id="text-h-Single-pass-algorithm">
+<p>
+This algorithm only requirse a single pass, and also only uses \(O(1)\) space complexity, improving on the two-pass algorithm (<a href="#citeproc_bib_item_2">eefiasfira (https://cs.stackexchange.com/users/107747/eefiasfira), n.d.</a>). It is able to do this by keeping track of three maximum values. It is slightly different than the style of solutions we've looked at so far because it does not keep track of the buy and sell dates.
+</p>
+
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">single_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
+  ) -&gt; Optional[<span class="org-builtin">int</span>]:
+  <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) &lt; 2:
+    <span class="org-keyword">return</span> <span class="org-constant">None</span>
+
+  <span class="org-variable-name">min_price_so_far</span> = <span class="org-builtin">float</span>(<span class="org-string">'inf'</span>)
+  <span class="org-variable-name">max_profit_after_first_sell</span> = 0
+  <span class="org-variable-name">max_profit_after_second_buy</span> = <span class="org-builtin">float</span>(<span class="org-string">'-inf'</span>)
+  <span class="org-variable-name">max_profit_after_second_sell</span> = 0
+
+  <span class="org-keyword">for</span> price <span class="org-keyword">in</span> <span class="org-variable-name">prices</span>:
+    min_price_so_far = <span class="org-builtin">min</span>(price, min_price_so_far)
+    <span class="org-variable-name">max_profit_after_first_sell</span> = <span class="org-builtin">max</span>(
+      <span class="org-builtin">int</span>(price - min_price_so_far),
+      max_profit_after_first_sell)
+    <span class="org-variable-name">max_profit_after_second_buy</span> = <span class="org-builtin">max</span>(
+      max_profit_after_first_sell - price,
+      max_profit_after_second_buy)
+    <span class="org-variable-name">max_profit_after_second_sell</span> = <span class="org-builtin">max</span>(
+      <span class="org-builtin">int</span>(price + max_profit_after_second_buy),
+      max_profit_after_second_sell)
+
+  <span class="org-keyword">if</span> max_profit_after_second_sell:
+    <span class="org-keyword">return</span> max_profit_after_second_sell
+
+  <span class="org-keyword">return</span> <span class="org-constant">None</span>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div>
+</div>
+
+<div id="outline-container-h-Complexity-2" class="outline-4">
+<h4 id="h-Complexity-2"><span class="section-number-4">3.3.1.</span> Complexity</h4>
+<div class="outline-text-4" id="text-h-Complexity-2">
+<ul class="org-ul">
+<li>Time: \(O(n)\), because we do a single pass over all elements.</li>
+<li>Space: \(O(1)\), because we only need to keep track of a fixed number of variables, independent of the size of the list of prices.</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h-Tests" class="outline-2">
@@ -585,6 +637,13 @@ Obviously there must be two transactions in order to maximize profit here, buyin
     <span class="org-keyword">self</span>.assertEqual(two_pass_maybe_sell_twice(given_prices),
                      got_maybe_sell_twice)
 
+    <span class="org-keyword">if</span> (got_maybe_sell_twice <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
+        <span class="org-keyword">and</span> got_maybe_sell_twice[0] <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
+        <span class="org-keyword">and</span> got_maybe_sell_twice[1] <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>):
+      <span class="org-keyword">self</span>.assertEqual(single_pass_maybe_sell_twice(given_prices),
+                       got_maybe_sell_twice[0].profit +
+                       got_maybe_sell_twice[1].profit )
+
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
   unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
 </pre></div>
@@ -596,6 +655,7 @@ Obviously there must be two transactions in order to maximize profit here, buyin
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>eefiasfira (https://cs.stackexchange.com/users/107747/eefiasfira). (n.d.). <i>O(1) space, o(n) complexity algorithm for buy and sell stock twice interview question</i>. Computer Science Stack Exchange. <a href="https://cs.stackexchange.com/q/112007">https://cs.stackexchange.com/q/112007</a></div>
 </div>
 </div>
 </div>

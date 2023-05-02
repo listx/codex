@@ -134,6 +134,32 @@ def two_pass_maybe_sell_twice(prices: list[int]
     return None
 
   return txn1, txn2
+def single_pass_maybe_sell_twice(prices: list[int]
+  ) -> Optional[int]:
+  if len(prices) < 2:
+    return None
+
+  min_price_so_far = float('inf')
+  max_profit_after_first_sell = 0
+  max_profit_after_second_buy = float('-inf')
+  max_profit_after_second_sell = 0
+
+  for price in prices:
+    min_price_so_far = min(price, min_price_so_far)
+    max_profit_after_first_sell = max(
+      int(price - min_price_so_far),
+      max_profit_after_first_sell)
+    max_profit_after_second_buy = max(
+      max_profit_after_first_sell - price,
+      max_profit_after_second_buy)
+    max_profit_after_second_sell = max(
+      int(price + max_profit_after_second_buy),
+      max_profit_after_second_sell)
+
+  if max_profit_after_second_sell:
+    return max_profit_after_second_sell
+
+  return None
 
 class Test(unittest.TestCase):
   cases = [
@@ -176,6 +202,13 @@ class Test(unittest.TestCase):
     # Check that the other solutions agree with brute force.
     self.assertEqual(two_pass_maybe_sell_twice(given_prices),
                      got_maybe_sell_twice)
+
+    if (got_maybe_sell_twice is not None
+        and got_maybe_sell_twice[0] is not None
+        and got_maybe_sell_twice[1] is not None):
+      self.assertEqual(single_pass_maybe_sell_twice(given_prices),
+                       got_maybe_sell_twice[0].profit +
+                       got_maybe_sell_twice[1].profit )
 
 if __name__ == "__main__":
   unittest.main(exit=False)
