@@ -544,6 +544,10 @@ Obviously there must be two transactions in order to maximize profit here, buyin
 This algorithm only requirse a single pass, and also only uses \(O(1)\) space complexity, improving on the two-pass algorithm (<a href="#citeproc_bib_item_2">eefiasfira (https://cs.stackexchange.com/users/107747/eefiasfira), n.d.</a>). It is able to do this by keeping track of three maximum values. It is slightly different than the style of solutions we've looked at so far because it does not keep track of the buy and sell dates.
 </p>
 
+<p>
+The key is to assume that a second buy has occurred at some previous iteration, and then to see how much profit we can make after a second sale if we assume that we can sell for a second time today (in the current iteration).
+</p>
+
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">single_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
   ) -&gt; Optional[<span class="org-builtin">int</span>]:
   <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) &lt; 2:
@@ -570,7 +574,21 @@ This algorithm only requirse a single pass, and also only uses \(O(1)\) space co
     <span class="org-keyword">return</span> max_profit_after_second_sell
 
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+Variables <code>min_price_so_far</code> and <code>max_profit_after_first_sell</code> are the essentially the same variables used in the optimum solution for <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock once"</a>.
+</p>
+
+<p>
+Variable <code>max_profit_after_second_buy</code> will only track the cheapest price available while still assuming the context of <code>max_profit_after_first_sell</code>. It's like tracking a second minimum price value (for the best value for the second buy), except that we track the <i>maximum</i> (leftover) profit to be made. The corresponding <code>max_profit_after_second_sell</code> variable just checks what the total profit would be assuming a second sale; the neat thing is that it already has the profits from the first sale accounted for.
+</p>
+
+<p>
+One difference with this algorithm than the other approaches we've seen so far is that it considers selling stock on the same day that it bought stock.
+</p>
+
+<p>
+You may also be wondering if it is possible to tweak this algorithm to keep track of the buy and sell dates (as we have done in the other algorithms). This is not possible. For example, consider the following input: <code>[3, 4, 2, 5, 1, 6]</code>. When we see the price at 1, we will set this as the new <code>min_price_so_far</code>. However by setting this value, we make this the date of the first buy date (as it is used for calculating <code>max_profit_after_first_sell</code>), which is wrong (it should be the second buy date).
+</p>
 </div>
 
 <div id="outline-container-h-Complexity-2" class="outline-4">
@@ -609,6 +627,7 @@ This algorithm only requirse a single pass, and also only uses \(O(1)\) space co
     ([1, 1, 1, 2],                (TXN(0, 3, 1),  <span class="org-constant">None</span>)),
     ([1, 2, 2, 3],                (TXN(0, 3, 2),  <span class="org-constant">None</span>)),
     ([3, 5, 2, 1, 3],             (TXN(0, 1, 2),  TXN(3, 4, 2))),
+    ([3, 4, 2, 5, 1, 6],          (TXN(2, 3, 3),  TXN(4, 5, 5))),
   ]
 
   <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):

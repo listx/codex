@@ -175,6 +175,7 @@ class Test(unittest.TestCase):
     ([1, 1, 1, 2],                (TXN(0, 3, 1),  None)),
     ([1, 2, 2, 3],                (TXN(0, 3, 2),  None)),
     ([3, 5, 2, 1, 3],             (TXN(0, 1, 2),  TXN(3, 4, 2))),
+    ([3, 4, 2, 5, 1, 6],          (TXN(2, 3, 3),  TXN(4, 5, 5))),
   ]
 
   def test_simple_cases(self):
