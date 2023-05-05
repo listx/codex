@@ -629,6 +629,8 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
 
 #+name: __NREF__codex-prettify-source-code-captions
 #+begin_src emacs-lisp
+(setq codex-polyblock-names (make-hash-table :test 'equal))
+
 (defun codex-prettify-source-code-captions (src-block-html backend info)
   (when (org-export-derived-backend-p backend 'html)
     ;; Break up source block into 3 subparts --- the leading <div ...>, the <label ...></label> (if any) and
@@ -672,6 +674,10 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
              (if source-block-name-match
                  (match-string-no-properties 1 caption-parts)
                  ""))
+           ;; This is just used for the side effect of recording the
+           ;; source-block-name, to be used for the fallback-id.
+           (source-block-counter (gethash source-block-name codex-polyblock-names 0))
+           (source-block-counter-incremented (puthash source-block-name (+ 1 source-block-counter) codex-polyblock-names))
            (source-block-name-styled
              (cond ((string-prefix-p "__NREF__" source-block-name)
                     (concat
@@ -696,29 +702,44 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
                  (format "<span class=\"codex-caption-parent-link\"><a href=\"%s\">%s</a></span>"
                    (match-string-no-properties 1 caption-parts) (string-remove-prefix "__NREF__" source-block-name))
                  ""))
+           ;; For polyblocks, only the first (head) block gets an id field for a
+           ;; <pre> tag. The rest (tail) don't have this field so they would
+           ;; normally get assigned a deadlink. To avoid this, use a counter for
+           ;; the parent-id, because this parent-id is shared across all
+           ;; polyblocks. Then use this with the parent-id to generate an
+           ;; alternate, fallback-id. This way the tail polyblocks get assigned
+           ;; a unique (meaningful) ID and not just "##deadlink".
+           (fallback-id
+             (if (string= pre-id "#deadlink")
+                 (format "%s-%s" source-block-name source-block-counter-incremented)
+                 pre-id))
+           (pre-tag-match
+             (string-match
+               (rx-to-string
+                 '(and
+                       "<pre "
+                       (group (* (not ">")))
+                       ">"))
+               body))
+           (pre-tag-entire (match-string-no-properties 0 body))
+           (pre-tag-contents (match-string-no-properties 1 body))
+           (body-with-replaced-pre
+             (if pre-id-match
+                 body-with-newlines
+                 (string-replace pre-tag-entire
+                                 (concat "<pre " pre-tag-contents
+                                         (format " id=\"%s\"" fallback-id) ">") body-with-newlines)))
            (link-symbol
              (if parent-id-match
                  (format "<span class=\"codex-caption-link-symbol\"><a href=\"#%s\">&#x1f517;</a></span>"
-                   pre-id)
-                 ""))
-           (listing-number-match
-             (string-match
-               (rx-to-string
-                 '(and "Listing "
-                       (group (+ (any digit)))))
-               caption-parts))
-           (listing-number
-             (if listing-number-match
-                 (format "<span class=\"codex-caption-listing-number\"><a href=\"#%s\">#%s</a></span>"
-                   pre-id
-                   (match-string-no-properties 1 caption-parts))
+                   fallback-id)
                  "")))
       (if (s-blank? caption)
        src-block-html
        (concat
         leading-div
         "<div class=\"codex-pre-with-caption\">"
-        body-with-newlines
+        body-with-replaced-pre
         "</div>"
         "<div class=\"codex-caption\">"
         parent-id

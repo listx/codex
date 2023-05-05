@@ -275,7 +275,7 @@ First just consider horizontal overlap. The check to see if there is <b>no</b> o
 By symmetry, the code for <code>no_vertical_overlap()</code> is rather similar.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">no_horizontal_overlap</span>(a, b):
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__overlapping_rectangle-2"><span class="org-keyword">def</span> <span class="org-function-name">no_horizontal_overlap</span>(a, b):
   <span class="org-comment-delimiter"># </span><span class="org-comment">"L" means leftmost point</span>
   <span class="org-comment-delimiter"># </span><span class="org-comment">"R" means rightmost point</span>
   <span class="org-variable-name">a_L</span> = a.x
@@ -293,7 +293,7 @@ By symmetry, the code for <code>no_vertical_overlap()</code> is rather similar.
   <span class="org-keyword">return</span> a_T &lt; b_B <span class="org-keyword">or</span> a_B &gt; b_T
 <span class="org-keyword">def</span> <span class="org-function-name">no_overlap</span>(a, b):
   <span class="org-keyword">return</span> no_horizontal_overlap(a, b) <span class="org-keyword">or</span> no_vertical_overlap(a, b)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-2">&#x1f517;</a></span></div></div><p>
 The code in (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 40</a>) actually does the opposite to check for overlap (instead of no-overlap). And so they use <code>a_R &gt;= b_L and a_L &lt;= b_R</code> instead. However that code is a tiny bit slower because of the use of <code>and</code> instead of <code>or</code> as we've done here.
 </p>
 
@@ -301,7 +301,7 @@ The code in (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 40</a>) actual
 Now that we can check if there is no overlap, we can proceed to calculating the actual overlapping (smaller) rectangle.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">overlapping_rectangle</span>(a, b):
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__overlapping_rectangle-3"><span class="org-keyword">def</span> <span class="org-function-name">overlapping_rectangle</span>(a, b):
   <span class="org-keyword">if</span> no_overlap(a, b):
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
   <span class="org-variable-name">a_L</span> = a.x
@@ -312,7 +312,7 @@ Now that we can check if there is no overlap, we can proceed to calculating the 
   <span class="org-variable-name">a_T</span> = a.y + a.height
   <span class="org-variable-name">b_B</span> = b.y
   <span class="org-variable-name">b_T</span> = b.y + b.height
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-3">&#x1f517;</a></span></div></div><p>
 Now that we have all of our points defined, first consider the \((X, Y)\) coordinate (lower-left corner) of the overlapping rectangle (let's call this rectangle <code>v</code>). What is the leftmost side of <code>v</code>? It's just the max of either <code>a</code> or <code>b</code>, because we already know that they overlap:
 </p>
 
@@ -338,9 +338,9 @@ bbbbbbb
 So we need to get either <code>a_L</code> or <code>b_L</code>. In both cases, this value is <code>max(a_L, b_L)</code>. For the Y axis, similar logic follows and we need to use <code>max(a_B, b_B)</code>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python">  <span class="org-variable-name">v_x</span> = <span class="org-builtin">max</span>(a_L, b_L)
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__overlapping_rectangle-4">  <span class="org-variable-name">v_x</span> = <span class="org-builtin">max</span>(a_L, b_L)
   <span class="org-variable-name">v_y</span> = <span class="org-builtin">max</span>(a_B, b_B)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-4">&#x1f517;</a></span></div></div><p>
 What about width the width? The width is the rightmost point subtracted by the leftmost point. We already know the leftmost point of <code>v</code>, <code>v_x</code>. So we just need to calculate the rightmost point. We can get the rightmost point by taking the minimum of the rightmost points of either <code>a</code> or <code>b</code>. Using the same examples from above, we have
 </p>
 
@@ -366,10 +366,10 @@ bbbbbbb
 where in both cases, the value is <code>min(a_R, b_R)</code>. Then we can just subtract <code>v_x</code> from it to get the width. By symmetry, the calculation of v<sub>height</sub> is essentially the same.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python">  <span class="org-variable-name">v_width</span> = <span class="org-builtin">min</span>(a_R, b_R) - v_x
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__overlapping_rectangle-5">  <span class="org-variable-name">v_width</span> = <span class="org-builtin">min</span>(a_R, b_R) - v_x
   <span class="org-variable-name">v_height</span> = <span class="org-builtin">min</span>(a_T, b_T) - v_y
   <span class="org-keyword">return</span> Rect(v_x, v_y, v_width, v_height)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-5">&#x1f517;</a></span></div></div>
 </div>
 </div>
 

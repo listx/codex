@@ -339,7 +339,7 @@ Instead we can do a 2-pass algorithm. Here we consider two cases: (1) selling on
 First get the optimum buy/sell dates if we are only buying and selling just once.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; <span class="org-variable-name">Optional</span>[TXN]:
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__buy_sell_twice-2"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; <span class="org-variable-name">Optional</span>[TXN]:
   <span class="org-keyword">if</span> <span class="org-keyword">not</span> prices:
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
@@ -356,11 +356,11 @@ First get the optimum buy/sell dates if we are only buying and selling just once
 
   <span class="org-comment-delimiter"># </span><span class="org-comment">If no profitable trade found, return None.</span>
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-2">&#x1f517;</a></span></div></div><p>
 Now split up the given list into 2 sublists, where each sublist must have length 2 or greater. The length must be at least 2, because this is the minimum length for buying and selling. Now run <code>brute_force</code> against each of these sublists. If the two buy/sell transactions' combined profit is greater than the single transaction's profit, we take note of it.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">brute_force_sublists</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__buy_sell_twice-3"><span class="org-keyword">def</span> <span class="org-function-name">brute_force_sublists</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
   ) -&gt; Optional[<span class="org-builtin">tuple</span>[TXN, TXN]]:
 
   <span class="org-comment-delimiter"># </span><span class="org-comment">There are 2 sublists and each one must have at least 2 items.</span>
@@ -392,11 +392,11 @@ Now split up the given list into 2 sublists, where each sublist must have length
     <span class="org-keyword">return</span> txn_dates
 
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-3">&#x1f517;</a></span></div></div><p>
 Now that we know how to calculate the max profit for a single transaction as well as two transactions, we just have to compare them and see which one has a greater profit.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">brute_force_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__buy_sell_twice-4"><span class="org-keyword">def</span> <span class="org-function-name">brute_force_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
   ) -&gt; Optional[<span class="org-builtin">tuple</span>[Optional[TXN], Optional[TXN]]]:
 
   <span class="org-variable-name">txn</span> = brute_force(prices)
@@ -417,7 +417,7 @@ Now that we know how to calculate the max profit for a single transaction as wel
   <span class="org-comment-delimiter"># </span><span class="org-comment">If the max_sell_twice profit wasn't bigger, then the best we got is the one</span>
   <span class="org-comment-delimiter"># </span><span class="org-comment">from the one sale in txn.</span>
   <span class="org-keyword">return</span> txn, <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-4">&#x1f517;</a></span></div></div>
 </div>
 
 <div id="outline-container-h-Complexity" class="outline-4">
@@ -455,7 +455,7 @@ Then we can do a second pass by iterating through each day in reverse, getting t
 Essentially these two passes, on their own, can get the same answer for the scenario of buying and selling once. The first one asks "assuming that we bought already and <i>must sell</i> today, how much money can I make?" while the second one asks "assuming that we must sell sometime in the future and <i>must buy</i> today, how much money will I make?". They are two sides of the same coin. The key property of the second question though, is that we can ask it while iterating backwards in time, such that we only have to iterate backwards <i>once</i>, just like how we can iterate forwards <i>once</i> with the first algorithm. Using these two complementary styles minimizes the number of traversals because we can burn the candle at both ends, so to speak.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">two_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__buy_sell_twice-5"><span class="org-keyword">def</span> <span class="org-function-name">two_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
   ) -&gt; Optional[<span class="org-builtin">tuple</span>[Optional[TXN], Optional[TXN]]]:
   <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) &lt; 2:
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
@@ -512,7 +512,7 @@ Essentially these two passes, on their own, can get the same answer for the scen
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
   <span class="org-keyword">return</span> txn1, txn2
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-5">&#x1f517;</a></span></div></div><p>
 In the second pass, we do <code>price &gt;= max_price_so_far</code> instead of the simpler <code>price &gt; max_price_so_far</code> because we want to agree exactly with the brute force approach. For example, consider the case
 </p>
 
@@ -548,7 +548,7 @@ This algorithm only requirse a single pass, and also only uses \(O(1)\) space co
 The key is to assume that a second buy has occurred at some previous iteration, and then to see how much profit we can make after a second sale if we assume that we can sell for a second time today (in the current iteration).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python"><span class="org-keyword">def</span> <span class="org-function-name">single_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__buy_sell_twice-6"><span class="org-keyword">def</span> <span class="org-function-name">single_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
   ) -&gt; Optional[<span class="org-builtin">int</span>]:
   <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) &lt; 2:
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
@@ -574,7 +574,7 @@ The key is to assume that a second buy has occurred at some previous iteration, 
     <span class="org-keyword">return</span> max_profit_after_second_sell
 
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-6">&#x1f517;</a></span></div></div><p>
 Variables <code>min_price_so_far</code> and <code>max_profit_after_first_sell</code> are the essentially the same variables used in the optimum solution for <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock once"</a>.
 </p>
 

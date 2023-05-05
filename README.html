@@ -1115,7 +1115,9 @@ We only care about source code blocks with a <code>&lt;label&gt;</code> because 
 For the last step, we want to additionally parse the inner "Listing N &#x2026; PARENT-link" text and transform it with reordering and also additional metadata information such as <code>&lt;span class="..."&gt;</code> tags.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-prettify-source-code-captions">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-prettify-source-code-captions</span> (src-block-html backend info)
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-prettify-source-code-captions">(<span class="org-keyword">setq</span> codex-polyblock-names (make-hash-table <span class="org-builtin">:test</span> 'equal))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">codex-prettify-source-code-captions</span> (src-block-html backend info)
   (<span class="org-keyword">when</span> (org-export-derived-backend-p backend 'html)
     <span class="org-comment-delimiter">;; </span><span class="org-comment">Break up source block into 3 subparts --- the leading &lt;div ...&gt;, the &lt;label ...&gt;&lt;/label&gt; (if any) and</span>
     <span class="org-comment-delimiter">;; </span><span class="org-comment">&lt;pre ...&gt;&lt;/pre&gt;.</span>
@@ -1158,6 +1160,10 @@ For the last step, we want to additionally parse the inner "Listing N &#x2026; P
              (<span class="org-keyword">if</span> source-block-name-match
                  (match-string-no-properties 1 caption-parts)
                  <span class="org-string">""</span>))
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">This is just used for the side effect of recording the</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">source-block-name, to be used for the fallback-id.</span>
+           (source-block-counter (gethash source-block-name codex-polyblock-names 0))
+           (source-block-counter-incremented (puthash source-block-name (+ 1 source-block-counter) codex-polyblock-names))
            (source-block-name-styled
              (<span class="org-keyword">cond</span> ((string-prefix-p <span class="org-string">"__NREF__"</span> source-block-name)
                     (concat
@@ -1182,29 +1188,44 @@ For the last step, we want to additionally parse the inner "Listing N &#x2026; P
                  (format <span class="org-string">"&lt;span class=\"codex-caption-parent-link\"&gt;&lt;a href=\"%s\"&gt;%s&lt;/a&gt;&lt;/span&gt;"</span>
                    (match-string-no-properties 1 caption-parts) (string-remove-prefix <span class="org-string">"__NREF__"</span> source-block-name))
                  <span class="org-string">""</span>))
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">For polyblocks, only the first (head) block gets an id field for a</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">&lt;pre&gt; tag. The rest (tail) don't have this field so they would</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">normally get assigned a deadlink. To avoid this, use a counter for</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">the parent-id, because this parent-id is shared across all</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">polyblocks. Then use this with the parent-id to generate an</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">alternate, fallback-id. This way the tail polyblocks get assigned</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">a unique (meaningful) ID and not just "##deadlink".</span>
+           (fallback-id
+             (<span class="org-keyword">if</span> (string= pre-id <span class="org-string">"#deadlink"</span>)
+                 (format <span class="org-string">"%s-%s"</span> source-block-name source-block-counter-incremented)
+                 pre-id))
+           (pre-tag-match
+             (string-match
+               (rx-to-string
+                 '(and
+                       <span class="org-string">"&lt;pre "</span>
+                       (group (* (not <span class="org-string">"&gt;"</span>)))
+                       <span class="org-string">"&gt;"</span>))
+               body))
+           (pre-tag-entire (match-string-no-properties 0 body))
+           (pre-tag-contents (match-string-no-properties 1 body))
+           (body-with-replaced-pre
+             (<span class="org-keyword">if</span> pre-id-match
+                 body-with-newlines
+                 (string-replace pre-tag-entire
+                                 (concat <span class="org-string">"&lt;pre "</span> pre-tag-contents
+                                         (format <span class="org-string">" id=\"%s\""</span> fallback-id) <span class="org-string">"&gt;"</span>) <span class="org-warning">body-with-newlines)))</span>
            (link-symbol
              (<span class="org-keyword">if</span> parent-id-match
                  (format <span class="org-string">"&lt;span class=\"codex-caption-link-symbol\"&gt;&lt;a href=\"#%s\"&gt;&amp;#x1f517;&lt;/a&gt;&lt;/span&gt;"</span>
-                   pre-id)
-                 <span class="org-string">""</span>))
-           (listing-number-match
-             (string-match
-               (rx-to-string
-                 '(and <span class="org-string">"Listing "</span>
-                       (group (+ (any digit)))))
-               caption-parts))
-           (listing-number
-             (<span class="org-keyword">if</span> listing-number-match
-                 (format <span class="org-string">"&lt;span class=\"codex-caption-listing-number\"&gt;&lt;a href=\"#%s\"&gt;#%s&lt;/a&gt;&lt;/span&gt;"</span>
-                   pre-id
-                   (match-string-no-properties 1 caption-parts))
+                   fallback-id)
                  <span class="org-string">""</span>)))
       (<span class="org-keyword">if</span> (s-blank? caption)
        src-block-html
        (concat
         leading-div
         <span class="org-string">"&lt;div class=\"codex-pre-with-caption\"&gt;"</span>
-        body-with-newlines
+        body-with-replaced-pre
         <span class="org-string">"&lt;/div&gt;"</span>
         <span class="org-string">"&lt;div class=\"codex-caption\"&gt;"</span>
         parent-id
@@ -1577,8 +1598,8 @@ Org mode also injects an HTML comment (not visible to the user) to record the ti
 By default Org mode appends visible metadata at the bottom of the HTML document, including the Org version used to generate the document. We suppress this information.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> org-html-postamble nil)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div>
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-2">(<span class="org-keyword">setq</span> org-html-postamble nil)
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div></div>
 </div>
 </div>
 
@@ -1593,12 +1614,12 @@ Stop randomized ids from being generated every time. Instead count from 0 and wo
 See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-deterministic-reference</span> (references)
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-3">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-deterministic-reference</span> (references)
   (<span class="org-keyword">let</span> ((new (length references)))
      (<span class="org-keyword">while</span> (rassq new references) (<span class="org-keyword">setq</span> new (+ new 1)))
      new))
 (advice-add #'org-export-new-reference <span class="org-builtin">:override</span> #'org-export-deterministic-reference)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="##deadlink">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div></div>
 </div>
 </div>
 </div>
@@ -1945,7 +1966,7 @@ The code used to generate the diagrams used in this doc is <a href="image.html">
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from <code>git diff</code> by treating them as binary data.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-gitattributes">* -diff
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-gitattributes" id=".gitattributes-1">* -diff
 **/*.org diff
 **/.gitattributes diff
 **/.gitmodules diff
