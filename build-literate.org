@@ -1137,24 +1137,6 @@ By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a C
 (setq org-html-doctype "html5")
 #+end_src
 
-**** TODO move this bit into a snippet that's autoloaded upon opening up this org file (and any other org file that we use)
-
-#+name: set_org_link_behavior
-#+begin_src emacs-lisp
-(setq org-id-link-to-org-use-id 't)
-#+end_src
-
-The following bit is needed so that Org is able to resolve ID-style links of the form =[[id:...][...]=. We just list all of our Org files so that they can be parsed for link IDs. We could generate the list of Org files dynamically, but because there are so few of these, we just do it manually here.
-
-NOTE: Actually, this doesn't work because we need to inject "ID" properties everywhere (and unfortunately these gets exported, creating a mess) and also the links themselves are broken because of the way we include these files into the main file.
-
-#+name: org_reset_link_ids
-#+begin_src emacs-lisp
-(let ((files '("build-literate.org"
-               "README.org")))
-  (org-id-update-id-locations files))
-#+end_src
-
 *** Imports
 
 #+name: __NREF__codex_dot_el-imports
