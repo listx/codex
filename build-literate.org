@@ -1114,7 +1114,7 @@ See https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf.
 
 *** Misc settings
 
-Disable backup files for =codex.el= (that look like =codex.el~=) when we invoke Emacs from the [[Makefile]].
+Disable backup files for =codex.el= (that look like =codex.el~=) when we invoke Emacs from the [[Makefile][Makefile]].
 
 #+name: __NREF__codex_dot_el-misc
 #+begin_src emacs-lisp
