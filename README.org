@@ -150,6 +150,22 @@ The problems are drawn from [cite:@epip]. Other reference materials are cited wh
     eprint = {https://cs.stackexchange.com/q/112007},
     url = {https://cs.stackexchange.com/q/112007}
 }
+
+@article{knuth_literate_1984,
+    title = {Literate Programming},
+    volume = {27},
+    issn = {0010-4620, 1460-2067},
+    url = {https://academic.oup.com/comjnl/article-lookup/doi/10.1093/comjnl/27.2.97},
+    doi = {10.1093/comjnl/27.2.97},
+    language = {en},
+    number = {2},
+    urldate = {2023-05-03},
+    journal = {The Computer Journal},
+    author = {Knuth, D. E.},
+    month = feb,
+    year = {1984},
+    pages = {97--111},
+}
 #+end_src
 
 #+CITE_EXPORT: csl ~/prog/codex/deps/styles/ieee.csl
