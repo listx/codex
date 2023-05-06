@@ -166,6 +166,21 @@ The problems are drawn from [cite:@epip]. Other reference materials are cited wh
     year = {1984},
     pages = {97--111},
 }
+
+@article{ramsey_literate_1994,
+    title = {Literate programming simplified},
+    author = {Ramsey, Norman},
+    year = {1994},
+    journal = {IEEE Software},
+    volume = {11},
+    issn = {1937-4194},
+    doi = {10.1109/52.311070},
+    abstract = {Literate programming tools let you arrange the parts of a program in any order and extract documentation and code from the same source file. The author argues that language-dependence and feature complexity have hampered acceptance of these tools, then offers a simpler alternative.{\textless}{\textgreater}},
+    number = {5},
+    month = sep,
+    keywords = {Documentation, Code standards, Writing, Program processors, Computer languages, Operating systems, Internet, Strips, Pipelines},
+    pages = {97--105},
+}
 #+end_src
 
 #+CITE_EXPORT: csl ~/prog/codex/deps/styles/ieee.csl

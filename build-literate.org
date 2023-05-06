@@ -49,17 +49,18 @@ This example illustrates the two ways to define a child block: either as a singl
 
 Weaving is conceptually simpler than tangling because there is no extra step --- the output is an HTML page and that is something that we can use directly (unlike program source code, which may require additional compilation into a binary, depending on the language). We also limit ourselves to only HTML for simplicity (in particular, we don't have to worry about page breaks).
 
-Weaving for requires the following dependencies:
+However, most of the code in [[file:codex.el][=codex.el=]] have to do with weaving because the default infrastructure that ships with Org mode is too rigid for our needs. For example, we make heavy use of Noweb-style [cite:@ramsey_literate_1994] references, but also add in extensive HTML links to allow the reader to jump around code easily because Org does not cross-link these references by default.
 
-| Dependency | Why      | How to install it |
-|------------+----------+-------------------|
-| GNU Make   |          | ?                 |
-| emacs      |          |                   |
-| texlive    | Diagrams |                   |
-| pdf2svg    | Diagrams |                   |
-| inkscape   | Diagrams |                   |
+Weaving currently requires the following dependencies:
 
-For Codex, we have a top-level =Makefile= so that we can run some =make= commands on the command line (instead of needing to invoke emacs directly).
+| Dependency | Why                      |
+|------------+--------------------------|
+| GNU Make   | to run "make"            |
+| emacs      | for tangling and weaving |
+
+Note that all of the above can be brought in by using the [[https://github.com/NixOS/nix][Nix package manager]].
+
+We have a top-level =Makefile= so that we can run some =make= commands on the command line (instead of needing to invoke emacs directly).
 
 #+name: Makefile
 #+caption: =Makefile=
@@ -94,7 +95,7 @@ weave: build-html
 build-html: README.html $(woven_html)
 .PHONY: build-html
 
-README.html: build-literate.org README.org
+README.html: build-literate.org README.org citations.bib
 	$(call run_emacs,(batch-org-gen-css-and-exit \"README.org\"),)
 	$(call run_emacs,(codex-publish),README.org)
 	sed -i 's/.csl-left-margin{float: left; padding-right: 0em/.csl-left-margin{float: left; padding-right: 1em/' README.html

@@ -438,7 +438,11 @@ Weaving is conceptually simpler than tangling because there is no extra step &#x
 </p>
 
 <p>
-Weaving for requires the following dependencies:
+However, most of the code in <a href="codex.el"><code>codex.el</code></a> have to do with weaving because the default infrastructure that ships with Org mode is too rigid for our needs. For example, we make heavy use of Noweb-style <a href="#citeproc_bib_item_9">[9]</a> references, but also add in extensive HTML links to allow the reader to jump around code easily because Org does not cross-link these references by default.
+</p>
+
+<p>
+Weaving currently requires the following dependencies:
 </p>
 
 <table>
@@ -448,51 +452,32 @@ Weaving for requires the following dependencies:
 <col  class="org-left">
 
 <col  class="org-left">
-
-<col  class="org-left">
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Dependency</th>
 <th scope="col" class="org-left">Why</th>
-<th scope="col" class="org-left">How to install it</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="org-left">GNU Make</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">?</td>
+<td class="org-left">to run "make"</td>
 </tr>
 
 <tr>
 <td class="org-left">emacs</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">texlive</td>
-<td class="org-left">Diagrams</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">pdf2svg</td>
-<td class="org-left">Diagrams</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">inkscape</td>
-<td class="org-left">Diagrams</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">for tangling and weaving</td>
 </tr>
 </tbody>
 </table>
 
 <p>
-For Codex, we have a top-level <code>Makefile</code> so that we can run some <code>make</code> commands on the command line (instead of needing to invoke emacs directly).
+Note that all of the above can be brought in by using the <a href="https://github.com/NixOS/nix">Nix package manager</a>.
+</p>
+
+<p>
+We have a top-level <code>Makefile</code> so that we can run some <code>make</code> commands on the command line (instead of needing to invoke emacs directly).
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-makefile" id="code-Makefile--code"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
@@ -525,7 +510,7 @@ endef
 <span class="org-makefile-targets">build-html</span>: README.html $(<span class="org-variable-name">woven_html</span>)
 <span class="org-makefile-targets">.PHONY</span>: build-html
 
-<span class="org-makefile-targets">README.html</span>: build-literate.org README.org
+<span class="org-makefile-targets">README.html</span>: build-literate.org README.org citations.bib
         $(<span class="org-variable-name">call</span> run_emacs,(batch-org-gen-css-and-exit \"README.org\"),)
         $(<span class="org-variable-name">call</span> run_emacs,(codex-publish),README.org)
         sed -i <span class="org-string">'s/.csl-left-margin{float: left; padding-right: 1em/.csl-left-margin{float: left; padding-right: 1em/'</span> README.html
@@ -2106,6 +2091,9 @@ pkgs.mkShell ({
   </div>
   <div class="csl-entry"><a id="citeproc_bib_item_8"></a>
     <div class="csl-left-margin">[8]</div><div class="csl-right-inline">D. E. Knuth, “Literate programming,” <i>The computer journal</i>, vol. 27, no. 2, pp. 97–111, Feb. 1984, doi: <a href="https://doi.org/10.1093/comjnl/27.2.97">10.1093/comjnl/27.2.97</a>.</div>
+  </div>
+  <div class="csl-entry"><a id="citeproc_bib_item_9"></a>
+    <div class="csl-left-margin">[9]</div><div class="csl-right-inline">N. Ramsey, “Literate programming simplified,” <i>Ieee software</i>, vol. 11, no. 5, pp. 97–105, Sep. 1994, doi: <a href="https://doi.org/10.1109/52.311070">10.1109/52.311070</a>.</div>
   </div>
 </div>
 </div>
