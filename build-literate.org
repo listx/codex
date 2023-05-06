@@ -1401,10 +1401,6 @@ __NREF__css-source-code-block-child-link-from-parent
 }
 #+end_src
 
-** Diagrams
-
-The code used to generate the diagrams used in this doc is [[file:image.html][here]]. We don't discuss that code in this doc because it would make this doc even more verbose.
-
 ** Ignore woven HTML from =git diff=
 
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from =git diff= by treating them as binary data.
