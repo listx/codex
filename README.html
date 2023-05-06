@@ -300,11 +300,15 @@ The <a href="COPYRIGHT">COPYRIGHT</a> file governs everything in this repository
 <h2 id="h-Introduction"><span class="section-number-2">2.</span> Introduction</h2>
 <div class="outline-text-2" id="text-h-Introduction">
 <p>
-This project aims to capture my notes for studying various programming problems (data structures and algorithms). Have a look at the problems in section <a href="#h-Layout">3</a>.
+This project aims to capture my notes for studying various programming problems (data structures and algorithms). Have a look at the problems in Section <a href="#h-Layout">3</a>.
 </p>
 
 <p>
-For those curious about how these notes were created, check out section <a href="#h-Literate-Programming-Build-System">5</a>.
+For those curious about how these notes were created, check out Section <a href="#h-Literate-Programming-Build-System">5</a>.
+</p>
+
+<p>
+As for why this project is named <i>Codex</i>, I just think it's a cool word that has the word "code" in it as a substring.
 </p>
 </div>
 </div>
@@ -590,6 +594,27 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 <div id="outline-container-h-Emacs-customizations-for-HTML-export--codex-el" class="outline-4">
 <h4 id="h-Emacs-customizations-for-HTML-export--codex-el"><span class="section-number-4">5.2.1.</span> Emacs customizations for HTML export (codex.el)</h4>
 <div class="outline-text-4" id="text-h-Emacs-customizations-for-HTML-export--codex-el">
+<p>
+The default Org mode defaults present two major problems:
+</p>
+
+<ol class="org-ol">
+<li>nondeterminism, and</li>
+<li>lack of cross-linking across Noweb references.</li>
+</ol>
+
+<p>
+Nondeterminism is problematic for us because it results in a different HTML file every time we run <code>org-babel-tangle</code>, <i>even if the Org files have not changed</i>. This is taken care of in Section <a href="#h-Fix-non-determinism">5.2.1.5</a>.
+</p>
+
+<p>
+We define "cross-linking" to mean the act of linking to a child source code block whenever we reference it from a parent source code block, and vice versa. These links manifest themselves as blue and green boxes in this document.
+</p>
+
+<p>
+The reason why cross-linking is so important is because the source code blocks are interleaved with prose. And the order of code presented may not match the order of code in the tangled output. And sometimes the reader may just want to jump to a source code block just to see its implementation right away instead of waiting for the prose to catch up to it. Cross-linking makes it easier to navigate by source code blocks. Cross-linking is implemented in FIXME.
+</p>
+
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="code-codex-el--code"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-imports">codex_dot_el-imports</a></span>
