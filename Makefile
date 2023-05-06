@@ -60,6 +60,7 @@ README.html: build-literate.org README.org citations.bib
 	$(call run_emacs,(batch-org-gen-css-and-exit \"README.org\"),)
 	$(call run_emacs,(codex-publish),README.org)
 	sed -i 's/.csl-left-margin{float: left; padding-right: 0em/.csl-left-margin{float: left; padding-right: 1em/' README.html
+	sed -i 's/.csl-right-inline{margin: 0 0 0 1em/.csl-right-inline{margin: 0 0 0 2em/' README.html
 
 $(foreach p,$(problem_dirs_without_prefix),$(eval $(call weave_org,problem/$(p)/README.html,problem/$(p)/README.org)))
 
