@@ -55,8 +55,8 @@ Weaving currently requires the following dependencies:
 
 | Dependency | Why                      |
 |------------+--------------------------|
-| GNU Make   | to run "make"            |
-| emacs      | for tangling and weaving |
+| [[https://www.gnu.org/software/make/][GNU Make]]   | to run "make"            |
+| [[https://www.gnu.org/software/emacs/][GNU Emacs]]  | for tangling and weaving |
 
 Note that all of the above can be brought in by using the [[https://github.com/NixOS/nix][Nix package manager]].
 

@@ -207,7 +207,11 @@
 <ul>
 <li><a href="#h-Copyright-notice">1. Copyright notice</a></li>
 <li><a href="#h-Introduction">2. Introduction</a></li>
-<li><a href="#h-Layout">3. Layout</a></li>
+<li><a href="#h-Layout">3. Layout</a>
+<ul>
+<li><a href="#h-Testing">3.1. Testing</a></li>
+</ul>
+</li>
 <li><a href="#h-Literate-Programming-Build-System">4. Literate Programming Build System</a>
 <ul>
 <li><a href="#h-Overview-of-how-LP-is-used-in-this-project">4.1. Overview of how LP is used in this project</a>
@@ -372,6 +376,47 @@ The problems are drawn from <a href="#citeproc_bib_item_1">[1]</a>. Other refere
 </tbody>
 </table>
 </div>
+
+<div id="outline-container-h-Testing" class="outline-3">
+<h3 id="h-Testing"><span class="section-number-3">3.1.</span> Testing</h3>
+<div class="outline-text-3" id="text-h-Testing">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Dependency</th>
+<th scope="col" class="org-left">Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="https://github.com/charliermarsh/ruff">Ruff</a></td>
+<td class="org-left">for linting</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/python/mypy">Mypy</a></td>
+<td class="org-left">for enforcing type hints</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/HypothesisWorks/hypothesis">Hypothesis</a></td>
+<td class="org-left">for property-based tests</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Currently all programs are implemented in Python, and tested with basic unit tests and the Hyothesis testing framework. All source code samples are linted as well with ruff and mypy. Suffice it to say that testing has been essential in checking the correctness of the puzzle solutions collected in this work.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h-Literate-Programming-Build-System" class="outline-2">
@@ -461,12 +506,12 @@ Weaving currently requires the following dependencies:
 </thead>
 <tbody>
 <tr>
-<td class="org-left">GNU Make</td>
+<td class="org-left"><a href="https://www.gnu.org/software/make/">GNU Make</a></td>
 <td class="org-left">to run "make"</td>
 </tr>
 
 <tr>
-<td class="org-left">emacs</td>
+<td class="org-left"><a href="https://www.gnu.org/software/emacs/">GNU Emacs</a></td>
 <td class="org-left">for tangling and weaving</td>
 </tr>
 </tbody>
