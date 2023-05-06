@@ -47,7 +47,7 @@ The problems are drawn from [cite:@epip]. Other reference materials are cited wh
 | [[file:problem/buy_sell_stock_once/README.org][Buy and sell stock once]]  | array               | [cite:@epip 51]                                                                              |
 | [[file:problem/buy_sell_stock_twice/README.org][Buy and sell stock twice]] | array               | [cite:@epip 53]                                                                              |
 
-** Testing
+* Tests
 
 | Dependency | Why                      |
 |------------+--------------------------|
@@ -55,7 +55,7 @@ The problems are drawn from [cite:@epip]. Other reference materials are cited wh
 | [[https://github.com/python/mypy][Mypy]]       | for enforcing type hints |
 | [[https://github.com/HypothesisWorks/hypothesis][Hypothesis]] | for property-based tests |
 
-Currently all programs are implemented in Python, and tested with basic unit tests and the Hyothesis testing framework. All source code samples are linted as well with ruff and mypy. Suffice it to say that testing has been essential in checking the correctness of the puzzle solutions collected in this work.
+All programs are implemented in Python, and tested with basic unit tests and the Hyothesis property-based testing framework. All source code samples are linted as well with ruff and mypy. Suffice it to say that testing has been essential in checking the correctness of the puzzle solutions collected in this work.
 
 * Literate Programming Build System
 
