@@ -1171,6 +1171,10 @@ We only care about source code blocks with a <code>&lt;label&gt;</code> because 
 For the last step, we want to additionally parse the inner "Listing N &#x2026; PARENT-link" text and transform it with reordering and also additional metadata information such as <code>&lt;span class="..."&gt;</code> tags.
 </p>
 
+<p>
+We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>polyblock-indicator</code> variable and display it.
+</p>
+
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-prettify-source-code-captions">(<span class="org-keyword">setq</span> codex-polyblock-names (make-hash-table <span class="org-builtin">:test</span> 'equal))
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-prettify-source-code-captions</span> (src-block-html backend info)
@@ -1216,6 +1220,9 @@ For the last step, we want to additionally parse the inner "Listing N &#x2026; P
              (<span class="org-keyword">if</span> source-block-name-match
                  (match-string-no-properties 1 caption-parts)
                  <span class="org-string">""</span>))
+           (polyblock-indicator
+             (<span class="org-keyword">if</span> (string-match <span class="org-string">"</span><span class="org-string"><span class="org-warning">\</span></span><span class="org-string">(polyblock</span><span class="org-string"><span class="org-warning">\</span></span><span class="org-string">)"</span> caption-parts)
+                 <span class="org-string">"(polyblock) "</span> <span class="org-string">""</span>))
            <span class="org-comment-delimiter">;; </span><span class="org-comment">This is just used for the side effect of recording the</span>
            <span class="org-comment-delimiter">;; </span><span class="org-comment">source-block-name, to be used for the fallback-id.</span>
            (source-block-counter (gethash source-block-name codex-polyblock-names 0))
@@ -1284,6 +1291,7 @@ For the last step, we want to additionally parse the inner "Listing N &#x2026; P
         body-with-replaced-pre
         <span class="org-string">"&lt;/div&gt;"</span>
         <span class="org-string">"&lt;div class=\"codex-caption\"&gt;"</span>
+        polyblock-indicator
         parent-id
         link-symbol
         <span class="org-string">"&lt;/div&gt;"</span>
@@ -1635,7 +1643,7 @@ Org mode also injects an HTML comment (not visible to the user) to record the ti
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism">(<span class="org-keyword">setq</span> org-export-time-stamp-file nil)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div></div>
 </div>
 </div>
 
@@ -1647,7 +1655,7 @@ By default Org mode appends visible metadata at the bottom of the HTML document,
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-2">(<span class="org-keyword">setq</span> org-html-postamble nil)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div></div>
 </div>
 </div>
 
@@ -1667,7 +1675,7 @@ See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">h
      (<span class="org-keyword">while</span> (rassq new references) (<span class="org-keyword">setq</span> new (+ new 1)))
      new))
 (advice-add #'org-export-new-reference <span class="org-builtin">:override</span> #'org-export-deterministic-reference)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div></div>
 </div>
 </div>
 </div>

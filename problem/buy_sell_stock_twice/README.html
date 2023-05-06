@@ -293,7 +293,7 @@ There are a lot of moving parts to keep track of. Let's use a data type to keep 
 
 <span class="org-keyword">import</span> collections
 <span class="org-variable-name">TXN</span> = collections.namedtuple(<span class="org-string">'TXN'</span>, (<span class="org-string">'buy_date'</span>, <span class="org-string">'sell_date'</span>, <span class="org-string">'profit'</span>))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice">&#x1f517;</a></span></div></div>
 </div>
 </div>
 </div>
@@ -356,7 +356,7 @@ First get the optimum buy/sell dates if we are only buying and selling just once
 
   <span class="org-comment-delimiter"># </span><span class="org-comment">If no profitable trade found, return None.</span>
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-2">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-2">&#x1f517;</a></span></div></div><p>
 Now split up the given list into 2 sublists, where each sublist must have length 2 or greater. The length must be at least 2, because this is the minimum length for buying and selling. Now run <code>brute_force</code> against each of these sublists. If the two buy/sell transactions' combined profit is greater than the single transaction's profit, we take note of it.
 </p>
 
@@ -392,7 +392,7 @@ Now split up the given list into 2 sublists, where each sublist must have length
     <span class="org-keyword">return</span> txn_dates
 
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-3">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-3">&#x1f517;</a></span></div></div><p>
 Now that we know how to calculate the max profit for a single transaction as well as two transactions, we just have to compare them and see which one has a greater profit.
 </p>
 
@@ -417,7 +417,7 @@ Now that we know how to calculate the max profit for a single transaction as wel
   <span class="org-comment-delimiter"># </span><span class="org-comment">If the max_sell_twice profit wasn't bigger, then the best we got is the one</span>
   <span class="org-comment-delimiter"># </span><span class="org-comment">from the one sale in txn.</span>
   <span class="org-keyword">return</span> txn, <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-4">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-4">&#x1f517;</a></span></div></div>
 </div>
 
 <div id="outline-container-h-Complexity" class="outline-4">
@@ -512,7 +512,7 @@ Essentially these two passes, on their own, can get the same answer for the scen
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
   <span class="org-keyword">return</span> txn1, txn2
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-5">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-5">&#x1f517;</a></span></div></div><p>
 In the second pass, we do <code>price &gt;= max_price_so_far</code> instead of the simpler <code>price &gt; max_price_so_far</code> because we want to agree exactly with the brute force approach. For example, consider the case
 </p>
 
@@ -574,7 +574,7 @@ The key is to assume that a second buy has occurred at some previous iteration, 
     <span class="org-keyword">return</span> max_profit_after_second_sell
 
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-6">&#x1f517;</a></span></div></div><p>
+</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#org0000002">buy_sell_twice</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__buy_sell_twice-6">&#x1f517;</a></span></div></div><p>
 Variables <code>min_price_so_far</code> and <code>max_profit_after_first_sell</code> are the essentially the same variables used in the optimum solution for <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock once"</a>.
 </p>
 

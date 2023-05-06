@@ -640,6 +640,8 @@ We only care about source code blocks with a =<label>= because that determines w
 
 For the last step, we want to additionally parse the inner "Listing N ... PARENT-link" text and transform it with reordering and also additional metadata information such as ~<span class="...">~ tags.
 
+We also save the SCB_POLYBLOCK_INDICATOR with the =polyblock-indicator= variable and display it.
+
 #+name: __NREF__codex-prettify-source-code-captions
 #+begin_src emacs-lisp
 (setq codex-polyblock-names (make-hash-table :test 'equal))
@@ -687,6 +689,9 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
              (if source-block-name-match
                  (match-string-no-properties 1 caption-parts)
                  ""))
+           (polyblock-indicator
+             (if (string-match "\(polyblock\)" caption-parts)
+                 "(polyblock) " ""))
            ;; This is just used for the side effect of recording the
            ;; source-block-name, to be used for the fallback-id.
            (source-block-counter (gethash source-block-name codex-polyblock-names 0))
@@ -755,6 +760,7 @@ For the last step, we want to additionally parse the inner "Listing N ... PARENT
         body-with-replaced-pre
         "</div>"
         "<div class=\"codex-caption\">"
+        polyblock-indicator
         parent-id
         link-symbol
         "</div>"

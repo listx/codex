@@ -412,6 +412,9 @@ When matching, reference is stored in match group 1."
              (if source-block-name-match
                  (match-string-no-properties 1 caption-parts)
                  ""))
+           (polyblock-indicator
+             (if (string-match "\(polyblock\)" caption-parts)
+                 "(polyblock) " ""))
            ;; This is just used for the side effect of recording the
            ;; source-block-name, to be used for the fallback-id.
            (source-block-counter (gethash source-block-name codex-polyblock-names 0))
@@ -480,6 +483,7 @@ When matching, reference is stored in match group 1."
         body-with-replaced-pre
         "</div>"
         "<div class=\"codex-caption\">"
+        polyblock-indicator
         parent-id
         link-symbol
         "</div>"
