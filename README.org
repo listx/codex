@@ -22,7 +22,9 @@ The [[file:COPYRIGHT][COPYRIGHT]] file governs everything in this repository, in
 
 * Introduction
 
-This project aims to capture my notes for studying various programming problems (data structures and algorithms).
+This project aims to capture my notes for studying various programming problems (data structures and algorithms). Have a look at the problems in section [[* Layout]].
+
+For those curious about how these notes were created, check out section [[* Literate Programming Build System]].
 
 * Layout
 
