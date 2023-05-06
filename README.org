@@ -36,7 +36,7 @@ The problems are drawn from [cite:@epip]. Other reference materials are cited wh
 #+HTML_HEAD: .problems-table col:nth-of-type(3) { width: 30%; }
 #+HTML_HEAD: </style>
 #+ATTR_HTML: :class problems-table
-| Name                     | Tags                | Sources                                                                                      |
+| Name                     | Tags                | References                                                                            |
 |--------------------------+---------------------+----------------------------------------------------------------------------------------------|
 | [[file:problem/parity/README.org][Parity]]                   | bitwise             | [cite:@epip 27; @hd 96]                                                                      |
 | [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]        | geometry            | [cite:@epip 39]                                                                              |
