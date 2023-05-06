@@ -257,7 +257,7 @@ Do not hardcode colors into the HTML. Instead refer to CSS class names, to be st
 
 **** Smart source code block captions
 
-We want every source code block to have a caption (=#+caption: ...=) to have the following items:
+We want every source code block that has a caption (=#+caption: ...=) to have the following items:
 
 1. [[(SCB_NAME)][=SCB_NAME=]]: name of the source code block,
 2. [[(SCB_POLYBLOCK_INDICATOR)][=SCB_POLYBLOCK_INDICATOR=]]: an indicator to show whether this block is broken up over multiple blocks, and
