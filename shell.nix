@@ -10,8 +10,6 @@ pkgs.mkShell ({
   buildInputs = [
     # Tangling and weaving for Literate Programming.
     pkgs.emacs
-    pkgs.inkscape
-    pkgs.pdf2svg
 
     # Misc
     pkgs.git
