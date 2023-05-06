@@ -1218,6 +1218,14 @@ a {
     color: #0000ff;
 }
 
+body {
+    font-size: 1.2em;
+}
+
+p {
+    font-size: 1.2em;
+}
+
 body, p, li, h1, h2, h3, h4, h5, h6, legend {
     font-family: "Source Serif Pro, serif";
 }
@@ -1252,19 +1260,14 @@ img {
 }
 
 /* Increase text size for smaller sections. */
-h5 {
+h3, h4, h5, h6 {
     margin-top: 1em;
     margin-bottom: 1em;
-    font-size: 12pt;
-}
-h6 {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    font-size: 12pt;
+    font-size: 18pt;
 }
 h7 {
     font-weight: bold;
-    font-size: 12pt;
+    font-size: 18pt;
 }
 .outline-7 {
     margin-top: 1em;
