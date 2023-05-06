@@ -917,15 +917,11 @@ The only thing remaining is the construction of =child-HTML_ID-hash-table=. We c
   (replace-regexp-in-string "<<<NEWLINE>>>" "\n" s))
 
 __NREF__custom-noweb-delimiters
-
-__NREF__babel-load-languages
-
-__NREF__evaluate-all-blocks
 #+end_src
 
-Note that we need to evaluate this lisp code if we want to run ~C-c C-v t~ to tangle code blocks properly in an interactive manner from an Emacs editing session.
+**** Custom Noweb delimiters
 
-FIXME: Evaluate this snippet of code when loading this file for editing purposes?
+Note that we need to evaluate this lisp code if we want to run ~C-c C-v t~ to tangle code blocks properly in an interactive manner from an Emacs editing session.
 
 #+name: __NREF__custom-noweb-delimiters
 #+begin_src emacs-lisp :noweb no
@@ -953,27 +949,14 @@ FIXME: Evaluate this snippet of code when loading this file for editing purposes
           (any alpha)
           (* (or (any alnum) "-" "_" ".")))))
 
-;; We only use starting delimiters. All of them start with comment characters recognized by various languages, exept for "__NREF__". This last one is a catch-all in case we want to inject a noweb reference on a line with some trailing content (because we cannot do ";; NREF: foo)" --- notice the trailing parentheses --- in elisp, because parinfer destroys it during an editing session).
-;; See https://emacs.stackexchange.com/a/73720/13006. Customize noweb delimiters.
+;; Customize noweb delimiters. Unlike traditional << and >> delimiters, we just use the "__NREF__" prefix as our only delimiter. This has the advantage of being encoded the same way into HTML, which makes our HTML modifications easier and more consistent across different source code languages.
+;; See https://emacs.stackexchange.com/a/73720/13006.
 (defun org-babel-noweb-wrap (&optional regexp)
   "Return regexp matching a Noweb reference.
 
 Match any reference, or only those matching REGEXP, if non-nil.
 When matching, reference is stored in match group 1."
   (codex-nref-rx t))
-#+end_src
-
-We need to do this; otherwise we cannot evaluate any source code blocks during weaving (while running emacs from the command line in batch mode).
-
-#+name: __NREF__babel-load-languages
-#+begin_src emacs-lisp
-;(org-babel-do-load-languages
-; 'org-babel-load-languages '((shell . t)))
-#+end_src
-
-#+name: __NREF__evaluate-all-blocks
-#+begin_src emacs-lisp
-(setq org-confirm-babel-evaluate nil)
 #+end_src
 
 *** Autogenerate CSS for syntax highlighting of source code blocks
@@ -1220,7 +1203,7 @@ __NREF__codex_dot_el-profiling
 
 ** Additional (hand-tweaked) CSS
 
-We add some additional CSS tweaks on top of the default "ReadTheOrg" (FIXME: add link) theme that we use.
+We add some additional CSS tweaks on top of what we get from Org.
 
 #+name: style.css
 #+caption: =style.css=

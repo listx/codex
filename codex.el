@@ -358,19 +358,14 @@
           (any alpha)
           (* (or (any alnum) "-" "_" ".")))))
 
-;; We only use starting delimiters. All of them start with comment characters recognized by various languages, exept for "__NREF__". This last one is a catch-all in case we want to inject a noweb reference on a line with some trailing content (because we cannot do ";; NREF: foo)" --- notice the trailing parentheses --- in elisp, because parinfer destroys it during an editing session).
-;; See https://emacs.stackexchange.com/a/73720/13006. Customize noweb delimiters.
+;; Customize noweb delimiters. Unlike traditional << and >> delimiters, we just use the "__NREF__" prefix as our only delimiter. This has the advantage of being encoded the same way into HTML, which makes our HTML modifications easier and more consistent across different source code languages.
+;; See https://emacs.stackexchange.com/a/73720/13006.
 (defun org-babel-noweb-wrap (&optional regexp)
   "Return regexp matching a Noweb reference.
 
 Match any reference, or only those matching REGEXP, if non-nil.
 When matching, reference is stored in match group 1."
   (codex-nref-rx t))
-
-;(org-babel-do-load-languages
-; 'org-babel-load-languages '((shell . t)))
-
-(setq org-confirm-babel-evaluate nil)
 
 (setq codex-polyblock-names (make-hash-table :test 'equal))
 
