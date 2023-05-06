@@ -11,7 +11,7 @@
 #+PROPERTY: header-args :noweb no-export
 
 # Number the top 5 levels of headings; since h1 is the title, this means headings
-# up to 4 numbers --- e.g., "1.2.3.4".
+# up to 5 numbers --- e.g., "1.2.3.4.5".
 #+OPTIONS: H:5
 
 #+BIBLIOGRAPHY: ./citations.bib
