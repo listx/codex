@@ -138,7 +138,7 @@ Nondeterminism is problematic for us because it results in a different HTML file
 
 We define "cross-linking" to mean the act of linking to a child source code block whenever we reference it from a parent source code block, and vice versa. These links manifest themselves as blue and green boxes in this document.
 
-The reason why cross-linking is so important is because the source code blocks are interleaved with prose. And the order of code presented may not match the order of code in the tangled output. And sometimes the reader may just want to jump to a source code block just to see its implementation right away instead of waiting for the prose to catch up to it. Cross-linking makes it easier to navigate by source code blocks. Cross-linking is implemented in FIXME.
+The reason why cross-linking is so important is because the source code blocks are interleaved with prose. And the order of code presented may not match the order of code in the tangled output. And sometimes the reader may just want to jump to a source code block just to see its implementation right away instead of waiting for the prose to catch up to it. Cross-linking makes it easier to navigate by source code blocks. Cross-linking is implemented in [[* HTML modifications]].
 
 #+name: codex.el
 #+caption: codex.el
