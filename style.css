@@ -3,11 +3,8 @@ a {
 }
 
 body {
-    font-size: 1.2em;
-}
-
-p {
-    font-size: 1.2em;
+    font-size: 1.5em;
+    margin: 0 100px;
 }
 
 body, p, li, h1, h2, h3, h4, h5, h6, legend {
@@ -69,6 +66,7 @@ thead {
 }
 
 pre {
+    font-size: 0.9em;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-left-radius: 5px;
