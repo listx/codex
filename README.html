@@ -255,10 +255,11 @@
 <li><a href="#h-Use-HTML5-export--not-XML--to-un-break-MathJax">5.2.1.6.1. Use HTML5 export, not XML (to un-break MathJax)</a></li>
 </ul>
 </li>
-<li><a href="#h-Imports">5.2.1.7. Imports</a></li>
-<li><a href="#h-Performance-optimizations">5.2.1.8. Performance optimizations</a>
+<li><a href="#h-Automatically-link-headlines--h2-to-h6">5.2.1.7. Automatically link headlines (h2 to h6)</a></li>
+<li><a href="#h-Imports">5.2.1.8. Imports</a></li>
+<li><a href="#h-Performance-optimizations">5.2.1.9. Performance optimizations</a>
 <ul>
-<li><a href="#h-Profiling">5.2.1.8.1. Profiling</a></li>
+<li><a href="#h-Profiling">5.2.1.9.1. Profiling</a></li>
 </ul>
 </li>
 </ul>
@@ -270,7 +271,7 @@
 <li><a href="#h-Links-to-child-source-block-from-parent">5.2.2.3. Links to child source block from parent</a></li>
 </ul>
 </li>
-<li><a href="#h-Use-theme-file">5.2.3. Use theme file</a></li>
+<li><a href="#h-Use--codex-theme--file">5.2.3. Use <code>codex.theme</code> file</a></li>
 <li><a href="#h-Ignore-woven-HTML-from--git-diff">5.2.4. Ignore woven HTML from <code>git diff</code></a>
 <ul>
 <li><a href="#h-git-add--p">5.2.4.1. <code>git add -p</code></a></li>
@@ -1718,8 +1719,59 @@ By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a C
 </div>
 </div>
 
+<div id="outline-container-h-Automatically-link-headlines--h2-to-h6" class="outline-5">
+<h5 id="h-Automatically-link-headlines--h2-to-h6"><span class="section-number-5">5.2.1.7.</span> Automatically link headlines (h2 to h6)</h5>
+<div class="outline-text-5" id="text-h-Automatically-link-headlines--h2-to-h6">
+<p>
+Every HTML element <code>h2</code> to <code>h6</code> (which encode the Org mode headlines) already come with a unique ID, but they are only ever linked from the Table of Contents. The code here makes it so that the headlines are linked to themselves, which makes it easy for users to link to them directly when they're reading the page.
+</p>
+
+<p>
+The code here is taken from <a href="https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1">https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1</a>.
+</p>
+
+<div class="org-src-container"><pre class="src src-javascript">$(<span class="org-keyword">function</span>() {
+    $(<span class="org-string">"h2,h3,h4,h5,h6"</span>).each(<span class="org-keyword">function</span>() {
+        <span class="org-keyword">var</span> <span class="org-variable-name">$this</span> = $(<span class="org-constant">this</span>);
+        <span class="org-keyword">var</span> <span class="org-variable-name">text</span> = $this.text();
+        <span class="org-keyword">var</span> <span class="org-variable-name">href</span> = $this.attr(<span class="org-string">"id"</span>);
+        <span class="org-keyword">var</span> <span class="org-variable-name">href_parts</span> = [];
+        <span class="org-keyword">var</span> <span class="org-variable-name">href_custom</span> = <span class="org-string">""</span>;
+        <span class="org-keyword">if</span> (<span class="org-keyword">typeof</span> href === <span class="org-string">"undefined"</span>) {
+            href_custom = <span class="org-string">""</span>;
+            href_parts = text.split(<span class="org-string">" "</span>);
+            <span class="org-keyword">for</span> (i = 0; i &lt; href_parts.length; i++) {
+                href_custom += href_parts[i] + <span class="org-string">'-'</span>;
+            }
+            href_custom = href_custom.slice(0, -1).toLowerCase();
+            console.log(href_custom);
+        }
+        <span class="org-keyword">if</span> (href !== <span class="org-string">"page-title"</span>) {
+            $this.text(<span class="org-string">""</span>);
+            <span class="org-keyword">if</span> (<span class="org-keyword">typeof</span> href === <span class="org-string">"undefined"</span>) {
+                href = href_custom;
+                $this.attr(<span class="org-string">"id"</span>, href);
+            }
+            $this.prepend($(<span class="org-string">"&lt;a&gt;"</span>).attr(<span class="org-string">"href"</span>, <span class="org-string">'#'</span> +
+                href).addClass(<span class="org-string">"section-headline"</span>).text(text));
+        }
+    });
+});
+</pre></div><p>
+Now we just have to refer to the above in the snippet below, to be included in <a href="#h-Use--codex-theme--file"><code>codex.theme</code></a>.
+</p>
+
+<div class="org-src-container"><pre class="src src-org" id="org0000040"><span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="<a href="https://code.jquery.com/jquery-3.6.4.min.js">https://code.jquery.com/jquery-3.6.4.min.js</a>"&gt;&lt;/script&gt;</span>
+<span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="../../misc.js"&gt;&lt;/script&gt;</span>
+</pre></div><div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-section-headlines"><span class="org-css-selector">a.section-headline </span>{
+    <span class="org-css-property">color</span>: <span class="custom">black</span>;
+}
+</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-section-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-section-headlines">&#x1f517;</a></span></div></div>
+</div>
+</div>
+
 <div id="outline-container-h-Imports" class="outline-5">
-<h5 id="h-Imports"><span class="section-number-5">5.2.1.7.</span> Imports</h5>
+<h5 id="h-Imports"><span class="section-number-5">5.2.1.8.</span> Imports</h5>
 <div class="outline-text-5" id="text-h-Imports">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-imports"><span class="org-comment-delimiter">;; </span><span class="org-comment">Built-in packages (distributed with Emacs).</span>
 (<span class="org-keyword">require</span> '<span class="org-constant">tex-mode</span>)
@@ -1749,7 +1801,7 @@ By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a C
 </div>
 
 <div id="outline-container-h-Performance-optimizations" class="outline-5">
-<h5 id="h-Performance-optimizations"><span class="section-number-5">5.2.1.8.</span> Performance optimizations</h5>
+<h5 id="h-Performance-optimizations"><span class="section-number-5">5.2.1.9.</span> Performance optimizations</h5>
 <div class="outline-text-5" id="text-h-Performance-optimizations">
 <p>
 This "optimization" is inspired by <a href="https://www.reddit.com/r/emacs/comments/mmdeei/comment/gtvryvy">https://www.reddit.com/r/emacs/comments/mmdeei/comment/gtvryvy</a>. There, the idea was to ignore hooks associated with major modes for the source code blocks, Because they use <code>org-publish</code> and we don't, we can't use the same code but we can still use the same idea. In particular, <code>org-html-export-to-html</code> calls <code>org-html-fontify-code</code> to perform syntax highlighting of source code blocks.
@@ -1771,7 +1823,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 </div>
 
 <div id="outline-container-h-Profiling" class="outline-6">
-<h6 id="h-Profiling"><span class="section-number-6">5.2.1.8.1.</span> Profiling</h6>
+<h6 id="h-Profiling"><span class="section-number-6">5.2.1.9.1.</span> Profiling</h6>
 <div class="outline-text-6" id="text-h-Profiling">
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-profiling">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-publish-profile</span> ()
   (<span class="org-keyword">interactive</span>)
@@ -1877,6 +1929,8 @@ We add some additional CSS tweaks on top of what we get from Org.
     <span class="org-css-property">border-color</span>: <span class="custom">#999</span>;
     <span class="org-css-property">border-radius</span>: 5px;
 }
+
+<span class="codex-child-link-from-parent"><a href="#__NREF__css-source-code-section-headlines">css-source-code-section-headlines</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__css-source-code-block-body">css-source-code-block-body</a></span>
 
@@ -1997,9 +2051,9 @@ We add some additional CSS tweaks on top of what we get from Org.
 </div>
 </div>
 
-<div id="outline-container-h-Use-theme-file" class="outline-4">
-<h4 id="h-Use-theme-file"><span class="section-number-4">5.2.3.</span> Use theme file</h4>
-<div class="outline-text-4" id="text-h-Use-theme-file">
+<div id="outline-container-h-Use--codex-theme--file" class="outline-4">
+<h4 id="h-Use--codex-theme--file"><span class="section-number-4">5.2.3.</span> Use <code>codex.theme</code> file</h4>
+<div class="outline-text-4" id="text-h-Use--codex-theme--file">
 <p>
 Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from <a href="https://gitlab.com/OlMon/org-themes">https://gitlab.com/OlMon/org-themes</a>.
 </p>
@@ -2007,6 +2061,7 @@ Make each Org file we publish into HTML refer to a single theme file. The inspir
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-org" id="codex.theme-1"><span class="org-comment"># Include additional CSS styles.</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../style.css" /&gt;</span>
+__NREF__automatically_link_headlines
 </pre></div><div class="codex-caption"></div></div>
 </div>
 </div>
@@ -2068,7 +2123,7 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
         <span class="org-variable-name">CODEX_LP_QUICK</span>=1 make -C $(<span class="org-variable-name">PROJ_ROOT</span>) -j$(<span class="org-variable-name">PROCS</span>) $(<span class="org-variable-name">all_tangled_sources</span>)
         touch tangle
 
-<span class="org-variable-name">build_literate_org_output</span> = codex.el codex.theme .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
+<span class="org-variable-name">build_literate_org_output</span> = codex.el codex.theme .gitattributes .gitignore Makefile misc.js shell.nix style.css syntax-highlighting.css
 <span class="org-variable-name">all_tangled_sources</span> = citations.bib $(<span class="org-variable-name">build_literate_org_output</span>) $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),problem/$(<span class="org-variable-name">p</span>)/__init__.py problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py)
 
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">build_literate_org_output</span></span><span class="org-makefile-targets">) &amp;</span>: build-literate.org
@@ -2138,9 +2193,9 @@ pkgs.mkShell ({
 <div class="outline-text-3" id="text-h-Glossary">
 <ul class="org-ul">
 <li><a id="org0000000"></a> <b>monoblock</b>: an Org mode source code block with a <code>#+name: ...</code> field. This block is an independent block and there are no other blocks with the same name.</li>
-<li><b>Noweb</b>: A literate programming tool from 1989 that still works and from which <a href="#org0000052">Org mode</a> borrows heavily using <a href="#org0000054">Noweb-style references</a>. See <a href="https://en.wikipedia.org/wiki/Noweb">Wikipedia</a>.</li>
-<li><a id="org0000054"></a> <b>noweb-ref</b>: aka "Noweb-style reference". A Noweb-style reference is just a name (string) that refers to a monoblock or polyblock. See <a href="https://orgmode.org/manual/Noweb-Reference-Syntax.html">the Org manual</a>.</li>
-<li><a id="org0000052"></a> <b>Org mode</b>: An Emacs major mode for <code>*.org</code> files, where "major mode" means that it provides things like syntax highlighting and keyboard shortcuts for <code>*.org</code> text files if you are using Emacs. For Codex, the important thing is that we use Org mode as a literate programming tool. See <a href="https://orgmode.org/">Org mode</a>.</li>
+<li><b>Noweb</b>: A literate programming tool from 1989 that still works and from which <a href="#org0000056">Org mode</a> borrows heavily using <a href="#org0000058">Noweb-style references</a>. See <a href="https://en.wikipedia.org/wiki/Noweb">Wikipedia</a>.</li>
+<li><a id="org0000058"></a> <b>noweb-ref</b>: aka "Noweb-style reference". A Noweb-style reference is just a name (string) that refers to a monoblock or polyblock. See <a href="https://orgmode.org/manual/Noweb-Reference-Syntax.html">the Org manual</a>.</li>
+<li><a id="org0000056"></a> <b>Org mode</b>: An Emacs major mode for <code>*.org</code> files, where "major mode" means that it provides things like syntax highlighting and keyboard shortcuts for <code>*.org</code> text files if you are using Emacs. For Codex, the important thing is that we use Org mode as a literate programming tool. See <a href="https://orgmode.org/">Org mode</a>.</li>
 <li><a id="org0000002"></a> <b>polyblock</b>: an Org mode source code block without a <code>#+name: ...</code> field, but which has a <code>#+header: :noweb-ref ...</code> field. Other blocks with the same noweb-ref name are concatenated together when they are tangled. Polyblocks are used in cases where we would like to break up a single block into much smaller pieces for explanatory purposes. In all other cases, monoblocks are preferable, unless the source code block is not to be tangled and is only for explanatory purposes in the woven output.</li>
 <li><b>source code block</b>: An Org mode facility that allows you to enclose a multiline piece of text with <code>#+begin_src ...</code> and <code>#+end_src</code> lines.</li>
 </ul>

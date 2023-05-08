@@ -75,6 +75,10 @@ pre {
     border-radius: 5px;
 }
 
+a.section-headline {
+    color: black;
+}
+
 .org-src-container {
     margin-top: 1em;
     margin-bottom: 1em;

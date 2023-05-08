@@ -1145,6 +1145,57 @@ By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a C
 (setq org-html-doctype "html5")
 #+end_src
 
+*** Automatically link headlines (h2 to h6)
+
+Every HTML element =h2= to =h6= (which encode the Org mode headlines) already come with a unique ID, but they are only ever linked from the Table of Contents. The code here makes it so that the headlines are linked to themselves, which makes it easy for users to link to them directly when they're reading the page.
+
+The code here is taken from https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1.
+
+#+begin_src javascript :tangle misc.js :eval no
+$(function() {
+    $("h2,h3,h4,h5,h6").each(function() {
+        var $this = $(this);
+        var text = $this.text();
+        var href = $this.attr("id");
+        var href_parts = [];
+        var href_custom = "";
+        if (typeof href === "undefined") {
+            href_custom = "";
+            href_parts = text.split(" ");
+            for (i = 0; i < href_parts.length; i++) {
+                href_custom += href_parts[i] + '-';
+            }
+            href_custom = href_custom.slice(0, -1).toLowerCase();
+            console.log(href_custom);
+        }
+        if (href !== "page-title") {
+            $this.text("");
+            if (typeof href === "undefined") {
+                href = href_custom;
+                $this.attr("id", href);
+            }
+            $this.prepend($("<a>").attr("href", '#' +
+                href).addClass("section-headline").text(text));
+        }
+    });
+});
+#+end_src
+
+Now we just have to refer to the above in the snippet below, to be included in [[* Use =codex.theme= file][=codex.theme=]].
+
+#+name: __NREF__automatically_link_headlines
+#+begin_src org
+,#+HTML_HEAD: <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+,#+HTML_HEAD: <script src="../../misc.js"></script>
+#+end_src
+
+#+name: __NREF__css-source-code-section-headlines
+#+begin_src css
+a.section-headline {
+    color: black;
+}
+#+end_src
+
 *** Imports
 
 #+name: __NREF__codex_dot_el-imports
@@ -1297,6 +1348,8 @@ pre {
     border-radius: 5px;
 }
 
+__NREF__css-source-code-section-headlines
+
 __NREF__css-source-code-block-body
 
 __NREF__css-source-code-block-captions
@@ -1411,7 +1464,7 @@ __NREF__css-source-code-block-child-link-from-parent
 }
 #+end_src
 
-** Use theme file
+** Use =codex.theme= file
 
 Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from https://gitlab.com/OlMon/org-themes.
 
@@ -1420,6 +1473,7 @@ Make each Org file we publish into HTML refer to a single theme file. The inspir
 # Include additional CSS styles.
 ,#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/>
 ,#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../style.css" />
+__NREF__automatically_link_headlines
 #+end_src
 
 ** Ignore woven HTML from =git diff=
@@ -1465,7 +1519,7 @@ $(all_tangled_sources) tangle &: $(src)
 	CODEX_LP_QUICK=1 make -C $(PROJ_ROOT) -j$(PROCS) $(all_tangled_sources)
 	touch tangle
 
-build_literate_org_output = codex.el codex.theme .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
+build_literate_org_output = codex.el codex.theme .gitattributes .gitignore Makefile misc.js shell.nix style.css syntax-highlighting.css
 all_tangled_sources = citations.bib $(build_literate_org_output) $(foreach p,$(problem_dirs_without_prefix),problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
 
 $(build_literate_org_output) &: build-literate.org
