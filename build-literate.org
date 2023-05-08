@@ -1158,6 +1158,7 @@ Every HTML element =h2= to =h6= (which encode the Org mode headlines) already co
 
 The code here is taken from https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1.
 
+#+name: misc.js
 #+caption: misc.js
 #+begin_src js :tangle misc.js :eval no
 $(function() {
@@ -1491,6 +1492,7 @@ __NREF__automatically_link_headlines
 
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from =git diff= by treating them as binary data.
 
+#+name: .gitattributes
 #+caption: .gitattributes
 #+begin_src gitattributes :tangle .gitattributes :eval no
 ,* -diff
@@ -1508,6 +1510,7 @@ Note that the above setting to treat HTML files as binary data prevents them fro
 
 ** gitignore
 
+#+name: .gitignore
 #+caption: .gitignore
 #+begin_src gitignore :tangle .gitignore :eval no
 ,**/__pycache__
@@ -1565,7 +1568,7 @@ This is taken from https://github.com/tweag/haskell-stack-nix-example/blob/b9383
 
 This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (such as running "make" to re-run any Python tests that have been updated when adding new problems).
 
-#+name: Main development shell
+#+name: shell.nix
 #+caption: shell.nix
 #+begin_src nix :tangle shell.nix :eval no
 let
