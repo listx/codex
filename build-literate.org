@@ -757,17 +757,27 @@ We also save the SCB_POLYBLOCK_INDICATOR with the =polyblock-indicator= variable
              (if parent-id-match
                  (format "<span class=\"codex-caption-link-symbol\"><a href=\"#%s\">&#x1f517;</a></span>"
                    fallback-id)
-                 "")))
+                 ""))
+           (caption-without-listing-prefix (replace-regexp-in-string "<span.+?span>" "" caption))
+           (caption-text
+            (if (s-blank? parent-id)
+                (concat
+                  "<div class=\"codex-caption\">"
+                    caption-without-listing-prefix
+                  "</div>")
+                (concat
+                  "<div class=\"codex-caption\">"
+                    polyblock-indicator
+                    parent-id
+                    link-symbol
+                  "</div>")))
+           )
       (if (s-blank? caption)
        src-block-html
        (concat
         leading-div
           "<div class=\"codex-pre-with-caption\">"
-            "<div class=\"codex-caption\">"
-              polyblock-indicator
-              parent-id
-              link-symbol
-            "</div>"
+            caption-text
             body-with-replaced-pre
           "</div>"
         "</div>")))))
@@ -1396,6 +1406,10 @@ __NREF__css-source-code-block-child-link-from-parent
     border-top-right-radius: 5px;
     padding-top: 2px;
     padding-bottom: 2px;
+}
+
+.codex-caption label {
+    margin-right: 1em;
 }
 
 .codex-caption-source-code-block-name {

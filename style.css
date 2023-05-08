@@ -111,6 +111,10 @@ a.section-headline {
     padding-bottom: 2px;
 }
 
+.codex-caption label {
+    margin-right: 1em;
+}
+
 .codex-caption-source-code-block-name {
     color: #444444;
     font-weight: bold;

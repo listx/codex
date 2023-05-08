@@ -480,17 +480,27 @@ When matching, reference is stored in match group 1."
              (if parent-id-match
                  (format "<span class=\"codex-caption-link-symbol\"><a href=\"#%s\">&#x1f517;</a></span>"
                    fallback-id)
-                 "")))
+                 ""))
+           (caption-without-listing-prefix (replace-regexp-in-string "<span.+?span>" "" caption))
+           (caption-text
+            (if (s-blank? parent-id)
+                (concat
+                  "<div class=\"codex-caption\">"
+                    caption-without-listing-prefix
+                  "</div>")
+                (concat
+                  "<div class=\"codex-caption\">"
+                    polyblock-indicator
+                    parent-id
+                    link-symbol
+                  "</div>")))
+           )
       (if (s-blank? caption)
        src-block-html
        (concat
         leading-div
           "<div class=\"codex-pre-with-caption\">"
-            "<div class=\"codex-caption\">"
-              polyblock-indicator
-              parent-id
-              link-symbol
-            "</div>"
+            caption-text
             body-with-replaced-pre
           "</div>"
         "</div>")))))
