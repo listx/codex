@@ -363,13 +363,6 @@ Then we construct the =child-parent-hash-table=. For each parent block, we get a
   hash-table)
 #+end_src
 
-#+begin_src emacs-lisp
-(make-hash-table :test 'equal)
-(apply 'make-hash-table ':test 'equal
-  (mapcan (lambda (parent-name)
-            (mapcan (lambda (child-name) (list child-name 1)) '('c1 'c2 'c3))) '(p1 p2)))
-#+end_src
-
 Now that we have the child-parent associations, we have to look at all source code blocks and check if
 
 1. this source code block's name shows up at all in =child-parent-hash-table=, and if so
