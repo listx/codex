@@ -62,6 +62,7 @@
 (defun codex-publish ()
   (interactive)
   (codex-publish-1)
+  (clrhash codex-polyblock-names-totals)
   (codex-publish-2))
 
 ;; This is here solely to populate the codex-child-HTML_ID-hash-table.
@@ -124,6 +125,8 @@
                       (child-name (car child))
                       (SCB_NAME (format "=%s= " child-name))                  ;ref:SCB_NAME
                       (SCB_POLYBLOCK_INDICATOR (car (cdr child)))             ;ref:SCB_POLYBLOCK_INDICATOR
+                      (polyblock-counter (gethash child-name codex-polyblock-names-totals 0))
+                      (polyblock-counter-incremented (puthash child-name (+ 1 polyblock-counter) codex-polyblock-names-totals))
                       (parent (gethash child-name child-parent-hash-table))
                       (pos (org-element-property :begin src-block))
                       (SCB_LINK_TO_PARENT                                     ;ref:SCB_LINK_TO_PARENT
@@ -368,6 +371,7 @@ When matching, reference is stored in match group 1."
   (codex-nref-rx t))
 
 (setq codex-polyblock-names (make-hash-table :test 'equal))
+(setq codex-polyblock-names-totals (make-hash-table :test 'equal))
 
 (defun codex-prettify-source-code-captions (src-block-html backend info)
   (when (org-export-derived-backend-p backend 'html)
@@ -412,9 +416,6 @@ When matching, reference is stored in match group 1."
              (if source-block-name-match
                  (match-string-no-properties 1 caption-parts)
                  ""))
-           (polyblock-indicator
-             (if (string-match "\(polyblock\)" caption-parts)
-                 "(polyblock) " ""))
            ;; This is just used for the side effect of recording the
            ;; source-block-name, to be used for the fallback-id.
            (source-block-counter (gethash source-block-name codex-polyblock-names 0))
@@ -431,6 +432,11 @@ When matching, reference is stored in match group 1."
                       "&#x1f4c4; "
                       source-block-name
                       "</span>"))))
+           (polyblock-chain-total (gethash source-block-name codex-polyblock-names-totals 0))
+           (polyblock-chain-location (if (= polyblock-chain-total 0) "" (format "(%s of %s) " source-block-counter-incremented polyblock-chain-total)))
+           (polyblock-indicator
+             (if (string-match "\(polyblock\)" caption-parts)
+                 polyblock-chain-location ""))
            (parent-id-match
              (string-match
                (rx-to-string

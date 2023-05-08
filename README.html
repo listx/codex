@@ -642,6 +642,7 @@ The reason why cross-linking is so important is because the source code blocks a
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-publish</span> ()
   (<span class="org-keyword">interactive</span>)
   (codex-publish-1)
+  (clrhash codex-polyblock-names-totals)
   (codex-publish-2))
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">This is here solely to populate the codex-child-HTML_ID-hash-table.</span>
@@ -890,6 +891,8 @@ And now we can finally construct <code>smart-captions</code>:
            (child-name (car child))
 <span id="coderef-SCB_NAME" class="coderef-off">           (SCB_NAME (format <span class="org-string">"=%s= "</span> child-name))</span>
 <span id="coderef-SCB_POLYBLOCK_INDICATOR" class="coderef-off">           (SCB_POLYBLOCK_INDICATOR (car (cdr child)))</span>
+           (polyblock-counter (gethash child-name codex-polyblock-names-totals 0))
+           (polyblock-counter-incremented (puthash child-name (+ 1 polyblock-counter) codex-polyblock-names-totals))
            (parent (gethash child-name child-parent-hash-table))
            (pos (org-element-property <span class="org-builtin">:begin</span> src-block))
 <span id="coderef-SCB_LINK_TO_PARENT" class="coderef-off">           (SCB_LINK_TO_PARENT</span>
@@ -1176,6 +1179,7 @@ We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>poly
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-prettify-source-code-captions">(<span class="org-keyword">setq</span> codex-polyblock-names (make-hash-table <span class="org-builtin">:test</span> 'equal))
+(<span class="org-keyword">setq</span> codex-polyblock-names-totals (make-hash-table <span class="org-builtin">:test</span> 'equal))
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-prettify-source-code-captions</span> (src-block-html backend info)
   (<span class="org-keyword">when</span> (org-export-derived-backend-p backend 'html)
@@ -1220,9 +1224,6 @@ We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>poly
              (<span class="org-keyword">if</span> source-block-name-match
                  (match-string-no-properties 1 caption-parts)
                  <span class="org-string">""</span>))
-           (polyblock-indicator
-             (<span class="org-keyword">if</span> (string-match <span class="org-string">"</span><span class="org-string"><span class="org-warning">\</span></span><span class="org-string">(polyblock</span><span class="org-string"><span class="org-warning">\</span></span><span class="org-string">)"</span> caption-parts)
-                 <span class="org-string">"(polyblock) "</span> <span class="org-string">""</span>))
            <span class="org-comment-delimiter">;; </span><span class="org-comment">This is just used for the side effect of recording the</span>
            <span class="org-comment-delimiter">;; </span><span class="org-comment">source-block-name, to be used for the fallback-id.</span>
            (source-block-counter (gethash source-block-name codex-polyblock-names 0))
@@ -1239,6 +1240,11 @@ We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>poly
                       <span class="org-string">"&amp;#x1f4c4; "</span>
                       source-block-name
                       <span class="org-string">"&lt;/span&gt;"</span>))))
+           (polyblock-chain-total (gethash source-block-name codex-polyblock-names-totals 0))
+           (polyblock-chain-location (<span class="org-keyword">if</span> (= polyblock-chain-total 0) <span class="org-string">""</span> (format <span class="org-string">"(%s of %s) "</span> source-block-counter-incremented polyblock-chain-total)))
+           (polyblock-indicator
+             (<span class="org-keyword">if</span> (string-match <span class="org-string">"</span><span class="org-string"><span class="org-warning">\</span></span><span class="org-string">(polyblock</span><span class="org-string"><span class="org-warning">\</span></span><span class="org-string">)"</span> caption-parts)
+                 polyblock-chain-location <span class="org-string">""</span>))
            (parent-id-match
              (string-match
                (rx-to-string
@@ -1643,7 +1649,7 @@ Org mode also injects an HTML comment (not visible to the user) to record the ti
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism">(<span class="org-keyword">setq</span> org-export-time-stamp-file nil)
-</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(1 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div></div>
 </div>
 </div>
 
@@ -1655,7 +1661,7 @@ By default Org mode appends visible metadata at the bottom of the HTML document,
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-2">(<span class="org-keyword">setq</span> org-html-postamble nil)
-</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(2 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div></div>
 </div>
 </div>
 
@@ -1675,7 +1681,7 @@ See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">h
      (<span class="org-keyword">while</span> (rassq new references) (<span class="org-keyword">setq</span> new (+ new 1)))
      new))
 (advice-add #'org-export-new-reference <span class="org-builtin">:override</span> #'org-export-deterministic-reference)
-</pre></div><div class="codex-caption">(polyblock) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div></div>
+</pre></div><div class="codex-caption">(3 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div></div>
 </div>
 </div>
 </div>
