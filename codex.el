@@ -91,7 +91,7 @@
          '(codex-link-to-children-from-parent-body
            codex-prettify-source-code-captions))
         (org-export-filter-final-output-functions
-         '(codex-replace-ord_ids-with-human_ids))
+         '(codex-replace-org_ids-with-human_ids))
 
         (org-html-htmlize-output-type 'css))
     ;; Debugging
@@ -532,7 +532,7 @@ When matching, reference is stored in match group 1."
         (puthash orgid block-name codex-org_id-human_id-hash-table))
       src-block-html)))
 
-(defun codex-replace-ord_ids-with-human_ids (entire-html backend info)
+(defun codex-replace-org_ids-with-human_ids (entire-html backend info)
   (when (org-export-derived-backend-p backend 'html)
     (let ((html-oneline (codex-to-single-line entire-html)))
       (maphash

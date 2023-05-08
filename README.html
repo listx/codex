@@ -638,7 +638,7 @@ The reason why cross-linking is so important is because the source code blocks a
 <h5 id="h-Toplevel-publishing-function---codex-publish-"><span class="section-number-5">5.2.1.1.</span> Toplevel publishing function (<code>codex-publish</code>)</h5>
 <div class="outline-text-5" id="text-h-Toplevel-publishing-function---codex-publish-">
 <p>
-The toplevel function is <code>codex-publish</code>. This actually publishes twice, with <code>codex-publish-1</code> and <code>codex-publish-2</code>. The reason we publish twice is because we need to examine the HTML output twice in order to build up a database of parent/child source code block links.
+The toplevel function is <code>codex-publish</code>. This actually publishes twice, with <code>codex-publish-1</code> and <code>codex-publish-2</code>. The reason we publish twice is because we need to examine the HTML output twice in order to build up a database of parent/child source code block links (which is then used to link between these parent/child source code blocks).
 </p>
 
 <p>
@@ -706,7 +706,19 @@ Here we modify the Org mode buffer, by using <code>org-export-before-parsing-hoo
  '(codex-smart-source-code-block-captions
    codex-UID-for-all-headlines
    codex-UID-for-all-polyblocks))
-</pre></div></div>
+</pre></div></div><p>
+As for the actual modifications, see:
+</p>
+
+<ul class="org-ul">
+<li><code>codex-smart-source-code-block-captions</code>: <a href="#h-Smart-source-code-block-captions">5.2.1.2.1</a></li>
+<li><code>codex-UID-for-all-headlines</code>: <a href="#h-Human-readable-UIDs--Headings--aka-headlines">5.2.1.2.2</a></li>
+<li><code>codex-UID-for-all-polyblocks</code>: <a href="#h-Give-polyblocks-a----name-------field--HTML-ID">5.2.1.2.3</a></li>
+</ul>
+
+<p>
+In brief, the <code>codex-UID-for-all-*</code> functions make it so that the links to headilnes and source code blocks are both deterministic and human-readable.
+</p>
 </div>
 </div>
 
@@ -732,7 +744,7 @@ Phase 2: In this phase we perform the linking from parent blocks to child blocks
  '(codex-link-to-children-from-parent-body
    codex-prettify-source-code-captions))
 (org-export-filter-final-output-functions
- '(codex-replace-ord_ids-with-human_ids))
+ '(codex-replace-org_ids-with-human_ids))
 </pre></div></div>
 </div>
 </div>
@@ -806,7 +818,7 @@ We can use the KEY to go to that buffer position and insert the caption. However
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__smart-source-code-block-captions-helpers">smart-source-code-block-captions-helpers</a></span>
 </pre></div></div><p>
-(We'll get to the helper functions <code>__NREF__smart-source-code-block-captions-helpers</code> later as they obscure the big picture.)
+(We'll get to the helper functions <code>smart-source-code-block-captions-helpers</code> later as they obscure the big picture.)
 </p>
 
 <p>
@@ -843,7 +855,7 @@ Why do we even need these source code blocks to link back to their parents? The 
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"child 2"</span></span>
 <span class="org-org-block-end-line">#+end_src</span>
 </pre></div></div><p>
-and we export this to HTML, ideally we would want both <code>child-block-1</code> and each of the <code>child-block-2</code> blocks to include an HTML link back up to <code>parent-block</code>. This would make it easier to skim the document and not get too lost (any time you are looking at any particular source code block, you would be able to just click on the lank back to the parent (if there is one) to see a higher-level view).
+and we export this to HTML, ideally we would want both <code>child-block-1</code> and each of the <code>child-block-2</code> blocks to include an HTML link back up to <code>parent-block</code>. This would make it easier to skim the document and not get too lost (any time you are looking at any particular source code block, you would be able to just click on the link back to the parent (if there is one) to see a higher-level view).
 </p>
 
 <p>
@@ -851,7 +863,7 @@ The key idea here is to build a hash table (<code>child-parent-hash-table</code>
 </p>
 
 <p>
-Th first thing we need is a list of parent source code blocks. We consider a source code block a parent block if it has any noweb references within its body.
+The first thing we need is a list of parent source code blocks. We consider a source code block a parent block if it has any noweb references within its body.
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">parent-blocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__parent-blocks">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__parent-blocks"><span class="org-comment-delimiter">;; </span><span class="org-comment">parent-blocks is a let* binding, not a function call.</span>
@@ -977,11 +989,15 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
 <h6 id="h-Human-readable-UIDs--Headings--aka-headlines"><span class="section-number-6">5.2.1.2.2.</span> Human-readable UIDs (Headings, aka headlines)</h6>
 <div class="outline-text-6" id="text-h-Human-readable-UIDs--Headings--aka-headlines">
 <p>
-We want all headings to have HTML IDs that are patterned after their text. This way we can have IDs like <code>some-heading-name-1</code> (where the trailing <code>-1</code> is only used to disambiguate against another heading of the same name) instead of <code>org00000a1</code>.
+By default Org does a terrible job of naming HTML <code>id</code> fields for headings. By default it uses a randomly-generated number. In <a href="#h-Do-not-use-random-numbers-for-the-HTML--id--attribute">5.2.1.5.3</a> we tweak this behavior to use a deterministic, incrementing number starting from 0. However while this solution gets rid of the nondeterminism, it still results in human-unfriendly <code>id</code> attributes because they are all numeric (e.g. <code>org00000a1</code>, <code>org00000f3</code>, etc).
 </p>
 
 <p>
-For each heading, we insert a <code>CUSTOM_ID</code> property which takes precedence over the <code>org...</code> IDs. We append this headline property just below every headline we find in the buffer. The actual construction of the <code>CUSTOM_ID</code> (<code>headline-UID</code> in the code below) is done by <code>codex-get-unique-id</code>.
+For headings, we can do better because in practice they already mostly have unique contents, which should work most of the time to act as an <code>id</code>. In other words, we want all headings to have HTML IDs that are patterned after their contents. This way we can have IDs like <code>some-heading-name-1</code> (where the trailing <code>-1</code> is only used to disambiguate against another heading of the same name) instead of <code>org00000a1</code> (numeric hex).
+</p>
+
+<p>
+For each heading, we insert a <code>CUSTOM_ID</code> property. This makes Org refer to this <code>CUSTOM_ID</code> instead of the numeric <code>org...</code> link names. We append this headline property just below every headline we find in the buffer. The actual construction of the <code>CUSTOM_ID</code> (<code>headline-UID</code> in the code below) is done by <code>codex-get-unique-id</code>.
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">UID-for-all-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__UID-for-all-headlines">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__UID-for-all-headlines">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-UID-for-all-headlines</span> (_backend)
@@ -1010,7 +1026,7 @@ For each heading, we insert a <code>CUSTOM_ID</code> property which takes preced
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__get-unique-id">get-unique-id</a></span>
 </pre></div></div><p>
-<code>codex-get-unique-id</code> converts a given headline to its canonical form (every non-word character converted to a dash) and performs a lookup against the hash table. If the entry exists, it looks up a <code>entry-N</code> value in a loop with <code>N</code> increasing until it sees that no such key exists.
+<code>codex-get-unique-id</code> converts a given headline to its canonical form (every non-word character converted to a dash) and performs a lookup against the hash table. If the entry exists, it looks up a <code>entry-N</code> value in a loop with <code>N</code> increasing until it sees that no such key exists (at which point we know that we have a unique ID).
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-headlines">get-unique-id</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__get-unique-id">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__get-unique-id">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-unique-id</span> (headline hash-table)
@@ -1058,7 +1074,7 @@ What we can do is inject a <code>#+name: ___polyblock-N</code> line (where <code
 </p>
 
 <p>
-Note that we only name the first polyblock in the set of polyblocks that share the same noweb-ref. This is so that we link to the first polyblock child from the parent block (because the assumption is that we will want to start reading about this set of polyblocks beginning with the first block).
+Note that we only name the first polyblock in the set of polyblocks that share the same Noweb reference name (<code>__NREF__foo</code>). This is so that we link to the first polyblock child from the parent block (because the assumption is that we will want to start reading about this set of polyblocks beginning with the first block).
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">UID-for-all-polyblocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__UID-for-all-polyblocks">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__UID-for-all-polyblocks">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-UID-for-all-polyblocks</span> (_)
@@ -1135,7 +1151,7 @@ We have to do a search-and-replace across the entire file because we may also ha
         (puthash orgid block-name codex-org_id-human_id-hash-table))
       src-block-html)))
 
-(<span class="org-keyword">defun</span> <span class="org-function-name">codex-replace-ord_ids-with-human_ids</span> (entire-html backend info)
+(<span class="org-keyword">defun</span> <span class="org-function-name">codex-replace-org_ids-with-human_ids</span> (entire-html backend info)
   (<span class="org-keyword">when</span> (org-export-derived-backend-p backend 'html)
     (<span class="org-keyword">let</span> ((html-oneline (codex-to-single-line entire-html)))
       (maphash

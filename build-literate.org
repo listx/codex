@@ -158,7 +158,7 @@ __NREF__codex_dot_el-misc
 
 *** Toplevel publishing function (=codex-publish=)
 
-The toplevel function is =codex-publish=. This actually publishes twice, with =codex-publish-1= and =codex-publish-2=. The reason we publish twice is because we need to examine the HTML output twice in order to build up a database of parent/child source code block links.
+The toplevel function is =codex-publish=. This actually publishes twice, with =codex-publish-1= and =codex-publish-2=. The reason we publish twice is because we need to examine the HTML output twice in order to build up a database of parent/child source code block links (which is then used to link between these parent/child source code blocks).
 
 Also note that we do some modifications to the Org buffer directly before exporting to HTML. The main reason is so that the source code blocks that are named =__NREF__...= get an automatic =#+caption: ...= text to go along with it (because for these Noweb-style blocks, the captions should always look uniform).
 
@@ -225,6 +225,14 @@ Here we modify the Org mode buffer, by using =org-export-before-parsing-hook=. T
    codex-UID-for-all-polyblocks))
 #+end_src
 
+As for the actual modifications, see:
+
+- =codex-smart-source-code-block-captions=: [[* Smart source code block captions]]
+- =codex-UID-for-all-headlines=: [[* Human-readable UIDs (Headings, aka headlines)]]
+- =codex-UID-for-all-polyblocks=: [[* Give polyblocks a =#+name: ...= field (HTML ID)]]
+
+In brief, the =codex-UID-for-all-*= functions make it so that the links to headilnes and source code blocks are both deterministic and human-readable.
+
 **** Modify the HTML
 
 Here we modify the final HTML. This is useful for adding in final tweaks to the HTML that is difficult to accomplish at the Org-mode buffer level.
@@ -247,7 +255,7 @@ Phase 2: In this phase we perform the linking from parent blocks to child blocks
  '(codex-link-to-children-from-parent-body
    codex-prettify-source-code-captions))
 (org-export-filter-final-output-functions
- '(codex-replace-ord_ids-with-human_ids))
+ '(codex-replace-org_ids-with-human_ids))
 #+end_src
 
 **** Miscellaneous export settings
@@ -306,7 +314,7 @@ We can use the KEY to go to that buffer position and insert the caption. However
 __NREF__smart-source-code-block-captions-helpers
 #+end_src
 
-(We'll get to the helper functions =__NREF__smart-source-code-block-captions-helpers= later as they obscure the big picture.)
+(We'll get to the helper functions =smart-source-code-block-captions-helpers= later as they obscure the big picture.)
 
 Now we just have to construct =smart-captions=. The main difficulty is the construction of [[(SCB_LINK_TO_PARENT)][=SCB_LINK_TO_PARENT=]], so most of the code will be concerned about child-parent associations.
 
@@ -341,11 +349,11 @@ echo "child 2"
 ,#+end_src
 #+end_src
 
-and we export this to HTML, ideally we would want both =child-block-1= and each of the =child-block-2= blocks to include an HTML link back up to =parent-block=. This would make it easier to skim the document and not get too lost (any time you are looking at any particular source code block, you would be able to just click on the lank back to the parent (if there is one) to see a higher-level view).
+and we export this to HTML, ideally we would want both =child-block-1= and each of the =child-block-2= blocks to include an HTML link back up to =parent-block=. This would make it easier to skim the document and not get too lost (any time you are looking at any particular source code block, you would be able to just click on the link back to the parent (if there is one) to see a higher-level view).
 
 The key idea here is to build a hash table (=child-parent-hash-table=) where the KEY is a child source code block and the VALUE is the parent block. Then in order to construct [[(SCB_LINK_TO_PARENT)][=SCB_LINK_TO_PARENT=]] we just do a lookup against this hash table to find the parent (if any).
 
-Th first thing we need is a list of parent source code blocks. We consider a source code block a parent block if it has any noweb references within its body.
+The first thing we need is a list of parent source code blocks. We consider a source code block a parent block if it has any noweb references within its body.
 
 #+name: __NREF__parent-blocks
 #+begin_src emacs-lisp
@@ -478,9 +486,11 @@ __NREF__codex-get-src-block-name
 
 **** Human-readable UIDs (Headings, aka headlines)
 
-We want all headings to have HTML IDs that are patterned after their text. This way we can have IDs like =some-heading-name-1= (where the trailing =-1= is only used to disambiguate against another heading of the same name) instead of =org00000a1=.
+By default Org does a terrible job of naming HTML =id= fields for headings. By default it uses a randomly-generated number. In [[* Do not use random numbers for the HTML "id" attribute]] we tweak this behavior to use a deterministic, incrementing number starting from 0. However while this solution gets rid of the nondeterminism, it still results in human-unfriendly =id= attributes because they are all numeric (e.g. =org00000a1=, =org00000f3=, etc).
 
-For each heading, we insert a =CUSTOM_ID= property which takes precedence over the =org...= IDs. We append this headline property just below every headline we find in the buffer. The actual construction of the =CUSTOM_ID= (=headline-UID= in the code below) is done by =codex-get-unique-id=.
+For headings, we can do better because in practice they already mostly have unique contents, which should work most of the time to act as an =id=. In other words, we want all headings to have HTML IDs that are patterned after their contents. This way we can have IDs like =some-heading-name-1= (where the trailing =-1= is only used to disambiguate against another heading of the same name) instead of =org00000a1= (numeric hex).
+
+For each heading, we insert a =CUSTOM_ID= property. This makes Org refer to this =CUSTOM_ID= instead of the numeric =org...= link names. We append this headline property just below every headline we find in the buffer. The actual construction of the =CUSTOM_ID= (=headline-UID= in the code below) is done by =codex-get-unique-id=.
 
 #+Name: __NREF__UID-for-all-headlines
 #+begin_src emacs-lisp
@@ -511,7 +521,7 @@ For each heading, we insert a =CUSTOM_ID= property which takes precedence over t
 __NREF__get-unique-id
 #+end_src
 
-=codex-get-unique-id= converts a given headline to its canonical form (every non-word character converted to a dash) and performs a lookup against the hash table. If the entry exists, it looks up a =entry-N= value in a loop with =N= increasing until it sees that no such key exists.
+=codex-get-unique-id= converts a given headline to its canonical form (every non-word character converted to a dash) and performs a lookup against the hash table. If the entry exists, it looks up a =entry-N= value in a loop with =N= increasing until it sees that no such key exists (at which point we know that we have a unique ID).
 
 #+name: __NREF__get-unique-id
 #+begin_src emacs-lisp
@@ -548,7 +558,7 @@ Of course, we still want all polyblock to have an HTML ID, which can then be ext
 
 What we can do is inject a =#+name: ___polyblock-N= line (where =N= is an incrementing number) into the beginning of the source code section of all polyblocks. Then we can construct an HTML link to any polyblock.
 
-Note that we only name the first polyblock in the set of polyblocks that share the same noweb-ref. This is so that we link to the first polyblock child from the parent block (because the assumption is that we will want to start reading about this set of polyblocks beginning with the first block).
+Note that we only name the first polyblock in the set of polyblocks that share the same Noweb reference name (=__NREF__foo=). This is so that we link to the first polyblock child from the parent block (because the assumption is that we will want to start reading about this set of polyblocks beginning with the first block).
 
 #+name: __NREF__UID-for-all-polyblocks
 #+begin_src emacs-lisp
@@ -609,7 +619,7 @@ We have to do a search-and-replace across the entire file because we may also ha
         (puthash orgid block-name codex-org_id-human_id-hash-table))
       src-block-html)))
 
-(defun codex-replace-ord_ids-with-human_ids (entire-html backend info)
+(defun codex-replace-org_ids-with-human_ids (entire-html backend info)
   (when (org-export-derived-backend-p backend 'html)
     (let ((html-oneline (codex-to-single-line entire-html)))
       (maphash
