@@ -69,7 +69,7 @@
 (defun codex-publish-1 ()
   (let (
         (org-export-before-parsing-hook
-         '(codex-smart-source-code-block-captions
+         '(codex-noweb-source-code-block-captions
            codex-UID-for-all-headlines
            codex-UID-for-all-polyblocks))
 
@@ -83,7 +83,7 @@
 (defun codex-publish-2 ()
   (let (
         (org-export-before-parsing-hook
-         '(codex-smart-source-code-block-captions
+         '(codex-noweb-source-code-block-captions
            codex-UID-for-all-headlines
            codex-UID-for-all-polyblocks))
 
@@ -100,7 +100,7 @@
     (org-html-export-to-html)))
 
 ;; Modify Org buffer
-(defun codex-smart-source-code-block-captions (_backend)
+(defun codex-noweb-source-code-block-captions (_backend)
   (let* ((parent-blocks
            ;; parent-blocks is a let* binding, not a function call.
            (org-element-map (org-element-parse-buffer) 'src-block
@@ -123,20 +123,20 @@
              (cl-loop for src-block in all-src-blocks collect
                (let* ((child (codex-get-src-block-name src-block))
                       (child-name (car child))
-                      (SCB_NAME (format "=%s= " child-name))                  ;ref:SCB_NAME
-                      (SCB_POLYBLOCK_INDICATOR (car (cdr child)))             ;ref:SCB_POLYBLOCK_INDICATOR
+                      (NSCB_NAME (format "=%s= " child-name))                  ;ref:NSCB_NAME
+                      (NSCB_POLYBLOCK_INDICATOR (car (cdr child)))             ;ref:NSCB_POLYBLOCK_INDICATOR
                       (polyblock-counter (gethash child-name codex-polyblock-names-totals 0))
                       (polyblock-counter-incremented (puthash child-name (+ 1 polyblock-counter) codex-polyblock-names-totals))
                       (parent (gethash child-name child-parent-hash-table))
                       (pos (org-element-property :begin src-block))
-                      (SCB_LINK_TO_PARENT                                     ;ref:SCB_LINK_TO_PARENT
+                      (NSCB_LINK_TO_PARENT                                     ;ref:NSCB_LINK_TO_PARENT
                        (if parent (format " [[%s][PARENT]]" parent) ""))
                       (smart-caption
                        (concat
                          "#+caption: "
-                         SCB_NAME
-                         SCB_POLYBLOCK_INDICATOR
-                         SCB_LINK_TO_PARENT
+                         NSCB_NAME
+                         NSCB_POLYBLOCK_INDICATOR
+                         NSCB_LINK_TO_PARENT
                          "\n")))
                  (when parent (cons pos smart-caption)))))))
     (cl-loop for smart-caption in (reverse smart-captions) do
@@ -148,7 +148,6 @@
 (defun codex-is-parent-block (src-block)
   (let ((body (org-element-property :value src-block)))
     (codex-get-noweb-children body)))
-
 (defun codex-get-noweb-children (s)
   (let* ((lines (split-string s "\n"))
          (refs (-remove 'null
@@ -158,8 +157,7 @@
                        (match-string-no-properties 1 line)))
                   lines))))
     refs))
-
-(defun codex-get-noweb-ref-name (source-code-block)
+(defun codex-get-noweb-ref-polyblock-name (source-code-block)
   (let* ((headers (org-element-property :header source-code-block))
          (noweb-ref-name
           (nth 0
@@ -170,10 +168,9 @@
                    (match-string-no-properties 1 header)))
              headers)))))
     noweb-ref-name))
-
 (defun codex-get-src-block-name (src-block)
   (let* ((name-direct (org-element-property :name src-block))
-         (name-indirect (codex-get-noweb-ref-name src-block)))
+         (name-indirect (codex-get-noweb-ref-polyblock-name src-block)))
     (if name-direct
         `(,name-direct "")
         `(,name-indirect "(polyblock)"))))
@@ -232,7 +229,7 @@
          (polyblock-UIDs
            (-remove 'null
              (cl-loop for src-block in all-src-blocks collect
-               (let* ((noweb-ref (codex-get-noweb-ref-name src-block))
+               (let* ((noweb-ref (codex-get-noweb-ref-polyblock-name src-block))
                       (is-polyblock
                        (and
                          noweb-ref

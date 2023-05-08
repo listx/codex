@@ -9,7 +9,7 @@ The vast majority of software projects do not use LP, for various reasons. This 
 
 ** Source code blocks: monoblocks and polyblocks
 
-We use noweb-style references, in the form =<<foo>>=, in source code blocks to delegate source code bits to other blocks. In the example below, the =parent-block= refers to 2 other child blocks for its definition.
+We use noweb-style references, in the form =__NREF__foo=, in source code blocks to delegate source code bits to other blocks. In the example below, the =parent-block= refers to 2 other child blocks for its definition.
 
 #+begin_comment
 The =,#+name: ...=, =,#+begin_src ...= and =,#+end_src= in the =org= source blocks have a leading comma but this comma is only for Org's own parser to disambiguate against actual source code blocks in this file. The leading comma is stripped during HTML export.
@@ -26,25 +26,25 @@ __NREF__child-block-2
 
 ...
 
-,#+name: child-block-1
+,#+name: __NREF__child-block-1
 ,#+begin_src bash
 echo "I am child 1"
 ,#+end_src
 
 ...
 
-,#+header: :noweb-ref child-block-2
+,#+header: :noweb-ref __NREF__child-block-2
 ,#+begin_src bash
 echo -n "I am "
 ,#+end_src
 
-,#+header: :noweb-ref child-block-2
+,#+header: :noweb-ref __NREF__child-block-2
 ,#+begin_src bash
 echo "child 2"
 ,#+end_src
 #+end_src
 
-This example illustrates the two ways to define a child block: either as a single code block with =#+name: NAME=, or as multiple blocks with =#+header: :noweb-ref NAME=.  In this doc, we call them [[monoblock][monoblocks]] and [[polyblock][polyblocks]] respectively. Polyblocks are concatenated together in the order they appear in the overall Org file; this final concatenated version is what gets inserted into the noweb reference in the parent block.
+This example illustrates the two ways to define a child block: either as a single code block with =#+name: __NREF__foo=, or as multiple blocks with =#+header: :noweb-ref __NREF__foo=.  In this doc, we call them [[monoblock][monoblocks]] and [[polyblock][polyblocks]] respectively. Polyblocks are concatenated together in the order they appear in the overall Org file; this final concatenated version is what gets inserted into the Noweb reference in the parent block.
 
 * Weaving (generating the docs)
 
@@ -220,22 +220,22 @@ Here we modify the Org mode buffer, by using =org-export-before-parsing-hook=. T
 #+name: __NREF__codex-publish-modify-org
 #+begin_src emacs-lisp
 (org-export-before-parsing-hook
- '(codex-smart-source-code-block-captions
+ '(codex-noweb-source-code-block-captions
    codex-UID-for-all-headlines
    codex-UID-for-all-polyblocks))
 #+end_src
 
 As for the actual modifications, see:
 
-- =codex-smart-source-code-block-captions=: [[* Smart source code block captions]]
+- =codex-noweb-source-code-block-captions=: [[* Automatic captions for Noweb source code blocks]]
 - =codex-UID-for-all-headlines=: [[* Human-readable UIDs (Headings, aka headlines)]]
 - =codex-UID-for-all-polyblocks=: [[* Give polyblocks a =#+name: ...= field (HTML ID)]]
 
-In brief, the =codex-UID-for-all-*= functions make it so that the links to headilnes and source code blocks are both deterministic and human-readable.
+In brief, the =codex-UID-for-all-*= functions make it so that the links to headlines and source code blocks are both deterministic and human-readable. The =codex-noweb-source-code-block-captions= function
 
 **** Modify the HTML
 
-Here we modify the final HTML. This is useful for adding in final tweaks to the HTML that is difficult to accomplish at the Org-mode buffer level.
+This is useful for adding in final tweaks to the HTML that is difficult to accomplish at the Org-mode buffer level.
 
 Phase 1: In the first phase, we use the generated HTML data to populate the =child-HTML_ID-hash-table=. This data structure is used to link to child blocks from parent blocks.
 
@@ -269,17 +269,19 @@ Do not hardcode colors into the HTML. Instead refer to CSS class names, to be st
 
 *** Org modifications
 
-**** Smart source code block captions
+**** Automatic captions for Noweb source code blocks
 
-We want every source code block that has a caption (=#+caption: ...=) to have the following items:
+For the parent/child source code blocks, we simply build these up by having blocks named =#+name: __NREF__foo= or =#+header: :noweb-ref __NREF__foo=. Each of these blocks can also reference other blocks by having a line =__NREF__bar= inside its body. When defining such blocks, we really don't want to define the =#+caption: ...= part manually because it gets tedious rather quickly. Yet we still have to have these =#+caption: ...= bits (/for every =__NREF__...= block!/) because that's the only way that Org's HTML exporter knows how to label these blocks.
 
-1. [[(SCB_NAME)][=SCB_NAME=]]: name of the source code block,
-2. [[(SCB_POLYBLOCK_INDICATOR)][=SCB_POLYBLOCK_INDICATOR=]]: an indicator to show whether this block is broken up over multiple blocks, and
-3. [[(SCB_LINK_TO_PARENT)][=SCB_LINK_TO_PARENT=]]: a link back up to a parent block (if any) where this block is used.
+The code in this section automatically generates =#+caption: ...= text for these =__NREF__...= blocks.
 
-Adding these rudimentary items to the caption areas by hand for every source code block would be prohibitively tedious and error-prone. And so, we automate it with some Emacs lisp!
+We want each =#+caption: ...= text to have the following items:
 
-What we want to do is, loop through every source code block and insert a (=#+caption: ...=) text into the buffer. This modified buffer is what is sent down the pipeline for final export to HTML (i.e., the buffer modification does not affect the actual buffer (=*.org= file)).
+1. [[(NSCB_NAME)][=NSCB_NAME=]]: name of the Noweb source code block,
+2. [[(NSCB_POLYBLOCK_INDICATOR)][=NSCB_POLYBLOCK_INDICATOR=]]: an indicator to show whether this block is broken up over multiple blocks, and
+3. [[(NSCB_LINK_TO_PARENT)][=NSCB_LINK_TO_PARENT=]]: a link back up to a parent block (if any) where this block is used.
+
+/NSCB/ here means /Noweb source code block/. We loop through every source code block and insert a (=#+caption: ...=) text into the buffer. This modified buffer (with the three bits of information from above) is what is sent down the pipeline for final export to HTML (i.e., the buffer modification does not affect the actual buffer (=*.org= file)).
 
 So assume that we already have the smart captions in a sorted [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html][association list]] (aka alist), where the KEY is the integer buffer position where this caption should be inserted, and the VALUE is the caption itself (a string), like this:
 
@@ -296,7 +298,7 @@ We can use the KEY to go to that buffer position and insert the caption. However
 
 #+name: __NREF__smart-source-code-block-captions
 #+begin_src emacs-lisp
-(defun codex-smart-source-code-block-captions (_backend)
+(defun codex-noweb-source-code-block-captions (_backend)
   (let* ((parent-blocks
            __NREF__parent-blocks)
          (child-parent-hash-table
@@ -316,7 +318,7 @@ __NREF__smart-source-code-block-captions-helpers
 
 (We'll get to the helper functions =smart-source-code-block-captions-helpers= later as they obscure the big picture.)
 
-Now we just have to construct =smart-captions=. The main difficulty is the construction of [[(SCB_LINK_TO_PARENT)][=SCB_LINK_TO_PARENT=]], so most of the code will be concerned about child-parent associations.
+Now we just have to construct =smart-captions=. The main difficulty is the construction of [[(NSCB_LINK_TO_PARENT)][=NSCB_LINK_TO_PARENT=]], so most of the code will be concerned about child-parent associations.
 
 Why do we even need these source code blocks to link back to their parents? The point is to make things easier to navigate. For example, if we have
 
@@ -331,29 +333,29 @@ __NREF__child-block-2
 
 ...
 
-,#+name: child-block-1
+,#+name: __NREF__child-block-1
 ,#+begin_src bash
 echo "I am child 1"
 ,#+end_src
 
 ...
 
-,#+header: :noweb-ref child-block-2
+,#+header: :noweb-ref __NREF__child-block-2
 ,#+begin_src bash
 echo -n "I am "
 ,#+end_src
 
-,#+header: :noweb-ref child-block-2
+,#+header: :noweb-ref __NREF__child-block-2
 ,#+begin_src bash
 echo "child 2"
 ,#+end_src
 #+end_src
 
-and we export this to HTML, ideally we would want both =child-block-1= and each of the =child-block-2= blocks to include an HTML link back up to =parent-block=. This would make it easier to skim the document and not get too lost (any time you are looking at any particular source code block, you would be able to just click on the link back to the parent (if there is one) to see a higher-level view).
+and we export this to HTML, ideally we would want both =__NREF__child-block-1= and each of the =__NREF__child-block-2= blocks to include an HTML link back up to =parent-block=. This would make it easier to skim the document and not get too lost (any time you are looking at any particular source code block, you would be able to just click on the link back to the parent (if there is one) to see a higher-level view).
 
-The key idea here is to build a hash table (=child-parent-hash-table=) where the KEY is a child source code block and the VALUE is the parent block. Then in order to construct [[(SCB_LINK_TO_PARENT)][=SCB_LINK_TO_PARENT=]] we just do a lookup against this hash table to find the parent (if any).
+The key idea here is to build a hash table (=child-parent-hash-table=) where the KEY is a child source code block and the VALUE is the parent block. Then in order to construct [[(NSCB_LINK_TO_PARENT)][=NSCB_LINK_TO_PARENT=]] we just do a lookup against this hash table to find the parent (if any).
 
-The first thing we need is a list of parent source code blocks. We consider a source code block a parent block if it has any noweb references within its body.
+The first thing we need is a list of parent source code blocks. We consider a source code block a parent block if it has any Noweb references within its body.
 
 #+name: __NREF__parent-blocks
 #+begin_src emacs-lisp
@@ -381,9 +383,7 @@ Then we construct the =child-parent-hash-table=. For each parent block, we get a
 Now that we have the child-parent associations, we have to look at all source code blocks and check if
 
 1. this source code block's name shows up at all in =child-parent-hash-table=, and if so
-2. add a link to the parent.
-
-Note that a child source block can have two ways of defining its name. The first is with the direct =#+name: NAME= line, and the second way is with a line like ="#+header: :noweb-ref NAME"=.
+2. add a link to the parent ([[(NSCB_LINK_TO_PARENT)][=NSCB_LINK_TO_PARENT=]]).
 
 Let's grab all source code blocks:
 
@@ -400,49 +400,38 @@ And now we can finally construct =smart-captions=:
   (cl-loop for src-block in all-src-blocks collect
     (let* ((child (codex-get-src-block-name src-block))
            (child-name (car child))
-           (SCB_NAME (format "=%s= " child-name))                  ;ref:SCB_NAME
-           (SCB_POLYBLOCK_INDICATOR (car (cdr child)))             ;ref:SCB_POLYBLOCK_INDICATOR
+           (NSCB_NAME (format "=%s= " child-name))                  ;ref:NSCB_NAME
+           (NSCB_POLYBLOCK_INDICATOR (car (cdr child)))             ;ref:NSCB_POLYBLOCK_INDICATOR
            (polyblock-counter (gethash child-name codex-polyblock-names-totals 0))
            (polyblock-counter-incremented (puthash child-name (+ 1 polyblock-counter) codex-polyblock-names-totals))
            (parent (gethash child-name child-parent-hash-table))
            (pos (org-element-property :begin src-block))
-           (SCB_LINK_TO_PARENT                                     ;ref:SCB_LINK_TO_PARENT
+           (NSCB_LINK_TO_PARENT                                     ;ref:NSCB_LINK_TO_PARENT
             (if parent (format " [[%s][PARENT]]" parent) ""))
            (smart-caption
             (concat
               "#+caption: "
-              SCB_NAME
-              SCB_POLYBLOCK_INDICATOR
-              SCB_LINK_TO_PARENT
+              NSCB_NAME
+              NSCB_POLYBLOCK_INDICATOR
+              NSCB_LINK_TO_PARENT
               "\n")))
       (when parent (cons pos smart-caption)))))
 #+end_src
 
 We used some helper functions up in [[__NREF__smart-source-code-block-captions][=__NREF__smart-source-code-block-captions=]]; let's examine them now.
 
-#+name: __NREF__smart-source-code-block-captions-helpers
-#+begin_src emacs-lisp
-__NREF__codex-is-parent-block
-
-__NREF__codex-get-noweb-children
-
-__NREF__codex-get-noweb-ref-name
-
-__NREF__codex-get-src-block-name
-#+end_src
-
 =codex-is-parent-block= checks whether a source code block is a parent (contains noweb references to other child blocks in the form =__NREF__child-name=).
 
-#+name: __NREF__codex-is-parent-block
+#+header: :noweb-ref __NREF__smart-source-code-block-captions-helpers
 #+begin_src emacs-lisp
 (defun codex-is-parent-block (src-block)
   (let ((body (org-element-property :value src-block)))
     (codex-get-noweb-children body)))
 #+end_src
 
-=codex-get-noweb-children= extracts all noweb references in the form "=<<NAME>>=" from a given multiline string, returning a list of all such NAMEs. This function expects at most 1 noweb reference per line. The return type is a list of strings.
+=codex-get-noweb-children= extracts all Noweb references in the form "=__NREF__foo=" from a given multiline string, returning a list of all such references. This function expects at most 1 Noweb reference per line. The return type is a list of strings.
 
-#+name: __NREF__codex-get-noweb-children
+#+header: :noweb-ref __NREF__smart-source-code-block-captions-helpers
 #+begin_src emacs-lisp
 (defun codex-get-noweb-children (s)
   (let* ((lines (split-string s "\n"))
@@ -455,11 +444,11 @@ __NREF__codex-get-src-block-name
     refs))
 #+end_src
 
-=codex-get-noweb-ref-name= gets the string =FOO= in a =#+header: :noweb-ref FOO= line for a source code block.
+=codex-get-noweb-ref-polyblock-name= gets the string =__NREF__foo= in a =#+header: :noweb-ref __NREF__foo= line for a source code block.
 
-#+name: __NREF__codex-get-noweb-ref-name
+#+header: :noweb-ref __NREF__smart-source-code-block-captions-helpers
 #+begin_src emacs-lisp
-(defun codex-get-noweb-ref-name (source-code-block)
+(defun codex-get-noweb-ref-polyblock-name (source-code-block)
   (let* ((headers (org-element-property :header source-code-block))
          (noweb-ref-name
           (nth 0
@@ -472,13 +461,13 @@ __NREF__codex-get-src-block-name
     noweb-ref-name))
 #+end_src
 
-=codex-get-src-block-name= grabs the name of a (child) source code block. A child block can either be named directly with the =#+name: NAME= line, or indirectly with =#+header: noweb-ref NAME= (as we saw with =codex-get-noweb-ref-name=). We save the direct/indirect information as string, and this is used as the [[(SCB_POLYBLOCK_INDICATOR)][=SCB_POLYBLOCK_INDICATOR=]].
+Note that a child source block can have two ways of defining its name. The first is with the direct =#+name: __NREF__foo= style ([[monoblock][monoblock]]), and the second way is with a line like =#+header: :noweb-ref __NREF__foo= ([[polyblock][polyblock]]). Here =codex-get-src-block-name= grabs the name of a (child) source code block, taking into account these two styles. For polyblock names, we mark it as such with a =(polyblock)= string, which is used later for the [[(NSCB_POLYBLOCK_INDICATOR)][=NSCB_POLYBLOCK_INDICATOR=]].
 
-#+name: __NREF__codex-get-src-block-name
+#+header: :noweb-ref __NREF__smart-source-code-block-captions-helpers
 #+begin_src emacs-lisp
 (defun codex-get-src-block-name (src-block)
   (let* ((name-direct (org-element-property :name src-block))
-         (name-indirect (codex-get-noweb-ref-name src-block)))
+         (name-indirect (codex-get-noweb-ref-polyblock-name src-block)))
     (if name-direct
         `(,name-direct "")
         `(,name-indirect "(polyblock)"))))
@@ -570,7 +559,7 @@ Note that we only name the first polyblock in the set of polyblocks that share t
          (polyblock-UIDs
            (-remove 'null
              (cl-loop for src-block in all-src-blocks collect
-               (let* ((noweb-ref (codex-get-noweb-ref-name src-block))
+               (let* ((noweb-ref (codex-get-noweb-ref-polyblock-name src-block))
                       (is-polyblock
                        (and
                          noweb-ref
@@ -653,7 +642,7 @@ We only care about source code blocks with a =<label>= because that determines w
 
 For the last step, we want to additionally parse the inner "Listing N ... PARENT-link" text and transform it with reordering and also additional metadata information such as ~<span class="...">~ tags.
 
-We also save the =SCB_POLYBLOCK_INDICATOR= with the =polyblock-indicator= variable and display it.
+We also save the =NSCB_POLYBLOCK_INDICATOR= with the =polyblock-indicator= variable and display it.
 
 #+name: __NREF__codex-prettify-source-code-captions
 #+begin_src emacs-lisp
@@ -831,19 +820,19 @@ __NREF__child-block-2
 
 ...
 
-,#+name: child-block-1
+,#+name: __NREF__child-block-1
 ,#+begin_src bash
 echo "I am child 1"
 ,#+end_src
 
 ...
 
-,#+header: :noweb-ref child-block-2
+,#+header: :noweb-ref __NREF__child-block-2
 ,#+begin_src bash
 echo -n "I am "
 ,#+end_src
 
-,#+header: :noweb-ref child-block-2
+,#+header: :noweb-ref __NREF__child-block-2
 ,#+begin_src bash
 echo "child 2"
 ,#+end_src
@@ -851,7 +840,7 @@ echo "child 2"
 
 What we want to do is to make the =__NREF__child-block-1= and =__NREF__child-block-2= references inside =parent-block= to link to their definitions, so that the reader can just click on them to go to see how they're defined. Unfortunately Org mode doesn't do this by default so we have to do this ourselves.
 
-In the case of =child-block-2=, it is defined in multiple blocks so we would want to link to the very first block.
+In the case of =__NREF__child-block-2=, it is defined in multiple blocks so we would want to link to the very first block.
 
 We cannot use a =org-export-before-parsing-hook= like we did in [[__NREF__codex-publish-modify-org][=__NREF__codex-publish-modify-org=]] because at that stage of processing, we are dealing with Org mode syntax. Any modifications we make to the parent source code block will be treated as text upon HTML export. Thankfully Org mode allows customizations on generated HTML through the =org-export-filter-src-block-functions= variable. This variable is analogous to =org-export-before-parsing-hook=, but operates at the HTML level (not at the Org syntax level) for source code blocks, which is exactly what we need.
 
@@ -860,7 +849,7 @@ So we have to craft valid HTML links (not Org links) to the child source code bl
 1. for every parent source code block,
 2. for every child block (noweb) referenced in the body, insert an HTML link to the child block (lookup in =child-HTML_ID-hash-table=).
 
-The only thing remaining is the construction of =child-HTML_ID-hash-table=. We can construct this by mapping through all source code blocks and getting the name which can be just drawn from the =<label ...>= HTML tag, thanks to the smart captions we inserted for all child blocks earlier in [[*Smart source code block captions][/Smart source code block captions/]].
+The only thing remaining is the construction of =child-HTML_ID-hash-table=. We can construct this by mapping through all source code blocks and getting the name which can be just drawn from the =<label ...>= HTML tag, thanks to the smart captions we inserted for all child blocks earlier in [[* Automatic captions for Noweb source code blocks]].
 
 #+name: __NREF__codex-html-filter-src-blocks
 #+begin_src emacs-lisp -r -l ";ref:%s"
@@ -1614,5 +1603,5 @@ pkgs.mkShell ({
 - *Noweb*: A literate programming tool from 1989 that still works and from which [[Org mode][Org mode]] borrows heavily using [[noweb-ref][Noweb-style references]]. See [[https://en.wikipedia.org/wiki/Noweb][Wikipedia]].
 - <<noweb-ref>> *noweb-ref*: aka "Noweb-style reference". A Noweb-style reference is just a name (string) that refers to a monoblock or polyblock. See [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][the Org manual]].
 - <<Org mode>> *Org mode*: An Emacs major mode for =*.org= files, where "major mode" means that it provides things like syntax highlighting and keyboard shortcuts for =*.org= text files if you are using Emacs. For Codex, the important thing is that we use Org mode as a literate programming tool. See [[https://orgmode.org/][Org mode]].
-- <<polyblock>> *polyblock*: an Org mode source code block without a =#+name: ...= field, but which has a =#+header: :noweb-ref ...= field. Other blocks with the same noweb-ref name are concatenated together when they are tangled. Polyblocks are used in cases where we would like to break up a single block into much smaller pieces for explanatory purposes. In all other cases, monoblocks are preferable, unless the source code block is not to be tangled and is only for explanatory purposes in the woven output.
+- <<polyblock>> *polyblock*: an Org mode source code block without a =#+name: ...= field, but which has a =#+header: :noweb-ref ...= field. Other blocks with the same Noweb-ref name are concatenated together when they are tangled. Polyblocks are used in cases where we would like to break up a single block into smaller pieces for explanatory purposes. In all other cases, monoblocks are preferable, unless the source code block is not to be tangled and is only for explanatory purposes in the woven output.
 - *source code block*: An Org mode facility that allows you to enclose a multiline piece of text with =#+begin_src ...= and =#+end_src= lines.
