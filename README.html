@@ -192,6 +192,8 @@
 </style>
 <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
 <link rel="stylesheet" type="text/css" href="style.css" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="misc.js"></script>
 <style type="text/css">
 .problems-table col:nth-of-type(1) { width:  40%; }
 .problems-table col:nth-of-type(2) { width: 30%; }
@@ -2124,7 +2126,7 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
         touch tangle
 
 <span class="org-variable-name">build_literate_org_output</span> = codex.el codex.theme .gitattributes .gitignore Makefile misc.js shell.nix style.css syntax-highlighting.css
-<span class="org-variable-name">all_tangled_sources</span> = citations.bib $(<span class="org-variable-name">build_literate_org_output</span>) $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),problem/$(<span class="org-variable-name">p</span>)/__init__.py problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py)
+<span class="org-variable-name">all_tangled_sources</span> = citations.bib codex.root.theme $(<span class="org-variable-name">build_literate_org_output</span>) $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),problem/$(<span class="org-variable-name">p</span>)/__init__.py problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py)
 
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">build_literate_org_output</span></span><span class="org-makefile-targets">) &amp;</span>: build-literate.org
 <span class="org-makefile-space">        #</span><span class="org-comment-delimiter"> </span><span class="org-comment">Generate the toplevel Makefile (this file) and image/Makefile (overwriting</span>
@@ -2135,6 +2137,9 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 
 <span class="org-makefile-targets">citations.bib</span>: README.org
         $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),README.org)
+
+<span class="org-makefile-targets">codex.root.theme</span>: codex.theme
+        sed <span class="org-string">'s|../../||'</span> codex.theme &gt;codex.root.theme
 
 define tangle_tests
 

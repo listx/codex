@@ -28,7 +28,7 @@ $(all_tangled_sources) tangle &: $(src)
 	touch tangle
 
 build_literate_org_output = codex.el codex.theme .gitattributes .gitignore Makefile misc.js shell.nix style.css syntax-highlighting.css
-all_tangled_sources = citations.bib $(build_literate_org_output) $(foreach p,$(problem_dirs_without_prefix),problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
+all_tangled_sources = citations.bib codex.root.theme $(build_literate_org_output) $(foreach p,$(problem_dirs_without_prefix),problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
 
 $(build_literate_org_output) &: build-literate.org
 	# Generate the toplevel Makefile (this file) and image/Makefile (overwriting
@@ -39,6 +39,9 @@ $(build_literate_org_output) &: build-literate.org
 
 citations.bib: README.org
 	$(call run_emacs,(org-babel-tangle),README.org)
+
+codex.root.theme: codex.theme
+	sed 's|../../||' codex.theme >codex.root.theme
 
 define tangle_tests
 
