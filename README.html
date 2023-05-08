@@ -534,7 +534,7 @@ Note that all of the above can be brought in by using the <a href="https://githu
 We have a top-level <code>Makefile</code> so that we can run some <code>make</code> commands on the command line (instead of needing to invoke emacs directly).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name"><code>Makefile</code></label></div><pre class="src src-makefile" id="code-Makefile--code"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Makefile</label></div><pre class="src src-makefile" id="Makefile"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
 <span class="org-variable-name">PROCS</span> := $(<span class="org-variable-name">shell</span> nproc)
 define run_emacs
         emacs $(<span class="org-variable-name">2</span>) --quick --batch --kill --load $(<span class="org-variable-name">PROJ_ROOT</span>)/codex.el --eval=<span class="org-string">"$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">)"</span>
@@ -620,7 +620,7 @@ We define "cross-linking" to mean the act of linking to a child source code bloc
 The reason why cross-linking is so important is because the source code blocks are interleaved with prose. And the order of code presented may not match the order of code in the tangled output. And sometimes the reader may just want to jump to a source code block just to see its implementation right away instead of waiting for the prose to catch up to it. Cross-linking makes it easier to navigate by source code blocks. Cross-linking is implemented in FIXME.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name"><code>codex.el</code></label></div><pre class="src src-emacs-lisp" id="code-codex-el--code"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.el</label></div><pre class="src src-emacs-lisp" id="codex-el"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-imports">codex_dot_el-imports</a></span>
 
@@ -637,7 +637,7 @@ The reason why cross-linking is so important is because the source code blocks a
 <div id="outline-container-h-Toplevel-publishing-function---codex-publish-" class="outline-5">
 <h5 id="h-Toplevel-publishing-function---codex-publish-"><span class="section-number-5">5.2.1.1.</span> Toplevel publishing function (<code>codex-publish</code>)</h5>
 <div class="outline-text-5" id="text-h-Toplevel-publishing-function---codex-publish-">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-codex-publish</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-codex-publish">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-codex-publish"><span class="org-comment-delimiter">; </span><span class="org-comment">This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-codex-publish</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-codex-publish">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-codex-publish"><span class="org-comment-delimiter">; </span><span class="org-comment">This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).</span>
 (<span class="org-keyword">if</span> (getenv <span class="org-string">"CODEX_LP_QUICK"</span>)
     (<span class="org-keyword">progn</span>
       (message <span class="org-string">"CODEX_LP_QUICK set; invoking some cost-cutting measures"</span>)
@@ -1543,7 +1543,7 @@ See <a href="https://emacs.stackexchange.com/questions/31439/how-to-get-colored-
 Generate <code>syntax-highlighting.css</code> and quit emacs. This function is designed to be run from the command line on a fresh emacs instance (dedicated OS process). Unfortunately, by itself it is almost useless (see <a href="#__NREF__enable-syntax-highlighting-from-batch-mode"><code>__NREF__enable-syntax-highlighting-from-batch-mode</code></a>).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-autogenerate-css</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-autogenerate-css">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-autogenerate-css">(<span class="org-keyword">defun</span> <span class="org-function-name">batch-org-gen-css-and-exit</span> (org-file)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-autogenerate-css</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-autogenerate-css">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-autogenerate-css">(<span class="org-keyword">defun</span> <span class="org-function-name">batch-org-gen-css-and-exit</span> (org-file)
   (find-file org-file)
   (font-lock-flush)
   (font-lock-fontify-buffer)
@@ -1662,7 +1662,7 @@ There are some things that Org mode does that annoyingly break determinism. Here
 Org mode also injects an HTML comment (not visible to the user) to record the time that the HTML was generated. We disable this because it breaks deterministic output. See <a href="https://emacs.stackexchange.com/questions/50117/how-to-disable-commented-date-in-org-mode-html-export">this link</a> for more info.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(1 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism">(<span class="org-keyword">setq</span> org-export-time-stamp-file nil)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(1 of 3) <span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism">(<span class="org-keyword">setq</span> org-export-time-stamp-file nil)
 </pre></div></div>
 </div>
 </div>
@@ -1674,7 +1674,7 @@ Org mode also injects an HTML comment (not visible to the user) to record the ti
 By default Org mode appends visible metadata at the bottom of the HTML document, including the Org version used to generate the document. We suppress this information.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(2 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-2">(<span class="org-keyword">setq</span> org-html-postamble nil)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(2 of 3) <span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-2">(<span class="org-keyword">setq</span> org-html-postamble nil)
 </pre></div></div>
 </div>
 </div>
@@ -1690,7 +1690,7 @@ Stop randomized ids from being generated every time. Instead count from 0 and wo
 See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(3 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-3">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-deterministic-reference</span> (references)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(3 of 3) <span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-3">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-deterministic-reference</span> (references)
   (<span class="org-keyword">let</span> ((new (length references)))
      (<span class="org-keyword">while</span> (rassq new references) (<span class="org-keyword">setq</span> new (+ new 1)))
      new))
@@ -1704,10 +1704,10 @@ See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">h
 <h5 id="h-Misc-settings"><span class="section-number-5">5.2.1.6.</span> Misc settings</h5>
 <div class="outline-text-5" id="text-h-Misc-settings">
 <p>
-Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</code>) when we invoke Emacs from the <a href="#code-Makefile--code">Makefile</a>.
+Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</code>) when we invoke Emacs from the <a href="#Makefile">Makefile</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-misc</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-misc">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-misc">(<span class="org-keyword">setq</span> make-backup-files nil)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-misc</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-misc">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-misc">(<span class="org-keyword">setq</span> make-backup-files nil)
 (<span class="org-keyword">setq</span> org-src-preserve-indentation t)
 
 <span class="org-comment-delimiter">; </span><span class="org-comment">See https://stackoverflow.com/a/27285582/437583.</span>
@@ -1742,7 +1742,7 @@ Every HTML element <code>h2</code> to <code>h6</code> (which encode the Org mode
 The code here is taken from <a href="https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1">https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1</a>.
 </p>
 
-<div class="org-src-container"><pre class="src src-javascript">$(<span class="org-keyword">function</span>() {
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">misc.js</label></div><pre class="src src-javascript" id="-8">$(<span class="org-keyword">function</span>() {
     $(<span class="org-string">"h2,h3,h4,h5,h6"</span>).each(<span class="org-keyword">function</span>() {
         <span class="org-keyword">var</span> <span class="org-variable-name">$this</span> = $(<span class="org-constant">this</span>);
         <span class="org-keyword">var</span> <span class="org-variable-name">text</span> = $this.text();
@@ -1769,13 +1769,13 @@ The code here is taken from <a href="https://github.com/listx/listx_blog/blame/8
         }
     });
 });
-</pre></div><p>
+</pre></div></div><p>
 Now we just have to refer to the above in the snippet below, to be included in <a href="#h-Use--codex-theme--file"><code>codex.theme</code></a>.
 </p>
 
 <div class="org-src-container"><pre class="src src-org" id="org0000040"><span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="<a href="https://code.jquery.com/jquery-3.6.4.min.js">https://code.jquery.com/jquery-3.6.4.min.js</a>"&gt;&lt;/script&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="../../misc.js"&gt;&lt;/script&gt;</span>
-</pre></div><div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-section-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-section-headlines">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-section-headlines"><span class="org-css-selector">a.section-headline </span>{
+</pre></div><div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#style-css">css-source-code-section-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-section-headlines">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-section-headlines"><span class="org-css-selector">a.section-headline </span>{
     <span class="org-css-property">color</span>: <span class="custom">black</span>;
 }
 </pre></div></div>
@@ -1785,7 +1785,7 @@ Now we just have to refer to the above in the snippet below, to be included in <
 <div id="outline-container-h-Imports" class="outline-5">
 <h5 id="h-Imports"><span class="section-number-5">5.2.1.8.</span> Imports</h5>
 <div class="outline-text-5" id="text-h-Imports">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-imports</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-imports">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-imports"><span class="org-comment-delimiter">;; </span><span class="org-comment">Built-in packages (distributed with Emacs).</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-imports</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-imports">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-imports"><span class="org-comment-delimiter">;; </span><span class="org-comment">Built-in packages (distributed with Emacs).</span>
 (<span class="org-keyword">require</span> '<span class="org-constant">tex-mode</span>)
 (<span class="org-keyword">require</span> '<span class="org-constant">elisp-mode</span>)
 
@@ -1823,7 +1823,7 @@ This "optimization" is inspired by <a href="https://www.reddit.com/r/emacs/comme
 During ad-hoc tests, this shaves off a few seconds. This was determined by comparing the regular <code>weave</code> target versus the <code>weave-nocolor</code> target.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-performance-optimization</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-performance-optimization">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-performance-optimization"><span class="org-comment-delimiter">; </span><span class="org-comment">Set garbage-collection threshold to 16 GiB.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-performance-optimization</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-performance-optimization">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-performance-optimization"><span class="org-comment-delimiter">; </span><span class="org-comment">Set garbage-collection threshold to 16 GiB.</span>
 (<span class="org-keyword">setq</span> gc-cons-threshold #x400000000)
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-disable-syntax-highlighting</span> (_orig-func <span class="org-type">&amp;rest</span> args)
@@ -1865,7 +1865,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 We add some additional CSS tweaks on top of what we get from Org.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name"><code>style.css</code></label></div><pre class="src src-css" id="code-style-css--code"><span class="org-css-selector">a </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">style.css</label></div><pre class="src src-css" id="style-css"><span class="org-css-selector">a </span>{
     <span class="org-css-property">color</span>: <span class="custom-2">#0000ff</span>;
 }
 
@@ -1955,7 +1955,7 @@ We add some additional CSS tweaks on top of what we get from Org.
 <div id="outline-container-h-Source-code-block-body" class="outline-5">
 <h5 id="h-Source-code-block-body"><span class="section-number-5">5.2.2.1.</span> Source code block body</h5>
 <div class="outline-text-5" id="text-h-Source-code-block-body">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-body</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-body">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-body"><span class="org-css-selector">.org-src-container </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#style-css">css-source-code-block-body</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-body">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-body"><span class="org-css-selector">.org-src-container </span>{
     <span class="org-css-property">margin-top</span>: 1em;
     <span class="org-css-property">margin-bottom</span>: 1em;
     <span class="org-css-property">border-style</span>: solid;
@@ -1983,7 +1983,7 @@ We add some additional CSS tweaks on top of what we get from Org.
 <div id="outline-container-h-Source-code-block-captions" class="outline-5">
 <h5 id="h-Source-code-block-captions"><span class="section-number-5">5.2.2.2.</span> Source code block captions</h5>
 <div class="outline-text-5" id="text-h-Source-code-block-captions">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-captions">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-captions"><span class="org-css-selector">.codex-caption </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#style-css">css-source-code-block-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-captions">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-captions"><span class="org-css-selector">.codex-caption </span>{
     <span class="org-css-property">font-family</span>: <span class="org-string">"monospace"</span>;
     <span class="org-css-property">text-align</span>: right;
     <span class="org-css-property">background-color</span>: <span class="custom-4">#ddd</span>;
@@ -2040,7 +2040,7 @@ We add some additional CSS tweaks on top of what we get from Org.
 <div id="outline-container-h-Links-to-child-source-block-from-parent" class="outline-5">
 <h5 id="h-Links-to-child-source-block-from-parent"><span class="section-number-5">5.2.2.3.</span> Links to child source block from parent</h5>
 <div class="outline-text-5" id="text-h-Links-to-child-source-block-from-parent">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-child-link-from-parent</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-child-link-from-parent">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-child-link-from-parent"><span class="org-css-selector">.codex-child-link-from-parent </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#style-css">css-source-code-block-child-link-from-parent</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-child-link-from-parent">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-child-link-from-parent"><span class="org-css-selector">.codex-child-link-from-parent </span>{
     <span class="org-css-property">padding-left</span>: 5px;
     <span class="org-css-property">padding-right</span>: 5px;
     <span class="org-css-property">font-weight</span>: bold;
@@ -2069,9 +2069,10 @@ We add some additional CSS tweaks on top of what we get from Org.
 Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from <a href="https://gitlab.com/OlMon/org-themes">https://gitlab.com/OlMon/org-themes</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name"><code>codex.theme</code></label></div><pre class="src src-org" id="codex.theme-1"><span class="org-comment"># Include additional CSS styles.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.theme</label></div><pre class="src src-org" id="-11"><span class="org-comment"># Include additional CSS styles.</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../style.css" /&gt;</span>
+
 __NREF__automatically_link_headlines
 </pre></div></div>
 </div>
@@ -2084,7 +2085,7 @@ __NREF__automatically_link_headlines
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from <code>git diff</code> by treating them as binary data.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name"><code>.gitattributes</code></label></div><pre class="src src-gitattributes" id=".gitattributes-1">* -diff
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitattributes</label></div><pre class="src src-gitattributes" id="-12">* -diff
 **/*.org diff
 **/.gitattributes diff
 **/.gitmodules diff
@@ -2107,12 +2108,12 @@ Note that the above setting to treat HTML files as binary data prevents them fro
 <div id="outline-container-h-gitignore" class="outline-4">
 <h4 id="h-gitignore"><span class="section-number-4">5.2.5.</span> gitignore</h4>
 <div class="outline-text-4" id="text-h-gitignore">
-<div class="org-src-container"><pre class="src src-gitignore">**/__pycache__
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitignore</label></div><pre class="src src-gitignore" id="-13">**/__pycache__
 **/*.auctex-auto
 **/*.hypothesis
 tangle
 weave
-</pre></div>
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -2128,7 +2129,7 @@ Tangling is simply the act of collecting the <code>#+begin_src ... #+end_src</co
 We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-Makefile--code">Makefile-tangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-comment-delimiter"># </span><span class="org-comment">Currently we don't have any optimizations for tangling, but we still set CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Makefile">Makefile-tangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-comment-delimiter"># </span><span class="org-comment">Currently we don't have any optimizations for tangling, but we still set CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.</span>
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">all_tangled_sources</span></span><span class="org-makefile-targets">) tangle &amp;</span>: $(<span class="org-variable-name">src</span>)
         <span class="org-type">@</span><span class="org-makefile-shell">echo tangling in parallel</span>
         <span class="org-variable-name">CODEX_LP_QUICK</span>=1 make -C $(<span class="org-variable-name">PROJ_ROOT</span>) -j$(<span class="org-variable-name">PROCS</span>) $(<span class="org-variable-name">all_tangled_sources</span>)
@@ -2175,7 +2176,7 @@ This is taken from <a href="https://github.com/tweag/haskell-stack-nix-example/b
 This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (such as running "make" to re-run any Python tests that have been updated when adding new problems).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name"><code>shell.nix</code></label></div><pre class="src src-nix" id="code-shell-nix--code"><span class="org-nix-keyword">let</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">shell.nix</label></div><pre class="src src-nix" id="shell-nix"><span class="org-nix-keyword">let</span>
   <span class="org-comment"># Nixpkgs snapshot.</span>
   <span class="org-nix-attribute">sources</span> = <span class="org-nix-builtin">import</span> <span class="org-nix-constant">./package/nix/sources.nix</span>;
   <span class="org-comment"># The final "pkgs" attribute with all the bells and whistles of our overlays.</span>
