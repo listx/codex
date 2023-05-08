@@ -15,7 +15,7 @@ With a list, we can operate efficiently on both ends at the same time (that is, 
 
 * Solution
 
-#+header: :noweb-ref __NREF__rearrange_list_even_odd
+#+name: __NREF__rearrange_list_even_odd
 #+begin_src python
 def even_odd(ints):
   idx_even = 0
@@ -70,6 +70,7 @@ Now =ints[idx_odd]= is =18= and it is not odd. So we must swap (and increment =i
 
 Let's have a closer look at the =while= loop inside =even_odd()=.
 
+#+caption: while loop
 #+begin_src python
   while idx_even < idx_odd:
     ...
@@ -79,6 +80,7 @@ The =idx_even < idx_odd= just means to stop processing whenever the two indices 
 
 Now let's check the =if= condition.
 
+#+caption: first if-condition
 #+begin_src python
     if ints[idx_odd] & 1:
       idx_odd -= 1
@@ -88,6 +90,7 @@ This part is straightforward --- if we observe that the number which =idx_odd= i
 
 Now comes the swapping behavior.
 
+#+caption: else-condition
 #+begin_src python
     else:
       ints[idx_even], ints[idx_odd] = ints[idx_odd], ints[idx_even]
@@ -100,6 +103,7 @@ Lastly we have to increment =idx_even= because we know that we just gave it an e
 
 So much for the =while= loop. As for the calculation of the number of even numbers, this is just the =idx_even= index, plus 1 if =idx_even= is currently looking at an even number (after the loop is done incrementing it).
 
+#+caption: =idx_even= (off-by-1)
 #+begin_src python
   if ints and ints[idx_even] & 1 == 0:
     idx_even += 1
@@ -119,7 +123,8 @@ In this case, =idx_even= is 6, but there are 7 even numbers in the list. So we h
 
 * Tests
 
-#+name: test
+#+name: Tests
+#+caption: Tests
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 from hypothesis import given, strategies as st
 import unittest

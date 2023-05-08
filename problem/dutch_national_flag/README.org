@@ -21,7 +21,7 @@ For arranging 3 colors, we could use 3 indices (red, white, blue), and keep trac
 
 For our solution, we don't use colors and instead use quicksort's naming scheme.
 
-#+header: :noweb-ref __NREF__rearrange_list_even_odd
+#+name: __NREF__rearrange_list_even_odd
 #+begin_src python
 def dutch_flag_partition(nums, idx_pivot):
   if not nums:
@@ -59,6 +59,7 @@ def dutch_flag_partition(nums, idx_pivot):
 
 The =while= condition
 
+#+caption: while condition
 #+begin_src python
   while idx_eq < idx_gt:
 #+end_src
@@ -69,6 +70,7 @@ As we iterate through the loop, we always check the number pointed by =idx_eq= (
 
 Now let's consider the simplest case:
 
+#+caption: number == pivot
 #+begin_src python
     if nums[idx_eq] == pivot:
       idx_eq += 1
@@ -78,6 +80,7 @@ This is straightforward --- if =idx_eq= is looking at a number that is equal to 
 
 Now let's examine the case where =idx_eq= is pointing to a number less than the pivot:
 
+#+caption: number < pivot
 #+begin_src python
     elif nums[idx_eq] < pivot:
       nums[idx_lt], nums[idx_eq] = nums[idx_eq], nums[idx_lt]
@@ -141,6 +144,7 @@ This is the critical step. =idx_eq= is looking at a number smaller than the pivo
 
 So much for the interplay between =idx_lt= and =idx_eq=. Now we come to the final condition where =idx_eq= sees a number /greater/ than the pivot:
 
+#+caption: number > pivot
 #+begin_src python
     else:
       idx_gt -= 1
@@ -151,7 +155,8 @@ In this case, we "throw over" the number to the right side of the list (to =idx_
 
 * Tests
 
-#+name: test
+#+name: Tests
+#+caption: Tests
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 from hypothesis import given, strategies as st
 import unittest

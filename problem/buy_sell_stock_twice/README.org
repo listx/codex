@@ -282,7 +282,8 @@ You may also be wondering if it is possible to tweak this algorithm to keep trac
 
 * Tests
 
-#+name: test
+#+name: Tests
+#+caption: Tests
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 from hypothesis import given, strategies as st
 import unittest

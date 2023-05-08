@@ -245,7 +245,7 @@ For arranging 3 colors, we could use 3 indices (red, white, blue), and keep trac
 For our solution, we don't use colors and instead use quicksort's naming scheme.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(1 of 1) <span class="codex-caption-parent-link"><a href="#org0000002">rearrange_list_even_odd</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">dutch_flag_partition</span>(nums, idx_pivot):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">rearrange_list_even_odd</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">dutch_flag_partition</span>(nums, idx_pivot):
   <span class="org-keyword">if</span> <span class="org-keyword">not</span> nums:
     <span class="org-keyword">return</span> 0, 0
 
@@ -281,8 +281,8 @@ For our solution, we don't use colors and instead use quicksort's naming scheme.
 The <code>while</code> condition
 </p>
 
-<div class="org-src-container"><pre class="src src-python">  <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
-</pre></div><p>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">while condition</label><span class="codex-caption-link-symbol"><a href="#anonymous-1">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-1">  <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
+</pre></div></div><p>
 just checks whether we still have some nonzero size of unchecked numbers (in group "unknown").
 </p>
 
@@ -294,9 +294,9 @@ As we iterate through the loop, we always check the number pointed by <code>idx_
 Now let's consider the simplest case:
 </p>
 
-<div class="org-src-container"><pre class="src src-python">    <span class="org-keyword">if</span> nums[idx_eq] == pivot:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">number == pivot</label><span class="codex-caption-link-symbol"><a href="#anonymous-2">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-2">    <span class="org-keyword">if</span> nums[idx_eq] == pivot:
       idx_eq += 1
-</pre></div><p>
+</pre></div></div><p>
 This is straightforward &#x2014; if <code>idx_eq</code> is looking at a number that is equal to the pivot, we "count" it by incrementing <code>idx_eq</code>. This is the happy path.
 </p>
 
@@ -304,11 +304,11 @@ This is straightforward &#x2014; if <code>idx_eq</code> is looking at a number t
 Now let's examine the case where <code>idx_eq</code> is pointing to a number less than the pivot:
 </p>
 
-<div class="org-src-container"><pre class="src src-python">    <span class="org-keyword">elif</span> nums[idx_eq] &lt; <span class="org-variable-name">pivot</span>:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">number &lt; pivot</label><span class="codex-caption-link-symbol"><a href="#anonymous-3">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-3">    <span class="org-keyword">elif</span> nums[idx_eq] &lt; <span class="org-variable-name">pivot</span>:
       <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_lt</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>] = nums[idx_eq], nums[idx_lt]
       <span class="org-variable-name">idx_lt</span> += 1
       <span class="org-variable-name">idx_eq</span> += 1
-</pre></div><p>
+</pre></div></div><p>
 In this case, <code>idx_eq</code> just found a number smaller than the pivot, so it "trades" it with <code>idx_lt</code> via a swap. We must increment <code>idx_lt</code> because it "grew" by 1 number.
 </p>
 
@@ -382,10 +382,10 @@ This is the critical step. <code>idx_eq</code> is looking at a number smaller th
 So much for the interplay between <code>idx_lt</code> and <code>idx_eq</code>. Now we come to the final condition where <code>idx_eq</code> sees a number <i>greater</i> than the pivot:
 </p>
 
-<div class="org-src-container"><pre class="src src-python">    <span class="org-keyword">else</span>:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">number &gt; pivot</label><span class="codex-caption-link-symbol"><a href="#anonymous-4">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-4">    <span class="org-keyword">else</span>:
       idx_gt -= 1
       <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_gt</span>] = nums[idx_gt], nums[idx_eq]
-</pre></div><p>
+</pre></div></div><p>
 In this case, we "throw over" the number to the right side of the list (to <code>idx_gt</code>), and in return get the number that <code>idx_gt</code> (whatever it may be) pointed to. Because of of-by-one issues, we have to decrement <code>idx_gt</code> first. Note that we <b>do not</b> increment <code>idx_eq</code> here, because we have no idea what <code>idx_gt</code> was pointing at previously.
 </p>
 </div>
@@ -394,7 +394,7 @@ In this case, we "throw over" the number to the right side of the list (to <code
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">4.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
-<div class="org-src-container"><pre class="src src-python" id="org0000002"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Tests</label><span class="codex-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
 <span class="org-keyword">import</span> unittest
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__rearrange_list_even_odd">rearrange_list_even_odd</a></span>
@@ -447,7 +447,7 @@ In this case, we "throw over" the number to the right side of the list (to <code
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
   unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
-</pre></div>
+</pre></div></div>
 </div>
 </div>
 

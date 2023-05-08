@@ -232,7 +232,7 @@ With a list, we can operate efficiently on both ends at the same time (that is, 
 <div id="outline-container-h-Solution" class="outline-2">
 <h2 id="h-Solution"><span class="section-number-2">3.</span> Solution</h2>
 <div class="outline-text-2" id="text-h-Solution">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(1 of 1) <span class="codex-caption-parent-link"><a href="#org0000002">rearrange_list_even_odd</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">even_odd</span>(ints):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">rearrange_list_even_odd</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">even_odd</span>(ints):
   <span class="org-variable-name">idx_even</span> = 0
   <span class="org-variable-name">idx_odd</span> = <span class="org-builtin">len</span>(ints) - 1
 
@@ -293,9 +293,9 @@ Now <code>ints[idx_odd]</code> is <code>18</code> and it is not odd. So we must 
 Let's have a closer look at the <code>while</code> loop inside <code>even_odd()</code>.
 </p>
 
-<div class="org-src-container"><pre class="src src-python">  <span class="org-keyword">while</span> idx_even &lt; idx_odd:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">while loop</label><span class="codex-caption-link-symbol"><a href="#anonymous-1">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-1">  <span class="org-keyword">while</span> idx_even &lt; idx_odd:
     ...
-</pre></div><p>
+</pre></div></div><p>
 The <code>idx_even &lt; idx_odd</code> just means to stop processing whenever the two indices cross over each other (because we must uphold the guarantee of having the odd numbers on the right side of the list when we're done processing).
 </p>
 
@@ -303,9 +303,9 @@ The <code>idx_even &lt; idx_odd</code> just means to stop processing whenever th
 Now let's check the <code>if</code> condition.
 </p>
 
-<div class="org-src-container"><pre class="src src-python">    <span class="org-keyword">if</span> ints[idx_odd] &amp; 1:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">first if-condition</label><span class="codex-caption-link-symbol"><a href="#anonymous-2">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-2">    <span class="org-keyword">if</span> ints[idx_odd] &amp; 1:
       <span class="org-variable-name">idx_odd</span> -= 1
-</pre></div><p>
+</pre></div></div><p>
 This part is straightforward &#x2014; if we observe that the number which <code>idx_odd</code> is pointing to is already odd, it's already in the correct position. So the only thing left to do is to decrement <code>idx_odd</code> so that we can consider the next number to the left.
 </p>
 
@@ -313,10 +313,10 @@ This part is straightforward &#x2014; if we observe that the number which <code>
 Now comes the swapping behavior.
 </p>
 
-<div class="org-src-container"><pre class="src src-python">    <span class="org-keyword">else</span>:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">else-condition</label><span class="codex-caption-link-symbol"><a href="#anonymous-3">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-3">    <span class="org-keyword">else</span>:
       <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_even</span>], <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_odd</span>] = ints[idx_odd], ints[idx_even]
       <span class="org-variable-name">idx_even</span> += 1
-</pre></div><p>
+</pre></div></div><p>
 We hit this branch if <code>idx_odd</code> is pointing to an <b>even</b> number. We know that because this number is even, we want to push it to the left edge of the list. Luckily we already have a pointer for this, <code>idx_even</code>. So we perform a swap to throw over the number we just looked at (<code>ints[idx_odd]</code>) over to the "even" side. The number that we get in return as a result of the swap (namely, <code>ints[idx_even]</code>) may or may not be odd. However it doesn't matter because we'll check it in the next iteration of the loop.
 </p>
 
@@ -328,9 +328,9 @@ Lastly we have to increment <code>idx_even</code> because we know that we just g
 So much for the <code>while</code> loop. As for the calculation of the number of even numbers, this is just the <code>idx_even</code> index, plus 1 if <code>idx_even</code> is currently looking at an even number (after the loop is done incrementing it).
 </p>
 
-<div class="org-src-container"><pre class="src src-python">  <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name"><code>idx_even</code> (off-by-1)</label><span class="codex-caption-link-symbol"><a href="#idx_even-1">&#x1f517;</a></span></div><pre class="src src-python" id="idx_even-1">  <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
     <span class="org-variable-name">idx_even</span> += 1
-</pre></div><p>
+</pre></div></div><p>
 We have to increment <code>idx_even</code> in such a case because this means that the number it is looking at after the <code>while</code> loop finished was <b>not</b> "thrown over" explicitly by the swapping code path in the loop. This can happen for the case where every number is even &#x2014; in this case we end up incrementing <code>idx_even</code> until it equals <code>idx_odd</code> (at the tail end of the list), when the loop terminates. Example:
 </p>
 
@@ -351,7 +351,7 @@ In this case, <code>idx_even</code> is 6, but there are 7 even numbers in the li
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">4.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
-<div class="org-src-container"><pre class="src src-python" id="org0000002"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Tests</label><span class="codex-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
 <span class="org-keyword">import</span> unittest
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__rearrange_list_even_odd">rearrange_list_even_odd</a></span>
@@ -394,7 +394,7 @@ In this case, <code>idx_even</code> is 6, but there are 7 even numbers in the li
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
   unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
-</pre></div>
+</pre></div></div>
 </div>
 </div>
 
