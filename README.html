@@ -1742,7 +1742,7 @@ Every HTML element <code>h2</code> to <code>h6</code> (which encode the Org mode
 The code here is taken from <a href="https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1">https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">misc.js</label></div><pre class="src src-javascript" id="-8">$(<span class="org-keyword">function</span>() {
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">misc.js</label></div><pre class="src src-js" id="-8">$(<span class="org-keyword">function</span>() {
     $(<span class="org-string">"h2,h3,h4,h5,h6"</span>).each(<span class="org-keyword">function</span>() {
         <span class="org-keyword">var</span> <span class="org-variable-name">$this</span> = $(<span class="org-constant">this</span>);
         <span class="org-keyword">var</span> <span class="org-variable-name">text</span> = $this.text();
@@ -1773,9 +1773,13 @@ The code here is taken from <a href="https://github.com/listx/listx_blog/blame/8
 Now we just have to refer to the above in the snippet below, to be included in <a href="#h-Use--codex-theme--file"><code>codex.theme</code></a>.
 </p>
 
-<div class="org-src-container"><pre class="src src-org" id="org0000040"><span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="<a href="https://code.jquery.com/jquery-3.6.4.min.js">https://code.jquery.com/jquery-3.6.4.min.js</a>"&gt;&lt;/script&gt;</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#codex-theme">automatically_link_headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__automatically_link_headlines">&#x1f517;</a></span></div><pre class="src src-org" id="__NREF__automatically_link_headlines"><span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="<a href="https://code.jquery.com/jquery-3.6.4.min.js">https://code.jquery.com/jquery-3.6.4.min.js</a>"&gt;&lt;/script&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="../../misc.js"&gt;&lt;/script&gt;</span>
-</pre></div><div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#style-css">css-source-code-section-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-section-headlines">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-section-headlines"><span class="org-css-selector">a.section-headline </span>{
+</pre></div></div><p>
+Linkifying itself makes all the headlines blue (the default color for links). This is a bit distracting, so make them black.
+</p>
+
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#style-css">css-source-code-section-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-section-headlines">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-section-headlines"><span class="org-css-selector">a.section-headline </span>{
     <span class="org-css-property">color</span>: <span class="custom">black</span>;
 }
 </pre></div></div>
@@ -2069,11 +2073,11 @@ We add some additional CSS tweaks on top of what we get from Org.
 Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from <a href="https://gitlab.com/OlMon/org-themes">https://gitlab.com/OlMon/org-themes</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.theme</label></div><pre class="src src-org" id="-11"><span class="org-comment"># Include additional CSS styles.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.theme</label></div><pre class="src src-org" id="codex-theme"><span class="org-comment"># Include additional CSS styles.</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../style.css" /&gt;</span>
 
-__NREF__automatically_link_headlines
+<span class="codex-child-link-from-parent"><a href="#__NREF__automatically_link_headlines">automatically_link_headlines</a></span>
 </pre></div></div>
 </div>
 </div>
@@ -2085,7 +2089,7 @@ __NREF__automatically_link_headlines
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from <code>git diff</code> by treating them as binary data.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitattributes</label></div><pre class="src src-gitattributes" id="-12">* -diff
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitattributes</label></div><pre class="src src-gitattributes" id="-11">* -diff
 **/*.org diff
 **/.gitattributes diff
 **/.gitmodules diff
@@ -2108,7 +2112,7 @@ Note that the above setting to treat HTML files as binary data prevents them fro
 <div id="outline-container-h-gitignore" class="outline-4">
 <h4 id="h-gitignore"><span class="section-number-4">5.2.5.</span> gitignore</h4>
 <div class="outline-text-4" id="text-h-gitignore">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitignore</label></div><pre class="src src-gitignore" id="-13">**/__pycache__
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitignore</label></div><pre class="src src-gitignore" id="-12">**/__pycache__
 **/*.auctex-auto
 **/*.hypothesis
 tangle
@@ -2208,9 +2212,9 @@ pkgs.mkShell ({
 <div class="outline-text-3" id="text-h-Glossary">
 <ul class="org-ul">
 <li><a id="org0000000"></a> <b>monoblock</b>: an Org mode source code block with a <code>#+name: ...</code> field. This block is an independent block and there are no other blocks with the same name.</li>
-<li><b>Noweb</b>: A literate programming tool from 1989 that still works and from which <a href="#org0000056">Org mode</a> borrows heavily using <a href="#org0000058">Noweb-style references</a>. See <a href="https://en.wikipedia.org/wiki/Noweb">Wikipedia</a>.</li>
-<li><a id="org0000058"></a> <b>noweb-ref</b>: aka "Noweb-style reference". A Noweb-style reference is just a name (string) that refers to a monoblock or polyblock. See <a href="https://orgmode.org/manual/Noweb-Reference-Syntax.html">the Org manual</a>.</li>
-<li><a id="org0000056"></a> <b>Org mode</b>: An Emacs major mode for <code>*.org</code> files, where "major mode" means that it provides things like syntax highlighting and keyboard shortcuts for <code>*.org</code> text files if you are using Emacs. For Codex, the important thing is that we use Org mode as a literate programming tool. See <a href="https://orgmode.org/">Org mode</a>.</li>
+<li><b>Noweb</b>: A literate programming tool from 1989 that still works and from which <a href="#org0000058">Org mode</a> borrows heavily using <a href="#org000005a">Noweb-style references</a>. See <a href="https://en.wikipedia.org/wiki/Noweb">Wikipedia</a>.</li>
+<li><a id="org000005a"></a> <b>noweb-ref</b>: aka "Noweb-style reference". A Noweb-style reference is just a name (string) that refers to a monoblock or polyblock. See <a href="https://orgmode.org/manual/Noweb-Reference-Syntax.html">the Org manual</a>.</li>
+<li><a id="org0000058"></a> <b>Org mode</b>: An Emacs major mode for <code>*.org</code> files, where "major mode" means that it provides things like syntax highlighting and keyboard shortcuts for <code>*.org</code> text files if you are using Emacs. For Codex, the important thing is that we use Org mode as a literate programming tool. See <a href="https://orgmode.org/">Org mode</a>.</li>
 <li><a id="org0000002"></a> <b>polyblock</b>: an Org mode source code block without a <code>#+name: ...</code> field, but which has a <code>#+header: :noweb-ref ...</code> field. Other blocks with the same noweb-ref name are concatenated together when they are tangled. Polyblocks are used in cases where we would like to break up a single block into much smaller pieces for explanatory purposes. In all other cases, monoblocks are preferable, unless the source code block is not to be tangled and is only for explanatory purposes in the woven output.</li>
 <li><b>source code block</b>: An Org mode facility that allows you to enclose a multiline piece of text with <code>#+begin_src ...</code> and <code>#+end_src</code> lines.</li>
 </ul>

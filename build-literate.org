@@ -1162,7 +1162,7 @@ Every HTML element =h2= to =h6= (which encode the Org mode headlines) already co
 The code here is taken from https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1.
 
 #+caption: misc.js
-#+begin_src javascript :tangle misc.js :eval no
+#+begin_src js :tangle misc.js :eval no
 $(function() {
     $("h2,h3,h4,h5,h6").each(function() {
         var $this = $(this);
@@ -1199,6 +1199,8 @@ Now we just have to refer to the above in the snippet below, to be included in [
 ,#+HTML_HEAD: <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 ,#+HTML_HEAD: <script src="../../misc.js"></script>
 #+end_src
+
+Linkifying itself makes all the headlines blue (the default color for links). This is a bit distracting, so make them black.
 
 #+name: __NREF__css-source-code-section-headlines
 #+begin_src css
@@ -1478,6 +1480,7 @@ __NREF__css-source-code-block-child-link-from-parent
 
 Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from https://gitlab.com/OlMon/org-themes.
 
+#+name: codex.theme
 #+caption: codex.theme
 #+begin_src org :tangle codex.theme :eval no
 # Include additional CSS styles.
