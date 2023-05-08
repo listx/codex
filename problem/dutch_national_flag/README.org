@@ -1,6 +1,5 @@
 #+title: Dutch National Flag (3-way partitioning)
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+#+SETUPFILE: codex.theme
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
 

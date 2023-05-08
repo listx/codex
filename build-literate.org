@@ -1411,6 +1411,17 @@ __NREF__css-source-code-block-child-link-from-parent
 }
 #+end_src
 
+** Use theme file
+
+Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from https://gitlab.com/OlMon/org-themes.
+
+#+caption: =codex.theme=
+#+begin_src org :tangle codex.theme :eval no
+# Include additional CSS styles.
+,#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/>
+,#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../style.css" />
+#+end_src
+
 ** Ignore woven HTML from =git diff=
 
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from =git diff= by treating them as binary data.
@@ -1454,7 +1465,7 @@ $(all_tangled_sources) tangle &: $(src)
 	CODEX_LP_QUICK=1 make -C $(PROJ_ROOT) -j$(PROCS) $(all_tangled_sources)
 	touch tangle
 
-build_literate_org_output = codex.el .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
+build_literate_org_output = codex.el codex.theme .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
 all_tangled_sources = citations.bib $(build_literate_org_output) $(foreach p,$(problem_dirs_without_prefix),problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
 
 $(build_literate_org_output) &: build-literate.org

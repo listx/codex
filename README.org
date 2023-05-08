@@ -1,7 +1,6 @@
 #+title: Codex
 
-# Include additional CSS styles. Sadly the readtheorg theme does not appear to
-# come bundled with Haskell syntax colors, so we have to generate these ourselves.
+# Include additional CSS styles.
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
 

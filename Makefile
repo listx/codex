@@ -27,7 +27,7 @@ $(all_tangled_sources) tangle &: $(src)
 	CODEX_LP_QUICK=1 make -C $(PROJ_ROOT) -j$(PROCS) $(all_tangled_sources)
 	touch tangle
 
-build_literate_org_output = codex.el .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
+build_literate_org_output = codex.el codex.theme .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
 all_tangled_sources = citations.bib $(build_literate_org_output) $(foreach p,$(problem_dirs_without_prefix),problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
 
 $(build_literate_org_output) &: build-literate.org

@@ -270,12 +270,13 @@
 <li><a href="#h-Links-to-child-source-block-from-parent">5.2.2.3. Links to child source block from parent</a></li>
 </ul>
 </li>
-<li><a href="#h-Ignore-woven-HTML-from--git-diff">5.2.3. Ignore woven HTML from <code>git diff</code></a>
+<li><a href="#h-Use-theme-file">5.2.3. Use theme file</a></li>
+<li><a href="#h-Ignore-woven-HTML-from--git-diff">5.2.4. Ignore woven HTML from <code>git diff</code></a>
 <ul>
-<li><a href="#h-git-add--p">5.2.3.1. <code>git add -p</code></a></li>
+<li><a href="#h-git-add--p">5.2.4.1. <code>git add -p</code></a></li>
 </ul>
 </li>
-<li><a href="#h-gitignore">5.2.4. gitignore</a></li>
+<li><a href="#h-gitignore">5.2.5. gitignore</a></li>
 </ul>
 </li>
 <li><a href="#h-Tangling--generating-the-source-code">5.3. Tangling (generating the source code)</a></li>
@@ -1996,8 +1997,22 @@ We add some additional CSS tweaks on top of what we get from Org.
 </div>
 </div>
 
+<div id="outline-container-h-Use-theme-file" class="outline-4">
+<h4 id="h-Use-theme-file"><span class="section-number-4">5.2.3.</span> Use theme file</h4>
+<div class="outline-text-4" id="text-h-Use-theme-file">
+<p>
+Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from <a href="https://gitlab.com/OlMon/org-themes">https://gitlab.com/OlMon/org-themes</a>.
+</p>
+
+<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-org" id="codex.theme-1"><span class="org-comment"># Include additional CSS styles.</span>
+<span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/&gt;</span>
+<span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../style.css" /&gt;</span>
+</pre></div><div class="codex-caption"></div></div>
+</div>
+</div>
+
 <div id="outline-container-h-Ignore-woven-HTML-from--git-diff" class="outline-4">
-<h4 id="h-Ignore-woven-HTML-from--git-diff"><span class="section-number-4">5.2.3.</span> Ignore woven HTML from <code>git diff</code></h4>
+<h4 id="h-Ignore-woven-HTML-from--git-diff"><span class="section-number-4">5.2.4.</span> Ignore woven HTML from <code>git diff</code></h4>
 <div class="outline-text-4" id="text-h-Ignore-woven-HTML-from--git-diff">
 <p>
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from <code>git diff</code> by treating them as binary data.
@@ -2014,7 +2029,7 @@ In order to still show the HTML textual diff, we can run <code>git diff --text</
 </div>
 
 <div id="outline-container-h-git-add--p" class="outline-5">
-<h5 id="h-git-add--p"><span class="section-number-5">5.2.3.1.</span> <code>git add -p</code></h5>
+<h5 id="h-git-add--p"><span class="section-number-5">5.2.4.1.</span> <code>git add -p</code></h5>
 <div class="outline-text-5" id="text-h-git-add--p">
 <p>
 Note that the above setting to treat HTML files as binary data prevents them from being considered for <code>git add -p</code>. In order to add them, use <code>git add -u</code> instead.
@@ -2024,7 +2039,7 @@ Note that the above setting to treat HTML files as binary data prevents them fro
 </div>
 
 <div id="outline-container-h-gitignore" class="outline-4">
-<h4 id="h-gitignore"><span class="section-number-4">5.2.4.</span> gitignore</h4>
+<h4 id="h-gitignore"><span class="section-number-4">5.2.5.</span> gitignore</h4>
 <div class="outline-text-4" id="text-h-gitignore">
 <div class="org-src-container"><pre class="src src-gitignore">**/__pycache__
 **/*.auctex-auto
@@ -2053,7 +2068,7 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
         <span class="org-variable-name">CODEX_LP_QUICK</span>=1 make -C $(<span class="org-variable-name">PROJ_ROOT</span>) -j$(<span class="org-variable-name">PROCS</span>) $(<span class="org-variable-name">all_tangled_sources</span>)
         touch tangle
 
-<span class="org-variable-name">build_literate_org_output</span> = codex.el .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
+<span class="org-variable-name">build_literate_org_output</span> = codex.el codex.theme .gitattributes .gitignore Makefile shell.nix style.css syntax-highlighting.css
 <span class="org-variable-name">all_tangled_sources</span> = citations.bib $(<span class="org-variable-name">build_literate_org_output</span>) $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),problem/$(<span class="org-variable-name">p</span>)/__init__.py problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py)
 
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">build_literate_org_output</span></span><span class="org-makefile-targets">) &amp;</span>: build-literate.org
