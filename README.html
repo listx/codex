@@ -637,6 +637,14 @@ The reason why cross-linking is so important is because the source code blocks a
 <div id="outline-container-h-Toplevel-publishing-function---codex-publish-" class="outline-5">
 <h5 id="h-Toplevel-publishing-function---codex-publish-"><span class="section-number-5">5.2.1.1.</span> Toplevel publishing function (<code>codex-publish</code>)</h5>
 <div class="outline-text-5" id="text-h-Toplevel-publishing-function---codex-publish-">
+<p>
+The toplevel function is <code>codex-publish</code>. This actually publishes twice, with <code>codex-publish-1</code> and <code>codex-publish-2</code>. The reason we publish twice is because we need to examine the HTML output twice in order to build up a database of parent/child source code block links.
+</p>
+
+<p>
+Also note that we do some modifications to the Org buffer directly before exporting to HTML. The main reason is so that the source code blocks that are named <code>__NREF__...</code> get an automatic <code>#+caption: ...</code> text to go along with it (because for these Noweb-style blocks, the captions should always look uniform).
+</p>
+
 <div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#codex-el">codex_dot_el-codex-publish</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-codex-publish">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-codex-publish"><span class="org-comment-delimiter">; </span><span class="org-comment">This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).</span>
 (<span class="org-keyword">if</span> (getenv <span class="org-string">"CODEX_LP_QUICK"</span>)
     (<span class="org-keyword">progn</span>
@@ -691,7 +699,7 @@ The reason why cross-linking is so important is because the source code blocks a
 <h6 id="h-Modify-the-Org-buffer"><span class="section-number-6">5.2.1.1.1.</span> Modify the Org buffer</h6>
 <div class="outline-text-6" id="text-h-Modify-the-Org-buffer">
 <p>
-Here we modify the Org mode buffer, by using <code>org-export-before-parsing-hook</code>. This takes a list of functions that are free to modify the Org mode buffer before each Org element in the buffer gets converted into HTML. For now we just give it a single function, <code>codex-link-child-src-blocks-to-parents</code>.
+Here we modify the Org mode buffer, by using <code>org-export-before-parsing-hook</code>. This takes a list of functions that are free to modify the Org mode buffer before each Org element in the buffer gets converted into HTML.
 </p>
 
 <div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-modify-org</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-modify-org">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-org">(org-export-before-parsing-hook

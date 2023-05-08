@@ -158,6 +158,10 @@ __NREF__codex_dot_el-misc
 
 *** Toplevel publishing function (=codex-publish=)
 
+The toplevel function is =codex-publish=. This actually publishes twice, with =codex-publish-1= and =codex-publish-2=. The reason we publish twice is because we need to examine the HTML output twice in order to build up a database of parent/child source code block links.
+
+Also note that we do some modifications to the Org buffer directly before exporting to HTML. The main reason is so that the source code blocks that are named =__NREF__...= get an automatic =#+caption: ...= text to go along with it (because for these Noweb-style blocks, the captions should always look uniform).
+
 #+name: __NREF__codex_dot_el-codex-publish
 #+begin_src emacs-lisp
 ; This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).
@@ -211,7 +215,7 @@ __NREF__codex-human-readable-src-block-ids
 
 **** Modify the Org buffer
 
-Here we modify the Org mode buffer, by using =org-export-before-parsing-hook=. This takes a list of functions that are free to modify the Org mode buffer before each Org element in the buffer gets converted into HTML. For now we just give it a single function, =codex-link-child-src-blocks-to-parents=.
+Here we modify the Org mode buffer, by using =org-export-before-parsing-hook=. This takes a list of functions that are free to modify the Org mode buffer before each Org element in the buffer gets converted into HTML.
 
 #+name: __NREF__codex-publish-modify-org
 #+begin_src emacs-lisp
