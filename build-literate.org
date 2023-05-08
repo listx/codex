@@ -15,6 +15,7 @@ We use noweb-style references, in the form =<<foo>>=, in source code blocks to d
 The =,#+name: ...=, =,#+begin_src ...= and =,#+end_src= in the =org= source blocks have a leading comma but this comma is only for Org's own parser to disambiguate against actual source code blocks in this file. The leading comma is stripped during HTML export.
 #+end_comment
 
+#+caption: Sample Org-mode Noweb-style references
 #+begin_src org
 ,#+name: parent-block
 ,#+begin_src bash
@@ -270,6 +271,7 @@ What we want to do is, loop through every source code block and insert a (=#+cap
 
 So assume that we already have the smart captions in a sorted [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html][association list]] (aka alist), where the KEY is the integer buffer position where this caption should be inserted, and the VALUE is the caption itself (a string), like this:
 
+#+caption: Caption locations
 #+begin_src elisp
 '((153  . "#+caption: ...")
   (384  . "#+caption: ...")
@@ -306,6 +308,7 @@ Now we just have to construct =smart-captions=. The main difficulty is the const
 
 Why do we even need these source code blocks to link back to their parents? The point is to make things easier to navigate. For example, if we have
 
+#+caption: Sample Org-mode Noweb-style references
 #+begin_src org
 ,#+name: parent-block
 ,#+begin_src bash
@@ -803,6 +806,7 @@ This is a helper function to parse the HTML output for a source code block.
 
 Consider the following code:
 
+#+caption: Sample Org-mode Noweb-style references
 #+begin_src org
 ,#+name: parent-block
 ,#+begin_src bash

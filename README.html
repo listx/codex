@@ -452,7 +452,7 @@ The vast majority of software projects do not use LP, for various reasons. This 
 We use noweb-style references, in the form <code>&lt;&lt;foo&gt;&gt;</code>, in source code blocks to delegate source code bits to other blocks. In the example below, the <code>parent-block</code> refers to 2 other child blocks for its definition.
 </p>
 
-<div class="org-src-container"><pre class="src src-org"><span class="org-org-meta-line">#+name: parent-block</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label></div><pre class="src src-org" id="-1"><span class="org-org-meta-line">#+name: parent-block</span>
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"Hello from the parent block"</span></span>
 <span class="org-org-block">__NREF__child-block-1</span>
@@ -477,7 +477,7 @@ We use noweb-style references, in the form <code>&lt;&lt;foo&gt;&gt;</code>, in 
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"child 2"</span></span>
 <span class="org-org-block-end-line">#+end_src</span>
-</pre></div><p>
+</pre></div></div><p>
 This example illustrates the two ways to define a child block: either as a single code block with <code>#+name: NAME</code>, or as multiple blocks with <code>#+header: :noweb-ref NAME</code>.  In this doc, we call them <a href="#org0000000">monoblocks</a> and <a href="#org0000002">polyblocks</a> respectively. Polyblocks are concatenated together in the order they appear in the overall Org file; this final concatenated version is what gets inserted into the noweb reference in the parent block.
 </p>
 </div>
@@ -772,12 +772,12 @@ What we want to do is, loop through every source code block and insert a (<code>
 So assume that we already have the smart captions in a sorted <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html">association list</a> (aka alist), where the KEY is the integer buffer position where this caption should be inserted, and the VALUE is the caption itself (a string), like this:
 </p>
 
-<div class="org-src-container"><pre class="src src-elisp">'((153  . <span class="org-string">"#+caption: ..."</span>)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Caption locations</label></div><pre class="src src-elisp" id="-4">'((153  . <span class="org-string">"#+caption: ..."</span>)
   (384  . <span class="org-string">"#+caption: ..."</span>)
   (555  . <span class="org-string">"#+caption: ..."</span>)
   (684  . <span class="org-string">"#+caption: ..."</span>)
   (1051 . <span class="org-string">"#+caption: ..."</span>))
-</pre></div><p>
+</pre></div></div><p>
 We can use the KEY to go to that buffer position and insert the caption. However the insertion operation mutates the buffer. This means if we perform the insertions top-to-bottom, the subsequent KEY values will become obsolete. The trick then is to just do the insertions in reverse order (bottom-to-top), so that the remaining KEY values remain valid. This is what we do below, where <code>smart-captions</code> is an alist like the one just described.
 </p>
 
@@ -809,7 +809,7 @@ Now we just have to construct <code>smart-captions</code>. The main difficulty i
 Why do we even need these source code blocks to link back to their parents? The point is to make things easier to navigate. For example, if we have
 </p>
 
-<div class="org-src-container"><pre class="src src-org"><span class="org-org-meta-line">#+name: parent-block</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label></div><pre class="src src-org" id="-5"><span class="org-org-meta-line">#+name: parent-block</span>
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"Hello from the parent block"</span></span>
 <span class="org-org-block">__NREF__child-block-1</span>
@@ -834,7 +834,7 @@ Why do we even need these source code blocks to link back to their parents? The 
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"child 2"</span></span>
 <span class="org-org-block-end-line">#+end_src</span>
-</pre></div><p>
+</pre></div></div><p>
 and we export this to HTML, ideally we would want both <code>child-block-1</code> and each of the <code>child-block-2</code> blocks to include an HTML link back up to <code>parent-block</code>. This would make it easier to skim the document and not get too lost (any time you are looking at any particular source code block, you would be able to just click on the lank back to the parent (if there is one) to see a higher-level view).
 </p>
 
@@ -1344,7 +1344,7 @@ This is a helper function to parse the HTML output for a source code block.
 Consider the following code:
 </p>
 
-<div class="org-src-container"><pre class="src src-org"><span class="org-org-meta-line">#+name: parent-block</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label></div><pre class="src src-org" id="-6"><span class="org-org-meta-line">#+name: parent-block</span>
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"Hello from the parent block"</span></span>
 <span class="org-org-block">__NREF__child-block-1</span>
@@ -1369,7 +1369,7 @@ Consider the following code:
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"child 2"</span></span>
 <span class="org-org-block-end-line">#+end_src</span>
-</pre></div><p>
+</pre></div></div><p>
 What we want to do is to make the <code>__NREF__child-block-1</code> and <code>__NREF__child-block-2</code> references inside <code>parent-block</code> to link to their definitions, so that the reader can just click on them to go to see how they're defined. Unfortunately Org mode doesn't do this by default so we have to do this ourselves.
 </p>
 
