@@ -19,13 +19,13 @@ The [[file:COPYRIGHT][COPYRIGHT]] file governs everything in this repository, in
 
 * Introduction
 
-This project aims to capture my notes for studying various programming problems (data structures and algorithms). Have a look at the problems in Section [[* Layout]].
+This project aims to capture my notes for studying various programming problems (data structures and algorithms). Have a look at the problems in Section [[* Problems]].
 
 For those curious about how these notes were created, check out Section [[* Literate Programming Build System]].
 
 As for why this project is named /Codex/, I just think it's a cool word that has the word "code" in it as a substring.
 
-* Layout
+* Problems
 
 Every problem gets its own =README.org= file in its own subfolder. The solutions are all in Python. All solutions are "standalone" in that none of them use any libraries other than what's provided by Python's standard libraries.
 
