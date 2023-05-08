@@ -452,7 +452,7 @@ The vast majority of software projects do not use LP, for various reasons. This 
 We use noweb-style references, in the form <code>&lt;&lt;foo&gt;&gt;</code>, in source code blocks to delegate source code bits to other blocks. In the example below, the <code>parent-block</code> refers to 2 other child blocks for its definition.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label></div><pre class="src src-org" id="-1"><span class="org-org-meta-line">#+name: parent-block</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label><span class="codex-caption-link-symbol"><a href="#anonymous-1">&#x1f517;</a></span></div><pre class="src src-org" id="anonymous-1"><span class="org-org-meta-line">#+name: parent-block</span>
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"Hello from the parent block"</span></span>
 <span class="org-org-block">__NREF__child-block-1</span>
@@ -534,7 +534,7 @@ Note that all of the above can be brought in by using the <a href="https://githu
 We have a top-level <code>Makefile</code> so that we can run some <code>make</code> commands on the command line (instead of needing to invoke emacs directly).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Makefile</label></div><pre class="src src-makefile" id="Makefile"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Makefile</label><span class="codex-caption-link-symbol"><a href="#Makefile">&#x1f517;</a></span></div><pre class="src src-makefile" id="Makefile"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
 <span class="org-variable-name">PROCS</span> := $(<span class="org-variable-name">shell</span> nproc)
 define run_emacs
         emacs $(<span class="org-variable-name">2</span>) --quick --batch --kill --load $(<span class="org-variable-name">PROJ_ROOT</span>)/codex.el --eval=<span class="org-string">"$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">)"</span>
@@ -620,7 +620,7 @@ We define "cross-linking" to mean the act of linking to a child source code bloc
 The reason why cross-linking is so important is because the source code blocks are interleaved with prose. And the order of code presented may not match the order of code in the tangled output. And sometimes the reader may just want to jump to a source code block just to see its implementation right away instead of waiting for the prose to catch up to it. Cross-linking makes it easier to navigate by source code blocks. Cross-linking is implemented in FIXME.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.el</label></div><pre class="src src-emacs-lisp" id="codex-el"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.el</label><span class="codex-caption-link-symbol"><a href="#codex-el">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="codex-el"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-imports">codex_dot_el-imports</a></span>
 
@@ -772,7 +772,7 @@ What we want to do is, loop through every source code block and insert a (<code>
 So assume that we already have the smart captions in a sorted <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html">association list</a> (aka alist), where the KEY is the integer buffer position where this caption should be inserted, and the VALUE is the caption itself (a string), like this:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Caption locations</label></div><pre class="src src-elisp" id="-4">'((153  . <span class="org-string">"#+caption: ..."</span>)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Caption locations</label><span class="codex-caption-link-symbol"><a href="#anonymous-4">&#x1f517;</a></span></div><pre class="src src-elisp" id="anonymous-4">'((153  . <span class="org-string">"#+caption: ..."</span>)
   (384  . <span class="org-string">"#+caption: ..."</span>)
   (555  . <span class="org-string">"#+caption: ..."</span>)
   (684  . <span class="org-string">"#+caption: ..."</span>)
@@ -809,7 +809,7 @@ Now we just have to construct <code>smart-captions</code>. The main difficulty i
 Why do we even need these source code blocks to link back to their parents? The point is to make things easier to navigate. For example, if we have
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label></div><pre class="src src-org" id="-5"><span class="org-org-meta-line">#+name: parent-block</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label><span class="codex-caption-link-symbol"><a href="#anonymous-5">&#x1f517;</a></span></div><pre class="src src-org" id="anonymous-5"><span class="org-org-meta-line">#+name: parent-block</span>
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"Hello from the parent block"</span></span>
 <span class="org-org-block">__NREF__child-block-1</span>
@@ -1220,10 +1220,11 @@ We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>poly
                        (group (+ (not <span class="org-string">"&lt;"</span>)))
                        <span class="org-string">"&lt;/code&gt;"</span>))
                caption-parts))
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">A source code block is anonymous if: (1) it does not have a "#+name: ..." line, or (2) it does not have a "#+header: :noweb-ref ..." line.</span>
            (source-block-name
              (<span class="org-keyword">if</span> source-block-name-match
                  (match-string-no-properties 1 caption-parts)
-                 <span class="org-string">""</span>))
+                 <span class="org-string">"anonymous"</span>))
            <span class="org-comment-delimiter">;; </span><span class="org-comment">This is just used for the side effect of recording the</span>
            <span class="org-comment-delimiter">;; </span><span class="org-comment">source-block-name, to be used for the fallback-id.</span>
            (source-block-counter (gethash source-block-name codex-polyblock-names 0))
@@ -1285,16 +1286,15 @@ We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>poly
                                  (concat <span class="org-string">"&lt;pre "</span> pre-tag-contents
                                          (format <span class="org-string">" id=\"%s\""</span> fallback-id) <span class="org-string">"&gt;"</span>) <span class="org-warning">body-with-newlines)))</span>
            (link-symbol
-             (<span class="org-keyword">if</span> parent-id-match
-                 (format <span class="org-string">"&lt;span class=\"codex-caption-link-symbol\"&gt;&lt;a href=\"#%s\"&gt;&amp;#x1f517;&lt;/a&gt;&lt;/span&gt;"</span>
-                   fallback-id)
-                 <span class="org-string">""</span>))
+             (format <span class="org-string">"&lt;span class=\"codex-caption-link-symbol\"&gt;&lt;a href=\"#%s\"&gt;&amp;#x1f517;&lt;/a&gt;&lt;/span&gt;"</span>
+               fallback-id))
            (caption-without-listing-prefix (replace-regexp-in-string <span class="org-string">"&lt;span.+?span&gt;"</span> <span class="org-string">""</span> caption))
            (caption-text
             (<span class="org-keyword">if</span> (s-blank? parent-id)
                 (concat
                   <span class="org-string">"&lt;div class=\"codex-caption\"&gt;"</span>
                     caption-without-listing-prefix
+                    link-symbol
                   <span class="org-string">"&lt;/div&gt;"</span>)
                 (concat
                   <span class="org-string">"&lt;div class=\"codex-caption\"&gt;"</span>
@@ -1344,7 +1344,7 @@ This is a helper function to parse the HTML output for a source code block.
 Consider the following code:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label></div><pre class="src src-org" id="-6"><span class="org-org-meta-line">#+name: parent-block</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Sample Org-mode Noweb-style references</label><span class="codex-caption-link-symbol"><a href="#anonymous-6">&#x1f517;</a></span></div><pre class="src src-org" id="anonymous-6"><span class="org-org-meta-line">#+name: parent-block</span>
 <span class="org-org-block-begin-line">#+begin_src bash</span>
 <span class="org-org-block"><span class="org-builtin">echo</span></span><span class="org-org-block"> </span><span class="org-org-block"><span class="org-string">"Hello from the parent block"</span></span>
 <span class="org-org-block">__NREF__child-block-1</span>
@@ -1738,7 +1738,7 @@ Every HTML element <code>h2</code> to <code>h6</code> (which encode the Org mode
 The code here is taken from <a href="https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1">https://github.com/listx/listx_blog/blame/8e6e7b533d89f77a6939e5eda9fd9d990d25a7a9/misc.js#L1</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">misc.js</label></div><pre class="src src-js" id="-7">$(<span class="org-keyword">function</span>() {
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">misc.js</label><span class="codex-caption-link-symbol"><a href="#anonymous-7">&#x1f517;</a></span></div><pre class="src src-js" id="anonymous-7">$(<span class="org-keyword">function</span>() {
     $(<span class="org-string">"h2,h3,h4,h5,h6"</span>).each(<span class="org-keyword">function</span>() {
         <span class="org-keyword">var</span> <span class="org-variable-name">$this</span> = $(<span class="org-constant">this</span>);
         <span class="org-keyword">var</span> <span class="org-variable-name">text</span> = $this.text();
@@ -1865,7 +1865,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 We add some additional CSS tweaks on top of what we get from Org.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">style.css</label></div><pre class="src src-css" id="style-css"><span class="org-css-selector">a </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">style.css</label><span class="codex-caption-link-symbol"><a href="#style-css">&#x1f517;</a></span></div><pre class="src src-css" id="style-css"><span class="org-css-selector">a </span>{
     <span class="org-css-property">color</span>: <span class="custom-2">#0000ff</span>;
 }
 
@@ -2069,7 +2069,7 @@ We add some additional CSS tweaks on top of what we get from Org.
 Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from <a href="https://gitlab.com/OlMon/org-themes">https://gitlab.com/OlMon/org-themes</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.theme</label></div><pre class="src src-org" id="codex-theme"><span class="org-comment"># Include additional CSS styles.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">codex.theme</label><span class="codex-caption-link-symbol"><a href="#codex-theme">&#x1f517;</a></span></div><pre class="src src-org" id="codex-theme"><span class="org-comment"># Include additional CSS styles.</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../style.css" /&gt;</span>
 
@@ -2085,7 +2085,7 @@ Make each Org file we publish into HTML refer to a single theme file. The inspir
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from <code>git diff</code> by treating them as binary data.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitattributes</label></div><pre class="src src-gitattributes" id="-10">* -diff
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitattributes</label><span class="codex-caption-link-symbol"><a href="#anonymous-10">&#x1f517;</a></span></div><pre class="src src-gitattributes" id="anonymous-10">* -diff
 **/*.org diff
 **/.gitattributes diff
 **/.gitmodules diff
@@ -2108,7 +2108,7 @@ Note that the above setting to treat HTML files as binary data prevents them fro
 <div id="outline-container-h-gitignore" class="outline-4">
 <h4 id="h-gitignore"><span class="section-number-4">5.2.5.</span> gitignore</h4>
 <div class="outline-text-4" id="text-h-gitignore">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitignore</label></div><pre class="src src-gitignore" id="-11">**/__pycache__
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">.gitignore</label><span class="codex-caption-link-symbol"><a href="#anonymous-11">&#x1f517;</a></span></div><pre class="src src-gitignore" id="anonymous-11">**/__pycache__
 **/*.auctex-auto
 **/*.hypothesis
 tangle
@@ -2176,7 +2176,7 @@ This is taken from <a href="https://github.com/tweag/haskell-stack-nix-example/b
 This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (such as running "make" to re-run any Python tests that have been updated when adding new problems).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">shell.nix</label></div><pre class="src src-nix" id="shell-nix"><span class="org-nix-keyword">let</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">shell.nix</label><span class="codex-caption-link-symbol"><a href="#shell-nix">&#x1f517;</a></span></div><pre class="src src-nix" id="shell-nix"><span class="org-nix-keyword">let</span>
   <span class="org-comment"># Nixpkgs snapshot.</span>
   <span class="org-nix-attribute">sources</span> = <span class="org-nix-builtin">import</span> <span class="org-nix-constant">./package/nix/sources.nix</span>;
   <span class="org-comment"># The final "pkgs" attribute with all the bells and whistles of our overlays.</span>

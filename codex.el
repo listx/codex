@@ -412,10 +412,11 @@ When matching, reference is stored in match group 1."
                        (group (+ (not "<")))
                        "</code>"))
                caption-parts))
+           ;; A source code block is anonymous if: (1) it does not have a "#+name: ..." line, or (2) it does not have a "#+header: :noweb-ref ..." line.
            (source-block-name
              (if source-block-name-match
                  (match-string-no-properties 1 caption-parts)
-                 ""))
+                 "anonymous"))
            ;; This is just used for the side effect of recording the
            ;; source-block-name, to be used for the fallback-id.
            (source-block-counter (gethash source-block-name codex-polyblock-names 0))
@@ -477,16 +478,15 @@ When matching, reference is stored in match group 1."
                                  (concat "<pre " pre-tag-contents
                                          (format " id=\"%s\"" fallback-id) ">") body-with-newlines)))
            (link-symbol
-             (if parent-id-match
-                 (format "<span class=\"codex-caption-link-symbol\"><a href=\"#%s\">&#x1f517;</a></span>"
-                   fallback-id)
-                 ""))
+             (format "<span class=\"codex-caption-link-symbol\"><a href=\"#%s\">&#x1f517;</a></span>"
+               fallback-id))
            (caption-without-listing-prefix (replace-regexp-in-string "<span.+?span>" "" caption))
            (caption-text
             (if (s-blank? parent-id)
                 (concat
                   "<div class=\"codex-caption\">"
                     caption-without-listing-prefix
+                    link-symbol
                   "</div>")
                 (concat
                   "<div class=\"codex-caption\">"
