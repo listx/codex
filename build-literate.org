@@ -639,7 +639,7 @@ We only care about source code blocks with a =<label>= because that determines w
 
 For the last step, we want to additionally parse the inner "Listing N ... PARENT-link" text and transform it with reordering and also additional metadata information such as ~<span class="...">~ tags.
 
-We also save the SCB_POLYBLOCK_INDICATOR with the =polyblock-indicator= variable and display it.
+We also save the =SCB_POLYBLOCK_INDICATOR= with the =polyblock-indicator= variable and display it.
 
 #+name: __NREF__codex-prettify-source-code-captions
 #+begin_src emacs-lisp
