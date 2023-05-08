@@ -285,7 +285,7 @@ Here's another example: <code>[10, 9, 8, 1, 2, 6]</code>. Here the maximum possi
 Compare every number in the list with every other number. That is, compute every possible combinationa of buy/sell dates, and just return the best (max profit) dates found.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; Optional[<span class="org-builtin">tuple</span>[<span class="org-builtin">int</span>, <span class="org-builtin">int</span>, <span class="org-builtin">int</span>]]:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">brute_force</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; Optional[<span class="org-builtin">tuple</span>[<span class="org-builtin">int</span>, <span class="org-builtin">int</span>, <span class="org-builtin">int</span>]]:
   <span class="org-keyword">if</span> <span class="org-keyword">not</span> <span class="org-variable-name">prices</span>:
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
@@ -302,7 +302,7 @@ Compare every number in the list with every other number. That is, compute every
 
   <span class="org-comment-delimiter"># </span><span class="org-comment">If no profitable trade found, return None.</span>
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">brute_force</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 The time complexity is \(O(n^2)\) where \(n\) is the length of the list of prices.
 </p>
 </div>
@@ -315,7 +315,7 @@ The time complexity is \(O(n^2)\) where \(n\) is the length of the list of price
 For the optimal solution, the key is to pretend to sell on that day, using the minimum price found in the previous days as the buying point. The trick here is that the previous minimum price calculation can be updated on each iteration with just a single <code>min()</code> comparison.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__optimal"><span class="org-keyword">def</span> <span class="org-function-name">optimal</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; Optional[<span class="org-builtin">tuple</span>[<span class="org-builtin">int</span>, <span class="org-builtin">int</span>, <span class="org-builtin">int</span>]]:
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">optimal</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__optimal">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__optimal"><span class="org-keyword">def</span> <span class="org-function-name">optimal</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; Optional[<span class="org-builtin">tuple</span>[<span class="org-builtin">int</span>, <span class="org-builtin">int</span>, <span class="org-builtin">int</span>]]:
   <span class="org-keyword">if</span> <span class="org-keyword">not</span> <span class="org-variable-name">prices</span>:
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
@@ -339,7 +339,7 @@ For the optimal solution, the key is to pretend to sell on that day, using the m
 
   <span class="org-comment-delimiter"># </span><span class="org-comment">If no profitable trade found, return None.</span>
   <span class="org-keyword">return</span> <span class="org-constant">None</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">optimal</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__optimal">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 The time complexity is \(O(n)\).
 </p>
 </div>

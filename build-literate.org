@@ -762,14 +762,14 @@ We also save the SCB_POLYBLOCK_INDICATOR with the =polyblock-indicator= variable
        src-block-html
        (concat
         leading-div
-        "<div class=\"codex-pre-with-caption\">"
-        body-with-replaced-pre
-        "</div>"
-        "<div class=\"codex-caption\">"
-        polyblock-indicator
-        parent-id
-        link-symbol
-        "</div>"
+          "<div class=\"codex-pre-with-caption\">"
+            "<div class=\"codex-caption\">"
+              polyblock-indicator
+              parent-id
+              link-symbol
+            "</div>"
+            body-with-replaced-pre
+          "</div>"
         "</div>")))))
 
 __NREF__codex-get-source-block-html-parts-without-newlines
@@ -1342,10 +1342,10 @@ thead {
 }
 
 pre {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #999;
-    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 __NREF__css-source-code-section-headlines
@@ -1374,12 +1374,7 @@ __NREF__css-source-code-block-child-link-from-parent
     margin: 0;
     font-family: "monospace";
     border-width: 0;
-    border-radius: 5px;
-}
-
-.org-src-container .codex-pre-with-caption {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    scroll-margin-top: 100px;
 }
 
 /* Source code block body. */
@@ -1397,8 +1392,8 @@ __NREF__css-source-code-block-child-link-from-parent
     font-family: "monospace";
     text-align: right;
     background-color: #ddd;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     padding-top: 2px;
     padding-bottom: 2px;
 }

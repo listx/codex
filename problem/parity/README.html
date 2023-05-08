@@ -402,13 +402,13 @@ Seen another way, the XOR instruction can cancel out even numbers of bits (zeros
 <div id="outline-container-h-Brute-force" class="outline-3">
 <h3 id="h-Brute-force"><span class="section-number-3">4.1.</span> Brute force</h3>
 <div class="outline-text-3" id="text-h-Brute-force">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(word):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">brute_force</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(word):
   <span class="org-variable-name">parity_bit</span> = 0
   <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
     parity_bit ^= word &amp; 1
     <span class="org-variable-name">word</span> &gt;&gt;= 1
   <span class="org-keyword">return</span> parity_bit
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">brute_force</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 This approach just computes the parity of a single word by examining every bit in the word. It also uses bitwise XOR to only store 1 or 0 (instead of actually storing the actual number of bits). Because of the way XOR works, when the number of bits is odd (starting with the very first 1-bit), the parity is set to 1. Then if another 1-bit comes along (even) it is XOR-ed against the previously-calculated parity bit 1 to become 0. Then if another bit (odd) comes along, the 0 is XOR-ed against it to become 1 again, and so forth.
 </p>
 
@@ -420,13 +420,13 @@ The space complexity is \(O(1)\) because we only store 0 or 1 for the parity bit
 <div id="outline-container-h-Clear-lowest-set-bit" class="outline-4">
 <h4 id="h-Clear-lowest-set-bit"><span class="section-number-4">4.1.1.</span> Clear lowest set bit</h4>
 <div class="outline-text-4" id="text-h-Clear-lowest-set-bit">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__clear_lsb"><span class="org-keyword">def</span> <span class="org-function-name">clear_lsb</span>(word):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">clear_lsb</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__clear_lsb">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__clear_lsb"><span class="org-keyword">def</span> <span class="org-function-name">clear_lsb</span>(word):
   <span class="org-variable-name">parity_bit</span> = 0
   <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
     parity_bit ^= 1
     <span class="org-variable-name">word</span> &amp;= word - 1
   <span class="org-keyword">return</span> parity_bit
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">clear_lsb</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__clear_lsb">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 Here we use the <code>word &amp;= word - 1</code> trick to clear the lowest 1-bit in a word (aka the Least Significant Bit, or LSB). This is a classic bitwise trick. This is an improvement over <code>word &gt;&gt;= 1</code> because we no longer have to examine every single bit. So our time complexity drops to \(O(k)\) where \(k\) is the number of bits set.
 </p>
 
@@ -440,7 +440,7 @@ Our worst-case time complexity is still the same as the brute force approach tho
 <div id="outline-container-h-XOR-folding" class="outline-3">
 <h3 id="h-XOR-folding"><span class="section-number-3">4.2.</span> XOR-folding</h3>
 <div class="outline-text-3" id="text-h-XOR-folding">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__xor_fold"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold</span>(word):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
@@ -448,7 +448,7 @@ Our worst-case time complexity is still the same as the brute force approach tho
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
   <span class="org-keyword">return</span> word &amp; 1
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 The key to this solution (<a href="#citeproc_bib_item_1">Aziz et al., 2018, pp. 29–30</a>) is that we are essentially "folding" the word into itself over and over again until we just get a single bit left. Every "fold" is a XOR instruction, which is used to cancel out even pairs of 1-bits.
 </p>
 
@@ -552,14 +552,14 @@ Tho time complexity is reduced to \(O(\log{}n)\) where \(n\) is the word size. T
 <div id="outline-container-h-XOR-folding-with-in-register-table-lookup" class="outline-3">
 <h3 id="h-XOR-folding-with-in-register-table-lookup"><span class="section-number-3">4.3.</span> XOR-folding with in-register table lookup</h3>
 <div class="outline-text-3" id="text-h-XOR-folding-with-in-register-table-lookup">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__xor_fold_lookup"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_lookup</span>(word):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold_lookup</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_lookup">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_lookup"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_lookup</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 4
   <span class="org-variable-name">word</span> = 0x6996 &gt;&gt; (word &amp; 0xf)
   <span class="org-keyword">return</span> word &amp; 1
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold_lookup</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_lookup">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 This is a small improvement over the previous version, noted in (<a href="#citeproc_bib_item_2">Warren, 2013, p. 97</a>). The use of the <code>0x6996</code> constant is called an "in-register table lookup". Basically, once we get down to 4 bits, there are only 16 possibilities left, because 4 bits can only represent \(2^{4} = 16\) unique numbers, 0 to 15. The <code>0x6996</code> constant is simply computed by looking at all possible numbers 0 to 15, computing their parity, and assigning this to a new bit string. That is, the <code>0110 1001 1001 0110</code> in binary get from the Parity column below is <code>0x6996</code> in hexadecimal.
 </p>
 
@@ -685,13 +685,13 @@ This is a small improvement over the previous version, noted in (<a href="#citep
 <div id="outline-container-h-XOR-fold-by-nibbles" class="outline-3">
 <h3 id="h-XOR-fold-by-nibbles"><span class="section-number-3">4.4.</span> XOR-fold by nibbles</h3>
 <div class="outline-text-3" id="text-h-XOR-fold-by-nibbles">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__xor_fold_nibbles"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_nibbles</span>(word):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold_nibbles</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_nibbles">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_nibbles"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_nibbles</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
   <span class="org-variable-name">word</span> &amp;= 0x1111111111111111
   <span class="org-variable-name">word</span> *= 0x1111111111111111
   <span class="org-keyword">return</span> (word &gt;&gt; 60) &amp; 1
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold_nibbles</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_nibbles">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 This method is also from (<a href="#citeproc_bib_item_2">Warren, 2013, pp. 97–98</a>). It uses XOR-folding to get the parity of each nibble (4-bit word) with the first 3 lines. Then it uses a multiplication trick to get the sum of bits from each of these parity-of-nibble chunks into the high-order nibble, before finally AND-ing this nibble with 1 to check if it is even or odd.
 </p>
 
@@ -870,7 +870,7 @@ Going back to our 64-bit example, we can see that multiplying by <code>0x1111111
 Because there are \(2^64\) possible values, we cannot use a hash table for 64-bit inputs directly. Instead we can use a 16-bit input (\(2^16 = 65536\) values), and just do 4 16-bit word lookups (because there are 4 16-bit words in a 64-bit word). Then we just take the XOR of these lookups to get the overall parity. Because the keys for the lookups can just be the raw 16-bit words, we can use these keys as indices to a list, instead of using a dictionary.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__caching">
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">caching</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__caching">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__caching">
 <span class="org-variable-name">PARITY</span> = [xor_fold(word) <span class="org-keyword">for</span> word <span class="org-keyword">in</span> <span class="org-builtin">range</span>(1 &lt;&lt; 16)]
 
 <span class="org-keyword">def</span> <span class="org-function-name">caching</span>(word):
@@ -879,7 +879,7 @@ Because there are \(2^64\) possible values, we cannot use a hash table for 64-bi
   <span class="org-variable-name">c</span> = PARITY[word &gt;&gt; 16 &amp; 0xffff]
   <span class="org-variable-name">d</span> = PARITY[word       &amp; 0xffff]
   <span class="org-keyword">return</span> a ^ b ^ c ^ d
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">caching</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__caching">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 Note that we don't have to mask the lower 16 bits for calculating <code>a</code> above, because shifting down by 48 bits only leaves 16 bits of information (everything else is cleared to 0). For the others, we have to mask by <code>0xffff</code> (16 bits) to only grab the relevant 16-bit areas.
 </p>
 
@@ -896,11 +896,11 @@ The time complexity is just \(O(n/L)\), where \(L\) is the width of the cached r
 This is an approach that combines XOR-folding with caching to achieve an even greater speedup.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__xor_fold_caching"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_caching</span>(word):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold_caching</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_caching">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_caching"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_caching</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
   <span class="org-keyword">return</span> PARITY[word &amp; 0xffff]
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#org0000002">xor_fold_caching</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_caching">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 </div>

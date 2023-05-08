@@ -485,14 +485,14 @@ When matching, reference is stored in match group 1."
        src-block-html
        (concat
         leading-div
-        "<div class=\"codex-pre-with-caption\">"
-        body-with-replaced-pre
-        "</div>"
-        "<div class=\"codex-caption\">"
-        polyblock-indicator
-        parent-id
-        link-symbol
-        "</div>"
+          "<div class=\"codex-pre-with-caption\">"
+            "<div class=\"codex-caption\">"
+              polyblock-indicator
+              parent-id
+              link-symbol
+            "</div>"
+            body-with-replaced-pre
+          "</div>"
         "</div>")))))
 
 (defun codex-get-source-block-html-parts-without-newlines (src-block-html)

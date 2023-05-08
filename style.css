@@ -69,10 +69,10 @@ thead {
 }
 
 pre {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #999;
-    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 a.section-headline {
@@ -92,12 +92,7 @@ a.section-headline {
     margin: 0;
     font-family: "monospace";
     border-width: 0;
-    border-radius: 5px;
-}
-
-.org-src-container .codex-pre-with-caption {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    scroll-margin-top: 100px;
 }
 
 /* Source code block body. */
@@ -110,8 +105,8 @@ a.section-headline {
     font-family: "monospace";
     text-align: right;
     background-color: #ddd;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     padding-top: 2px;
     padding-bottom: 2px;
 }

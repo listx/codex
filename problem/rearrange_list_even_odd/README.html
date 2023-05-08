@@ -232,7 +232,7 @@ With a list, we can operate efficiently on both ends at the same time (that is, 
 <div id="outline-container-h-Solution" class="outline-2">
 <h2 id="h-Solution"><span class="section-number-2">3.</span> Solution</h2>
 <div class="outline-text-2" id="text-h-Solution">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">even_odd</span>(ints):
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(1 of 1) <span class="codex-caption-parent-link"><a href="#org0000002">rearrange_list_even_odd</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">even_odd</span>(ints):
   <span class="org-variable-name">idx_even</span> = 0
   <span class="org-variable-name">idx_odd</span> = <span class="org-builtin">len</span>(ints) - 1
 
@@ -247,7 +247,7 @@ With a list, we can operate efficiently on both ends at the same time (that is, 
   <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
     <span class="org-variable-name">idx_even</span> += 1
   <span class="org-keyword">return</span> idx_even
-</pre></div><div class="codex-caption">(1 of 1) <span class="codex-caption-parent-link"><a href="#org0000002">rearrange_list_even_odd</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 In <code>even_odd()</code>, the given list of numbers is modified in-place so that all the even numbers are placed in front of the list. We use 2 indices, <code>idx_even</code> and <code>idx_odd</code>, and they are set to the left-edge and right-edge of the list, respectively. Below is an example with the list <code>[13, 40, 20, 18, 7,  9,  8]</code>.
 </p>
 

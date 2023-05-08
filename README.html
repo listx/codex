@@ -534,7 +534,7 @@ Note that all of the above can be brought in by using the <a href="https://githu
 We have a top-level <code>Makefile</code> so that we can run some <code>make</code> commands on the command line (instead of needing to invoke emacs directly).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-makefile" id="code-Makefile--code"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"></div><pre class="src src-makefile" id="code-Makefile--code"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
 <span class="org-variable-name">PROCS</span> := $(<span class="org-variable-name">shell</span> nproc)
 define run_emacs
         emacs $(<span class="org-variable-name">2</span>) --quick --batch --kill --load $(<span class="org-variable-name">PROJ_ROOT</span>)/codex.el --eval=<span class="org-string">"$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">)"</span>
@@ -593,7 +593,7 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 <span class="org-comment-delimiter"># </span><span class="org-comment">Enter development environment.</span>
 <span class="org-makefile-targets">shell</span>:
         nix-shell --pure
-</pre></div><div class="codex-caption"></div></div>
+</pre></div></div>
 </div>
 
 <div id="outline-container-h-Emacs-customizations-for-HTML-export--codex-el" class="outline-4">
@@ -620,7 +620,7 @@ We define "cross-linking" to mean the act of linking to a child source code bloc
 The reason why cross-linking is so important is because the source code blocks are interleaved with prose. And the order of code presented may not match the order of code in the tangled output. And sometimes the reader may just want to jump to a source code block just to see its implementation right away instead of waiting for the prose to catch up to it. Cross-linking makes it easier to navigate by source code blocks. Cross-linking is implemented in FIXME.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="code-codex-el--code"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"></div><pre class="src src-emacs-lisp" id="code-codex-el--code"><span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-performance-optimization</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-imports">codex_dot_el-imports</a></span>
 
@@ -631,13 +631,13 @@ The reason why cross-linking is so important is because the source code blocks a
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-autogenerate-css">codex_dot_el-autogenerate-css</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-misc">codex_dot_el-misc</a></span>
-</pre></div><div class="codex-caption"></div></div>
+</pre></div></div>
 </div>
 
 <div id="outline-container-h-Toplevel-publishing-function---codex-publish-" class="outline-5">
 <h5 id="h-Toplevel-publishing-function---codex-publish-"><span class="section-number-5">5.2.1.1.</span> Toplevel publishing function (<code>codex-publish</code>)</h5>
 <div class="outline-text-5" id="text-h-Toplevel-publishing-function---codex-publish-">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-codex-publish"><span class="org-comment-delimiter">; </span><span class="org-comment">This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-codex-publish</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-codex-publish">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-codex-publish"><span class="org-comment-delimiter">; </span><span class="org-comment">This optimization can be used to crudely speed up weaving time by disabling fontification (no syntax highlighting of source code blocks).</span>
 (<span class="org-keyword">if</span> (getenv <span class="org-string">"CODEX_LP_QUICK"</span>)
     (<span class="org-keyword">progn</span>
       (message <span class="org-string">"CODEX_LP_QUICK set; invoking some cost-cutting measures"</span>)
@@ -684,7 +684,7 @@ The reason why cross-linking is so important is because the source code blocks a
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-prettify-source-code-captions">codex-prettify-source-code-captions</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-human-readable-src-block-ids">codex-human-readable-src-block-ids</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-codex-publish</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-codex-publish">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 
 <div id="outline-container-h-Modify-the-Org-buffer" class="outline-6">
@@ -694,11 +694,11 @@ The reason why cross-linking is so important is because the source code blocks a
 Here we modify the Org mode buffer, by using <code>org-export-before-parsing-hook</code>. This takes a list of functions that are free to modify the Org mode buffer before each Org element in the buffer gets converted into HTML. For now we just give it a single function, <code>codex-link-child-src-blocks-to-parents</code>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-org">(org-export-before-parsing-hook
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-modify-org</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-modify-org">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-org">(org-export-before-parsing-hook
  '(codex-smart-source-code-block-captions
    codex-UID-for-all-headlines
    codex-UID-for-all-polyblocks))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-modify-org</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-modify-org">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -713,19 +713,19 @@ Here we modify the final HTML. This is useful for adding in final tweaks to the 
 Phase 1: In the first phase, we use the generated HTML data to populate the <code>child-HTML_ID-hash-table</code>. This data structure is used to link to child blocks from parent blocks.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-HTML-1">(org-export-filter-src-block-functions
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-modify-HTML-1</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-modify-HTML-1">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-HTML-1">(org-export-filter-src-block-functions
  '(codex-populate-child-HTML_ID-hash-table
    codex-populate-org_id-human_id-hash-table))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-modify-HTML-1</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-modify-HTML-1">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 Phase 2: In this phase we perform the linking from parent blocks to child blocks.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-HTML-2">(org-export-filter-src-block-functions
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-modify-HTML-2</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-modify-HTML-2">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-publish-modify-HTML-2">(org-export-filter-src-block-functions
  '(codex-link-to-children-from-parent-body
    codex-prettify-source-code-captions))
 (org-export-filter-final-output-functions
  '(codex-replace-ord_ids-with-human_ids))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-modify-HTML-2</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-modify-HTML-2">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -736,8 +736,8 @@ Phase 2: In this phase we perform the linking from parent blocks to child blocks
 Do not hardcode colors into the HTML. Instead refer to CSS class names, to be stylized by an external CSS file.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-publish-use-css">(org-html-htmlize-output-type 'css)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-use-css</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-use-css">&#x1f517;</a></span></div></div>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-publish-use-css</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-publish-use-css">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-publish-use-css">(org-html-htmlize-output-type 'css)
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -781,7 +781,7 @@ So assume that we already have the smart captions in a sorted <a href="https://w
 We can use the KEY to go to that buffer position and insert the caption. However the insertion operation mutates the buffer. This means if we perform the insertions top-to-bottom, the subsequent KEY values will become obsolete. The trick then is to just do the insertions in reverse order (bottom-to-top), so that the remaining KEY values remain valid. This is what we do below, where <code>smart-captions</code> is an alist like the one just described.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__smart-source-code-block-captions">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-smart-source-code-block-captions</span> (_backend)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">smart-source-code-block-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__smart-source-code-block-captions">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__smart-source-code-block-captions">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-smart-source-code-block-captions</span> (_backend)
   (<span class="org-keyword">let*</span> ((parent-blocks
            <span class="codex-child-link-from-parent"><a href="#__NREF__parent-blocks">parent-blocks</a></span>)
          (child-parent-hash-table
@@ -797,7 +797,7 @@ We can use the KEY to go to that buffer position and insert the caption. However
         (insert caption)))))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__smart-source-code-block-captions-helpers">smart-source-code-block-captions-helpers</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">smart-source-code-block-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__smart-source-code-block-captions">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 (We'll get to the helper functions <code>__NREF__smart-source-code-block-captions-helpers</code> later as they obscure the big picture.)
 </p>
 
@@ -846,15 +846,15 @@ The key idea here is to build a hash table (<code>child-parent-hash-table</code>
 Th first thing we need is a list of parent source code blocks. We consider a source code block a parent block if it has any noweb references within its body.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__parent-blocks"><span class="org-comment-delimiter">;; </span><span class="org-comment">parent-blocks is a let* binding, not a function call.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">parent-blocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__parent-blocks">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__parent-blocks"><span class="org-comment-delimiter">;; </span><span class="org-comment">parent-blocks is a let* binding, not a function call.</span>
 (org-element-map (org-element-parse-buffer) 'src-block
   (<span class="org-keyword">lambda</span> (src-block)
      (<span class="org-keyword">if</span> (codex-is-parent-block src-block) src-block)))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">parent-blocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__parent-blocks">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 Then we construct the <code>child-parent-hash-table</code>. For each parent block, we get all of its children (<code>child-names</code>), and use this data to construct a child-parent association:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__child-parent-hash-table">(<span class="org-keyword">let</span> ((hash-table (make-hash-table <span class="org-builtin">:test</span> 'equal)))
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">child-parent-hash-table</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__child-parent-hash-table">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__child-parent-hash-table">(<span class="org-keyword">let</span> ((hash-table (make-hash-table <span class="org-builtin">:test</span> 'equal)))
   (mapc
    (<span class="org-keyword">lambda</span> (parent-block)
     (<span class="org-keyword">let*</span> ((parent-name (org-element-property <span class="org-builtin">:name</span> parent-block))
@@ -863,7 +863,7 @@ Then we construct the <code>child-parent-hash-table</code>. For each parent bloc
       (mapc (<span class="org-keyword">lambda</span> (child-name) (puthash child-name parent-name hash-table)) child-names)))
    parent-blocks)
   hash-table)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">child-parent-hash-table</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__child-parent-hash-table">&#x1f517;</a></span></div></div><div class="org-src-container"><pre class="src src-emacs-lisp">(make-hash-table <span class="org-builtin">:test</span> 'equal)
+</pre></div></div><div class="org-src-container"><pre class="src src-emacs-lisp">(make-hash-table <span class="org-builtin">:test</span> 'equal)
 (apply 'make-hash-table '<span class="org-builtin">:test</span> 'equal
   (mapcan (<span class="org-keyword">lambda</span> (parent-name)
             (mapcan (<span class="org-keyword">lambda</span> (child-name) (list child-name 1)) '('c1 'c2 'c3))) <span class="org-warning">'(p1 p2)))</span>
@@ -884,12 +884,12 @@ Note that a child source block can have two ways of defining its name. The first
 Let's grab all source code blocks:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__all-src-blocks">(org-element-map (org-element-parse-buffer) 'src-block 'identity)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-polyblocks">all-src-blocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__all-src-blocks">&#x1f517;</a></span></div></div><p>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-polyblocks">all-src-blocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__all-src-blocks">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__all-src-blocks">(org-element-map (org-element-parse-buffer) 'src-block 'identity)
+</pre></div></div><p>
 And now we can finally construct <code>smart-captions</code>:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__smart-captions">(-remove 'null
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">smart-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__smart-captions">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__smart-captions">(-remove 'null
   (<span class="org-keyword">cl-loop</span> for src-block in all-src-blocks collect
     (<span class="org-keyword">let*</span> ((child (codex-get-src-block-name src-block))
            (child-name (car child))
@@ -909,29 +909,29 @@ And now we can finally construct <code>smart-captions</code>:
               SCB_LINK_TO_PARENT
               <span class="org-string">"\n"</span>)))
       (<span class="org-keyword">when</span> parent (cons pos smart-caption)))))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">smart-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__smart-captions">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 We used some helper functions up in <a href="#__NREF__smart-source-code-block-captions"><code>__NREF__smart-source-code-block-captions</code></a>; let's examine them now.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__smart-source-code-block-captions-helpers"><span class="codex-child-link-from-parent"><a href="#__NREF__codex-is-parent-block">codex-is-parent-block</a></span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">smart-source-code-block-captions-helpers</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__smart-source-code-block-captions-helpers">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__smart-source-code-block-captions-helpers"><span class="codex-child-link-from-parent"><a href="#__NREF__codex-is-parent-block">codex-is-parent-block</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-noweb-children">codex-get-noweb-children</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-noweb-ref-name">codex-get-noweb-ref-name</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-src-block-name">codex-get-src-block-name</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions">smart-source-code-block-captions-helpers</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__smart-source-code-block-captions-helpers">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 <code>codex-is-parent-block</code> checks whether a source code block is a parent (contains noweb references to other child blocks in the form <code>__NREF__child-name</code>).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-is-parent-block">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-is-parent-block</span> (src-block)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-is-parent-block</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-is-parent-block">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-is-parent-block">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-is-parent-block</span> (src-block)
   (<span class="org-keyword">let</span> ((body (org-element-property <span class="org-builtin">:value</span> src-block)))
     (codex-get-noweb-children body)))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-is-parent-block</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-is-parent-block">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 <code>codex-get-noweb-children</code> extracts all noweb references in the form "<code>&lt;&lt;NAME&gt;&gt;</code>" from a given multiline string, returning a list of all such NAMEs. This function expects at most 1 noweb reference per line. The return type is a list of strings.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-get-noweb-children">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-noweb-children</span> (s)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-get-noweb-children</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-noweb-children">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-get-noweb-children">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-noweb-children</span> (s)
   (<span class="org-keyword">let*</span> ((lines (split-string s <span class="org-string">"\n"</span>))
          (refs (-remove 'null
                  (mapcar
@@ -940,11 +940,11 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
                        (match-string-no-properties 1 line)))
                   lines))))
     refs))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-get-noweb-children</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-noweb-children">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 <code>codex-get-noweb-ref-name</code> gets the string <code>FOO</code> in a <code>#+header: :noweb-ref FOO</code> line for a source code block.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-get-noweb-ref-name">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-noweb-ref-name</span> (source-code-block)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-get-noweb-ref-name</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-noweb-ref-name">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-get-noweb-ref-name">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-noweb-ref-name</span> (source-code-block)
   (<span class="org-keyword">let*</span> ((headers (org-element-property <span class="org-builtin">:header</span> source-code-block))
          (noweb-ref-name
           (nth 0
@@ -955,17 +955,17 @@ We used some helper functions up in <a href="#__NREF__smart-source-code-block-ca
                    (match-string-no-properties 1 header)))
              headers)))))
     noweb-ref-name))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-get-noweb-ref-name</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-noweb-ref-name">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 <code>codex-get-src-block-name</code> grabs the name of a (child) source code block. A child block can either be named directly with the <code>#+name: NAME</code> line, or indirectly with <code>#+header: noweb-ref NAME</code> (as we saw with <code>codex-get-noweb-ref-name</code>). We save the direct/indirect information as string, and this is used as the <a href="#coderef-SCB_POLYBLOCK_INDICATOR" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-SCB_POLYBLOCK_INDICATOR');" onmouseout="CodeHighlightOff(this, 'coderef-SCB_POLYBLOCK_INDICATOR');"><code>SCB_POLYBLOCK_INDICATOR</code></a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-get-src-block-name">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-src-block-name</span> (src-block)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-get-src-block-name</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-src-block-name">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-get-src-block-name">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-src-block-name</span> (src-block)
   (<span class="org-keyword">let*</span> ((name-direct (org-element-property <span class="org-builtin">:name</span> src-block))
          (name-indirect (codex-get-noweb-ref-name src-block)))
     (<span class="org-keyword">if</span> name-direct
         `(,name-direct <span class="org-string">""</span>)
         `(,name-indirect <span class="org-string">"(polyblock)"</span>))))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__smart-source-code-block-captions-helpers">codex-get-src-block-name</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-src-block-name">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -980,7 +980,7 @@ We want all headings to have HTML IDs that are patterned after their text. This 
 For each heading, we insert a <code>CUSTOM_ID</code> property which takes precedence over the <code>org...</code> IDs. We append this headline property just below every headline we find in the buffer. The actual construction of the <code>CUSTOM_ID</code> (<code>headline-UID</code> in the code below) is done by <code>codex-get-unique-id</code>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__UID-for-all-headlines">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-UID-for-all-headlines</span> (_backend)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">UID-for-all-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__UID-for-all-headlines">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__UID-for-all-headlines">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-UID-for-all-headlines</span> (_backend)
   (<span class="org-keyword">let*</span> ((all-headlines
            (org-element-map (org-element-parse-buffer) 'headline 'identity))
 
@@ -1005,11 +1005,11 @@ For each heading, we insert a <code>CUSTOM_ID</code> property which takes preced
             (insert insertion)))))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__get-unique-id">get-unique-id</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">UID-for-all-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__UID-for-all-headlines">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 <code>codex-get-unique-id</code> converts a given headline to its canonical form (every non-word character converted to a dash) and performs a lookup against the hash table. If the entry exists, it looks up a <code>entry-N</code> value in a loop with <code>N</code> increasing until it sees that no such key exists.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__get-unique-id">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-unique-id</span> (headline hash-table)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-headlines">get-unique-id</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__get-unique-id">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__get-unique-id">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-unique-id</span> (headline hash-table)
   (<span class="org-keyword">let*</span> ((name (org-element-property <span class="org-builtin">:raw-value</span> headline))
          (disambiguation-number 0)
          (key (concat <span class="org-string">"h-"</span> (codex-normalize-string name)))
@@ -1030,7 +1030,7 @@ For each heading, we insert a <code>CUSTOM_ID</code> property which takes preced
     (replace-regexp-in-string <span class="org-string">"[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">A-Za-z0-9]"</span> <span class="org-string">"-"</span> s)
     <span class="org-string">"-"</span>
     <span class="org-string">"-"</span>))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__UID-for-all-headlines">get-unique-id</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__get-unique-id">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -1057,7 +1057,7 @@ What we can do is inject a <code>#+name: ___polyblock-N</code> line (where <code
 Note that we only name the first polyblock in the set of polyblocks that share the same noweb-ref. This is so that we link to the first polyblock child from the parent block (because the assumption is that we will want to start reading about this set of polyblocks beginning with the first block).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__UID-for-all-polyblocks">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-UID-for-all-polyblocks</span> (_)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">UID-for-all-polyblocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__UID-for-all-polyblocks">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__UID-for-all-polyblocks">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-UID-for-all-polyblocks</span> (_)
   (<span class="org-keyword">let*</span> ((all-src-blocks
            <span class="codex-child-link-from-parent"><a href="#__NREF__all-src-blocks">all-src-blocks</a></span>)
          (polyblock-id 0)
@@ -1083,7 +1083,7 @@ Note that we only name the first polyblock in the set of polyblocks that share t
               (name-field-with-uid (cdr polyblock-UID)))
             (goto-char pos)
             (insert name-field-with-uid)))))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">UID-for-all-polyblocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__UID-for-all-polyblocks">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -1120,7 +1120,7 @@ The solution is to simply look at all source code block links, then modify the <
 We have to do a search-and-replace across the entire file because we may also have manual links to source code blocks (although &#x2014; maybe it's just not worth it because we can't refer to polyblocks anyway by name).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-human-readable-src-block-ids"><span class="org-comment-delimiter">; </span><span class="org-comment">Define a global hash table for mapping Org-mode-generated ids (that look like "org00012") for source code blocks to a more human-readable ID.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-human-readable-src-block-ids</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-human-readable-src-block-ids">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-human-readable-src-block-ids"><span class="org-comment-delimiter">; </span><span class="org-comment">Define a global hash table for mapping Org-mode-generated ids (that look like "org00012") for source code blocks to a more human-readable ID.</span>
 (<span class="org-keyword">setq</span> codex-org_id-human_id-hash-table (make-hash-table <span class="org-builtin">:test</span> 'equal))
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-populate-org_id-human_id-hash-table</span> (src-block-html backend info)
@@ -1147,7 +1147,7 @@ We have to do a search-and-replace across the entire file because we may also ha
                 (format <span class="org-string">" href=\"#%s\""</span> v) html-oneline))))
        codex-org_id-human_id-hash-table)
       (codex-to-multi-line html-oneline))))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-human-readable-src-block-ids</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-human-readable-src-block-ids">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -1182,7 +1182,7 @@ For the last step, we want to additionally parse the inner "Listing N &#x2026; P
 We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>polyblock-indicator</code> variable and display it.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-prettify-source-code-captions">(<span class="org-keyword">setq</span> codex-polyblock-names (make-hash-table <span class="org-builtin">:test</span> 'equal))
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-prettify-source-code-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-prettify-source-code-captions">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-prettify-source-code-captions">(<span class="org-keyword">setq</span> codex-polyblock-names (make-hash-table <span class="org-builtin">:test</span> 'equal))
 (<span class="org-keyword">setq</span> codex-polyblock-names-totals (make-hash-table <span class="org-builtin">:test</span> 'equal))
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-prettify-source-code-captions</span> (src-block-html backend info)
@@ -1297,22 +1297,22 @@ We also save the SCB<sub>POLYBLOCK</sub><sub>INDICATOR</sub> with the <code>poly
        src-block-html
        (concat
         leading-div
-        <span class="org-string">"&lt;div class=\"codex-pre-with-caption\"&gt;"</span>
-        body-with-replaced-pre
-        <span class="org-string">"&lt;/div&gt;"</span>
-        <span class="org-string">"&lt;div class=\"codex-caption\"&gt;"</span>
-        polyblock-indicator
-        parent-id
-        link-symbol
-        <span class="org-string">"&lt;/div&gt;"</span>
+          <span class="org-string">"&lt;div class=\"codex-pre-with-caption\"&gt;"</span>
+            <span class="org-string">"&lt;div class=\"codex-caption\"&gt;"</span>
+              polyblock-indicator
+              parent-id
+              link-symbol
+            <span class="org-string">"&lt;/div&gt;"</span>
+            body-with-replaced-pre
+          <span class="org-string">"&lt;/div&gt;"</span>
         <span class="org-string">"&lt;/div&gt;"</span>)))))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex-get-source-block-html-parts-without-newlines">codex-get-source-block-html-parts-without-newlines</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-prettify-source-code-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-prettify-source-code-captions">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 This is a helper function to parse the HTML output for a source code block.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-get-source-block-html-parts-without-newlines">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-source-block-html-parts-without-newlines</span> (src-block-html)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex-prettify-source-code-captions">codex-get-source-block-html-parts-without-newlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-source-block-html-parts-without-newlines">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-get-source-block-html-parts-without-newlines">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-get-source-block-html-parts-without-newlines</span> (src-block-html)
     (<span class="org-keyword">let*</span> ((one-line (codex-to-single-line src-block-html))
            (leading-div
              (<span class="org-keyword">let</span> ((div-match
@@ -1327,7 +1327,7 @@ This is a helper function to parse the HTML output for a source code block.
            (body (<span class="org-keyword">progn</span> (string-match <span class="org-string">"&lt;pre [</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">&gt;]+&gt;.*?&lt;/pre&gt;"</span> one-line)
                         (match-string-no-properties 0 one-line))))
       `(,leading-div ,caption ,body)))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex-prettify-source-code-captions">codex-get-source-block-html-parts-without-newlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-get-source-block-html-parts-without-newlines">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -1388,7 +1388,7 @@ So we have to craft valid HTML links (not Org links) to the child source code bl
 The only thing remaining is the construction of <code>child-HTML_ID-hash-table</code>. We can construct this by mapping through all source code blocks and getting the name which can be just drawn from the <code>&lt;label ...&gt;</code> HTML tag, thanks to the smart captions we inserted for all child blocks earlier in <a href="#h-Smart-source-code-block-captions"><i>Smart source code block captions</i></a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex-html-filter-src-blocks"><span class="org-comment-delimiter">; </span><span class="org-comment">Define a global hash table for mapping child source block names to their HTML IDs.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-html-filter-src-blocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-html-filter-src-blocks">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-html-filter-src-blocks"><span class="org-comment-delimiter">; </span><span class="org-comment">Define a global hash table for mapping child source block names to their HTML IDs.</span>
 (<span class="org-keyword">setq</span> codex-child-HTML_ID-hash-table (make-hash-table <span class="org-builtin">:test</span> 'equal))
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-populate-child-HTML_ID-hash-table</span> (src-block-html backend info)
@@ -1474,7 +1474,7 @@ The only thing remaining is the construction of <code>child-HTML_ID-hash-table</
   (replace-regexp-in-string <span class="org-string">"&lt;&lt;&lt;NEWLINE&gt;&gt;&gt;"</span> <span class="org-string">"\n"</span> s))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__custom-noweb-delimiters">custom-noweb-delimiters</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-codex-publish">codex-html-filter-src-blocks</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex-html-filter-src-blocks">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -1485,7 +1485,7 @@ The only thing remaining is the construction of <code>child-HTML_ID-hash-table</
 Note that we need to evaluate this lisp code if we want to run <code>C-c C-v t</code> to tangle code blocks properly in an interactive manner from an Emacs editing session.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__custom-noweb-delimiters">(<span class="org-keyword">setq</span> org-babel-noweb-wrap-start <span class="org-string">"__NREF__"</span>)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">custom-noweb-delimiters</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__custom-noweb-delimiters">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__custom-noweb-delimiters">(<span class="org-keyword">setq</span> org-babel-noweb-wrap-start <span class="org-string">"__NREF__"</span>)
 (<span class="org-keyword">setq</span> org-babel-noweb-wrap-end <span class="org-string">""</span>)
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-nref-rx</span> (match-optional-params)
@@ -1517,7 +1517,7 @@ Note that we need to evaluate this lisp code if we want to run <code>C-c C-v t</
 <span class="org-doc">Match any reference, or only those matching REGEXP, if non-nil.</span>
 <span class="org-doc">When matching, reference is stored in match group 1."</span>
   (codex-nref-rx t))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex-html-filter-src-blocks">custom-noweb-delimiters</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__custom-noweb-delimiters">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -1533,7 +1533,7 @@ See <a href="https://emacs.stackexchange.com/questions/31439/how-to-get-colored-
 Generate <code>syntax-highlighting.css</code> and quit emacs. This function is designed to be run from the command line on a fresh emacs instance (dedicated OS process). Unfortunately, by itself it is almost useless (see <a href="#__NREF__enable-syntax-highlighting-from-batch-mode"><code>__NREF__enable-syntax-highlighting-from-batch-mode</code></a>).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-autogenerate-css">(<span class="org-keyword">defun</span> <span class="org-function-name">batch-org-gen-css-and-exit</span> (org-file)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-autogenerate-css</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-autogenerate-css">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-autogenerate-css">(<span class="org-keyword">defun</span> <span class="org-function-name">batch-org-gen-css-and-exit</span> (org-file)
   (find-file org-file)
   (font-lock-flush)
   (font-lock-fontify-buffer)
@@ -1544,11 +1544,11 @@ Generate <code>syntax-highlighting.css</code> and quit emacs. This function is d
 
 <span class="org-comment-delimiter">;; </span><span class="org-comment">Without this, batch-org-gen-css-and-exit produces a near-empty CSS file.</span>
 <span class="codex-child-link-from-parent"><a href="#__NREF__enable-syntax-highlighting-from-batch-mode">enable-syntax-highlighting-from-batch-mode</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-autogenerate-css</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-autogenerate-css">&#x1f517;</a></span></div></div><p>
+</pre></div></div><p>
 Sadly, <code>batch-org-gen-css-and-exit</code> by itself generates a near-blank CSS file. So we have to use code from <a href="https://emacs.stackexchange.com/questions/38437/org-mode-batch-export-missing-syntax-highlighting">https://emacs.stackexchange.com/questions/38437/org-mode-batch-export-missing-syntax-highlighting</a>:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__enable-syntax-highlighting-from-batch-mode">(<span class="org-keyword">require</span> '<span class="org-constant">font-lock</span>)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-autogenerate-css">enable-syntax-highlighting-from-batch-mode</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__enable-syntax-highlighting-from-batch-mode">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__enable-syntax-highlighting-from-batch-mode">(<span class="org-keyword">require</span> '<span class="org-constant">font-lock</span>)
 (<span class="org-keyword">require</span> '<span class="org-constant">subr-x</span>) <span class="org-comment-delimiter">;; </span><span class="org-comment">for `</span><span class="org-comment"><span class="org-constant">when-let</span></span><span class="org-comment">'</span>
 
 (<span class="org-keyword">unless</span> (boundp 'maximal-integer)
@@ -1633,7 +1633,7 @@ Sadly, <code>batch-org-gen-css-and-exit</code> by itself generates a near-blank 
 <span class="org-comment-delimiter">; </span><span class="org-comment">(print-args-and-ret face-foreground)</span>
 <span class="org-comment-delimiter">; </span><span class="org-comment">(print-args-and-ret face-background)</span>
 <span class="org-comment-delimiter">; </span><span class="org-comment">(print-args-and-ret face-attribute)</span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-autogenerate-css">enable-syntax-highlighting-from-batch-mode</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__enable-syntax-highlighting-from-batch-mode">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -1652,8 +1652,8 @@ There are some things that Org mode does that annoyingly break determinism. Here
 Org mode also injects an HTML comment (not visible to the user) to record the time that the HTML was generated. We disable this because it breaks deterministic output. See <a href="https://emacs.stackexchange.com/questions/50117/how-to-disable-commented-date-in-org-mode-html-export">this link</a> for more info.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism">(<span class="org-keyword">setq</span> org-export-time-stamp-file nil)
-</pre></div><div class="codex-caption">(1 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div></div>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(1 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism">(<span class="org-keyword">setq</span> org-export-time-stamp-file nil)
+</pre></div></div>
 </div>
 </div>
 
@@ -1664,8 +1664,8 @@ Org mode also injects an HTML comment (not visible to the user) to record the ti
 By default Org mode appends visible metadata at the bottom of the HTML document, including the Org version used to generate the document. We suppress this information.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-2">(<span class="org-keyword">setq</span> org-html-postamble nil)
-</pre></div><div class="codex-caption">(2 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div></div>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(2 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-2">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-2">(<span class="org-keyword">setq</span> org-html-postamble nil)
+</pre></div></div>
 </div>
 </div>
 
@@ -1680,12 +1680,12 @@ Stop randomized ids from being generated every time. Instead count from 0 and wo
 See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-3">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-deterministic-reference</span> (references)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(3 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-fix-nondeterminism-3">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-deterministic-reference</span> (references)
   (<span class="org-keyword">let</span> ((new (length references)))
      (<span class="org-keyword">while</span> (rassq new references) (<span class="org-keyword">setq</span> new (+ new 1)))
      new))
 (advice-add #'org-export-new-reference <span class="org-builtin">:override</span> #'org-export-deterministic-reference)
-</pre></div><div class="codex-caption">(3 of 3) <span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-fix-nondeterminism</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-fix-nondeterminism-3">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -1697,7 +1697,7 @@ See <a href="https://www.reddit.com/r/orgmode/comments/aagmfh/comment/hk6upbf">h
 Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</code>) when we invoke Emacs from the <a href="#code-Makefile--code">Makefile</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-misc">(<span class="org-keyword">setq</span> make-backup-files nil)
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-misc</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-misc">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-misc">(<span class="org-keyword">setq</span> make-backup-files nil)
 (<span class="org-keyword">setq</span> org-src-preserve-indentation t)
 
 <span class="org-comment-delimiter">; </span><span class="org-comment">See https://stackoverflow.com/a/27285582/437583.</span>
@@ -1705,7 +1705,7 @@ Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</
   (concat <span class="org-string">"test_"</span> (file-name-nondirectory (directory-file-name (file-name-directory (buffer-file-name))))  <span class="org-string">".py"</span>))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__set_html5">set_html5</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-misc</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-misc">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 
 <div id="outline-container-h-Use-HTML5-export--not-XML--to-un-break-MathJax" class="outline-6">
@@ -1715,8 +1715,8 @@ Disable backup files for <code>codex.el</code> (that look like <code>codex.el~</
 By default on Org 9.6, MathJax settings (JavaScript snippet) gets wrapped in a CDATA tag, and we run into the same problem described on this email that has gone unanswered: <a href="https://www.mail-archive.com/emacs-orgmode@gnu.org/msg140821.html">https://www.mail-archive.com/emacs-orgmode@gnu.org/msg140821.html</a>. It appears that this is because the document is exported as XML, not HTMl. Setting the document type to <code>html5</code>, as below, appears to make the CDATA tag magically disappear.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__set_html5">(<span class="org-keyword">setq</span> org-html-doctype <span class="org-string">"html5"</span>)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-misc">set_html5</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__set_html5">&#x1f517;</a></span></div></div>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-misc">set_html5</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__set_html5">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__set_html5">(<span class="org-keyword">setq</span> org-html-doctype <span class="org-string">"html5"</span>)
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -1765,17 +1765,17 @@ Now we just have to refer to the above in the snippet below, to be included in <
 
 <div class="org-src-container"><pre class="src src-org" id="org0000040"><span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="<a href="https://code.jquery.com/jquery-3.6.4.min.js">https://code.jquery.com/jquery-3.6.4.min.js</a>"&gt;&lt;/script&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;script src="../../misc.js"&gt;&lt;/script&gt;</span>
-</pre></div><div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-section-headlines"><span class="org-css-selector">a.section-headline </span>{
+</pre></div><div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-section-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-section-headlines">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-section-headlines"><span class="org-css-selector">a.section-headline </span>{
     <span class="org-css-property">color</span>: <span class="custom">black</span>;
 }
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-section-headlines</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-section-headlines">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
 <div id="outline-container-h-Imports" class="outline-5">
 <h5 id="h-Imports"><span class="section-number-5">5.2.1.8.</span> Imports</h5>
 <div class="outline-text-5" id="text-h-Imports">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-imports"><span class="org-comment-delimiter">;; </span><span class="org-comment">Built-in packages (distributed with Emacs).</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-imports</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-imports">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-imports"><span class="org-comment-delimiter">;; </span><span class="org-comment">Built-in packages (distributed with Emacs).</span>
 (<span class="org-keyword">require</span> '<span class="org-constant">tex-mode</span>)
 (<span class="org-keyword">require</span> '<span class="org-constant">elisp-mode</span>)
 
@@ -1798,7 +1798,7 @@ Now we just have to refer to the above in the snippet below, to be included in <
 (<span class="org-keyword">require</span> '<span class="org-constant">magit-section</span>)
 (add-to-list 'load-path (concat (getenv <span class="org-string">"PWD"</span>) <span class="org-string">"/deps/elisp/nix-mode"</span>))
 (<span class="org-keyword">require</span> '<span class="org-constant">nix-mode</span>)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-imports</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-imports">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -1813,7 +1813,7 @@ This "optimization" is inspired by <a href="https://www.reddit.com/r/emacs/comme
 During ad-hoc tests, this shaves off a few seconds. This was determined by comparing the regular <code>weave</code> target versus the <code>weave-nocolor</code> target.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-performance-optimization"><span class="org-comment-delimiter">; </span><span class="org-comment">Set garbage-collection threshold to 16 GiB.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-performance-optimization</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-performance-optimization">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-performance-optimization"><span class="org-comment-delimiter">; </span><span class="org-comment">Set garbage-collection threshold to 16 GiB.</span>
 (<span class="org-keyword">setq</span> gc-cons-threshold #x400000000)
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-disable-syntax-highlighting</span> (_orig-func <span class="org-type">&amp;rest</span> args)
@@ -1821,13 +1821,13 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-org-html-fontify-code</span> (code lang) (org-html-encode-plain-text code))
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__codex_dot_el-profiling">codex_dot_el-profiling</a></span>
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-codex-el--code">codex_dot_el-performance-optimization</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-performance-optimization">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 
 <div id="outline-container-h-Profiling" class="outline-6">
 <h6 id="h-Profiling"><span class="section-number-6">5.2.1.9.1.</span> Profiling</h6>
 <div class="outline-text-6" id="text-h-Profiling">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-profiling">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-publish-profile</span> ()
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-profiling</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-profiling">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex_dot_el-profiling">(<span class="org-keyword">defun</span> <span class="org-function-name">codex-publish-profile</span> ()
   (<span class="org-keyword">interactive</span>)
   (profiler-start 'cpu)
   (codex-publish)
@@ -1842,7 +1842,7 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
   (profiler-stop)
   (profiler-report)
   (profiler-report-write-profile <span class="org-string">"emacs-profile-tangle.txt"</span>) t)
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#__NREF__codex_dot_el-performance-optimization">codex_dot_el-profiling</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__codex_dot_el-profiling">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -1855,8 +1855,8 @@ During ad-hoc tests, this shaves off a few seconds. This was determined by compa
 We add some additional CSS tweaks on top of what we get from Org.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="code-style-css--code"><span class="org-css-selector">a </span>{
-    <span class="org-css-property">color</span>: <span class="custom-3">#0000ff</span>;
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"></div><pre class="src src-css" id="code-style-css--code"><span class="org-css-selector">a </span>{
+    <span class="org-css-property">color</span>: <span class="custom-2">#0000ff</span>;
 }
 
 <span class="org-css-selector">body </span>{
@@ -1887,7 +1887,7 @@ We add some additional CSS tweaks on top of what we get from Org.
     <span class="org-css-property">margin</span>: 1em auto 0em auto;
 }
 <span class="org-css-selector">table, th, td </span>{
-    <span class="org-css-property">border</span>: 1px solid <span class="custom-2">black</span>;
+    <span class="org-css-property">border</span>: 1px solid <span class="custom-1">black</span>;
     <span class="org-css-property">border-collapse</span>: collapse;
 }
 <span class="org-css-selector">th, td </span>{
@@ -1915,21 +1915,21 @@ We add some additional CSS tweaks on top of what we get from Org.
 }
 
 <span class="org-css-selector">code </span>{
-    <span class="org-css-property">background</span>: <span class="custom-1">#eee</span>;
+    <span class="org-css-property">background</span>: <span class="custom">#eee</span>;
     <span class="org-css-property">padding-left</span>: 0.5em;
     <span class="org-css-property">padding-right</span>: 0.5em;
     <span class="org-css-property">white-space</span>: nowrap;
 }
 
 <span class="org-css-selector">thead </span>{
-    <span class="org-css-property">background</span>: <span class="custom-1">#eee</span>;
+    <span class="org-css-property">background</span>: <span class="custom">#eee</span>;
 }
 
 <span class="org-css-selector">pre </span>{
-    <span class="org-css-property">border-style</span>: solid;
-    <span class="org-css-property">border-width</span>: 1px;
-    <span class="org-css-property">border-color</span>: <span class="custom">#999</span>;
-    <span class="org-css-property">border-radius</span>: 5px;
+    <span class="org-css-property">border-top-left-radius</span>: 0;
+    <span class="org-css-property">border-top-right-radius</span>: 0;
+    <span class="org-css-property">border-bottom-left-radius</span>: 5px;
+    <span class="org-css-property">border-bottom-right-radius</span>: 5px;
 }
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__css-source-code-section-headlines">css-source-code-section-headlines</a></span>
@@ -1939,13 +1939,13 @@ We add some additional CSS tweaks on top of what we get from Org.
 <span class="codex-child-link-from-parent"><a href="#__NREF__css-source-code-block-captions">css-source-code-block-captions</a></span>
 
 <span class="codex-child-link-from-parent"><a href="#__NREF__css-source-code-block-child-link-from-parent">css-source-code-block-child-link-from-parent</a></span>
-</pre></div><div class="codex-caption"></div></div>
+</pre></div></div>
 </div>
 
 <div id="outline-container-h-Source-code-block-body" class="outline-5">
 <h5 id="h-Source-code-block-body"><span class="section-number-5">5.2.2.1.</span> Source code block body</h5>
 <div class="outline-text-5" id="text-h-Source-code-block-body">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-block-body"><span class="org-css-selector">.org-src-container </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-body</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-body">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-body"><span class="org-css-selector">.org-src-container </span>{
     <span class="org-css-property">margin-top</span>: 1em;
     <span class="org-css-property">margin-bottom</span>: 1em;
     <span class="org-css-property">border-style</span>: solid;
@@ -1958,12 +1958,7 @@ We add some additional CSS tweaks on top of what we get from Org.
     <span class="org-css-property">margin</span>: 0;
     <span class="org-css-property">font-family</span>: <span class="org-string">"monospace"</span>;
     <span class="org-css-property">border-width</span>: 0;
-    <span class="org-css-property">border-radius</span>: 5px;
-}
-
-<span class="org-css-selector">.org-src-container .codex-pre-with-caption </span>{
-    <span class="org-css-property">border-bottom-left-radius</span>: 0;
-    <span class="org-css-property">border-bottom-right-radius</span>: 0;
+    <span class="org-css-property">scroll-margin-top</span>: 100px;
 }
 
 <span class="org-comment-delimiter">/* </span><span class="org-comment">Source code block body.</span><span class="org-comment-delimiter"> */</span>
@@ -1971,19 +1966,19 @@ We add some additional CSS tweaks on top of what we get from Org.
     <span class="org-css-property">background-color</span>: <span class="custom">#eee</span>;
 }
 
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-body</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-body">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
 <div id="outline-container-h-Source-code-block-captions" class="outline-5">
 <h5 id="h-Source-code-block-captions"><span class="section-number-5">5.2.2.2.</span> Source code block captions</h5>
 <div class="outline-text-5" id="text-h-Source-code-block-captions">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-block-captions"><span class="org-css-selector">.codex-caption </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-captions">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-captions"><span class="org-css-selector">.codex-caption </span>{
     <span class="org-css-property">font-family</span>: <span class="org-string">"monospace"</span>;
     <span class="org-css-property">text-align</span>: right;
     <span class="org-css-property">background-color</span>: <span class="custom-4">#ddd</span>;
-    <span class="org-css-property">border-bottom-left-radius</span>: 5px;
-    <span class="org-css-property">border-bottom-right-radius</span>: 5px;
+    <span class="org-css-property">border-top-left-radius</span>: 5px;
+    <span class="org-css-property">border-top-right-radius</span>: 5px;
     <span class="org-css-property">padding-top</span>: 2px;
     <span class="org-css-property">padding-bottom</span>: 2px;
 }
@@ -2024,14 +2019,14 @@ We add some additional CSS tweaks on top of what we get from Org.
 <span class="org-css-selector">.codex-caption-listing-number </span>{
     <span class="org-css-property">margin-right</span>: 5px;
 }
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-captions</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-captions">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
 <div id="outline-container-h-Links-to-child-source-block-from-parent" class="outline-5">
 <h5 id="h-Links-to-child-source-block-from-parent"><span class="section-number-5">5.2.2.3.</span> Links to child source block from parent</h5>
 <div class="outline-text-5" id="text-h-Links-to-child-source-block-from-parent">
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-css" id="__NREF__css-source-code-block-child-link-from-parent"><span class="org-css-selector">.codex-child-link-from-parent </span>{
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-child-link-from-parent</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-child-link-from-parent">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__css-source-code-block-child-link-from-parent"><span class="org-css-selector">.codex-child-link-from-parent </span>{
     <span class="org-css-property">padding-left</span>: 5px;
     <span class="org-css-property">padding-right</span>: 5px;
     <span class="org-css-property">font-weight</span>: bold;
@@ -2048,7 +2043,7 @@ We add some additional CSS tweaks on top of what we get from Org.
     <span class="org-css-property">background-color</span>: <span class="custom">#38ad3d</span>;
     <span class="org-css-property">text-decoration</span>: none;
 }
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-style-css--code">css-source-code-block-child-link-from-parent</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__css-source-code-block-child-link-from-parent">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -2060,11 +2055,11 @@ We add some additional CSS tweaks on top of what we get from Org.
 Make each Org file we publish into HTML refer to a single theme file. The inspiration for this setup comes from <a href="https://gitlab.com/OlMon/org-themes">https://gitlab.com/OlMon/org-themes</a>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-org" id="codex.theme-1"><span class="org-comment"># Include additional CSS styles.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"></div><pre class="src src-org" id="codex.theme-1"><span class="org-comment"># Include additional CSS styles.</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/&gt;</span>
 <span class="org-org-meta-line">#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../../style.css" /&gt;</span>
 __NREF__automatically_link_headlines
-</pre></div><div class="codex-caption"></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -2075,12 +2070,12 @@ __NREF__automatically_link_headlines
 Typically we only need to look at the rendered HTML output in a web browser as the raw HTML diff output is extremely difficult to parse as a human. So by default we ask Git to exclude it from <code>git diff</code> by treating them as binary data.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-gitattributes" id=".gitattributes-1">* -diff
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"></div><pre class="src src-gitattributes" id=".gitattributes-1">* -diff
 **/*.org diff
 **/.gitattributes diff
 **/.gitmodules diff
 **/.gitignore diff
-</pre></div><div class="codex-caption"></div></div><p>
+</pre></div></div><p>
 In order to still show the HTML textual diff, we can run <code>git diff --text</code>.
 </p>
 </div>
@@ -2119,7 +2114,7 @@ Tangling is simply the act of collecting the <code>#+begin_src ... #+end_src</co
 We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-comment-delimiter"># </span><span class="org-comment">Currently we don't have any optimizations for tangling, but we still set CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-Makefile--code">Makefile-tangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-comment-delimiter"># </span><span class="org-comment">Currently we don't have any optimizations for tangling, but we still set CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.</span>
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">all_tangled_sources</span></span><span class="org-makefile-targets">) tangle &amp;</span>: $(<span class="org-variable-name">src</span>)
         <span class="org-type">@</span><span class="org-makefile-shell">echo tangling in parallel</span>
         <span class="org-variable-name">CODEX_LP_QUICK</span>=1 make -C $(<span class="org-variable-name">PROJ_ROOT</span>) -j$(<span class="org-variable-name">PROCS</span>) $(<span class="org-variable-name">all_tangled_sources</span>)
@@ -2151,7 +2146,7 @@ endef
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">See https://stackoverflow.com/a/9694782/437583.</span>
 $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),$(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> tangle_tests,problem/$(<span class="org-variable-name">p</span>)/__init__.py,problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py,problem/$(<span class="org-variable-name">p</span>)/README.org)))
-</pre></div><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#code-Makefile--code">Makefile-tangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div></div>
+</pre></div></div>
 </div>
 </div>
 
@@ -2166,7 +2161,7 @@ This is taken from <a href="https://github.com/tweag/haskell-stack-nix-example/b
 This is the main development shell and brings in all of our dependencies to build all of our code. It's great for development and testing things out (such as running "make" to re-run any Python tests that have been updated when adding new problems).
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><pre class="src src-nix" id="code-shell-nix--code"><span class="org-nix-keyword">let</span>
+<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"></div><pre class="src src-nix" id="code-shell-nix--code"><span class="org-nix-keyword">let</span>
   <span class="org-comment"># Nixpkgs snapshot.</span>
   <span class="org-nix-attribute">sources</span> = <span class="org-nix-builtin">import</span> <span class="org-nix-constant">./package/nix/sources.nix</span>;
   <span class="org-comment"># The final "pkgs" attribute with all the bells and whistles of our overlays.</span>
@@ -2189,7 +2184,7 @@ pkgs.mkShell ({
     pkgs.ruff
   ];
 })
-</pre></div><div class="codex-caption"></div></div>
+</pre></div></div>
 </div>
 </div>
 
