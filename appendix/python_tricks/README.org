@@ -167,7 +167,7 @@ See https://docs.python.org/3/tutorial/introduction.html#strings.
 
 *** Burn the candle at both ends
 
-When iterating through an array, you can use =~i= to get the value =-i - 1=. This is because two's complement (FIXME: add link) states that =-i= is equal to =~i + 1=.
+When iterating through an array, you can use =~i= to get the value =-i - 1=. This is because [[file:~/prog/codex/appendix/mathematics/README.org][two's complement]] states that =-i= is equal to =~i + 1=.
 
 #+header: :noweb-ref __NREF__tricks
 #+begin_src python

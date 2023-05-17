@@ -50,6 +50,10 @@ The problems are drawn from [cite:@epip]. Other reference materials are cited wh
 
 There are some [[file:appendix/python_tricks/README.org][Python-language-specific tricks]] available for programming problems. You might want to skim over this if your Python skills are rusty.
 
+** Mathematics
+
+Some (some would argue /all/) topics in programming have mathematical underpinnings. See the [[file:appendix/mathematics/README.org][Mathematics]] appendix.
+
 * Tests
 
 | Dependency | Why                      |
