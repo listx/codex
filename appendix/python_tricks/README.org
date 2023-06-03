@@ -7,7 +7,8 @@
 
 * Introduction
 
-This section lists useful Python tricks that may not be obvious to the average Python user.
+This section lists useful Python tricks that may not be obvious to the average
+Python user.
 
 * Tricks
 
@@ -23,11 +24,15 @@ Returns absolute value of a number =x=.
 
 **** ~bin(x)~
 
-Convert an integer number to its binary representation as a string, prefixed with =0b=.
+Convert an integer number to its binary representation as a string, prefixed
+with =0b=.
 
-The table below has some examples, including equivalent methods using =format= and format strings.
+The table below has some examples, including equivalent methods using =format=
+and format strings.
 
-FIXME: Make this table into a class where all cells below the header uses a monospaced font (so that we don't have to do the manual delineations with the equal sign).
+FIXME: Make this table into a class where all cells below the header uses a
+monospaced font (so that we don't have to do the manual delineations with the
+equal sign).
 
 | Expression         | Result of evaluation |
 |--------------------+----------------------|
@@ -38,24 +43,32 @@ FIXME: Make this table into a class where all cells below the header uses a mono
 | =f'{14:#b}'=       | ='0b1110'=           |
 | =f'{14:b}'=        | ='1110'=             |
 
-The ~bin(x)~, ~oct(x)~, and ~hex(x)~ functions all behave similarly but for the binary, octal, and hexadecimal bases, respectively.
+The ~bin(x)~, ~oct(x)~, and ~hex(x)~ functions all behave similarly but for the
+binary, octal, and hexadecimal bases, respectively.
 
-- ~hex(x)~ :: Convert integer into lower-case hex number with a leading ='0x'= prefix.
+- ~hex(x)~ :: Convert integer into lower-case hex number with a leading ='0x'=
+  prefix.
 - ~oct(x)~ :: Convert integer into octal number with a leading ='0o'= prefix.
 
 **** ~divmod(x, y)~
 
-Returns a tuple of the reslult of integer division of =x= by =y= and remainder. Equivalent to =(x // y, x % y)=.
+Returns a tuple of the reslult of integer division of =x= by =y= and remainder.
+Equivalent to =(x // y, x % y)=.
 
 **** ~pow(base, exp, mod=None)~
 
-Raise a number =base= to the exponent =exp=. The form =3**4= is shorthand for =pow(3, 4)=.
+Raise a number =base= to the exponent =exp=. The form =3**4= is shorthand for
+=pow(3, 4)=.
 
 **** ~round(number, ndigits=None)~
 
-From Python 3.11.3 docs: "Return number rounded to ndigits precision after the decimal point. If ndigits is omitted or is None, it returns the nearest integer to its input."
+From Python 3.11.3 docs: "Return number rounded to ndigits precision after the
+decimal point. If ndigits is omitted or is None, it returns the nearest integer
+to its input."
 
-This function doesn't see much use in programming problems because rounding itself is an imprecise operation resulting in the loss of data, and typically loss of data is never a good thing to do.
+This function doesn't see much use in programming problems because rounding
+itself is an imprecise operation resulting in the loss of data, and typically
+loss of data is never a good thing to do.
 
 *** Strings
 
@@ -79,13 +92,17 @@ Inverse of =chr()=.
 
 **** ~repr(x)~
 
-Return a =str= version of an object, where the goal is to make it so that entering this verbatim back into Python will result in the same (original) value.
+Return a =str= version of an object, where the goal is to make it so that
+entering this verbatim back into Python will result in the same (original)
+value.
 
-As a memory aid, think of =repr= as related to REPLs, because typing the result of =repr()= into Python's REPL (or passing it into =eval()=) should just work.
+As a memory aid, think of =repr= as related to REPLs, because typing the result
+of =repr()= into Python's REPL (or passing it into =eval()=) should just work.
 
 **** ~str(x)~
 
-Return a =str= version of an object, where the goal is to be human-readable (read: open to being machine-unfriendly).
+Return a =str= version of an object, where the goal is to be human-readable
+(read: open to being machine-unfriendly).
 
 Not often used in practice because of format strings.
 
@@ -101,11 +118,13 @@ Returns =False= if no element is =True= (returns =False= if no elements).
 
 **** ~enumerate(iterable, start=0)~
 
-Returns an iterable of tuples, where the first element is the index (starting from 0) and the second element is the element in the =iterable=.
+Returns an iterable of tuples, where the first element is the index (starting
+from 0) and the second element is the element in the =iterable=.
 
 **** ~filter(function, iterable)~
 
-Removes elements in the given =iterable= with the given =function=, if those elements do not return =True= when passed into the =function=.
+Removes elements in the given =iterable= with the given =function=, if those
+elements do not return =True= when passed into the =function=.
 
 **** ~len(sequence)~
 
@@ -113,9 +132,14 @@ Returns the length of the sequence.
 
 **** ~map(function, iterable, *iterables)~
 
-From Python 3.11.3 docs: "Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted."
+From Python 3.11.3 docs: "Return an iterator that applies function to every item
+of iterable, yielding the results. If additional iterables arguments are passed,
+function must take that many arguments and is applied to the items from all
+iterables in parallel. With multiple iterables, the iterator stops when the
+shortest iterable is exhausted."
 
-This is somewhat similar to =zip= in Haskell, except that a function is involved.
+This is somewhat similar to =zip= in Haskell, except that a function is
+involved.
 
 **** ~max()~
 
@@ -127,15 +151,19 @@ Return the smallest element of the sequence, or the smaller of 2 elements.
 
 **** ~next(iterator, default)~
 
-From Python 3.11.3 docs: "Retrieve the next item from the iterator by calling its __next__() method. If default is given, it is returned if the iterator is exhausted, otherwise StopIteration is raised."
+From Python 3.11.3 docs: "Retrieve the next item from the iterator by calling
+its __next__() method. If default is given, it is returned if the iterator is
+exhausted, otherwise StopIteration is raised."
 
 **** ~range(start, stop, step=1)~
 
-The Python docs say that =range()= is not a function, but an immutable sequence. While this is correct, for 99.99% of cases it is used as a function.
+The Python docs say that =range()= is not a function, but an immutable sequence.
+While this is correct, for 99.99% of cases it is used as a function.
 
 **** ~reversed(seq)~
 
-Return given sequence =seq= in opposite (reversed) order. The returned object is an iterator.
+Return given sequence =seq= in opposite (reversed) order. The returned object is
+an iterator.
 
 **** ~set(iterable)~
 
@@ -151,9 +179,11 @@ Return the total of all elements in the iterable.
 
 **** ~zip(*iterables, strict=False)~
 
-From Python 3.11.3 docs: "Iterate over several iterables in parallel, producing tuples with an item from each one."
+From Python 3.11.3 docs: "Iterate over several iterables in parallel, producing
+tuples with an item from each one."
 
-If you want to write ~zip(range(3), ['a', 'b', 'c'])~, instead write ~enumerate(['a', 'b', 'c'])~.
+If you want to write ~zip(range(3), ['a', 'b', 'c'])~, instead write
+~enumerate(['a', 'b', 'c'])~.
 
 ** Pythonisms
 
@@ -167,7 +197,8 @@ See https://docs.python.org/3/tutorial/introduction.html#strings.
 
 *** Burn the candle at both ends
 
-When iterating through an array, you can use =~i= to get the value =-i - 1=. This is because [[file:~/prog/codex/appendix/mathematics/README.org][two's complement]] states that =-i= is equal to =~i + 1=.
+When iterating through an array, you can use =~i= to get the value =-i - 1=.
+This is because [[file:~/prog/codex/appendix/mathematics/README.org][two's complement]] states that =-i= is equal to =~i + 1=.
 
 #+header: :noweb-ref __NREF__tricks
 #+begin_src python

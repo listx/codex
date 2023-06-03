@@ -288,7 +288,8 @@
 <h2 id="h-Introduction"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-h-Introduction">
 <p>
-This section lists useful Python tricks that may not be obvious to the average Python user.
+This section lists useful Python tricks that may not be obvious to the average
+Python user.
 </p>
 </div>
 </div>
@@ -324,15 +325,19 @@ Returns absolute value of a number <code>x</code>.
 <h5 id="h-bin-x-"><span class="section-number-5">2.1.1.2.</span> <code>bin(x)</code></h5>
 <div class="outline-text-5" id="text-h-bin-x-">
 <p>
-Convert an integer number to its binary representation as a string, prefixed with <code>0b</code>.
+Convert an integer number to its binary representation as a string, prefixed
+with <code>0b</code>.
 </p>
 
 <p>
-The table below has some examples, including equivalent methods using <code>format</code> and format strings.
+The table below has some examples, including equivalent methods using <code>format</code>
+and format strings.
 </p>
 
 <p>
-FIXME: Make this table into a class where all cells below the header uses a monospaced font (so that we don't have to do the manual delineations with the equal sign).
+FIXME: Make this table into a class where all cells below the header uses a
+monospaced font (so that we don't have to do the manual delineations with the
+equal sign).
 </p>
 
 <table>
@@ -383,11 +388,13 @@ FIXME: Make this table into a class where all cells below the header uses a mono
 </table>
 
 <p>
-The <code>bin(x)</code>, <code>oct(x)</code>, and <code>hex(x)</code> functions all behave similarly but for the binary, octal, and hexadecimal bases, respectively.
+The <code>bin(x)</code>, <code>oct(x)</code>, and <code>hex(x)</code> functions all behave similarly but for the
+binary, octal, and hexadecimal bases, respectively.
 </p>
 
 <dl class="org-dl">
-<dt><code>hex(x)</code></dt><dd>Convert integer into lower-case hex number with a leading <code>'0x'</code> prefix.</dd>
+<dt><code>hex(x)</code></dt><dd>Convert integer into lower-case hex number with a leading <code>'0x'</code>
+prefix.</dd>
 <dt><code>oct(x)</code></dt><dd>Convert integer into octal number with a leading <code>'0o'</code> prefix.</dd>
 </dl>
 </div>
@@ -397,7 +404,8 @@ The <code>bin(x)</code>, <code>oct(x)</code>, and <code>hex(x)</code> functions 
 <h5 id="h-divmod-x--y-"><span class="section-number-5">2.1.1.3.</span> <code>divmod(x, y)</code></h5>
 <div class="outline-text-5" id="text-h-divmod-x--y-">
 <p>
-Returns a tuple of the reslult of integer division of <code>x</code> by <code>y</code> and remainder. Equivalent to <code>(x // y, x % y)</code>.
+Returns a tuple of the reslult of integer division of <code>x</code> by <code>y</code> and remainder.
+Equivalent to <code>(x // y, x % y)</code>.
 </p>
 </div>
 </div>
@@ -406,7 +414,8 @@ Returns a tuple of the reslult of integer division of <code>x</code> by <code>y<
 <h5 id="h-pow-base--exp--mod-None-"><span class="section-number-5">2.1.1.4.</span> <code>pow(base, exp, mod=None)</code></h5>
 <div class="outline-text-5" id="text-h-pow-base--exp--mod-None-">
 <p>
-Raise a number <code>base</code> to the exponent <code>exp</code>. The form <code>3**4</code> is shorthand for <code>pow(3, 4)</code>.
+Raise a number <code>base</code> to the exponent <code>exp</code>. The form <code>3**4</code> is shorthand for
+<code>pow(3, 4)</code>.
 </p>
 </div>
 </div>
@@ -415,11 +424,15 @@ Raise a number <code>base</code> to the exponent <code>exp</code>. The form <cod
 <h5 id="h-round-number--ndigits-None-"><span class="section-number-5">2.1.1.5.</span> <code>round(number, ndigits=None)</code></h5>
 <div class="outline-text-5" id="text-h-round-number--ndigits-None-">
 <p>
-From Python 3.11.3 docs: "Return number rounded to ndigits precision after the decimal point. If ndigits is omitted or is None, it returns the nearest integer to its input."
+From Python 3.11.3 docs: "Return number rounded to ndigits precision after the
+decimal point. If ndigits is omitted or is None, it returns the nearest integer
+to its input."
 </p>
 
 <p>
-This function doesn't see much use in programming problems because rounding itself is an imprecise operation resulting in the loss of data, and typically loss of data is never a good thing to do.
+This function doesn't see much use in programming problems because rounding
+itself is an imprecise operation resulting in the loss of data, and typically
+loss of data is never a good thing to do.
 </p>
 </div>
 </div>
@@ -506,11 +519,14 @@ Inverse of <code>chr()</code>.
 <h5 id="h-repr-x-"><span class="section-number-5">2.1.2.3.</span> <code>repr(x)</code></h5>
 <div class="outline-text-5" id="text-h-repr-x-">
 <p>
-Return a <code>str</code> version of an object, where the goal is to make it so that entering this verbatim back into Python will result in the same (original) value.
+Return a <code>str</code> version of an object, where the goal is to make it so that
+entering this verbatim back into Python will result in the same (original)
+value.
 </p>
 
 <p>
-As a memory aid, think of <code>repr</code> as related to REPLs, because typing the result of <code>repr()</code> into Python's REPL (or passing it into <code>eval()</code>) should just work.
+As a memory aid, think of <code>repr</code> as related to REPLs, because typing the result
+of <code>repr()</code> into Python's REPL (or passing it into <code>eval()</code>) should just work.
 </p>
 </div>
 </div>
@@ -519,7 +535,8 @@ As a memory aid, think of <code>repr</code> as related to REPLs, because typing 
 <h5 id="h-str-x-"><span class="section-number-5">2.1.2.4.</span> <code>str(x)</code></h5>
 <div class="outline-text-5" id="text-h-str-x-">
 <p>
-Return a <code>str</code> version of an object, where the goal is to be human-readable (read: open to being machine-unfriendly).
+Return a <code>str</code> version of an object, where the goal is to be human-readable
+(read: open to being machine-unfriendly).
 </p>
 
 <p>
@@ -556,7 +573,8 @@ Returns <code>False</code> if no element is <code>True</code> (returns <code>Fal
 <h5 id="h-enumerate-iterable--start-0-"><span class="section-number-5">2.1.3.3.</span> <code>enumerate(iterable, start=0)</code></h5>
 <div class="outline-text-5" id="text-h-enumerate-iterable--start-0-">
 <p>
-Returns an iterable of tuples, where the first element is the index (starting from 0) and the second element is the element in the <code>iterable</code>.
+Returns an iterable of tuples, where the first element is the index (starting
+from 0) and the second element is the element in the <code>iterable</code>.
 </p>
 </div>
 </div>
@@ -565,7 +583,8 @@ Returns an iterable of tuples, where the first element is the index (starting fr
 <h5 id="h-filter-function--iterable-"><span class="section-number-5">2.1.3.4.</span> <code>filter(function, iterable)</code></h5>
 <div class="outline-text-5" id="text-h-filter-function--iterable-">
 <p>
-Removes elements in the given <code>iterable</code> with the given <code>function</code>, if those elements do not return <code>True</code> when passed into the <code>function</code>.
+Removes elements in the given <code>iterable</code> with the given <code>function</code>, if those
+elements do not return <code>True</code> when passed into the <code>function</code>.
 </p>
 </div>
 </div>
@@ -583,11 +602,16 @@ Returns the length of the sequence.
 <h5 id="h-map-function--iterable---iterables-"><span class="section-number-5">2.1.3.6.</span> <code>map(function, iterable, *iterables)</code></h5>
 <div class="outline-text-5" id="text-h-map-function--iterable---iterables-">
 <p>
-From Python 3.11.3 docs: "Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted."
+From Python 3.11.3 docs: "Return an iterator that applies function to every item
+of iterable, yielding the results. If additional iterables arguments are passed,
+function must take that many arguments and is applied to the items from all
+iterables in parallel. With multiple iterables, the iterator stops when the
+shortest iterable is exhausted."
 </p>
 
 <p>
-This is somewhat similar to <code>zip</code> in Haskell, except that a function is involved.
+This is somewhat similar to <code>zip</code> in Haskell, except that a function is
+involved.
 </p>
 </div>
 </div>
@@ -614,7 +638,9 @@ Return the smallest element of the sequence, or the smaller of 2 elements.
 <h5 id="h-next-iterator--default-"><span class="section-number-5">2.1.3.9.</span> <code>next(iterator, default)</code></h5>
 <div class="outline-text-5" id="text-h-next-iterator--default-">
 <p>
-From Python 3.11.3 docs: "Retrieve the next item from the iterator by calling its _<sub>next</sub>_<sub>()</sub> method. If default is given, it is returned if the iterator is exhausted, otherwise StopIteration is raised."
+From Python 3.11.3 docs: "Retrieve the next item from the iterator by calling
+its _<sub>next</sub>_<sub>()</sub> method. If default is given, it is returned if the iterator is
+exhausted, otherwise StopIteration is raised."
 </p>
 </div>
 </div>
@@ -623,7 +649,8 @@ From Python 3.11.3 docs: "Retrieve the next item from the iterator by calling it
 <h5 id="h-range-start--stop--step-1-"><span class="section-number-5">2.1.3.10.</span> <code>range(start, stop, step=1)</code></h5>
 <div class="outline-text-5" id="text-h-range-start--stop--step-1-">
 <p>
-The Python docs say that <code>range()</code> is not a function, but an immutable sequence. While this is correct, for 99.99% of cases it is used as a function.
+The Python docs say that <code>range()</code> is not a function, but an immutable sequence.
+While this is correct, for 99.99% of cases it is used as a function.
 </p>
 </div>
 </div>
@@ -632,7 +659,8 @@ The Python docs say that <code>range()</code> is not a function, but an immutabl
 <h5 id="h-reversed-seq-"><span class="section-number-5">2.1.3.11.</span> <code>reversed(seq)</code></h5>
 <div class="outline-text-5" id="text-h-reversed-seq-">
 <p>
-Return given sequence <code>seq</code> in opposite (reversed) order. The returned object is an iterator.
+Return given sequence <code>seq</code> in opposite (reversed) order. The returned object is
+an iterator.
 </p>
 </div>
 </div>
@@ -668,11 +696,13 @@ Return the total of all elements in the iterable.
 <h5 id="h-zip--iterables--strict-False-"><span class="section-number-5">2.1.3.15.</span> <code>zip(*iterables, strict=False)</code></h5>
 <div class="outline-text-5" id="text-h-zip--iterables--strict-False-">
 <p>
-From Python 3.11.3 docs: "Iterate over several iterables in parallel, producing tuples with an item from each one."
+From Python 3.11.3 docs: "Iterate over several iterables in parallel, producing
+tuples with an item from each one."
 </p>
 
 <p>
-If you want to write <code>zip(range(3), ['a', 'b', 'c'])</code>, instead write <code>enumerate(['a', 'b', 'c'])</code>.
+If you want to write <code>zip(range(3), ['a', 'b', 'c'])</code>, instead write
+<code>enumerate(['a', 'b', 'c'])</code>.
 </p>
 </div>
 </div>
@@ -707,7 +737,8 @@ See <a href="https://docs.python.org/3/tutorial/introduction.html#strings">https
 <h4 id="h-Burn-the-candle-at-both-ends"><span class="section-number-4">2.3.1.</span> Burn the candle at both ends</h4>
 <div class="outline-text-4" id="text-h-Burn-the-candle-at-both-ends">
 <p>
-When iterating through an array, you can use <code>~i</code> to get the value <code>-i - 1</code>. This is because <a href="file:///Users/l/prog/codex/appendix/mathematics/README.html">two's complement</a> states that <code>-i</code> is equal to <code>~i + 1</code>.
+When iterating through an array, you can use <code>~i</code> to get the value <code>-i - 1</code>.
+This is because <a href="file:///Users/l/prog/codex/appendix/mathematics/README.html">two's complement</a> states that <code>-i</code> is equal to <code>~i + 1</code>.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">tricks</a></span>(1/1) <span class="lilac-caption-link-symbol"><a href="#__NREF__tricks">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__tricks"><span class="org-keyword">def</span> <span class="org-function-name">is_palindrome</span>(s: <span class="org-builtin">str</span>) -&gt; <span class="org-builtin">bool</span>:

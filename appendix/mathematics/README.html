@@ -273,11 +273,17 @@ This section discusses some mathematical topics related to programming.
 <h2 id="h-Two-s-Complement"><span class="section-number-2">2.</span> Two's Complement</h2>
 <div class="outline-text-2" id="text-h-Two-s-Complement">
 <p>
-"Complement" here comes from the mathematical notion of complements. The "two" here essentially means base 2 (binary). Simply put, if 2 numbers when added together equal a power-of-2 number (\(2^N\)), they are each others' two's complement.
+"Complement" here comes from the mathematical notion of complements. The "two"
+here essentially means base 2 (binary). Simply put, if 2 numbers when added
+together equal a power-of-2 number (\(2^N\)), they are each others' two's
+complement.
 </p>
 
 <p>
-Because examples are worth a million words, let's see some examples of numbers and their two's complements for unsigned 4-bit numbers (the idea extends to any bit width, but we'll limit ourselves to 4 for simplicity). The table below lists numbers in binary and decimal form, and their complements.
+Because examples are worth a million words, let's see some examples of numbers
+and their two's complements for unsigned 4-bit numbers (the idea extends to any
+bit width, but we'll limit ourselves to 4 for simplicity). The table below lists
+numbers in binary and decimal form, and their complements.
 </p>
 
 <table id="org0000000">
@@ -397,19 +403,29 @@ Because examples are worth a million words, let's see some examples of numbers a
 </table>
 
 <p>
-Again, note that the complement goes both ways &#x2014; 1 is 15's two's complement and vice versa. The table above lists all two's complements for \(2^4\) (4 bit-word).
+Again, note that the complement goes both ways &#x2014; 1 is 15's two's complement
+and vice versa. The table above lists all two's complements for \(2^4\) (4
+bit-word).
 </p>
 
 <p>
-You may be wondering how to compute the complement. The obvious way is to use a word that is 1 extra bit wide (in the example above, <code>10000</code> is 5 bits wide), and then subtract the 4-bit number you have. Hence to compute the two's complement of <code>0111</code> (7), you can just do <code>10000</code> (16) minus <code>0111</code> (7), which is <code>1001</code> (9).
+You may be wondering how to compute the complement. The obvious way is to use a
+word that is 1 extra bit wide (in the example above, <code>10000</code> is 5 bits wide),
+and then subtract the 4-bit number you have. Hence to compute the two's
+complement of <code>0111</code> (7), you can just do <code>10000</code> (16) minus <code>0111</code> (7), which
+is <code>1001</code> (9).
 </p>
 
 <p>
-But hold on &#x2014; that's too easy right? So let's now consider the following constraint: what if the maximum word size of your CPU architecture is 4 bits? In this scenario you can no longer load a 5-bit word into a single CPU register because each register is only 4 bits wide. Annoying!
+But hold on &#x2014; that's too easy right? So let's now consider the following
+constraint: what if the maximum word size of your CPU architecture is 4 bits? In
+this scenario you can no longer load a 5-bit word into a single CPU register
+because each register is only 4 bits wide. Annoying!
 </p>
 
 <p>
-Is there a way to only use 4-bits to still compute the two's complement? Indeed there's a neat bitwise trick to do this, involving 2 steps:
+Is there a way to only use 4-bits to still compute the two's complement? Indeed
+there's a neat bitwise trick to do this, involving 2 steps:
 </p>
 
 <ol class="org-ol">
@@ -418,15 +434,27 @@ Is there a way to only use 4-bits to still compute the two's complement? Indeed 
 </ol>
 
 <p>
-In Python and C, the <code>~</code> (tilde) symbol is used to get the binary NOT value of a word. This just means flipping the bits so that they are the opposite of what they are in the original word. So the binary NOT of <code>0111</code> (7) is <code>1000</code> (8). So if we add 1 to it, we get 8 + 1 = 9, what we got using plain subtraction previously.
+In Python and C, the <code>~</code> (tilde) symbol is used to get the binary NOT value of a
+word. This just means flipping the bits so that they are the opposite of what
+they are in the original word. So the binary NOT of <code>0111</code> (7) is <code>1000</code> (8). So
+if we add 1 to it, we get 8 + 1 = 9, what we got using plain subtraction
+previously.
 </p>
 
 <p>
-You may now be wondering how the above trick even works. It's actually trivial, if we tweak the problem so that we want to get \(2^N - 1\) (one away from our answer) instead of \(2^N\) directly.
+You may now be wondering how the above trick even works. It's actually trivial,
+if we tweak the problem so that we want to get \(2^N - 1\) (one away from our
+answer) instead of \(2^N\) directly.
 </p>
 
 <p>
-For a 4-bit word, <code>0xf</code> (hex), or <code>1111</code> in binary is the value for \(2^4 - 1\). So now if you wanted to arrive at <code>1111</code> by adding two binary words together, at least one thing must be true &#x2014; <i>there must be no carries</i>. That is, wherever there is a 1 bit set in one word, the other word has to have a 0 set in the same bit index, and vice versa. The two words cannot step on each other's toes. This is exactly the property of the binary NOT operation &#x2014; it gives us 1-bits wherever there are 0-bits. Below is a table of examples.
+For a 4-bit word, <code>0xf</code> (hex), or <code>1111</code> in binary is the value for \(2^4 - 1\).
+So now if you wanted to arrive at <code>1111</code> by adding two binary words together, at
+least one thing must be true &#x2014; <i>there must be no carries</i>. That is, wherever
+there is a 1 bit set in one word, the other word has to have a 0 set in the same
+bit index, and vice versa. The two words cannot step on each other's toes. This
+is exactly the property of the binary NOT operation &#x2014; it gives us 1-bits
+wherever there are 0-bits. Below is a table of examples.
 </p>
 
 <table>
@@ -546,7 +574,8 @@ For a 4-bit word, <code>0xf</code> (hex), or <code>1111</code> in binary is the 
 </table>
 
 <p>
-And now all that remains to get the complement is just adding 1 to <code>NOT X</code> so that the total on the right is 16 instead of 15.
+And now all that remains to get the complement is just adding 1 to <code>NOT X</code> so
+that the total on the right is 16 instead of 15.
 </p>
 </div>
 
@@ -554,11 +583,17 @@ And now all that remains to get the complement is just adding 1 to <code>NOT X</
 <h3 id="h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system"><span class="section-number-3">2.1.</span> Using the two's complement to represent negative numbers (signed number system)</h3>
 <div class="outline-text-3" id="text-h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system">
 <p>
-In the discussion above, we only talked about unsigned numbers. That is, the decimal equivalent of the binary number assumes that this binary number is an unsigned (always positive) word.
+In the discussion above, we only talked about unsigned numbers. That is, the
+decimal equivalent of the binary number assumes that this binary number is an
+unsigned (always positive) word.
 </p>
 
 <p>
-We can use two's complement to represent negative numbers in a super convenient way: just make the leading high-order bit equal to \(-(2^(N - 1))\). So using the 4-bit words above, the leading bit, if on, represents \(-(2^(4 - 1)) = -2^3 = -8\). Then we treat all other bits as their regular "unsigned" part, and add these two pieces together to arrive at our final number.
+We can use two's complement to represent negative numbers in a super convenient
+way: just make the leading high-order bit equal to \(-(2^{N - 1})\). So using the
+4-bit words above, the leading bit, if on, represents \(-(2^{4 - 1}) = -2^3 =
+-8\). Then we treat all other bits as their regular "unsigned" part, and add
+these two pieces together to arrive at our final number.
 </p>
 
 <p>
@@ -663,7 +698,9 @@ Below are all possible values of <i>signed</i> 4-bit words.
 </table>
 
 <p>
-This is all well and good, but where/how should we use the two's complement? Technically speaking, we're already using two's complement in the table above, although it's implied. Let's make it explicit in the table below:
+This is all well and good, but where/how should we use the two's complement?
+Technically speaking, we're already using two's complement in the table above,
+although it's implied. Let's make it explicit in the table below:
 </p>
 
 <table>
@@ -783,7 +820,19 @@ This is all well and good, but where/how should we use the two's complement? Tec
 </table>
 
 <p>
-If we pretend we are using just unsigned values, the first two columns are the same as in <a href="#org0000000">1</a>. So if we add them together, we always get 16 (third column). The interesting thing to note is that the negative numbers are exactly that &#x2014; they are literally the two's complement of the original number, but with a negative sign in front. For example, the unsigned value \(4\) (<code>0100</code>) in the middle column above is represented as \(-4\) via its two's complement <code>1100</code> in the first column. Another way to say this is that for any number with a leading high-order bit turned on (as in number <code>1000</code> to <code>1111</code>), we will make the computer interpret it as a negative number, where the value of this negative number is its two's complement. So for <code>1100</code> (12), we know it's a negative number because of the leading high-order bit, and to find the value we get the two's complement (<code>0011</code> plus 1) <code>0100</code> (4). So the signed representation of <code>1100</code> is \(-4\).
+If we pretend we are using just unsigned values, the first two columns are the
+same as in <a href="#org0000000">1</a>. So if we add them together, we always get 16
+(third column). The interesting thing to note is that the negative numbers are
+exactly that &#x2014; they are literally the two's complement of the original number,
+but with a negative sign in front. For example, the unsigned value \(4\) (<code>0100</code>)
+in the middle column above is represented as \(-4\) via its two's complement
+<code>1100</code> in the first column. Another way to say this is that for any number with
+a leading high-order bit turned on (as in number <code>1000</code> to <code>1111</code>), we will make
+the computer interpret it as a negative number, where the value of this negative
+number is its two's complement. So for <code>1100</code> (12), we know it's a negative
+number because of the leading high-order bit, and to find the value we get the
+two's complement (<code>0011</code> plus 1) <code>0100</code> (4). So the signed representation of
+<code>1100</code> is \(-4\).
 </p>
 </div>
 
@@ -791,11 +840,15 @@ If we pretend we are using just unsigned values, the first two columns are the s
 <h4 id="h-Negating-a-positive-number--or-the--paper-folding--analogy"><span class="section-number-4">2.1.1.</span> Negating a positive number, or the "paper folding" analogy</h4>
 <div class="outline-text-4" id="text-h-Negating-a-positive-number--or-the--paper-folding--analogy">
 <p>
-In the example above we got some arbitrary word with the leading bit turned on, and tried to figure out its value. What if we already have a value, but just want to make it negative? That is, what if you want to flip the sign so that if you have positive \(x\), you would get \(-x\) (in binary)?
+In the example above we got some arbitrary word with the leading bit turned on,
+and tried to figure out its value. What if we already have a value, but just
+want to make it negative? That is, what if you want to flip the sign so that if
+you have positive \(x\), you would get \(-x\) (in binary)?
 </p>
 
 <p>
-For example, if you have 7 (<code>0111</code>), how would you find the binary representation of -7? You'd simply get the two's complement:
+For example, if you have 7 (<code>0111</code>), how would you find the binary
+representation of -7? You'd simply get the two's complement:
 </p>
 
 <ol class="org-ol">
@@ -804,15 +857,21 @@ For example, if you have 7 (<code>0111</code>), how would you find the binary re
 </ol>
 
 <p>
-As another example, how about 5 and -5? We have <code>0101</code> (5), and binary NOT of 5 is <code>1010</code> (-6), and we add 1 to get <code>1011</code> (-5). Looks like two's complement works here too!
+As another example, how about 5 and -5? We have <code>0101</code> (5), and binary NOT of 5
+is <code>1010</code> (-6), and we add 1 to get <code>1011</code> (-5). Looks like two's complement
+works here too!
 </p>
 
 <p>
-But now you may be wondering why this works the way it does. You may have also noticed some time earlier that while the positive numbers count up, the negative numbers count "backwards", down from -8 to -1 as we increment our binary representation. Let's see why.
+But now you may be wondering why this works the way it does. You may have also
+noticed some time earlier that while the positive numbers count up, the negative
+numbers count "backwards", down from -8 to -1 as we increment our binary
+representation. Let's see why.
 </p>
 
 <p>
-Imagine that the table below is a piece of paper, and that there is a horizontal crease between the rows for 7 and -8.
+Imagine that the table below is a piece of paper, and that there is a horizontal
+crease between the rows for 7 and -8.
 </p>
 
 <table>
@@ -898,7 +957,8 @@ Imagine that the table below is a piece of paper, and that there is a horizontal
 </table>
 
 <p>
-If you were to fold this piece of paper on this crease, the rows would overlap one another in pairs, like this:
+If you were to fold this piece of paper on this crease, the rows would overlap
+one another in pairs, like this:
 </p>
 
 <table>
@@ -948,7 +1008,10 @@ If you were to fold this piece of paper on this crease, the rows would overlap o
 </table>
 
 <p>
-and you'd notice that the pairs are just the positive number and binary NOT version of the same number (the negative number). For example, <code>0101</code> (5) is paired with <code>1010</code> (-6). In other words, all of the negative numbers are off by 1 &#x2014; so if we just add 1 to them (two's complement!), we get:
+and you'd notice that the pairs are just the positive number and binary NOT
+version of the same number (the negative number). For example, <code>0101</code> (5) is
+paired with <code>1010</code> (-6). In other words, all of the negative numbers are off by
+1 &#x2014; so if we just add 1 to them (two's complement!), we get:
 </p>
 
 <table>
@@ -1013,7 +1076,9 @@ and we managed to negate the original number into its negative version.
 </p>
 
 <p>
-Lastly, the two's complement operation is reversible, such that you can use the same method to get the positive version of a negative number. So if you have \(-7\) (<code>1001</code>), the two's complement is <code>0110</code> (6) + 1 or <code>0111</code> (7).
+Lastly, the two's complement operation is reversible, such that you can use the
+same method to get the positive version of a negative number. So if you have
+\(-7\) (<code>1001</code>), the two's complement is <code>0110</code> (6) + 1 or <code>0111</code> (7).
 </p>
 </div>
 </div>
@@ -1023,11 +1088,26 @@ Lastly, the two's complement operation is reversible, such that you can use the 
 <h3 id="h-Other-notes"><span class="section-number-3">2.2.</span> Other notes</h3>
 <div class="outline-text-3" id="text-h-Other-notes">
 <p>
-This "paper folding" idea presented above is essentially the same idea for figuring out how to add 1 to 100 quickly where you take pairs of number from both ends &#x2014; e.g. 1 and 100 (sums to 101), 2 and 99 (sums to 101), etc. &#x2014; and multiply how many pairs you have. This is attributed to the story of Carl Frederich Gauss. The key to Gauss's formula, where you take pairs of numbers that all add up to the same number (101), is strikingly similar to two's complement where all of these complementary pairs add up to the same \(2^N\) number.
+This "paper folding" idea presented above is essentially the same idea for
+figuring out how to add 1 to 100 quickly where you take pairs of number from
+both ends &#x2014; e.g. 1 and 100 (sums to 101), 2 and 99 (sums to 101), etc. &#x2014; and
+multiply how many pairs you have. This is attributed to the story of Carl
+Frederich Gauss. The key to Gauss's formula, where you take pairs of numbers
+that all add up to the same number (101), is strikingly similar to two's
+complement where all of these complementary pairs add up to the same \(2^N\)
+number.
 </p>
 
 <p>
-You may have noticed that some of the examples above spill over to 5 bits, because of our desire to stay as true to the mathematical notion of <i>complement</i> as possible. For the computer, when we spill over to using 5 bits, the high-order (leftmost) gets discarded. So for example the 2's complement of 0 for a 4-bit word (<code>0000</code>) is <code>10000</code> (16), but this just reduced back down to <code>0000</code> because the leading bit is necessarily discarded as the word only allows for 4 bits. For this discussion though, it doesn't matter because we only care about taking the two's complement when we want to represent negative numbers, and for 0 there is no need to get the negative of this number.
+You may have noticed that some of the examples above spill over to 5 bits,
+because of our desire to stay as true to the mathematical notion of <i>complement</i>
+as possible. For the computer, when we spill over to using 5 bits, the
+high-order (leftmost) gets discarded. So for example the 2's complement of 0 for
+a 4-bit word (<code>0000</code>) is <code>10000</code> (16), but this just reduced back down to <code>0000</code>
+because the leading bit is necessarily discarded as the word only allows for 4
+bits. For this discussion though, it doesn't matter because we only care about
+taking the two's complement when we want to represent negative numbers, and for
+0 there is no need to get the negative of this number.
 </p>
 </div>
 </div>
