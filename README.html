@@ -454,11 +454,15 @@ define run_emacs
         <span class="org-variable-name">--eval</span>=<span class="org-string">"$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">)"</span>
 endef
 <span class="org-variable-name">src</span> = $(<span class="org-variable-name">shell</span> find problem/ -type f -name <span class="org-string">'*.org'</span>)
-<span class="org-variable-name">woven_html</span> = $(<span class="org-variable-name">patsubst</span> problem/%.org, problem/%.html, $(<span class="org-variable-name">src</span>))
+<span class="org-variable-name">src_appendix</span> = $(<span class="org-variable-name">shell</span> find appendix/ -type f -name <span class="org-string">'*.org'</span>)
+<span class="org-variable-name">woven_html</span> = $(<span class="org-variable-name">patsubst</span> problem/%.org, problem/%.html, $(<span class="org-variable-name">src</span>)) \
+    $(<span class="org-variable-name">patsubst</span> appendix/%.org, appendix/%.html, $(<span class="org-variable-name">src_appendix</span>))
 <span class="org-comment-delimiter"># </span><span class="org-comment">problem/foo problem/bar ...</span>
 <span class="org-variable-name">problem_dirs</span> = $(<span class="org-variable-name">shell</span> find problem -maxdepth 1 -type d | sort | tail -n+2)
+<span class="org-variable-name">appendix_dirs</span> = $(<span class="org-variable-name">shell</span> find appendix -maxdepth 1 -type d | sort | tail -n+2)
 <span class="org-comment-delimiter"># </span><span class="org-comment">foo bar ...</span>
 <span class="org-variable-name">problem_dirs_without_prefix</span> = $(<span class="org-variable-name">subst</span> problem/,,$(<span class="org-variable-name">problem_dirs</span>))
+<span class="org-variable-name">appendix_dirs_without_prefix</span> = $(<span class="org-variable-name">subst</span> appendix/,,$(<span class="org-variable-name">appendix_dirs</span>))
 
 define weave_org
 
@@ -492,10 +496,15 @@ endef
     <span class="org-string">'.csl-right-inline{margin: 0 0 0 2em;}&lt;\/style&gt;/'</span> README.html
     sed -i <span class="org-string">'s|&lt;h2&gt;Table of Contents&lt;/h2&gt;||'</span> README.html
 
-$(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),\
+$(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">appendix_dirs_without_prefix</span>),\
     $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> weave_org,\
-    problem/$(<span class="org-variable-name">p</span>)/README.html,\
-    problem/$(<span class="org-variable-name">p</span>)/README.org)))
+    appendix/$(<span class="org-variable-name">d</span>)/README.html,\
+    appendix/$(<span class="org-variable-name">d</span>)/README.org)))
+
+$(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),\
+    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> weave_org,\
+    problem/$(<span class="org-variable-name">d</span>)/README.html,\
+    problem/$(<span class="org-variable-name">d</span>)/README.org)))
 
 <span class="org-makefile-targets">check</span>: lint test
 <span class="org-makefile-targets">.PHONY</span>: check
@@ -594,6 +603,8 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 
 <span class="org-variable-name">build_literate_org_output</span> = .gitattributes .gitignore Makefile shell.nix
 <span class="org-variable-name">all_tangled_sources</span> = citations.bib $(<span class="org-variable-name">build_literate_org_output</span>)\
+    appendix/python_tricks/__init__.py \
+    appendix/python_tricks/test_python_tricks.py \
     $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),\
         problem/$(<span class="org-variable-name">p</span>)/__init__.py problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py)
 
@@ -602,6 +613,9 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 
 <span class="org-makefile-targets">citations.bib</span>: README.org
     $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),README.org)
+
+<span class="org-makefile-targets">appendix/python_tricks/test_python_tricks.py</span>: appendix/python_tricks/README.org
+    $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),appendix/python_tricks/README.org)
 
 define tangle_tests
 

@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2023-05-17 Wed 18:09 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Python tricks</title>
 <meta name="author" content="Linus Arver" />
@@ -193,115 +190,139 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/>
-<link rel="stylesheet" type="text/css" href="../../style.css" />
+<link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+<link rel="stylesheet" type="text/css" href="lilac.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&family=Source+Code+Pro">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="../../misc.js"></script>
+<script src="lilac.js"></script>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Python tricks</h1>
 <div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
+
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5a2526b">1. Introduction</a></li>
-<li><a href="#orgcb16474">2. Tricks</a>
+<li><a href="#h-Introduction">1. Introduction</a></li>
+<li><a href="#h-Tricks">2. Tricks</a>
 <ul>
-<li><a href="#org6275e25">2.1. Python built-ins</a>
+<li><a href="#h-Python-built-ins">2.1. Python built-ins</a>
 <ul>
-<li><a href="#orgca4b148">2.1.1. Numbers</a>
+<li><a href="#h-Numbers">2.1.1. Numbers</a>
 <ul>
-<li><a href="#org640e1df">2.1.1.1. <code>abs(x)</code></a></li>
-<li><a href="#org93e9bc7">2.1.1.2. <code>bin(x)</code></a></li>
-<li><a href="#org12c58de">2.1.1.3. <code>divmod(x, y)</code></a></li>
-<li><a href="#orgec2c1ca">2.1.1.4. <code>pow(base, exp, mod=None)</code></a></li>
-<li><a href="#org5b2b3eb">2.1.1.5. <code>round(number, ndigits=None)</code></a></li>
+<li><a href="#h-abs-x-">2.1.1.1. <code>abs(x)</code></a></li>
+<li><a href="#h-bin-x-">2.1.1.2. <code>bin(x)</code></a></li>
+<li><a href="#h-divmod-x--y-">2.1.1.3. <code>divmod(x, y)</code></a></li>
+<li><a href="#h-pow-base--exp--mod-None-">2.1.1.4. <code>pow(base, exp, mod=None)</code></a></li>
+<li><a href="#h-round-number--ndigits-None-">2.1.1.5. <code>round(number, ndigits=None)</code></a></li>
 </ul>
 </li>
-<li><a href="#orga9f4e50">2.1.2. Strings</a>
+<li><a href="#h-Strings">2.1.2. Strings</a>
 <ul>
-<li><a href="#orgb4c3cd9">2.1.2.1. <code>chr(i)</code></a></li>
-<li><a href="#org9556bd0">2.1.2.2. <code>ord(c)</code></a></li>
-<li><a href="#org445262f">2.1.2.3. <code>repr(x)</code></a></li>
-<li><a href="#orge9d164c">2.1.2.4. <code>str(x)</code></a></li>
+<li><a href="#h-chr-i-">2.1.2.1. <code>chr(i)</code></a></li>
+<li><a href="#h-ord-c-">2.1.2.2. <code>ord(c)</code></a></li>
+<li><a href="#h-repr-x-">2.1.2.3. <code>repr(x)</code></a></li>
+<li><a href="#h-str-x-">2.1.2.4. <code>str(x)</code></a></li>
 </ul>
 </li>
-<li><a href="#orgb961433">2.1.3. Iterables and sequences</a>
+<li><a href="#h-Iterables-and-sequences">2.1.3. Iterables and sequences</a>
 <ul>
-<li><a href="#org58e5edb">2.1.3.1. <code>all(iterable)</code></a></li>
-<li><a href="#orgf14325d">2.1.3.2. <code>any(iterable)</code></a></li>
-<li><a href="#org4ef27eb">2.1.3.3. <code>enumerate(iterable, start=0)</code></a></li>
-<li><a href="#org7195972">2.1.3.4. <code>filter(function, iterable)</code></a></li>
-<li><a href="#orgdcc8b40">2.1.3.5. <code>len(sequence)</code></a></li>
-<li><a href="#orgcf171eb">2.1.3.6. <code>map(function, iterable, *iterables)</code></a></li>
-<li><a href="#orge3c11c0">2.1.3.7. <code>max()</code></a></li>
-<li><a href="#org5e3a0f0">2.1.3.8. <code>min()</code></a></li>
-<li><a href="#orga3b6691">2.1.3.9. <code>next(iterator, default)</code></a></li>
-<li><a href="#org348c134">2.1.3.10. <code>range(start, stop, step=1)</code></a></li>
-<li><a href="#org1729f80">2.1.3.11. <code>reversed(seq)</code></a></li>
-<li><a href="#org78e9dec">2.1.3.12. <code>set(iterable)</code></a></li>
-<li><a href="#org647bd07">2.1.3.13. <code>sorted(iterable, /, *, key=None, reverse=False)</code></a></li>
-<li><a href="#orgf82bc93">2.1.3.14. <code>sum(iterable, /, start=0)</code></a></li>
-<li><a href="#org9dad3b6">2.1.3.15. <code>zip(*iterables, strict=False)</code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org00f5839">2.2. Pythonisms</a>
-<ul>
-<li><a href="#orgf88be61">2.2.1. Slice syntax (FIXME)</a></li>
-</ul>
-</li>
-<li><a href="#orgdcd0c64">2.3. Array traversal</a>
-<ul>
-<li><a href="#org70d7edb">2.3.1. Burn the candle at both ends</a></li>
+<li><a href="#h-all-iterable-">2.1.3.1. <code>all(iterable)</code></a></li>
+<li><a href="#h-any-iterable-">2.1.3.2. <code>any(iterable)</code></a></li>
+<li><a href="#h-enumerate-iterable--start-0-">2.1.3.3. <code>enumerate(iterable, start=0)</code></a></li>
+<li><a href="#h-filter-function--iterable-">2.1.3.4. <code>filter(function, iterable)</code></a></li>
+<li><a href="#h-len-sequence-">2.1.3.5. <code>len(sequence)</code></a></li>
+<li><a href="#h-map-function--iterable---iterables-">2.1.3.6. <code>map(function, iterable, *iterables)</code></a></li>
+<li><a href="#h-max--">2.1.3.7. <code>max()</code></a></li>
+<li><a href="#h-min--">2.1.3.8. <code>min()</code></a></li>
+<li><a href="#h-next-iterator--default-">2.1.3.9. <code>next(iterator, default)</code></a></li>
+<li><a href="#h-range-start--stop--step-1-">2.1.3.10. <code>range(start, stop, step=1)</code></a></li>
+<li><a href="#h-reversed-seq-">2.1.3.11. <code>reversed(seq)</code></a></li>
+<li><a href="#h-set-iterable-">2.1.3.12. <code>set(iterable)</code></a></li>
+<li><a href="#h-sorted-iterable--------key-None--reverse-False-">2.1.3.13. <code>sorted(iterable, /, *, key=None, reverse=False)</code></a></li>
+<li><a href="#h-sum-iterable-----start-0-">2.1.3.14. <code>sum(iterable, /, start=0)</code></a></li>
+<li><a href="#h-zip--iterables--strict-False-">2.1.3.15. <code>zip(*iterables, strict=False)</code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orge92c587">3. Tests</a></li>
+<li><a href="#h-Pythonisms">2.2. Pythonisms</a>
+<ul>
+<li><a href="#h-Slice-syntax--FIXME">2.2.1. Slice syntax (FIXME)</a></li>
+</ul>
+</li>
+<li><a href="#h-Array-traversal">2.3. Array traversal</a>
+<ul>
+<li><a href="#h-Burn-the-candle-at-both-ends">2.3.1. Burn the candle at both ends</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#h-Tests">3. Tests</a></li>
+<li><a href="#h-References">4. References</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org5a2526b" class="outline-2">
-<h2 id="org5a2526b"><span class="section-number-2">1.</span> Introduction</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-h-Introduction" class="outline-2">
+<h2 id="h-Introduction"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-h-Introduction">
 <p>
 This section lists useful Python tricks that may not be obvious to the average Python user.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgcb16474" class="outline-2">
-<h2 id="orgcb16474"><span class="section-number-2">2.</span> Tricks</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-h-Tricks" class="outline-2">
+<h2 id="h-Tricks"><span class="section-number-2">2.</span> Tricks</h2>
+<div class="outline-text-2" id="text-h-Tricks">
 </div>
-<div id="outline-container-org6275e25" class="outline-3">
-<h3 id="org6275e25"><span class="section-number-3">2.1.</span> Python built-ins</h3>
-<div class="outline-text-3" id="text-2-1">
+
+<div id="outline-container-h-Python-built-ins" class="outline-3">
+<h3 id="h-Python-built-ins"><span class="section-number-3">2.1.</span> Python built-ins</h3>
+<div class="outline-text-3" id="text-h-Python-built-ins">
 <p>
 There are some Python builtin functions that are useful to know about.
 </p>
 </div>
 
-<div id="outline-container-orgca4b148" class="outline-4">
-<h4 id="orgca4b148"><span class="section-number-4">2.1.1.</span> Numbers</h4>
-<div class="outline-text-4" id="text-2-1-1">
+<div id="outline-container-h-Numbers" class="outline-4">
+<h4 id="h-Numbers"><span class="section-number-4">2.1.1.</span> Numbers</h4>
+<div class="outline-text-4" id="text-h-Numbers">
 </div>
-<div id="outline-container-org640e1df" class="outline-5">
-<h5 id="org640e1df"><span class="section-number-5">2.1.1.1.</span> <code>abs(x)</code></h5>
-<div class="outline-text-5" id="text-2-1-1-1">
+
+<div id="outline-container-h-abs-x-" class="outline-5">
+<h5 id="h-abs-x-"><span class="section-number-5">2.1.1.1.</span> <code>abs(x)</code></h5>
+<div class="outline-text-5" id="text-h-abs-x-">
 <p>
 Returns absolute value of a number <code>x</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org93e9bc7" class="outline-5">
-<h5 id="org93e9bc7"><span class="section-number-5">2.1.1.2.</span> <code>bin(x)</code></h5>
-<div class="outline-text-5" id="text-2-1-1-2">
+<div id="outline-container-h-bin-x-" class="outline-5">
+<h5 id="h-bin-x-"><span class="section-number-5">2.1.1.2.</span> <code>bin(x)</code></h5>
+<div class="outline-text-5" id="text-h-bin-x-">
 <p>
 Convert an integer number to its binary representation as a string, prefixed with <code>0b</code>.
 </p>
@@ -311,16 +332,16 @@ The table below has some examples, including equivalent methods using <code>form
 </p>
 
 <p>
-FIXME: Make this table into a class where all cells below the header uses a monospaced font (so that we don&rsquo;t have to do the manual delineations with the equal sign).
+FIXME: Make this table into a class where all cells below the header uses a monospaced font (so that we don't have to do the manual delineations with the equal sign).
 </p>
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table>
 
 
 <colgroup>
-<col  class="org-left" />
+<col  class="org-left">
 
-<col  class="org-left" />
+<col  class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -372,56 +393,57 @@ The <code>bin(x)</code>, <code>oct(x)</code>, and <code>hex(x)</code> functions 
 </div>
 </div>
 
-<div id="outline-container-org12c58de" class="outline-5">
-<h5 id="org12c58de"><span class="section-number-5">2.1.1.3.</span> <code>divmod(x, y)</code></h5>
-<div class="outline-text-5" id="text-2-1-1-3">
+<div id="outline-container-h-divmod-x--y-" class="outline-5">
+<h5 id="h-divmod-x--y-"><span class="section-number-5">2.1.1.3.</span> <code>divmod(x, y)</code></h5>
+<div class="outline-text-5" id="text-h-divmod-x--y-">
 <p>
 Returns a tuple of the reslult of integer division of <code>x</code> by <code>y</code> and remainder. Equivalent to <code>(x // y, x % y)</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgec2c1ca" class="outline-5">
-<h5 id="orgec2c1ca"><span class="section-number-5">2.1.1.4.</span> <code>pow(base, exp, mod=None)</code></h5>
-<div class="outline-text-5" id="text-2-1-1-4">
+<div id="outline-container-h-pow-base--exp--mod-None-" class="outline-5">
+<h5 id="h-pow-base--exp--mod-None-"><span class="section-number-5">2.1.1.4.</span> <code>pow(base, exp, mod=None)</code></h5>
+<div class="outline-text-5" id="text-h-pow-base--exp--mod-None-">
 <p>
 Raise a number <code>base</code> to the exponent <code>exp</code>. The form <code>3**4</code> is shorthand for <code>pow(3, 4)</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5b2b3eb" class="outline-5">
-<h5 id="org5b2b3eb"><span class="section-number-5">2.1.1.5.</span> <code>round(number, ndigits=None)</code></h5>
-<div class="outline-text-5" id="text-2-1-1-5">
+<div id="outline-container-h-round-number--ndigits-None-" class="outline-5">
+<h5 id="h-round-number--ndigits-None-"><span class="section-number-5">2.1.1.5.</span> <code>round(number, ndigits=None)</code></h5>
+<div class="outline-text-5" id="text-h-round-number--ndigits-None-">
 <p>
-From Python 3.11.3 docs: &ldquo;Return number rounded to ndigits precision after the decimal point. If ndigits is omitted or is None, it returns the nearest integer to its input.&rdquo;
+From Python 3.11.3 docs: "Return number rounded to ndigits precision after the decimal point. If ndigits is omitted or is None, it returns the nearest integer to its input."
 </p>
 
 <p>
-This function doesn&rsquo;t see much use in programming problems because rounding itself is an imprecise operation resulting in the loss of data, and typically loss of data is never a good thing to do.
+This function doesn't see much use in programming problems because rounding itself is an imprecise operation resulting in the loss of data, and typically loss of data is never a good thing to do.
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga9f4e50" class="outline-4">
-<h4 id="orga9f4e50"><span class="section-number-4">2.1.2.</span> Strings</h4>
-<div class="outline-text-4" id="text-2-1-2">
+<div id="outline-container-h-Strings" class="outline-4">
+<h4 id="h-Strings"><span class="section-number-4">2.1.2.</span> Strings</h4>
+<div class="outline-text-4" id="text-h-Strings">
 </div>
-<div id="outline-container-orgb4c3cd9" class="outline-5">
-<h5 id="orgb4c3cd9"><span class="section-number-5">2.1.2.1.</span> <code>chr(i)</code></h5>
-<div class="outline-text-5" id="text-2-1-2-1">
+
+<div id="outline-container-h-chr-i-" class="outline-5">
+<h5 id="h-chr-i-"><span class="section-number-5">2.1.2.1.</span> <code>chr(i)</code></h5>
+<div class="outline-text-5" id="text-h-chr-i-">
 <p>
 Inverse of <code>ord()</code>.
 </p>
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table>
 
 
 <colgroup>
-<col  class="org-left" />
+<col  class="org-left">
 
-<col  class="org-left" />
+<col  class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -444,20 +466,20 @@ Inverse of <code>ord()</code>.
 </div>
 </div>
 
-<div id="outline-container-org9556bd0" class="outline-5">
-<h5 id="org9556bd0"><span class="section-number-5">2.1.2.2.</span> <code>ord(c)</code></h5>
-<div class="outline-text-5" id="text-2-1-2-2">
+<div id="outline-container-h-ord-c-" class="outline-5">
+<h5 id="h-ord-c-"><span class="section-number-5">2.1.2.2.</span> <code>ord(c)</code></h5>
+<div class="outline-text-5" id="text-h-ord-c-">
 <p>
 Inverse of <code>chr()</code>.
 </p>
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table>
 
 
 <colgroup>
-<col  class="org-left" />
+<col  class="org-left">
 
-<col  class="org-left" />
+<col  class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -480,22 +502,22 @@ Inverse of <code>chr()</code>.
 </div>
 </div>
 
-<div id="outline-container-org445262f" class="outline-5">
-<h5 id="org445262f"><span class="section-number-5">2.1.2.3.</span> <code>repr(x)</code></h5>
-<div class="outline-text-5" id="text-2-1-2-3">
+<div id="outline-container-h-repr-x-" class="outline-5">
+<h5 id="h-repr-x-"><span class="section-number-5">2.1.2.3.</span> <code>repr(x)</code></h5>
+<div class="outline-text-5" id="text-h-repr-x-">
 <p>
 Return a <code>str</code> version of an object, where the goal is to make it so that entering this verbatim back into Python will result in the same (original) value.
 </p>
 
 <p>
-As a memory aid, think of <code>repr</code> as related to REPLs, because typing the result of <code>repr()</code> into Python&rsquo;s REPL (or passing it into <code>eval()</code>) should just work.
+As a memory aid, think of <code>repr</code> as related to REPLs, because typing the result of <code>repr()</code> into Python's REPL (or passing it into <code>eval()</code>) should just work.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orge9d164c" class="outline-5">
-<h5 id="orge9d164c"><span class="section-number-5">2.1.2.4.</span> <code>str(x)</code></h5>
-<div class="outline-text-5" id="text-2-1-2-4">
+<div id="outline-container-h-str-x-" class="outline-5">
+<h5 id="h-str-x-"><span class="section-number-5">2.1.2.4.</span> <code>str(x)</code></h5>
+<div class="outline-text-5" id="text-h-str-x-">
 <p>
 Return a <code>str</code> version of an object, where the goal is to be human-readable (read: open to being machine-unfriendly).
 </p>
@@ -507,60 +529,61 @@ Not often used in practice because of format strings.
 </div>
 </div>
 
-<div id="outline-container-orgb961433" class="outline-4">
-<h4 id="orgb961433"><span class="section-number-4">2.1.3.</span> Iterables and sequences</h4>
-<div class="outline-text-4" id="text-2-1-3">
+<div id="outline-container-h-Iterables-and-sequences" class="outline-4">
+<h4 id="h-Iterables-and-sequences"><span class="section-number-4">2.1.3.</span> Iterables and sequences</h4>
+<div class="outline-text-4" id="text-h-Iterables-and-sequences">
 </div>
-<div id="outline-container-org58e5edb" class="outline-5">
-<h5 id="org58e5edb"><span class="section-number-5">2.1.3.1.</span> <code>all(iterable)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-1">
+
+<div id="outline-container-h-all-iterable-" class="outline-5">
+<h5 id="h-all-iterable-"><span class="section-number-5">2.1.3.1.</span> <code>all(iterable)</code></h5>
+<div class="outline-text-5" id="text-h-all-iterable-">
 <p>
 Returns <code>True</code> if no element is <code>False</code> (returns <code>True</code> if no elements).
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf14325d" class="outline-5">
-<h5 id="orgf14325d"><span class="section-number-5">2.1.3.2.</span> <code>any(iterable)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-2">
+<div id="outline-container-h-any-iterable-" class="outline-5">
+<h5 id="h-any-iterable-"><span class="section-number-5">2.1.3.2.</span> <code>any(iterable)</code></h5>
+<div class="outline-text-5" id="text-h-any-iterable-">
 <p>
 Returns <code>False</code> if no element is <code>True</code> (returns <code>False</code> if no elements).
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4ef27eb" class="outline-5">
-<h5 id="org4ef27eb"><span class="section-number-5">2.1.3.3.</span> <code>enumerate(iterable, start=0)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-3">
+<div id="outline-container-h-enumerate-iterable--start-0-" class="outline-5">
+<h5 id="h-enumerate-iterable--start-0-"><span class="section-number-5">2.1.3.3.</span> <code>enumerate(iterable, start=0)</code></h5>
+<div class="outline-text-5" id="text-h-enumerate-iterable--start-0-">
 <p>
 Returns an iterable of tuples, where the first element is the index (starting from 0) and the second element is the element in the <code>iterable</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org7195972" class="outline-5">
-<h5 id="org7195972"><span class="section-number-5">2.1.3.4.</span> <code>filter(function, iterable)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-4">
+<div id="outline-container-h-filter-function--iterable-" class="outline-5">
+<h5 id="h-filter-function--iterable-"><span class="section-number-5">2.1.3.4.</span> <code>filter(function, iterable)</code></h5>
+<div class="outline-text-5" id="text-h-filter-function--iterable-">
 <p>
 Removes elements in the given <code>iterable</code> with the given <code>function</code>, if those elements do not return <code>True</code> when passed into the <code>function</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgdcc8b40" class="outline-5">
-<h5 id="orgdcc8b40"><span class="section-number-5">2.1.3.5.</span> <code>len(sequence)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-5">
+<div id="outline-container-h-len-sequence-" class="outline-5">
+<h5 id="h-len-sequence-"><span class="section-number-5">2.1.3.5.</span> <code>len(sequence)</code></h5>
+<div class="outline-text-5" id="text-h-len-sequence-">
 <p>
 Returns the length of the sequence.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgcf171eb" class="outline-5">
-<h5 id="orgcf171eb"><span class="section-number-5">2.1.3.6.</span> <code>map(function, iterable, *iterables)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-6">
+<div id="outline-container-h-map-function--iterable---iterables-" class="outline-5">
+<h5 id="h-map-function--iterable---iterables-"><span class="section-number-5">2.1.3.6.</span> <code>map(function, iterable, *iterables)</code></h5>
+<div class="outline-text-5" id="text-h-map-function--iterable---iterables-">
 <p>
-From Python 3.11.3 docs: &ldquo;Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted.&rdquo;
+From Python 3.11.3 docs: "Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted."
 </p>
 
 <p>
@@ -569,83 +592,83 @@ This is somewhat similar to <code>zip</code> in Haskell, except that a function 
 </div>
 </div>
 
-<div id="outline-container-orge3c11c0" class="outline-5">
-<h5 id="orge3c11c0"><span class="section-number-5">2.1.3.7.</span> <code>max()</code></h5>
-<div class="outline-text-5" id="text-2-1-3-7">
+<div id="outline-container-h-max--" class="outline-5">
+<h5 id="h-max--"><span class="section-number-5">2.1.3.7.</span> <code>max()</code></h5>
+<div class="outline-text-5" id="text-h-max--">
 <p>
 Return the largest element of the sequence, or the larger of 2 elements.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5e3a0f0" class="outline-5">
-<h5 id="org5e3a0f0"><span class="section-number-5">2.1.3.8.</span> <code>min()</code></h5>
-<div class="outline-text-5" id="text-2-1-3-8">
+<div id="outline-container-h-min--" class="outline-5">
+<h5 id="h-min--"><span class="section-number-5">2.1.3.8.</span> <code>min()</code></h5>
+<div class="outline-text-5" id="text-h-min--">
 <p>
 Return the smallest element of the sequence, or the smaller of 2 elements.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga3b6691" class="outline-5">
-<h5 id="orga3b6691"><span class="section-number-5">2.1.3.9.</span> <code>next(iterator, default)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-9">
+<div id="outline-container-h-next-iterator--default-" class="outline-5">
+<h5 id="h-next-iterator--default-"><span class="section-number-5">2.1.3.9.</span> <code>next(iterator, default)</code></h5>
+<div class="outline-text-5" id="text-h-next-iterator--default-">
 <p>
-From Python 3.11.3 docs: &ldquo;Retrieve the next item from the iterator by calling its _<sub>next</sub>_<sub>()</sub> method. If default is given, it is returned if the iterator is exhausted, otherwise StopIteration is raised.&rdquo;
+From Python 3.11.3 docs: "Retrieve the next item from the iterator by calling its _<sub>next</sub>_<sub>()</sub> method. If default is given, it is returned if the iterator is exhausted, otherwise StopIteration is raised."
 </p>
 </div>
 </div>
 
-<div id="outline-container-org348c134" class="outline-5">
-<h5 id="org348c134"><span class="section-number-5">2.1.3.10.</span> <code>range(start, stop, step=1)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-10">
+<div id="outline-container-h-range-start--stop--step-1-" class="outline-5">
+<h5 id="h-range-start--stop--step-1-"><span class="section-number-5">2.1.3.10.</span> <code>range(start, stop, step=1)</code></h5>
+<div class="outline-text-5" id="text-h-range-start--stop--step-1-">
 <p>
 The Python docs say that <code>range()</code> is not a function, but an immutable sequence. While this is correct, for 99.99% of cases it is used as a function.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1729f80" class="outline-5">
-<h5 id="org1729f80"><span class="section-number-5">2.1.3.11.</span> <code>reversed(seq)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-11">
+<div id="outline-container-h-reversed-seq-" class="outline-5">
+<h5 id="h-reversed-seq-"><span class="section-number-5">2.1.3.11.</span> <code>reversed(seq)</code></h5>
+<div class="outline-text-5" id="text-h-reversed-seq-">
 <p>
 Return given sequence <code>seq</code> in opposite (reversed) order. The returned object is an iterator.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org78e9dec" class="outline-5">
-<h5 id="org78e9dec"><span class="section-number-5">2.1.3.12.</span> <code>set(iterable)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-12">
+<div id="outline-container-h-set-iterable-" class="outline-5">
+<h5 id="h-set-iterable-"><span class="section-number-5">2.1.3.12.</span> <code>set(iterable)</code></h5>
+<div class="outline-text-5" id="text-h-set-iterable-">
 <p>
 Convert given <code>iterable</code> into a set.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org647bd07" class="outline-5">
-<h5 id="org647bd07"><span class="section-number-5">2.1.3.13.</span> <code>sorted(iterable, /, *, key=None, reverse=False)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-13">
+<div id="outline-container-h-sorted-iterable--------key-None--reverse-False-" class="outline-5">
+<h5 id="h-sorted-iterable--------key-None--reverse-False-"><span class="section-number-5">2.1.3.13.</span> <code>sorted(iterable, /, *, key=None, reverse=False)</code></h5>
+<div class="outline-text-5" id="text-h-sorted-iterable--------key-None--reverse-False-">
 <p>
 Return a new sorted list from the items in iterable.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf82bc93" class="outline-5">
-<h5 id="orgf82bc93"><span class="section-number-5">2.1.3.14.</span> <code>sum(iterable, /, start=0)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-14">
+<div id="outline-container-h-sum-iterable-----start-0-" class="outline-5">
+<h5 id="h-sum-iterable-----start-0-"><span class="section-number-5">2.1.3.14.</span> <code>sum(iterable, /, start=0)</code></h5>
+<div class="outline-text-5" id="text-h-sum-iterable-----start-0-">
 <p>
 Return the total of all elements in the iterable.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org9dad3b6" class="outline-5">
-<h5 id="org9dad3b6"><span class="section-number-5">2.1.3.15.</span> <code>zip(*iterables, strict=False)</code></h5>
-<div class="outline-text-5" id="text-2-1-3-15">
+<div id="outline-container-h-zip--iterables--strict-False-" class="outline-5">
+<h5 id="h-zip--iterables--strict-False-"><span class="section-number-5">2.1.3.15.</span> <code>zip(*iterables, strict=False)</code></h5>
+<div class="outline-text-5" id="text-h-zip--iterables--strict-False-">
 <p>
-From Python 3.11.3 docs: &ldquo;Iterate over several iterables in parallel, producing tuples with an item from each one.&rdquo;
+From Python 3.11.3 docs: "Iterate over several iterables in parallel, producing tuples with an item from each one."
 </p>
 
 <p>
@@ -656,13 +679,14 @@ If you want to write <code>zip(range(3), ['a', 'b', 'c'])</code>, instead write 
 </div>
 </div>
 
-<div id="outline-container-org00f5839" class="outline-3">
-<h3 id="org00f5839"><span class="section-number-3">2.2.</span> Pythonisms</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-h-Pythonisms" class="outline-3">
+<h3 id="h-Pythonisms"><span class="section-number-3">2.2.</span> Pythonisms</h3>
+<div class="outline-text-3" id="text-h-Pythonisms">
 </div>
-<div id="outline-container-orgf88be61" class="outline-4">
-<h4 id="orgf88be61"><span class="section-number-4">2.2.1.</span> Slice syntax (FIXME)</h4>
-<div class="outline-text-4" id="text-2-2-1">
+
+<div id="outline-container-h-Slice-syntax--FIXME" class="outline-4">
+<h4 id="h-Slice-syntax--FIXME"><span class="section-number-4">2.2.1.</span> Slice syntax (FIXME)</h4>
+<div class="outline-text-4" id="text-h-Slice-syntax--FIXME">
 <p>
 Negative indices are allowed.
 </p>
@@ -674,52 +698,53 @@ See <a href="https://docs.python.org/3/tutorial/introduction.html#strings">https
 </div>
 </div>
 
-<div id="outline-container-orgdcd0c64" class="outline-3">
-<h3 id="orgdcd0c64"><span class="section-number-3">2.3.</span> Array traversal</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-h-Array-traversal" class="outline-3">
+<h3 id="h-Array-traversal"><span class="section-number-3">2.3.</span> Array traversal</h3>
+<div class="outline-text-3" id="text-h-Array-traversal">
 </div>
-<div id="outline-container-org70d7edb" class="outline-4">
-<h4 id="org70d7edb"><span class="section-number-4">2.3.1.</span> Burn the candle at both ends</h4>
-<div class="outline-text-4" id="text-2-3-1">
+
+<div id="outline-container-h-Burn-the-candle-at-both-ends" class="outline-4">
+<h4 id="h-Burn-the-candle-at-both-ends"><span class="section-number-4">2.3.1.</span> Burn the candle at both ends</h4>
+<div class="outline-text-4" id="text-h-Burn-the-candle-at-both-ends">
 <p>
-When iterating through an array, you can use <code>~i</code> to get the value <code>-i - 1</code>. This is because <a href="file:///Users/l/prog/codex/appendix/mathematics/README.html#MissingReference">two&rsquo;s complement</a> states that <code>-i</code> is equal to <code>~i + 1</code>.
+When iterating through an array, you can use <code>~i</code> to get the value <code>-i - 1</code>. This is because <a href="file:///Users/l/prog/codex/appendix/mathematics/README.html">two's complement</a> states that <code>-i</code> is equal to <code>~i + 1</code>.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-python"><span style="color: #F0DFAF; font-weight: bold;">def</span> <span style="color: #93E0E3;">is_palindrome</span>(s: <span style="color: #DCDCDC; font-weight: bold;">str</span>) -&gt; <span style="color: #DCDCDC; font-weight: bold;">bool</span>:
-  <span style="color: #F0DFAF; font-weight: bold;">return</span> <span style="color: #DCDCDC; font-weight: bold;">all</span>(s[i] == s[~i] <span style="color: #F0DFAF; font-weight: bold;">for</span> i <span style="color: #F0DFAF; font-weight: bold;">in</span> <span style="color: #DCDCDC; font-weight: bold;">range</span>(<span style="color: #DCDCDC; font-weight: bold;">len</span>(s) // <span style="color: #DCDCDC; font-weight: bold;">2</span>))
-</pre>
-</div>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">tricks</a></span>(1/1) <span class="lilac-caption-link-symbol"><a href="#__NREF__tricks">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__tricks"><span class="org-keyword">def</span> <span class="org-function-name">is_palindrome</span>(s: <span class="org-builtin">str</span>) -&gt; <span class="org-builtin">bool</span>:
+  <span class="org-keyword">return</span> <span class="org-builtin">all</span>(s[i] == s[~i] <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(<span class="org-builtin">len</span>(s) // 2))
+</pre></div></div>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge92c587" class="outline-2">
-<h2 id="orge92c587"><span class="section-number-2">3.</span> Tests</h2>
-<div class="outline-text-2" id="text-3">
-<div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span>Tests</label><pre class="src src-python" id="org6f015d8"><span style="color: #F0DFAF; font-weight: bold;">import</span> unittest
+<div id="outline-container-h-Tests" class="outline-2">
+<h2 id="h-Tests"><span class="section-number-2">3.</span> Tests</h2>
+<div class="outline-text-2" id="text-h-Tests">
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Tests</label><span class="lilac-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">import</span> unittest
 
-<span style="color: #F0DFAF; font-weight: bold;">from</span> typing <span style="color: #F0DFAF; font-weight: bold;">import</span> Optional
+<span class="org-keyword">from</span> typing <span class="org-keyword">import</span> Optional
 
-__NREF__tricks
+<span class="lilac-child-link-from-parent"><a href="#__NREF__tricks">tricks</a></span>
 
-<span style="color: #F0DFAF; font-weight: bold;">class</span> <span style="color: #7CB8BB;">Test</span>(unittest.TestCase):
+<span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
 
-  <span style="color: #F0DFAF; font-weight: bold;">def</span> <span style="color: #93E0E3;">test_simple_cases</span>(<span style="color: #F0DFAF; font-weight: bold;">self</span>):
-    <span style="color: #F0DFAF; font-weight: bold;">pass</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
+    <span class="org-keyword">pass</span>
 
-<span style="color: #F0DFAF; font-weight: bold;">if</span> <span style="color: #DCDCDC; font-weight: bold;">__name__</span> == <span style="color: #CC9393;">"__main__"</span>:
-  unittest.main(<span style="color: #BFEBBF;">exit</span>=<span style="color: #BFEBBF;">False</span>)
-</pre>
+<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
+  unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+</pre></div></div>
+</div>
+</div>
+
+<div id="outline-container-h-References" class="outline-2">
+<h2 id="h-References"><span class="section-number-2">4.</span> References</h2>
+<div class="outline-text-2" id="text-h-References">
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
 </div>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Linus Arver</p>
-<p class="date">Created: 2023-05-17 Wed 18:09</p>
 </div>
 </body>
 </html>

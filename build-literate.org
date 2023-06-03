@@ -18,11 +18,15 @@ define run_emacs
 		--eval="$(1)"
 endef
 src = $(shell find problem/ -type f -name '*.org')
-woven_html = $(patsubst problem/%.org, problem/%.html, $(src))
+src_appendix = $(shell find appendix/ -type f -name '*.org')
+woven_html = $(patsubst problem/%.org, problem/%.html, $(src)) \
+	$(patsubst appendix/%.org, appendix/%.html, $(src_appendix))
 # problem/foo problem/bar ...
 problem_dirs = $(shell find problem -maxdepth 1 -type d | sort | tail -n+2)
+appendix_dirs = $(shell find appendix -maxdepth 1 -type d | sort | tail -n+2)
 # foo bar ...
 problem_dirs_without_prefix = $(subst problem/,,$(problem_dirs))
+appendix_dirs_without_prefix = $(subst appendix/,,$(appendix_dirs))
 
 define weave_org
 
@@ -56,10 +60,15 @@ README.html: build-literate.org README.org citations.bib
 	'.csl-right-inline{margin: 0 0 0 2em;}<\/style>/' README.html
 	sed -i 's|<h2>Table of Contents</h2>||' README.html
 
-$(foreach p,$(problem_dirs_without_prefix),\
+$(foreach d,$(appendix_dirs_without_prefix),\
 	$(eval $(call weave_org,\
-	problem/$(p)/README.html,\
-	problem/$(p)/README.org)))
+	appendix/$(d)/README.html,\
+	appendix/$(d)/README.org)))
+
+$(foreach d,$(problem_dirs_without_prefix),\
+	$(eval $(call weave_org,\
+	problem/$(d)/README.html,\
+	problem/$(d)/README.org)))
 
 check: lint test
 .PHONY: check
@@ -142,6 +151,8 @@ $(all_tangled_sources) tangle &: $(src)
 
 build_literate_org_output = .gitattributes .gitignore Makefile shell.nix
 all_tangled_sources = citations.bib $(build_literate_org_output)\
+	appendix/python_tricks/__init__.py \
+	appendix/python_tricks/test_python_tricks.py \
 	$(foreach p,$(problem_dirs_without_prefix),\
 		problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
 
@@ -150,6 +161,9 @@ $(build_literate_org_output) &: build-literate.org
 
 citations.bib: README.org
 	$(call run_emacs,(org-babel-tangle),README.org)
+
+appendix/python_tricks/test_python_tricks.py: appendix/python_tricks/README.org
+	$(call run_emacs,(org-babel-tangle),appendix/python_tricks/README.org)
 
 define tangle_tests
 
