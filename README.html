@@ -228,41 +228,62 @@
 
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#h-Copyright-notice">1. Copyright notice</a></li>
-<li><a href="#h-Introduction">2. Introduction</a></li>
-<li><a href="#h-Problems">3. Problems</a>
+<li><a href="#h-Introduction">1. Introduction</a>
 <ul>
-<li><a href="#h-Python-tricks">3.1. Python tricks</a></li>
-<li><a href="#h-Mathematics">3.2. Mathematics</a></li>
+<li><a href="#h-Copyright-notice">1.1. Copyright notice</a></li>
 </ul>
 </li>
-<li><a href="#h-Tests">4. Tests</a></li>
-<li><a href="#h-Literate-Programming-Build-System">5. Literate Programming Build System</a>
+<li><a href="#h-Problems">2. Problems</a>
 <ul>
-<li><a href="#h-Weaving--generating-the-docs">5.1. Weaving (generating the docs)</a>
-<ul>
-<li><a href="#h-Use--lilac-theme--file">5.1.1. Use <code>lilac.theme</code> file</a></li>
-<li><a href="#h-Ignore-woven-HTML-from--git-diff">5.1.2. Ignore woven HTML from <code>git diff</code></a>
-<ul>
-<li><a href="#h-git-add--p">5.1.2.1. <code>git add -p</code></a></li>
+<li><a href="#h-Python-tricks">2.1. Python tricks</a></li>
+<li><a href="#h-Mathematics">2.2. Mathematics</a></li>
 </ul>
 </li>
-<li><a href="#h-gitignore">5.1.3. gitignore</a></li>
+<li><a href="#h-Tests">3. Tests</a></li>
+<li><a href="#h-Literate-Programming-Build-System">4. Literate Programming Build System</a>
+<ul>
+<li><a href="#h-Weaving--generating-the-docs">4.1. Weaving (generating the docs)</a>
+<ul>
+<li><a href="#h-Use--lilac-theme--file">4.1.1. Use <code>lilac.theme</code> file</a></li>
+<li><a href="#h-Ignore-woven-HTML-from--git-diff">4.1.2. Ignore woven HTML from <code>git diff</code></a>
+<ul>
+<li><a href="#h-git-add--p">4.1.2.1. <code>git add -p</code></a></li>
 </ul>
 </li>
-<li><a href="#h-Tangling--generating-the-source-code">5.2. Tangling (generating the source code)</a></li>
-<li><a href="#h-Development-environment--Nix-shell">5.3. Development environment (Nix shell)</a></li>
-<li><a href="#h-Elisp">5.4. Elisp</a></li>
+<li><a href="#h-gitignore">4.1.3. gitignore</a></li>
 </ul>
 </li>
-<li><a href="#h-References">6. References</a></li>
+<li><a href="#h-Tangling--generating-the-source-code">4.2. Tangling (generating the source code)</a></li>
+<li><a href="#h-Development-environment--Nix-shell">4.3. Development environment (Nix shell)</a></li>
+<li><a href="#h-Elisp">4.4. Elisp</a></li>
+</ul>
+</li>
+<li><a href="#h-References">5. References</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-h-Copyright-notice" class="outline-2">
-<h2 id="h-Copyright-notice"><span class="section-number-2">1.</span> Copyright notice</h2>
-<div class="outline-text-2" id="text-h-Copyright-notice">
+<div id="outline-container-h-Introduction" class="outline-2">
+<h2 id="h-Introduction"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-h-Introduction">
+<p>
+This project aims to capture my notes for studying various programming problems
+(data structures and algorithms). Have a look at the problems in Section <a href="#h-Problems">2</a>.
+</p>
+
+<p>
+For those curious about how these notes were created, check out Section <a href="#h-Literate-Programming-Build-System">4</a>.
+</p>
+
+<p>
+As for why this project is named <i>Codex</i>, I just think it's a cool word that has
+the word "code" in it as a substring.
+</p>
+</div>
+
+<div id="outline-container-h-Copyright-notice" class="outline-3">
+<h3 id="h-Copyright-notice"><span class="section-number-3">1.1.</span> Copyright notice</h3>
+<div class="outline-text-3" id="text-h-Copyright-notice">
 <p>
 The <a href="COPYRIGHT">COPYRIGHT</a> file governs everything in this repository, including the
 generated HTML files. All source code listings are placed under the <a href="LICENSE">Apache
@@ -272,28 +293,10 @@ open-sourced.
 </p>
 </div>
 </div>
-
-<div id="outline-container-h-Introduction" class="outline-2">
-<h2 id="h-Introduction"><span class="section-number-2">2.</span> Introduction</h2>
-<div class="outline-text-2" id="text-h-Introduction">
-<p>
-This project aims to capture my notes for studying various programming problems
-(data structures and algorithms). Have a look at the problems in Section <a href="#h-Problems">3</a>.
-</p>
-
-<p>
-For those curious about how these notes were created, check out Section <a href="#h-Literate-Programming-Build-System">5</a>.
-</p>
-
-<p>
-As for why this project is named <i>Codex</i>, I just think it's a cool word that has
-the word "code" in it as a substring.
-</p>
-</div>
 </div>
 
 <div id="outline-container-h-Problems" class="outline-2">
-<h2 id="h-Problems"><span class="section-number-2">3.</span> Problems</h2>
+<h2 id="h-Problems"><span class="section-number-2">2.</span> Problems</h2>
 <div class="outline-text-2" id="text-h-Problems">
 <p>
 Every problem gets its own <code>README.org</code> file in its own subfolder. The solutions
@@ -365,7 +368,7 @@ description of each one, and references.
 </div>
 
 <div id="outline-container-h-Python-tricks" class="outline-3">
-<h3 id="h-Python-tricks"><span class="section-number-3">3.1.</span> Python tricks</h3>
+<h3 id="h-Python-tricks"><span class="section-number-3">2.1.</span> Python tricks</h3>
 <div class="outline-text-3" id="text-h-Python-tricks">
 <p>
 There are some <a href="appendix/python_tricks/README.html">Python-language-specific tricks</a> available for programming
@@ -375,7 +378,7 @@ problems. You might want to skim over this if your Python skills are rusty.
 </div>
 
 <div id="outline-container-h-Mathematics" class="outline-3">
-<h3 id="h-Mathematics"><span class="section-number-3">3.2.</span> Mathematics</h3>
+<h3 id="h-Mathematics"><span class="section-number-3">2.2.</span> Mathematics</h3>
 <div class="outline-text-3" id="text-h-Mathematics">
 <p>
 Some (some would argue <i>all</i>) topics in programming have mathematical
@@ -386,7 +389,7 @@ underpinnings. See the <a href="appendix/mathematics/README.html">Mathematics</a
 </div>
 
 <div id="outline-container-h-Tests" class="outline-2">
-<h2 id="h-Tests"><span class="section-number-2">4.</span> Tests</h2>
+<h2 id="h-Tests"><span class="section-number-2">3.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
 <table>
 
@@ -431,7 +434,7 @@ checking the correctness of the puzzle solutions collected in this work.
 </div>
 
 <div id="outline-container-h-Literate-Programming-Build-System" class="outline-2">
-<h2 id="h-Literate-Programming-Build-System"><span class="section-number-2">5.</span> Literate Programming Build System</h2>
+<h2 id="h-Literate-Programming-Build-System"><span class="section-number-2">4.</span> Literate Programming Build System</h2>
 <div class="outline-text-2" id="text-h-Literate-Programming-Build-System">
 <p>
 We use <a href="https://github.com/listx/lilac">Lilac</a> for literate programming.
@@ -439,7 +442,7 @@ We use <a href="https://github.com/listx/lilac">Lilac</a> for literate programmi
 </div>
 
 <div id="outline-container-h-Weaving--generating-the-docs" class="outline-3">
-<h3 id="h-Weaving--generating-the-docs"><span class="section-number-3">5.1.</span> Weaving (generating the docs)</h3>
+<h3 id="h-Weaving--generating-the-docs"><span class="section-number-3">4.1.</span> Weaving (generating the docs)</h3>
 <div class="outline-text-3" id="text-h-Weaving--generating-the-docs">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Makefile</label><span class="lilac-caption-link-symbol"><a href="#Makefile">&#x1f517;</a></span></div><pre class="src src-makefile" id="Makefile"><span class="org-variable-name">PROJ_ROOT</span> := $(<span class="org-variable-name">shell</span> git rev-parse --show-toplevel)
 <span class="org-variable-name">LILAC_ROOT</span> := $(<span class="org-variable-name">PROJ_ROOT</span>)/deps/elisp/lilac
@@ -519,13 +522,13 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 </div>
 
 <div id="outline-container-h-Use--lilac-theme--file" class="outline-4">
-<h4 id="h-Use--lilac-theme--file"><span class="section-number-4">5.1.1.</span> Use <code>lilac.theme</code> file</h4>
+<h4 id="h-Use--lilac-theme--file"><span class="section-number-4">4.1.1.</span> Use <code>lilac.theme</code> file</h4>
 <div class="outline-text-4" id="text-h-Use--lilac-theme--file">
 </div>
 </div>
 
 <div id="outline-container-h-Ignore-woven-HTML-from--git-diff" class="outline-4">
-<h4 id="h-Ignore-woven-HTML-from--git-diff"><span class="section-number-4">5.1.2.</span> Ignore woven HTML from <code>git diff</code></h4>
+<h4 id="h-Ignore-woven-HTML-from--git-diff"><span class="section-number-4">4.1.2.</span> Ignore woven HTML from <code>git diff</code></h4>
 <div class="outline-text-4" id="text-h-Ignore-woven-HTML-from--git-diff">
 <p>
 Typically we only need to look at the rendered HTML output in a web browser as
@@ -545,7 +548,7 @@ In order to still show the HTML textual diff, we can run <code>git diff --text</
 </div>
 
 <div id="outline-container-h-git-add--p" class="outline-5">
-<h5 id="h-git-add--p"><span class="section-number-5">5.1.2.1.</span> <code>git add -p</code></h5>
+<h5 id="h-git-add--p"><span class="section-number-5">4.1.2.1.</span> <code>git add -p</code></h5>
 <div class="outline-text-5" id="text-h-git-add--p">
 <p>
 Note that the above setting to treat HTML files as binary data prevents them
@@ -557,7 +560,7 @@ instead.
 </div>
 
 <div id="outline-container-h-gitignore" class="outline-4">
-<h4 id="h-gitignore"><span class="section-number-4">5.1.3.</span> gitignore</h4>
+<h4 id="h-gitignore"><span class="section-number-4">4.1.3.</span> gitignore</h4>
 <div class="outline-text-4" id="text-h-gitignore">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">.gitignore</label><span class="lilac-caption-link-symbol"><a href="#gitignore">&#x1f517;</a></span></div><pre class="src src-gitignore" id="gitignore">**/__pycache__
 **/*.auctex-auto
@@ -570,7 +573,7 @@ weave
 </div>
 
 <div id="outline-container-h-Tangling--generating-the-source-code" class="outline-3">
-<h3 id="h-Tangling--generating-the-source-code"><span class="section-number-3">5.2.</span> Tangling (generating the source code)</h3>
+<h3 id="h-Tangling--generating-the-source-code"><span class="section-number-3">4.2.</span> Tangling (generating the source code)</h3>
 <div class="outline-text-3" id="text-h-Tangling--generating-the-source-code">
 <p>
 Tangling is simply the act of collecting the <code>#+begin_src ... #+end_src</code> blocks
@@ -618,7 +621,7 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 </div>
 
 <div id="outline-container-h-Development-environment--Nix-shell" class="outline-3">
-<h3 id="h-Development-environment--Nix-shell"><span class="section-number-3">5.3.</span> Development environment (Nix shell)</h3>
+<h3 id="h-Development-environment--Nix-shell"><span class="section-number-3">4.3.</span> Development environment (Nix shell)</h3>
 <div class="outline-text-3" id="text-h-Development-environment--Nix-shell">
 <p>
 This is taken from <a href="https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1">https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1</a>.
@@ -659,7 +662,7 @@ pkgs.mkShell ({
 </div>
 
 <div id="outline-container-h-Elisp" class="outline-3">
-<h3 id="h-Elisp"><span class="section-number-3">5.4.</span> Elisp</h3>
+<h3 id="h-Elisp"><span class="section-number-3">4.4.</span> Elisp</h3>
 <div class="outline-text-3" id="text-h-Elisp">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.el</label><span class="lilac-caption-link-symbol"><a href="#codex-el">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="codex-el"><span class="org-comment-delimiter">; </span><span class="org-comment">See https://stackoverflow.com/a/27285582/437583.</span>
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-test-file-name</span> ()
@@ -675,7 +678,7 @@ pkgs.mkShell ({
 </div>
 
 <div id="outline-container-h-References" class="outline-2">
-<h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
+<h2 id="h-References"><span class="section-number-2">5.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-left-margin{float: left; padding-right: 1em;}
  .csl-right-inline{margin: 0 0 0 2em;}</style><div class="csl-bib-body">
