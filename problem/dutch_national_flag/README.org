@@ -1,5 +1,5 @@
 #+title: Dutch National Flag (3-way partitioning)
-#+SETUPFILE: codex.theme
+#+SETUPFILE: ../../lilac.theme
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
 
@@ -232,5 +232,5 @@ A variation of the "fat pivot" algorithm puts the elements equal to the pivot on
 [cite:@skiena 125-126] gives a good intuitive explanation of traditional quicksort's performance characteristics.
 
 * References
-#+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
+#+CITE_EXPORT: csl apa.csl
 #+PRINT_BIBLIOGRAPHY:

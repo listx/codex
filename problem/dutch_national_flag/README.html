@@ -190,16 +190,37 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/>
-<link rel="stylesheet" type="text/css" href="../../style.css" />
+<link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+<link rel="stylesheet" type="text/css" href="lilac.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&family=Source+Code+Pro">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="../../misc.js"></script>
+<script src="lilac.js"></script>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
 </head>
 <body>
 <div id="content" class="content">
 <h1 class="title">Dutch National Flag (3-way partitioning)</h1>
 <div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
+
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h-Problem-statement">1. Problem statement</a></li>
@@ -229,7 +250,7 @@ Instead of 3 colors, we can have any other kind of property. For example, we cou
 </p>
 
 <p>
-If we just consider 2 colors, then this is essentially the same as the <a href="file:///home/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a> problem which partitioned a list of numbers into 2 groups, all even (if any) and odd (if any). There we used 2 indices to keep track of the left (even) and right (odd) groups, and we had 3 subgroups: even, unknown, odd. We shrank the unknown group to 0, and when this happened (when the even and odd indices crossed each other), we were done.
+If we just consider 2 colors, then this is essentially the same as the <a href="file:///Users/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a> problem which partitioned a list of numbers into 2 groups, all even (if any) and odd (if any). There we used 2 indices to keep track of the left (even) and right (odd) groups, and we had 3 subgroups: even, unknown, odd. We shrank the unknown group to 0, and when this happened (when the even and odd indices crossed each other), we were done.
 </p>
 
 <p>
@@ -245,7 +266,7 @@ For arranging 3 colors, we could use 3 indices (red, white, blue), and keep trac
 For our solution, we don't use colors and instead use quicksort's naming scheme.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">rearrange_list_even_odd</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">dutch_flag_partition</span>(nums, idx_pivot):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">rearrange_list_even_odd</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">dutch_flag_partition</span>(nums, idx_pivot):
   <span class="org-keyword">if</span> <span class="org-keyword">not</span> nums:
     <span class="org-keyword">return</span> 0, 0
 
@@ -281,20 +302,20 @@ For our solution, we don't use colors and instead use quicksort's naming scheme.
 The <code>while</code> condition
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">while condition</label><span class="codex-caption-link-symbol"><a href="#anonymous-1">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-1">  <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">while condition</label><span class="lilac-caption-link-symbol"><a href="#while-condition">&#x1f517;</a></span></div><pre class="src src-python" id="while-condition">  <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
 </pre></div></div><p>
 just checks whether we still have some nonzero size of unchecked numbers (in group "unknown").
 </p>
 
 <p>
-As we iterate through the loop, we always check the number pointed by <code>idx_eq</code> (similar to how we always kept an eye on <code>idx_odd</code> in <a href="file:///home/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a>).
+As we iterate through the loop, we always check the number pointed by <code>idx_eq</code> (similar to how we always kept an eye on <code>idx_odd</code> in <a href="file:///Users/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a>).
 </p>
 
 <p>
 Now let's consider the simplest case:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">number == pivot</label><span class="codex-caption-link-symbol"><a href="#anonymous-2">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-2">    <span class="org-keyword">if</span> nums[idx_eq] == pivot:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number == pivot</label><span class="lilac-caption-link-symbol"><a href="#number----pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number----pivot">    <span class="org-keyword">if</span> nums[idx_eq] == pivot:
       idx_eq += 1
 </pre></div></div><p>
 This is straightforward &#x2014; if <code>idx_eq</code> is looking at a number that is equal to the pivot, we "count" it by incrementing <code>idx_eq</code>. This is the happy path.
@@ -304,7 +325,7 @@ This is straightforward &#x2014; if <code>idx_eq</code> is looking at a number t
 Now let's examine the case where <code>idx_eq</code> is pointing to a number less than the pivot:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">number &lt; pivot</label><span class="codex-caption-link-symbol"><a href="#anonymous-3">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-3">    <span class="org-keyword">elif</span> nums[idx_eq] &lt; <span class="org-variable-name">pivot</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &lt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--lt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--lt--pivot">    <span class="org-keyword">elif</span> nums[idx_eq] &lt; <span class="org-variable-name">pivot</span>:
       <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_lt</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>] = nums[idx_eq], nums[idx_lt]
       <span class="org-variable-name">idx_lt</span> += 1
       <span class="org-variable-name">idx_eq</span> += 1
@@ -328,7 +349,7 @@ For the second case, this means that at some point, <code>idx_eq</code> advanced
 Here we expect <code>idx_lt</code> and <code>idx_eq</code> to both advance in lockstep for some time, as we keep hitting <code>0</code> initially which is less than the pivot.
 </p>
 
-<pre class="example" id="org0000004">
+<pre class="example" id="org000000a">
 pivot = 1
 
 0  0  0  1  0  0  1  (numbers)
@@ -343,7 +364,7 @@ pivot = 1
 When we see <code>1</code>, <code>idx_eq</code> advances on its own. Note how <code>idx_lt</code> "saves" an element <b>equal</b> to the pivot (by continuing to point to it) for a possible future swap with <code>idx_eq</code>.
 </p>
 
-<pre class="example" id="org0000005">
+<pre class="example" id="org000000b">
 0  0  0  1  0  0  1  (numbers)
 0  1  2  3  4  5  6  (list index)
          |
@@ -356,7 +377,7 @@ When we see <code>1</code>, <code>idx_eq</code> advances on its own. Note how <c
 This is the critical step. <code>idx_eq</code> is looking at a number smaller than the pivot&#x2026;
 </p>
 
-<pre class="example" id="org0000006">
+<pre class="example" id="org000000c">
 0  0  0  1  0  0  1  (numbers)
 0  1  2  3  4  5  6  (list index)
          |  |
@@ -369,7 +390,7 @@ This is the critical step. <code>idx_eq</code> is looking at a number smaller th
 &#x2026;so it performs a swap! Both <code>idx_eq</code> and <code>idx_lt</code> got what they wanted, respectively, so we must increment both of them.
 </p>
 
-<pre class="example" id="org0000007">
+<pre class="example" id="org000000d">
 0  0  0  0  1  0  1  (numbers)
 0  1  2  3  4  5  6  (list index)
          |  |
@@ -382,7 +403,7 @@ This is the critical step. <code>idx_eq</code> is looking at a number smaller th
 So much for the interplay between <code>idx_lt</code> and <code>idx_eq</code>. Now we come to the final condition where <code>idx_eq</code> sees a number <i>greater</i> than the pivot:
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">number &gt; pivot</label><span class="codex-caption-link-symbol"><a href="#anonymous-4">&#x1f517;</a></span></div><pre class="src src-python" id="anonymous-4">    <span class="org-keyword">else</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &gt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--gt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--gt--pivot">    <span class="org-keyword">else</span>:
       idx_gt -= 1
       <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_gt</span>] = nums[idx_gt], nums[idx_eq]
 </pre></div></div><p>
@@ -394,10 +415,10 @@ In this case, we "throw over" the number to the right side of the list (to <code
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">4.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Tests</label><span class="codex-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Tests</label><span class="lilac-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
 <span class="org-keyword">import</span> unittest
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__rearrange_list_even_odd">rearrange_list_even_odd</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__rearrange_list_even_odd">rearrange_list_even_odd</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
   <span class="org-variable-name">cases</span> = [
@@ -485,12 +506,12 @@ A variation of the "fat pivot" algorithm puts the elements equal to the pivot on
 <h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Bentley, J. L. (2000). <i>Programming pearls</i> (2nd ed). Addison-Wesley.</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_3"></a>Cormen, T. H. (2009). <i>Introduction to algorithms</i> (3rd ed). MIT Press.</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_4"></a>Knuth, D. E. (1997). <i>The art of computer programming</i> (2nd ed). Addison-Wesley.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of Programming Interviews in Python: The Insiders’ Guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Bentley, J. L. (2000). <i>Programming Pearls</i> (2nd ed). Addison-Wesley.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_3"></a>Cormen, T. H. (2009). <i>Introduction to Algorithms</i> (3rd ed). MIT Press.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_4"></a>Knuth, D. E. (1997). <i>The Art of Computer Programming</i> (2nd ed). Addison-Wesley.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_5"></a>Sedgewick, R., &#38; Wayne, K. D. (2011). <i>Algorithms</i> (4th ed). Addison-Wesley.</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_6"></a>Skiena, S. S. (2008). <i>The algorithm design manual</i> (2nd ed). Springer.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_6"></a>Skiena, S. S. (2008). <i>The Algorithm Design Manual</i> (2nd ed). Springer.</div>
 </div>
 </div>
 </div>

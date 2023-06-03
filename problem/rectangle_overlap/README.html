@@ -190,10 +190,31 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/>
-<link rel="stylesheet" type="text/css" href="../../style.css" />
+<link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+<link rel="stylesheet" type="text/css" href="lilac.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&family=Source+Code+Pro">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="../../misc.js"></script>
+<script src="lilac.js"></script>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         displayAlign: "center",
@@ -220,7 +241,7 @@
 <div id="content" class="content">
 <h1 class="title">Rectangle overlap (intersection)</h1>
 <div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
+
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h-Introduction">1. Introduction</a></li>
@@ -240,7 +261,7 @@
 Consider rectangles whose sides are parallel to the X and Y axes. Let a rectangle be defined by 4 fields: the X and Y coordinate of its bottom-left corner, and its width and height.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(1 of 5) <span class="codex-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle"><span class="org-keyword">import</span> collections
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(1/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-1"><span class="org-keyword">import</span> collections
 <span class="org-variable-name">Rect</span> = collections.namedtuple(<span class="org-string">'Rect'</span>, (<span class="org-string">'x'</span>, <span class="org-string">'y'</span>, <span class="org-string">'width'</span>, <span class="org-string">'height'</span>))
 </pre></div></div><p>
 FIXME: Insert Tikz diagram. In the meantime, see (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 39</a>).
@@ -277,7 +298,7 @@ First just consider horizontal overlap. The check to see if there is <b>no</b> o
 By symmetry, the code for <code>no_vertical_overlap()</code> is rather similar.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(2 of 5) <span class="codex-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-2"><span class="org-keyword">def</span> <span class="org-function-name">no_horizontal_overlap</span>(a, b):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(2/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-2"><span class="org-keyword">def</span> <span class="org-function-name">no_horizontal_overlap</span>(a, b):
   <span class="org-comment-delimiter"># </span><span class="org-comment">"L" means leftmost point</span>
   <span class="org-comment-delimiter"># </span><span class="org-comment">"R" means rightmost point</span>
   <span class="org-variable-name">a_L</span> = a.x
@@ -303,7 +324,7 @@ The code in (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 40</a>) actual
 Now that we can check if there is no overlap, we can proceed to calculating the actual overlapping (smaller) rectangle.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(3 of 5) <span class="codex-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-3"><span class="org-keyword">def</span> <span class="org-function-name">overlapping_rectangle</span>(a, b):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(3/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-3"><span class="org-keyword">def</span> <span class="org-function-name">overlapping_rectangle</span>(a, b):
   <span class="org-keyword">if</span> no_overlap(a, b):
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
   <span class="org-variable-name">a_L</span> = a.x
@@ -318,7 +339,7 @@ Now that we can check if there is no overlap, we can proceed to calculating the 
 Now that we have all of our points defined, first consider the \((X, Y)\) coordinate (lower-left corner) of the overlapping rectangle (let's call this rectangle <code>v</code>). What is the leftmost side of <code>v</code>? It's just the max of either <code>a</code> or <code>b</code>, because we already know that they overlap:
 </p>
 
-<pre class="example" id="org0000004">
+<pre class="example" id="org0000008">
 aaaaaaa
      bbbb
      |
@@ -329,7 +350,7 @@ aaaaaaa
 Again, we have to account for the case where the rectangles are reversed, where Rect B is on the left:
 </p>
 
-<pre class="example" id="org0000005">
+<pre class="example" id="org0000009">
 bbbbbbb
      aaaa
      |
@@ -340,13 +361,13 @@ bbbbbbb
 So we need to get either <code>a_L</code> or <code>b_L</code>. In both cases, this value is <code>max(a_L, b_L)</code>. For the Y axis, similar logic follows and we need to use <code>max(a_B, b_B)</code>.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(4 of 5) <span class="codex-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-4">  <span class="org-variable-name">v_x</span> = <span class="org-builtin">max</span>(a_L, b_L)
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(4/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-4">  <span class="org-variable-name">v_x</span> = <span class="org-builtin">max</span>(a_L, b_L)
   <span class="org-variable-name">v_y</span> = <span class="org-builtin">max</span>(a_B, b_B)
 </pre></div></div><p>
 What about width the width? The width is the rightmost point subtracted by the leftmost point. We already know the leftmost point of <code>v</code>, <code>v_x</code>. So we just need to calculate the rightmost point. We can get the rightmost point by taking the minimum of the rightmost points of either <code>a</code> or <code>b</code>. Using the same examples from above, we have
 </p>
 
-<pre class="example" id="org0000006">
+<pre class="example" id="org000000c">
       ,- this point, a_R, is what we want
       |
 aaaaaaa
@@ -357,7 +378,7 @@ aaaaaaa
 and also the reversed case
 </p>
 
-<pre class="example" id="org0000007">
+<pre class="example" id="org000000d">
       ,- this point, b_R, is what we want
       |
 bbbbbbb
@@ -368,7 +389,7 @@ bbbbbbb
 where in both cases, the value is <code>min(a_R, b_R)</code>. Then we can just subtract <code>v_x</code> from it to get the width. By symmetry, the calculation of v<sub>height</sub> is essentially the same.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption">(5 of 5) <span class="codex-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-5">  <span class="org-variable-name">v_width</span> = <span class="org-builtin">min</span>(a_R, b_R) - v_x
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(5/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-5">  <span class="org-variable-name">v_width</span> = <span class="org-builtin">min</span>(a_R, b_R) - v_x
   <span class="org-variable-name">v_height</span> = <span class="org-builtin">min</span>(a_T, b_T) - v_y
   <span class="org-keyword">return</span> Rect(v_x, v_y, v_width, v_height)
 </pre></div></div>
@@ -378,9 +399,9 @@ where in both cases, the value is <code>min(a_R, b_R)</code>. Then we can just s
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">5.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Tests</label><span class="codex-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">import</span> unittest
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Tests</label><span class="lilac-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">import</span> unittest
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__overlapping_rectangle">overlapping_rectangle</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__overlapping_rectangle-1">overlapping_rectangle</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">TestOverlappingRect</span>(unittest.TestCase):
   <span class="org-variable-name">cases</span> = [
@@ -406,7 +427,7 @@ where in both cases, the value is <code>min(a_R, b_R)</code>. Then we can just s
 <h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of Programming Interviews in Python: The Insiders’ Guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
 </div>
 </div>
 </div>

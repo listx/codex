@@ -190,10 +190,31 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/>
-<link rel="stylesheet" type="text/css" href="../../style.css" />
+<link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
+<link rel="stylesheet" type="text/css" href="lilac.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&family=Source+Code+Pro">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="../../misc.js"></script>
+<script src="lilac.js"></script>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         displayAlign: "center",
@@ -220,7 +241,7 @@
 <div id="content" class="content">
 <h1 class="title">Parity</h1>
 <div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
+
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h-Introduction">1. Introduction</a></li>
@@ -402,7 +423,7 @@ Seen another way, the XOR instruction can cancel out even numbers of bits (zeros
 <div id="outline-container-h-Brute-force" class="outline-3">
 <h3 id="h-Brute-force"><span class="section-number-3">4.1.</span> Brute force</h3>
 <div class="outline-text-3" id="text-h-Brute-force">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">brute_force</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(word):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">brute_force</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(word):
   <span class="org-variable-name">parity_bit</span> = 0
   <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
     parity_bit ^= word &amp; 1
@@ -420,7 +441,7 @@ The space complexity is \(O(1)\) because we only store 0 or 1 for the parity bit
 <div id="outline-container-h-Clear-lowest-set-bit" class="outline-4">
 <h4 id="h-Clear-lowest-set-bit"><span class="section-number-4">4.1.1.</span> Clear lowest set bit</h4>
 <div class="outline-text-4" id="text-h-Clear-lowest-set-bit">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">clear_lsb</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__clear_lsb">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__clear_lsb"><span class="org-keyword">def</span> <span class="org-function-name">clear_lsb</span>(word):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">clear_lsb</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__clear_lsb">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__clear_lsb"><span class="org-keyword">def</span> <span class="org-function-name">clear_lsb</span>(word):
   <span class="org-variable-name">parity_bit</span> = 0
   <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
     parity_bit ^= 1
@@ -440,7 +461,7 @@ Our worst-case time complexity is still the same as the brute force approach tho
 <div id="outline-container-h-XOR-folding" class="outline-3">
 <h3 id="h-XOR-folding"><span class="section-number-3">4.2.</span> XOR-folding</h3>
 <div class="outline-text-3" id="text-h-XOR-folding">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">xor_fold</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold</span>(word):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
@@ -552,7 +573,7 @@ Tho time complexity is reduced to \(O(\log{}n)\) where \(n\) is the word size. T
 <div id="outline-container-h-XOR-folding-with-in-register-table-lookup" class="outline-3">
 <h3 id="h-XOR-folding-with-in-register-table-lookup"><span class="section-number-3">4.3.</span> XOR-folding with in-register table lookup</h3>
 <div class="outline-text-3" id="text-h-XOR-folding-with-in-register-table-lookup">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">xor_fold_lookup</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_lookup">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_lookup"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_lookup</span>(word):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold_lookup</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold_lookup">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_lookup"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_lookup</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
@@ -685,7 +706,7 @@ This is a small improvement over the previous version, noted in (<a href="#citep
 <div id="outline-container-h-XOR-fold-by-nibbles" class="outline-3">
 <h3 id="h-XOR-fold-by-nibbles"><span class="section-number-3">4.4.</span> XOR-fold by nibbles</h3>
 <div class="outline-text-3" id="text-h-XOR-fold-by-nibbles">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">xor_fold_nibbles</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_nibbles">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_nibbles"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_nibbles</span>(word):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold_nibbles</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold_nibbles">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_nibbles"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_nibbles</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
   <span class="org-variable-name">word</span> &amp;= 0x1111111111111111
@@ -870,7 +891,7 @@ Going back to our 64-bit example, we can see that multiplying by <code>0x1111111
 Because there are \(2^64\) possible values, we cannot use a hash table for 64-bit inputs directly. Instead we can use a 16-bit input (\(2^16 = 65536\) values), and just do 4 16-bit word lookups (because there are 4 16-bit words in a 64-bit word). Then we just take the XOR of these lookups to get the overall parity. Because the keys for the lookups can just be the raw 16-bit words, we can use these keys as indices to a list, instead of using a dictionary.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">caching</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__caching">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__caching">
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">caching</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__caching">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__caching">
 <span class="org-variable-name">PARITY</span> = [xor_fold(word) <span class="org-keyword">for</span> word <span class="org-keyword">in</span> <span class="org-builtin">range</span>(1 &lt;&lt; 16)]
 
 <span class="org-keyword">def</span> <span class="org-function-name">caching</span>(word):
@@ -896,7 +917,7 @@ The time complexity is just \(O(n/L)\), where \(L\) is the width of the cached r
 This is an approach that combines XOR-folding with caching to achieve an even greater speedup.
 </p>
 
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><span class="codex-caption-parent-link"><a href="#Tests">xor_fold_caching</a></span><span class="codex-caption-link-symbol"><a href="#__NREF__xor_fold_caching">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_caching"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_caching</span>(word):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold_caching</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold_caching">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_caching"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_caching</span>(word):
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
   <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
   <span class="org-keyword">return</span> PARITY[word &amp; 0xffff]
@@ -908,22 +929,22 @@ This is an approach that combines XOR-folding with caching to achieve an even gr
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">5.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
-<div class="org-src-container"><div class="codex-pre-with-caption"><div class="codex-caption"><label class="org-src-name">Tests</label><span class="codex-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Tests</label><span class="lilac-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
 <span class="org-keyword">import</span> unittest
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__brute_force">brute_force</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__brute_force">brute_force</a></span>
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__clear_lsb">clear_lsb</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__clear_lsb">clear_lsb</a></span>
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__xor_fold">xor_fold</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__xor_fold">xor_fold</a></span>
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__xor_fold_lookup">xor_fold_lookup</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__xor_fold_lookup">xor_fold_lookup</a></span>
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__caching">caching</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__caching">caching</a></span>
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__xor_fold_caching">xor_fold_caching</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__xor_fold_caching">xor_fold_caching</a></span>
 
-<span class="codex-child-link-from-parent"><a href="#__NREF__xor_fold_nibbles">xor_fold_nibbles</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__xor_fold_nibbles">xor_fold_nibbles</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">TestParity</span>(unittest.TestCase):
   <span class="org-variable-name">cases</span> = [
@@ -968,8 +989,8 @@ This is an approach that combines XOR-folding with caching to achieve an even gr
 <h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
-  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of programming interviews in python: The insiders’ guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
-  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Warren, H. S. (2013). <i>Hacker’s delight</i> (2nd ed). Addison-Wesley.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of Programming Interviews in Python: The Insiders’ Guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Warren, H. S. (2013). <i>Hacker’s Delight</i> (2nd ed). Addison-Wesley.</div>
 </div>
 </div>
 </div>

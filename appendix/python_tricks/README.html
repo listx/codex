@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-17 Wed 18:09 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python tricks</title>
+<meta name="author" content="Linus Arver" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="../../syntax-highlighting.css"/>
+<link rel="stylesheet" type="text/css" href="../../style.css" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="../../misc.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Python tricks</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5a2526b">1. Introduction</a></li>
+<li><a href="#orgcb16474">2. Tricks</a>
+<ul>
+<li><a href="#org6275e25">2.1. Python built-ins</a>
+<ul>
+<li><a href="#orgca4b148">2.1.1. Numbers</a>
+<ul>
+<li><a href="#org640e1df">2.1.1.1. <code>abs(x)</code></a></li>
+<li><a href="#org93e9bc7">2.1.1.2. <code>bin(x)</code></a></li>
+<li><a href="#org12c58de">2.1.1.3. <code>divmod(x, y)</code></a></li>
+<li><a href="#orgec2c1ca">2.1.1.4. <code>pow(base, exp, mod=None)</code></a></li>
+<li><a href="#org5b2b3eb">2.1.1.5. <code>round(number, ndigits=None)</code></a></li>
+</ul>
+</li>
+<li><a href="#orga9f4e50">2.1.2. Strings</a>
+<ul>
+<li><a href="#orgb4c3cd9">2.1.2.1. <code>chr(i)</code></a></li>
+<li><a href="#org9556bd0">2.1.2.2. <code>ord(c)</code></a></li>
+<li><a href="#org445262f">2.1.2.3. <code>repr(x)</code></a></li>
+<li><a href="#orge9d164c">2.1.2.4. <code>str(x)</code></a></li>
+</ul>
+</li>
+<li><a href="#orgb961433">2.1.3. Iterables and sequences</a>
+<ul>
+<li><a href="#org58e5edb">2.1.3.1. <code>all(iterable)</code></a></li>
+<li><a href="#orgf14325d">2.1.3.2. <code>any(iterable)</code></a></li>
+<li><a href="#org4ef27eb">2.1.3.3. <code>enumerate(iterable, start=0)</code></a></li>
+<li><a href="#org7195972">2.1.3.4. <code>filter(function, iterable)</code></a></li>
+<li><a href="#orgdcc8b40">2.1.3.5. <code>len(sequence)</code></a></li>
+<li><a href="#orgcf171eb">2.1.3.6. <code>map(function, iterable, *iterables)</code></a></li>
+<li><a href="#orge3c11c0">2.1.3.7. <code>max()</code></a></li>
+<li><a href="#org5e3a0f0">2.1.3.8. <code>min()</code></a></li>
+<li><a href="#orga3b6691">2.1.3.9. <code>next(iterator, default)</code></a></li>
+<li><a href="#org348c134">2.1.3.10. <code>range(start, stop, step=1)</code></a></li>
+<li><a href="#org1729f80">2.1.3.11. <code>reversed(seq)</code></a></li>
+<li><a href="#org78e9dec">2.1.3.12. <code>set(iterable)</code></a></li>
+<li><a href="#org647bd07">2.1.3.13. <code>sorted(iterable, /, *, key=None, reverse=False)</code></a></li>
+<li><a href="#orgf82bc93">2.1.3.14. <code>sum(iterable, /, start=0)</code></a></li>
+<li><a href="#org9dad3b6">2.1.3.15. <code>zip(*iterables, strict=False)</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org00f5839">2.2. Pythonisms</a>
+<ul>
+<li><a href="#orgf88be61">2.2.1. Slice syntax (FIXME)</a></li>
+</ul>
+</li>
+<li><a href="#orgdcd0c64">2.3. Array traversal</a>
+<ul>
+<li><a href="#org70d7edb">2.3.1. Burn the candle at both ends</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orge92c587">3. Tests</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5a2526b" class="outline-2">
+<h2 id="org5a2526b"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This section lists useful Python tricks that may not be obvious to the average Python user.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb16474" class="outline-2">
+<h2 id="orgcb16474"><span class="section-number-2">2.</span> Tricks</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org6275e25" class="outline-3">
+<h3 id="org6275e25"><span class="section-number-3">2.1.</span> Python built-ins</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+There are some Python builtin functions that are useful to know about.
+</p>
+</div>
+
+<div id="outline-container-orgca4b148" class="outline-4">
+<h4 id="orgca4b148"><span class="section-number-4">2.1.1.</span> Numbers</h4>
+<div class="outline-text-4" id="text-2-1-1">
+</div>
+<div id="outline-container-org640e1df" class="outline-5">
+<h5 id="org640e1df"><span class="section-number-5">2.1.1.1.</span> <code>abs(x)</code></h5>
+<div class="outline-text-5" id="text-2-1-1-1">
+<p>
+Returns absolute value of a number <code>x</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org93e9bc7" class="outline-5">
+<h5 id="org93e9bc7"><span class="section-number-5">2.1.1.2.</span> <code>bin(x)</code></h5>
+<div class="outline-text-5" id="text-2-1-1-2">
+<p>
+Convert an integer number to its binary representation as a string, prefixed with <code>0b</code>.
+</p>
+
+<p>
+The table below has some examples, including equivalent methods using <code>format</code> and format strings.
+</p>
+
+<p>
+FIXME: Make this table into a class where all cells below the header uses a monospaced font (so that we don&rsquo;t have to do the manual delineations with the equal sign).
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Expression</th>
+<th scope="col" class="org-left">Result of evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>bin(3)</code></td>
+<td class="org-left"><code>'0b11'</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>bin(-5)</code></td>
+<td class="org-left"><code>'-0b101'</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>format(14, '#b')</code></td>
+<td class="org-left"><code>'0b1110'</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>format(14, 'b')</code></td>
+<td class="org-left"><code>'1110'</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f'{14:#b}'</code></td>
+<td class="org-left"><code>'0b1110'</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f'{14:b}'</code></td>
+<td class="org-left"><code>'1110'</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The <code>bin(x)</code>, <code>oct(x)</code>, and <code>hex(x)</code> functions all behave similarly but for the binary, octal, and hexadecimal bases, respectively.
+</p>
+
+<dl class="org-dl">
+<dt><code>hex(x)</code></dt><dd>Convert integer into lower-case hex number with a leading <code>'0x'</code> prefix.</dd>
+<dt><code>oct(x)</code></dt><dd>Convert integer into octal number with a leading <code>'0o'</code> prefix.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org12c58de" class="outline-5">
+<h5 id="org12c58de"><span class="section-number-5">2.1.1.3.</span> <code>divmod(x, y)</code></h5>
+<div class="outline-text-5" id="text-2-1-1-3">
+<p>
+Returns a tuple of the reslult of integer division of <code>x</code> by <code>y</code> and remainder. Equivalent to <code>(x // y, x % y)</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgec2c1ca" class="outline-5">
+<h5 id="orgec2c1ca"><span class="section-number-5">2.1.1.4.</span> <code>pow(base, exp, mod=None)</code></h5>
+<div class="outline-text-5" id="text-2-1-1-4">
+<p>
+Raise a number <code>base</code> to the exponent <code>exp</code>. The form <code>3**4</code> is shorthand for <code>pow(3, 4)</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5b2b3eb" class="outline-5">
+<h5 id="org5b2b3eb"><span class="section-number-5">2.1.1.5.</span> <code>round(number, ndigits=None)</code></h5>
+<div class="outline-text-5" id="text-2-1-1-5">
+<p>
+From Python 3.11.3 docs: &ldquo;Return number rounded to ndigits precision after the decimal point. If ndigits is omitted or is None, it returns the nearest integer to its input.&rdquo;
+</p>
+
+<p>
+This function doesn&rsquo;t see much use in programming problems because rounding itself is an imprecise operation resulting in the loss of data, and typically loss of data is never a good thing to do.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga9f4e50" class="outline-4">
+<h4 id="orga9f4e50"><span class="section-number-4">2.1.2.</span> Strings</h4>
+<div class="outline-text-4" id="text-2-1-2">
+</div>
+<div id="outline-container-orgb4c3cd9" class="outline-5">
+<h5 id="orgb4c3cd9"><span class="section-number-5">2.1.2.1.</span> <code>chr(i)</code></h5>
+<div class="outline-text-5" id="text-2-1-2-1">
+<p>
+Inverse of <code>ord()</code>.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Expression</th>
+<th scope="col" class="org-left">Result of evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>chr(97)</code></td>
+<td class="org-left"><code>'a'</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>chr(8364)</code></td>
+<td class="org-left"><code>'€'</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org9556bd0" class="outline-5">
+<h5 id="org9556bd0"><span class="section-number-5">2.1.2.2.</span> <code>ord(c)</code></h5>
+<div class="outline-text-5" id="text-2-1-2-2">
+<p>
+Inverse of <code>chr()</code>.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Expression</th>
+<th scope="col" class="org-left">Result of evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>ord('a')</code></td>
+<td class="org-left"><code>97</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ord('€')</code></td>
+<td class="org-left"><code>8364</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org445262f" class="outline-5">
+<h5 id="org445262f"><span class="section-number-5">2.1.2.3.</span> <code>repr(x)</code></h5>
+<div class="outline-text-5" id="text-2-1-2-3">
+<p>
+Return a <code>str</code> version of an object, where the goal is to make it so that entering this verbatim back into Python will result in the same (original) value.
+</p>
+
+<p>
+As a memory aid, think of <code>repr</code> as related to REPLs, because typing the result of <code>repr()</code> into Python&rsquo;s REPL (or passing it into <code>eval()</code>) should just work.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge9d164c" class="outline-5">
+<h5 id="orge9d164c"><span class="section-number-5">2.1.2.4.</span> <code>str(x)</code></h5>
+<div class="outline-text-5" id="text-2-1-2-4">
+<p>
+Return a <code>str</code> version of an object, where the goal is to be human-readable (read: open to being machine-unfriendly).
+</p>
+
+<p>
+Not often used in practice because of format strings.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb961433" class="outline-4">
+<h4 id="orgb961433"><span class="section-number-4">2.1.3.</span> Iterables and sequences</h4>
+<div class="outline-text-4" id="text-2-1-3">
+</div>
+<div id="outline-container-org58e5edb" class="outline-5">
+<h5 id="org58e5edb"><span class="section-number-5">2.1.3.1.</span> <code>all(iterable)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-1">
+<p>
+Returns <code>True</code> if no element is <code>False</code> (returns <code>True</code> if no elements).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf14325d" class="outline-5">
+<h5 id="orgf14325d"><span class="section-number-5">2.1.3.2.</span> <code>any(iterable)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-2">
+<p>
+Returns <code>False</code> if no element is <code>True</code> (returns <code>False</code> if no elements).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4ef27eb" class="outline-5">
+<h5 id="org4ef27eb"><span class="section-number-5">2.1.3.3.</span> <code>enumerate(iterable, start=0)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-3">
+<p>
+Returns an iterable of tuples, where the first element is the index (starting from 0) and the second element is the element in the <code>iterable</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7195972" class="outline-5">
+<h5 id="org7195972"><span class="section-number-5">2.1.3.4.</span> <code>filter(function, iterable)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-4">
+<p>
+Removes elements in the given <code>iterable</code> with the given <code>function</code>, if those elements do not return <code>True</code> when passed into the <code>function</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdcc8b40" class="outline-5">
+<h5 id="orgdcc8b40"><span class="section-number-5">2.1.3.5.</span> <code>len(sequence)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-5">
+<p>
+Returns the length of the sequence.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcf171eb" class="outline-5">
+<h5 id="orgcf171eb"><span class="section-number-5">2.1.3.6.</span> <code>map(function, iterable, *iterables)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-6">
+<p>
+From Python 3.11.3 docs: &ldquo;Return an iterator that applies function to every item of iterable, yielding the results. If additional iterables arguments are passed, function must take that many arguments and is applied to the items from all iterables in parallel. With multiple iterables, the iterator stops when the shortest iterable is exhausted.&rdquo;
+</p>
+
+<p>
+This is somewhat similar to <code>zip</code> in Haskell, except that a function is involved.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge3c11c0" class="outline-5">
+<h5 id="orge3c11c0"><span class="section-number-5">2.1.3.7.</span> <code>max()</code></h5>
+<div class="outline-text-5" id="text-2-1-3-7">
+<p>
+Return the largest element of the sequence, or the larger of 2 elements.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5e3a0f0" class="outline-5">
+<h5 id="org5e3a0f0"><span class="section-number-5">2.1.3.8.</span> <code>min()</code></h5>
+<div class="outline-text-5" id="text-2-1-3-8">
+<p>
+Return the smallest element of the sequence, or the smaller of 2 elements.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga3b6691" class="outline-5">
+<h5 id="orga3b6691"><span class="section-number-5">2.1.3.9.</span> <code>next(iterator, default)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-9">
+<p>
+From Python 3.11.3 docs: &ldquo;Retrieve the next item from the iterator by calling its _<sub>next</sub>_<sub>()</sub> method. If default is given, it is returned if the iterator is exhausted, otherwise StopIteration is raised.&rdquo;
+</p>
+</div>
+</div>
+
+<div id="outline-container-org348c134" class="outline-5">
+<h5 id="org348c134"><span class="section-number-5">2.1.3.10.</span> <code>range(start, stop, step=1)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-10">
+<p>
+The Python docs say that <code>range()</code> is not a function, but an immutable sequence. While this is correct, for 99.99% of cases it is used as a function.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1729f80" class="outline-5">
+<h5 id="org1729f80"><span class="section-number-5">2.1.3.11.</span> <code>reversed(seq)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-11">
+<p>
+Return given sequence <code>seq</code> in opposite (reversed) order. The returned object is an iterator.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org78e9dec" class="outline-5">
+<h5 id="org78e9dec"><span class="section-number-5">2.1.3.12.</span> <code>set(iterable)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-12">
+<p>
+Convert given <code>iterable</code> into a set.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org647bd07" class="outline-5">
+<h5 id="org647bd07"><span class="section-number-5">2.1.3.13.</span> <code>sorted(iterable, /, *, key=None, reverse=False)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-13">
+<p>
+Return a new sorted list from the items in iterable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf82bc93" class="outline-5">
+<h5 id="orgf82bc93"><span class="section-number-5">2.1.3.14.</span> <code>sum(iterable, /, start=0)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-14">
+<p>
+Return the total of all elements in the iterable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9dad3b6" class="outline-5">
+<h5 id="org9dad3b6"><span class="section-number-5">2.1.3.15.</span> <code>zip(*iterables, strict=False)</code></h5>
+<div class="outline-text-5" id="text-2-1-3-15">
+<p>
+From Python 3.11.3 docs: &ldquo;Iterate over several iterables in parallel, producing tuples with an item from each one.&rdquo;
+</p>
+
+<p>
+If you want to write <code>zip(range(3), ['a', 'b', 'c'])</code>, instead write <code>enumerate(['a', 'b', 'c'])</code>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org00f5839" class="outline-3">
+<h3 id="org00f5839"><span class="section-number-3">2.2.</span> Pythonisms</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-orgf88be61" class="outline-4">
+<h4 id="orgf88be61"><span class="section-number-4">2.2.1.</span> Slice syntax (FIXME)</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+Negative indices are allowed.
+</p>
+
+<p>
+See <a href="https://docs.python.org/3/tutorial/introduction.html#strings">https://docs.python.org/3/tutorial/introduction.html#strings</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdcd0c64" class="outline-3">
+<h3 id="orgdcd0c64"><span class="section-number-3">2.3.</span> Array traversal</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-org70d7edb" class="outline-4">
+<h4 id="org70d7edb"><span class="section-number-4">2.3.1.</span> Burn the candle at both ends</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+When iterating through an array, you can use <code>~i</code> to get the value <code>-i - 1</code>. This is because <a href="file:///Users/l/prog/codex/appendix/mathematics/README.html#MissingReference">two&rsquo;s complement</a> states that <code>-i</code> is equal to <code>~i + 1</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #F0DFAF; font-weight: bold;">def</span> <span style="color: #93E0E3;">is_palindrome</span>(s: <span style="color: #DCDCDC; font-weight: bold;">str</span>) -&gt; <span style="color: #DCDCDC; font-weight: bold;">bool</span>:
+  <span style="color: #F0DFAF; font-weight: bold;">return</span> <span style="color: #DCDCDC; font-weight: bold;">all</span>(s[i] == s[~i] <span style="color: #F0DFAF; font-weight: bold;">for</span> i <span style="color: #F0DFAF; font-weight: bold;">in</span> <span style="color: #DCDCDC; font-weight: bold;">range</span>(<span style="color: #DCDCDC; font-weight: bold;">len</span>(s) // <span style="color: #DCDCDC; font-weight: bold;">2</span>))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge92c587" class="outline-2">
+<h2 id="orge92c587"><span class="section-number-2">3.</span> Tests</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>Tests</label><pre class="src src-python" id="org6f015d8"><span style="color: #F0DFAF; font-weight: bold;">import</span> unittest
+
+<span style="color: #F0DFAF; font-weight: bold;">from</span> typing <span style="color: #F0DFAF; font-weight: bold;">import</span> Optional
+
+__NREF__tricks
+
+<span style="color: #F0DFAF; font-weight: bold;">class</span> <span style="color: #7CB8BB;">Test</span>(unittest.TestCase):
+
+  <span style="color: #F0DFAF; font-weight: bold;">def</span> <span style="color: #93E0E3;">test_simple_cases</span>(<span style="color: #F0DFAF; font-weight: bold;">self</span>):
+    <span style="color: #F0DFAF; font-weight: bold;">pass</span>
+
+<span style="color: #F0DFAF; font-weight: bold;">if</span> <span style="color: #DCDCDC; font-weight: bold;">__name__</span> == <span style="color: #CC9393;">"__main__"</span>:
+  unittest.main(<span style="color: #BFEBBF;">exit</span>=<span style="color: #BFEBBF;">False</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Linus Arver</p>
+<p class="date">Created: 2023-05-17 Wed 18:09</p>
+</div>
+</body>
+</html>

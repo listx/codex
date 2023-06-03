@@ -1,5 +1,5 @@
 #+title: Rearrange list (2-way partitioning)
-#+SETUPFILE: codex.theme
+#+SETUPFILE: ../../lilac.theme
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
 
@@ -175,5 +175,5 @@ if __name__ == "__main__":
 #+end_src
 
 * References
-#+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
+#+CITE_EXPORT: csl apa.csl
 #+PRINT_BIBLIOGRAPHY:

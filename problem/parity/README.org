@@ -1,5 +1,5 @@
 #+title: Parity
-#+SETUPFILE: codex.theme
+#+SETUPFILE: ../../lilac.theme
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
 
@@ -453,5 +453,5 @@ The below =__init__.py= bit allows Python to discover the unit tests.
 #+end_src
 
 * References
-#+CITE_EXPORT: csl ~/prog/codex/deps/styles/apa.csl
+#+CITE_EXPORT: csl apa.csl
 #+PRINT_BIBLIOGRAPHY:

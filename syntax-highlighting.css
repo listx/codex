@@ -855,6 +855,10 @@
       }
       .org-nobreak-space {
       }
+      .org-ns-working-text {
+        /* ns-working-text-face */
+        text-decoration: underline;
+      }
       .org-org-agenda-calendar-event {
       }
       .org-org-agenda-calendar-sexp {
@@ -1382,13 +1386,9 @@
         /* font-lock-string-face */
         color: #8b2252;
       }
-      .org-subscript {
-      }
       .org-success {
         /* success */
         color: #228b22;
-      }
-      .org-superscript {
       }
       .org-tab-bar {
       }
@@ -1411,12 +1411,6 @@
         font-weight: bold;
         text-decoration: underline;
         text-decoration: overline;
-      }
-      .org-tex-math {
-        /* tex-math */
-        color: #8b2252;
-      }
-      .org-tex-verbatim {
       }
       .org-tool-bar {
       }
