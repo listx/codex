@@ -7,15 +7,27 @@
 
 * Problem statement
 
-Given N objects colored red, white, or blue, sort them so that objects of the same colors are grouped together. The groups should be red, white, and blue. [cite:@epip 43]. Bonus: return the number of red and white objects, if any.
+Given N objects colored red, white, or blue, sort them so that objects of the
+same colors are grouped together. The groups should be red, white, and blue.
+[cite:@epip 43]. Bonus: return the number of red and white objects, if any.
 
 * Insights
 
-Instead of 3 colors, we can have any other kind of property. For example, we could say "less than the middle number", "equal to the middle number", and "greater than the middle number". Seen this way, the /partition/ step of quicksort (where the "middle number" is called the /pivot/) is closely related.
+Instead of 3 colors, we can have any other kind of property. For example, we
+could say "less than the middle number", "equal to the middle number", and
+"greater than the middle number". Seen this way, the /partition/ step of
+quicksort (where the "middle number" is called the /pivot/) is closely related.
 
-If we just consider 2 colors, then this is essentially the same as the [[file:~/prog/codex/problem/rearrange_list_even_odd/README.org]["Rearrange list"]] problem which partitioned a list of numbers into 2 groups, all even (if any) and odd (if any). There we used 2 indices to keep track of the left (even) and right (odd) groups, and we had 3 subgroups: even, unknown, odd. We shrank the unknown group to 0, and when this happened (when the even and odd indices crossed each other), we were done.
+If we just consider 2 colors, then this is essentially the same as the
+[[file:~/prog/codex/problem/rearrange_list_even_odd/README.org]["Rearrange list"]] problem which partitioned a list of numbers into 2 groups, all
+even (if any) and odd (if any). There we used 2 indices to keep track of the
+left (even) and right (odd) groups, and we had 3 subgroups: even, unknown, odd.
+We shrank the unknown group to 0, and when this happened (when the even and odd
+indices crossed each other), we were done.
 
-For arranging 3 colors, we could use 3 indices (red, white, blue), and keep track of 4 subgroups: red, white, unknown, blue. Everything starts as "unknown", but we whittle this down to 0 (when the white and blue indices cross).
+For arranging 3 colors, we could use 3 indices (red, white, blue), and keep
+track of 4 subgroups: red, white, unknown, blue. Everything starts as "unknown",
+but we whittle this down to 0 (when the white and blue indices cross).
 
 * Solution
 
@@ -64,9 +76,11 @@ The =while= condition
   while idx_eq < idx_gt:
 #+end_src
 
-just checks whether we still have some nonzero size of unchecked numbers (in group "unknown").
+just checks whether we still have some nonzero size of unchecked numbers (in
+group "unknown").
 
-As we iterate through the loop, we always check the number pointed by =idx_eq= (similar to how we always kept an eye on =idx_odd= in [[file:~/prog/codex/problem/rearrange_list_even_odd/README.org]["Rearrange list"]]).
+As we iterate through the loop, we always check the number pointed by =idx_eq=
+(similar to how we always kept an eye on =idx_odd= in [[file:~/prog/codex/problem/rearrange_list_even_odd/README.org]["Rearrange list"]]).
 
 Now let's consider the simplest case:
 
@@ -76,9 +90,11 @@ Now let's consider the simplest case:
       idx_eq += 1
 #+end_src
 
-This is straightforward --- if =idx_eq= is looking at a number that is equal to the pivot, we "count" it by incrementing =idx_eq=. This is the happy path.
+This is straightforward --- if =idx_eq= is looking at a number that is equal to
+the pivot, we "count" it by incrementing =idx_eq=. This is the happy path.
 
-Now let's examine the case where =idx_eq= is pointing to a number less than the pivot:
+Now let's examine the case where =idx_eq= is pointing to a number less than the
+pivot:
 
 #+caption: number < pivot
 #+begin_src python
@@ -88,15 +104,33 @@ Now let's examine the case where =idx_eq= is pointing to a number less than the 
       idx_eq += 1
 #+end_src
 
-In this case, =idx_eq= just found a number smaller than the pivot, so it "trades" it with =idx_lt= via a swap. We must increment =idx_lt= because it "grew" by 1 number.
+In this case, =idx_eq= just found a number smaller than the pivot, so it
+"trades" it with =idx_lt= via a swap. We must increment =idx_lt= because it
+"grew" by 1 number.
 
-But how come we increment =idx_eq= here? Don't we need to examine the number that was swapped in on the next iteration (/without/ incrementing =idx_eq=)? To answer this question, let's look at the 2 possibilities for =idx_lt= and =idx_eq=: (1) these indices are equal (such as in the very first iteration of the loop when both are 0), or (2) =idx_eq= has gotten ahead of =idx_lt= by running the first if-branch when =num[idx_eq]= is equal to =pivot=. In both cases we want to increment =idx_eq=.
+But how come we increment =idx_eq= here? Don't we need to examine the number
+that was swapped in on the next iteration (/without/ incrementing =idx_eq=)? To
+answer this question, let's look at the 2 possibilities for =idx_lt= and
+=idx_eq=: (1) these indices are equal (such as in the very first iteration of
+the loop when both are 0), or (2) =idx_eq= has gotten ahead of =idx_lt= by
+running the first if-branch when =num[idx_eq]= is equal to =pivot=. In both
+cases we want to increment =idx_eq=.
 
-For the first case, the swap is a NOP. We want to increment =idx_eq= here because we want to examine the next number in the list.
+For the first case, the swap is a NOP. We want to increment =idx_eq= here
+because we want to examine the next number in the list.
 
-For the second case, this means that at some point, =idx_eq= advanced /on its own/, leaving =idx_lt= behind. The only way that =idx_eq= can advance on its own is if =nums[idx_eq]= is equal to the pivot. This means that when =idx_eq= first got ahead of =idx_lt=, they were *both* pointing to a number P which was equal to the pivot (after which =idx_eq= advanced on its own, per the first if-branch). So when =idx_eq= sees a number smaller than the pivot, it knows that =idx_lt=, which fell behind, is *already* looking at a number equal to the pivot! So after the swap, =idx_eq= is pointing at P again (and so it must advance). This is a little tricky, so let's see an example.
+For the second case, this means that at some point, =idx_eq= advanced /on its
+own/, leaving =idx_lt= behind. The only way that =idx_eq= can advance on its own
+is if =nums[idx_eq]= is equal to the pivot. This means that when =idx_eq= first
+got ahead of =idx_lt=, they were *both* pointing to a number P which was equal
+to the pivot (after which =idx_eq= advanced on its own, per the first
+if-branch). So when =idx_eq= sees a number smaller than the pivot, it knows that
+=idx_lt=, which fell behind, is *already* looking at a number equal to the
+pivot! So after the swap, =idx_eq= is pointing at P again (and so it must
+advance). This is a little tricky, so let's see an example.
 
-Here we expect =idx_lt= and =idx_eq= to both advance in lockstep for some time, as we keep hitting =0= initially which is less than the pivot.
+Here we expect =idx_lt= and =idx_eq= to both advance in lockstep for some time,
+as we keep hitting =0= initially which is less than the pivot.
 
 #+begin_example
 pivot = 1
@@ -109,7 +143,9 @@ pivot = 1
 `- idx_eq
 #+end_example
 
-When we see =1=, =idx_eq= advances on its own. Note how =idx_lt= "saves" an element *equal* to the pivot (by continuing to point to it) for a possible future swap with =idx_eq=.
+When we see =1=, =idx_eq= advances on its own. Note how =idx_lt= "saves" an
+element *equal* to the pivot (by continuing to point to it) for a possible
+future swap with =idx_eq=.
 
 #+begin_example
 0  0  0  1  0  0  1  (numbers)
@@ -120,7 +156,8 @@ When we see =1=, =idx_eq= advances on its own. Note how =idx_lt= "saves" an elem
          `- idx_eq
 #+end_example
 
-This is the critical step. =idx_eq= is looking at a number smaller than the pivot...
+This is the critical step. =idx_eq= is looking at a number smaller than the
+pivot...
 
 #+begin_example
 0  0  0  1  0  0  1  (numbers)
@@ -131,7 +168,8 @@ This is the critical step. =idx_eq= is looking at a number smaller than the pivo
             `- idx_eq
 #+end_example
 
-...so it performs a swap! Both =idx_eq= and =idx_lt= got what they wanted, respectively, so we must increment both of them.
+...so it performs a swap! Both =idx_eq= and =idx_lt= got what they wanted,
+respectively, so we must increment both of them.
 
 #+begin_example
 0  0  0  0  1  0  1  (numbers)
@@ -142,7 +180,8 @@ This is the critical step. =idx_eq= is looking at a number smaller than the pivo
             `- idx_eq
 #+end_example
 
-So much for the interplay between =idx_lt= and =idx_eq=. Now we come to the final condition where =idx_eq= sees a number /greater/ than the pivot:
+So much for the interplay between =idx_lt= and =idx_eq=. Now we come to the
+final condition where =idx_eq= sees a number /greater/ than the pivot:
 
 #+caption: number > pivot
 #+begin_src python
@@ -151,7 +190,11 @@ So much for the interplay between =idx_lt= and =idx_eq=. Now we come to the fina
       nums[idx_eq], nums[idx_gt] = nums[idx_gt], nums[idx_eq]
 #+end_src
 
-In this case, we "throw over" the number to the right side of the list (to =idx_gt=), and in return get the number that =idx_gt= (whatever it may be) pointed to. Because of of-by-one issues, we have to decrement =idx_gt= first. Note that we *do not* increment =idx_eq= here, because we have no idea what =idx_gt= was pointing at previously.
+In this case, we "throw over" the number to the right side of the list (to
+=idx_gt=), and in return get the number that =idx_gt= (whatever it may be)
+pointed to. Because of of-by-one issues, we have to decrement =idx_gt= first.
+Note that we *do not* increment =idx_eq= here, because we have no idea what
+=idx_gt= was pointing at previously.
 
 * Tests
 
@@ -173,14 +216,16 @@ class Test(unittest.TestCase):
   ]
 
   def test_simple_cases(self):
-    for given_nums, idx_pivot, expected_nums, expected_lt, expected_eq in self.cases:
+    for parts in self.cases:
+      given_nums, idx_pivot, expected_nums, expected_lt, expected_eq = parts
       got_lt, got_eq = dutch_flag_partition(given_nums, idx_pivot)
 
       self.assertEqual(given_nums, expected_nums)
       self.assertEqual(got_lt, expected_lt)
       self.assertEqual(got_eq, expected_eq)
 
-  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=16, max_size=16),
+  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=16,
+                  max_size=16),
          st.integers(min_value=0, max_value=15))
   def test_random(self, given_nums, idx_pivot):
     # Save the pivot now, because given_nums will get modified in-place (which
@@ -218,18 +263,36 @@ if __name__ == "__main__":
 
 * Final remarks
 
-The idea of partitioning is useful for implementing /quicksort/, because we can recursively call this function to sort a large list. There are two variations to do quicksort-style partitioning:
+The idea of partitioning is useful for implementing /quicksort/, because we can
+recursively call this function to sort a large list. There are two variations to
+do quicksort-style partitioning:
 
-1. (Dutch National Flag style, aka "fat pivot" [cite:@pearls 123]) elements equal to the pivot are gathered together in a single partitioning step, and
-2. (traditional quicksort) there are 2 partitions (elements less than, elements greater than) on each side of just a single "pivot" element).
+1. (Dutch National Flag style, aka "fat pivot" [cite:@pearls 123]) elements
+   equal to the pivot are gathered together in a single partitioning step, and
+2. (traditional quicksort) there are 2 partitions (elements less than, elements
+   greater than) on each side of just a single "pivot" element).
 
-The "fat pivot" style as presented here performs better in cases where there are a significant number of duplicate elements [cite:@sedgewick 296]. For example, if the entire list only has duplicates (e.g., every element is "7"), the traditional 3-way partitioning step of quicksort will still recurse repeatedly (because it only sorts 1 element (the pivot element) at a time), whereas the "fat pivot" style will not need te recurse at all as it will detect all duplicate elements in a single invocation.
+The "fat pivot" style as presented here performs better in cases where there are
+a significant number of duplicate elements [cite:@sedgewick 296]. For example,
+if the entire list only has duplicates (e.g., every element is "7"), the
+traditional 3-way partitioning step of quicksort will still recurse repeatedly
+(because it only sorts 1 element (the pivot element) at a time), whereas the
+"fat pivot" style will not need te recurse at all as it will detect all
+duplicate elements in a single invocation.
 
-A variation of the "fat pivot" algorithm puts the elements equal to the pivot on both the left and right ends of the array [cite:@sedgewick 306], and does a final swap of these elements into the middle of the list (to sit between the less-than and greater-than elements). This variant "appears to be best in practice" [cite:@taocp3 635], and appeared after "15 further years of experience" after Robert Sedgewick's analysis of traditional quicksort in the late 1970's [cite:@taocp3 122].
+A variation of the "fat pivot" algorithm puts the elements equal to the pivot on
+both the left and right ends of the array [cite:@sedgewick 306], and does a
+final swap of these elements into the middle of the list (to sit between the
+less-than and greater-than elements). This variant "appears to be best in
+practice" [cite:@taocp3 635], and appeared after "15 further years of
+experience" after Robert Sedgewick's analysis of traditional quicksort in the
+late 1970's [cite:@taocp3 122].
 
-[cite:@cormen 186] sadly only poses the Dutch National Flag as a problem and leaves the analysis of it mostly up to the reader.
+[cite:@cormen 186] sadly only poses the Dutch National Flag as a problem and
+leaves the analysis of it mostly up to the reader.
 
-[cite:@skiena 125-126] gives a good intuitive explanation of traditional quicksort's performance characteristics.
+[cite:@skiena 125-126] gives a good intuitive explanation of traditional
+quicksort's performance characteristics.
 
 * References
 #+CITE_EXPORT: csl apa.csl

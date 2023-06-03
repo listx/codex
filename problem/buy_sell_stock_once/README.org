@@ -7,24 +7,37 @@
 
 * Problem statement
 
-Given a list of prices for a stock over the past N days (one price per day), determine the optimum days to buy and sell the stock once to maximize profit [cite:@epip 51].
+Given a list of prices for a stock over the past N days (one price per day),
+determine the optimum days to buy and sell the stock once to maximize profit
+[cite:@epip 51].
 
 ** Inputs and outputs
 
 - Input: list of stock prices (positive numbers)
-- Output: day to buy the stock, day to sell the stock, and the realized profit margin
+- Output: day to buy the stock, day to sell the stock, and the realized profit
+  margin
 
 * Insights
 
-Simply taking the minimum and maximum values of the entire range, and comparing these two numbers, won't work. Example: =[10, 5]=. Here the only possible buy and sale is to buy at price =10= and sell on the next day at price =5=. But doing so would result in a loss. If the price is decreasing each day, then /every/ possible buy/sell combination will result in a loss. In this situation the algorithm should not recommend a buy/sell transaction at all (do nothing).
+Simply taking the minimum and maximum values of the entire range, and comparing
+these two numbers, won't work. Example: =[10, 5]=. Here the only possible buy
+and sale is to buy at price =10= and sell on the next day at price =5=. But
+doing so would result in a loss. If the price is decreasing each day, then
+/every/ possible buy/sell combination will result in a loss. In this situation
+the algorithm should not recommend a buy/sell transaction at all (do nothing).
 
-Here's another example: =[10, 9, 8, 1, 2, 6]=. Here the maximum possible profit is to buy at =1= and sell at =6=, for a profit margin of =5=. The minimum and maximum prices are =1= and =10=, which are interesting but don't give us the answer.
+Here's another example: =[10, 9, 8, 1, 2, 6]=. Here the maximum possible profit
+is to buy at =1= and sell at =6=, for a profit margin of =5=. The minimum and
+maximum prices are =1= and =10=, which are interesting but don't give us the
+answer.
 
 * Solutions
 
 ** Brute force
 
-Compare every number in the list with every other number. That is, compute every possible combinationa of buy/sell dates, and just return the best (max profit) dates found.
+Compare every number in the list with every other number. That is, compute every
+possible combinationa of buy/sell dates, and just return the best (max profit)
+dates found.
 
 #+name: __NREF__brute_force
 #+begin_src python
@@ -51,7 +64,10 @@ The time complexity is $O(n^2)$ where $n$ is the length of the list of prices.
 
 ** Optimal
 
-For the optimal solution, the key is to pretend to sell on that day, using the minimum price found in the previous days as the buying point. The trick here is that the previous minimum price calculation can be updated on each iteration with just a single =min()= comparison.
+For the optimal solution, the key is to pretend to sell on that day, using the
+minimum price found in the previous days as the buying point. The trick here is
+that the previous minimum price calculation can be updated on each iteration
+with just a single =min()= comparison.
 
 #+name: __NREF__optimal
 #+begin_src python
@@ -112,7 +128,8 @@ class Test(unittest.TestCase):
       self.assertEqual(brute_force(given_prices), expected)
       self.assertEqual(optimal(given_prices), expected)
 
-  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0, max_size=14))
+  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0,
+                  max_size=14))
   def test_random(self, given_prices: list[int]):
     got = brute_force(given_prices)
 

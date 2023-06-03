@@ -266,7 +266,9 @@
 <h2 id="h-Problem-statement"><span class="section-number-2">1.</span> Problem statement</h2>
 <div class="outline-text-2" id="text-h-Problem-statement">
 <p>
-Given a list of prices for a stock over the past N days (one price per day), determine the optimum days to buy and sell the stock once to maximize profit (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 51</a>).
+Given a list of prices for a stock over the past N days (one price per day),
+determine the optimum days to buy and sell the stock once to maximize profit
+(<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 51</a>).
 </p>
 </div>
 
@@ -275,7 +277,8 @@ Given a list of prices for a stock over the past N days (one price per day), det
 <div class="outline-text-3" id="text-h-Inputs-and-outputs">
 <ul class="org-ul">
 <li>Input: list of stock prices (positive numbers)</li>
-<li>Output: day to buy the stock, day to sell the stock, and the realized profit margin</li>
+<li>Output: day to buy the stock, day to sell the stock, and the realized profit
+margin</li>
 </ul>
 </div>
 </div>
@@ -285,11 +288,19 @@ Given a list of prices for a stock over the past N days (one price per day), det
 <h2 id="h-Insights"><span class="section-number-2">2.</span> Insights</h2>
 <div class="outline-text-2" id="text-h-Insights">
 <p>
-Simply taking the minimum and maximum values of the entire range, and comparing these two numbers, won't work. Example: <code>[10, 5]</code>. Here the only possible buy and sale is to buy at price <code>10</code> and sell on the next day at price <code>5</code>. But doing so would result in a loss. If the price is decreasing each day, then <i>every</i> possible buy/sell combination will result in a loss. In this situation the algorithm should not recommend a buy/sell transaction at all (do nothing).
+Simply taking the minimum and maximum values of the entire range, and comparing
+these two numbers, won't work. Example: <code>[10, 5]</code>. Here the only possible buy
+and sale is to buy at price <code>10</code> and sell on the next day at price <code>5</code>. But
+doing so would result in a loss. If the price is decreasing each day, then
+<i>every</i> possible buy/sell combination will result in a loss. In this situation
+the algorithm should not recommend a buy/sell transaction at all (do nothing).
 </p>
 
 <p>
-Here's another example: <code>[10, 9, 8, 1, 2, 6]</code>. Here the maximum possible profit is to buy at <code>1</code> and sell at <code>6</code>, for a profit margin of <code>5</code>. The minimum and maximum prices are <code>1</code> and <code>10</code>, which are interesting but don't give us the answer.
+Here's another example: <code>[10, 9, 8, 1, 2, 6]</code>. Here the maximum possible profit
+is to buy at <code>1</code> and sell at <code>6</code>, for a profit margin of <code>5</code>. The minimum and
+maximum prices are <code>1</code> and <code>10</code>, which are interesting but don't give us the
+answer.
 </p>
 </div>
 </div>
@@ -303,7 +314,9 @@ Here's another example: <code>[10, 9, 8, 1, 2, 6]</code>. Here the maximum possi
 <h3 id="h-Brute-force"><span class="section-number-3">3.1.</span> Brute force</h3>
 <div class="outline-text-3" id="text-h-Brute-force">
 <p>
-Compare every number in the list with every other number. That is, compute every possible combinationa of buy/sell dates, and just return the best (max profit) dates found.
+Compare every number in the list with every other number. That is, compute every
+possible combinationa of buy/sell dates, and just return the best (max profit)
+dates found.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">brute_force</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; Optional[<span class="org-builtin">tuple</span>[<span class="org-builtin">int</span>, <span class="org-builtin">int</span>, <span class="org-builtin">int</span>]]:
@@ -333,7 +346,10 @@ The time complexity is \(O(n^2)\) where \(n\) is the length of the list of price
 <h3 id="h-Optimal"><span class="section-number-3">3.2.</span> Optimal</h3>
 <div class="outline-text-3" id="text-h-Optimal">
 <p>
-For the optimal solution, the key is to pretend to sell on that day, using the minimum price found in the previous days as the buying point. The trick here is that the previous minimum price calculation can be updated on each iteration with just a single <code>min()</code> comparison.
+For the optimal solution, the key is to pretend to sell on that day, using the
+minimum price found in the previous days as the buying point. The trick here is
+that the previous minimum price calculation can be updated on each iteration
+with just a single <code>min()</code> comparison.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">optimal</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__optimal">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__optimal"><span class="org-keyword">def</span> <span class="org-function-name">optimal</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; Optional[<span class="org-builtin">tuple</span>[<span class="org-builtin">int</span>, <span class="org-builtin">int</span>, <span class="org-builtin">int</span>]]:
@@ -394,7 +410,8 @@ The time complexity is \(O(n)\).
       <span class="org-keyword">self</span>.assertEqual(brute_force(given_prices), expected)
       <span class="org-keyword">self</span>.assertEqual(optimal(given_prices), expected)
 
-  <span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100), min_size=0, max_size=14))
+  <span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100), min_size=0,
+                  max_size=14))
   <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
     got = brute_force(given_prices)
 

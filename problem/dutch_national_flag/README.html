@@ -237,7 +237,9 @@
 <h2 id="h-Problem-statement"><span class="section-number-2">1.</span> Problem statement</h2>
 <div class="outline-text-2" id="text-h-Problem-statement">
 <p>
-Given N objects colored red, white, or blue, sort them so that objects of the same colors are grouped together. The groups should be red, white, and blue. (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 43</a>). Bonus: return the number of red and white objects, if any.
+Given N objects colored red, white, or blue, sort them so that objects of the
+same colors are grouped together. The groups should be red, white, and blue.
+(<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 43</a>). Bonus: return the number of red and white objects, if any.
 </p>
 </div>
 </div>
@@ -246,15 +248,25 @@ Given N objects colored red, white, or blue, sort them so that objects of the sa
 <h2 id="h-Insights"><span class="section-number-2">2.</span> Insights</h2>
 <div class="outline-text-2" id="text-h-Insights">
 <p>
-Instead of 3 colors, we can have any other kind of property. For example, we could say "less than the middle number", "equal to the middle number", and "greater than the middle number". Seen this way, the <i>partition</i> step of quicksort (where the "middle number" is called the <i>pivot</i>) is closely related.
+Instead of 3 colors, we can have any other kind of property. For example, we
+could say "less than the middle number", "equal to the middle number", and
+"greater than the middle number". Seen this way, the <i>partition</i> step of
+quicksort (where the "middle number" is called the <i>pivot</i>) is closely related.
 </p>
 
 <p>
-If we just consider 2 colors, then this is essentially the same as the <a href="file:///Users/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a> problem which partitioned a list of numbers into 2 groups, all even (if any) and odd (if any). There we used 2 indices to keep track of the left (even) and right (odd) groups, and we had 3 subgroups: even, unknown, odd. We shrank the unknown group to 0, and when this happened (when the even and odd indices crossed each other), we were done.
+If we just consider 2 colors, then this is essentially the same as the
+<a href="file:///Users/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a> problem which partitioned a list of numbers into 2 groups, all
+even (if any) and odd (if any). There we used 2 indices to keep track of the
+left (even) and right (odd) groups, and we had 3 subgroups: even, unknown, odd.
+We shrank the unknown group to 0, and when this happened (when the even and odd
+indices crossed each other), we were done.
 </p>
 
 <p>
-For arranging 3 colors, we could use 3 indices (red, white, blue), and keep track of 4 subgroups: red, white, unknown, blue. Everything starts as "unknown", but we whittle this down to 0 (when the white and blue indices cross).
+For arranging 3 colors, we could use 3 indices (red, white, blue), and keep
+track of 4 subgroups: red, white, unknown, blue. Everything starts as "unknown",
+but we whittle this down to 0 (when the white and blue indices cross).
 </p>
 </div>
 </div>
@@ -304,11 +316,13 @@ The <code>while</code> condition
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">while condition</label><span class="lilac-caption-link-symbol"><a href="#while-condition">&#x1f517;</a></span></div><pre class="src src-python" id="while-condition">  <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
 </pre></div></div><p>
-just checks whether we still have some nonzero size of unchecked numbers (in group "unknown").
+just checks whether we still have some nonzero size of unchecked numbers (in
+group "unknown").
 </p>
 
 <p>
-As we iterate through the loop, we always check the number pointed by <code>idx_eq</code> (similar to how we always kept an eye on <code>idx_odd</code> in <a href="file:///Users/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a>).
+As we iterate through the loop, we always check the number pointed by <code>idx_eq</code>
+(similar to how we always kept an eye on <code>idx_odd</code> in <a href="file:///Users/l/prog/codex/problem/rearrange_list_even_odd/README.html">"Rearrange list"</a>).
 </p>
 
 <p>
@@ -318,11 +332,13 @@ Now let's consider the simplest case:
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number == pivot</label><span class="lilac-caption-link-symbol"><a href="#number----pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number----pivot">    <span class="org-keyword">if</span> nums[idx_eq] == pivot:
       idx_eq += 1
 </pre></div></div><p>
-This is straightforward &#x2014; if <code>idx_eq</code> is looking at a number that is equal to the pivot, we "count" it by incrementing <code>idx_eq</code>. This is the happy path.
+This is straightforward &#x2014; if <code>idx_eq</code> is looking at a number that is equal to
+the pivot, we "count" it by incrementing <code>idx_eq</code>. This is the happy path.
 </p>
 
 <p>
-Now let's examine the case where <code>idx_eq</code> is pointing to a number less than the pivot:
+Now let's examine the case where <code>idx_eq</code> is pointing to a number less than the
+pivot:
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &lt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--lt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--lt--pivot">    <span class="org-keyword">elif</span> nums[idx_eq] &lt; <span class="org-variable-name">pivot</span>:
@@ -330,23 +346,41 @@ Now let's examine the case where <code>idx_eq</code> is pointing to a number les
       <span class="org-variable-name">idx_lt</span> += 1
       <span class="org-variable-name">idx_eq</span> += 1
 </pre></div></div><p>
-In this case, <code>idx_eq</code> just found a number smaller than the pivot, so it "trades" it with <code>idx_lt</code> via a swap. We must increment <code>idx_lt</code> because it "grew" by 1 number.
+In this case, <code>idx_eq</code> just found a number smaller than the pivot, so it
+"trades" it with <code>idx_lt</code> via a swap. We must increment <code>idx_lt</code> because it
+"grew" by 1 number.
 </p>
 
 <p>
-But how come we increment <code>idx_eq</code> here? Don't we need to examine the number that was swapped in on the next iteration (<i>without</i> incrementing <code>idx_eq</code>)? To answer this question, let's look at the 2 possibilities for <code>idx_lt</code> and <code>idx_eq</code>: (1) these indices are equal (such as in the very first iteration of the loop when both are 0), or (2) <code>idx_eq</code> has gotten ahead of <code>idx_lt</code> by running the first if-branch when <code>num[idx_eq]</code> is equal to <code>pivot</code>. In both cases we want to increment <code>idx_eq</code>.
+But how come we increment <code>idx_eq</code> here? Don't we need to examine the number
+that was swapped in on the next iteration (<i>without</i> incrementing <code>idx_eq</code>)? To
+answer this question, let's look at the 2 possibilities for <code>idx_lt</code> and
+<code>idx_eq</code>: (1) these indices are equal (such as in the very first iteration of
+the loop when both are 0), or (2) <code>idx_eq</code> has gotten ahead of <code>idx_lt</code> by
+running the first if-branch when <code>num[idx_eq]</code> is equal to <code>pivot</code>. In both
+cases we want to increment <code>idx_eq</code>.
 </p>
 
 <p>
-For the first case, the swap is a NOP. We want to increment <code>idx_eq</code> here because we want to examine the next number in the list.
+For the first case, the swap is a NOP. We want to increment <code>idx_eq</code> here
+because we want to examine the next number in the list.
 </p>
 
 <p>
-For the second case, this means that at some point, <code>idx_eq</code> advanced <i>on its own</i>, leaving <code>idx_lt</code> behind. The only way that <code>idx_eq</code> can advance on its own is if <code>nums[idx_eq]</code> is equal to the pivot. This means that when <code>idx_eq</code> first got ahead of <code>idx_lt</code>, they were <b>both</b> pointing to a number P which was equal to the pivot (after which <code>idx_eq</code> advanced on its own, per the first if-branch). So when <code>idx_eq</code> sees a number smaller than the pivot, it knows that <code>idx_lt</code>, which fell behind, is <b>already</b> looking at a number equal to the pivot! So after the swap, <code>idx_eq</code> is pointing at P again (and so it must advance). This is a little tricky, so let's see an example.
+For the second case, this means that at some point, <code>idx_eq</code> advanced <i>on its
+own</i>, leaving <code>idx_lt</code> behind. The only way that <code>idx_eq</code> can advance on its own
+is if <code>nums[idx_eq]</code> is equal to the pivot. This means that when <code>idx_eq</code> first
+got ahead of <code>idx_lt</code>, they were <b>both</b> pointing to a number P which was equal
+to the pivot (after which <code>idx_eq</code> advanced on its own, per the first
+if-branch). So when <code>idx_eq</code> sees a number smaller than the pivot, it knows that
+<code>idx_lt</code>, which fell behind, is <b>already</b> looking at a number equal to the
+pivot! So after the swap, <code>idx_eq</code> is pointing at P again (and so it must
+advance). This is a little tricky, so let's see an example.
 </p>
 
 <p>
-Here we expect <code>idx_lt</code> and <code>idx_eq</code> to both advance in lockstep for some time, as we keep hitting <code>0</code> initially which is less than the pivot.
+Here we expect <code>idx_lt</code> and <code>idx_eq</code> to both advance in lockstep for some time,
+as we keep hitting <code>0</code> initially which is less than the pivot.
 </p>
 
 <pre class="example" id="org000000a">
@@ -361,7 +395,9 @@ pivot = 1
 </pre>
 
 <p>
-When we see <code>1</code>, <code>idx_eq</code> advances on its own. Note how <code>idx_lt</code> "saves" an element <b>equal</b> to the pivot (by continuing to point to it) for a possible future swap with <code>idx_eq</code>.
+When we see <code>1</code>, <code>idx_eq</code> advances on its own. Note how <code>idx_lt</code> "saves" an
+element <b>equal</b> to the pivot (by continuing to point to it) for a possible
+future swap with <code>idx_eq</code>.
 </p>
 
 <pre class="example" id="org000000b">
@@ -374,7 +410,8 @@ When we see <code>1</code>, <code>idx_eq</code> advances on its own. Note how <c
 </pre>
 
 <p>
-This is the critical step. <code>idx_eq</code> is looking at a number smaller than the pivot&#x2026;
+This is the critical step. <code>idx_eq</code> is looking at a number smaller than the
+pivot&#x2026;
 </p>
 
 <pre class="example" id="org000000c">
@@ -387,7 +424,8 @@ This is the critical step. <code>idx_eq</code> is looking at a number smaller th
 </pre>
 
 <p>
-&#x2026;so it performs a swap! Both <code>idx_eq</code> and <code>idx_lt</code> got what they wanted, respectively, so we must increment both of them.
+&#x2026;so it performs a swap! Both <code>idx_eq</code> and <code>idx_lt</code> got what they wanted,
+respectively, so we must increment both of them.
 </p>
 
 <pre class="example" id="org000000d">
@@ -400,14 +438,19 @@ This is the critical step. <code>idx_eq</code> is looking at a number smaller th
 </pre>
 
 <p>
-So much for the interplay between <code>idx_lt</code> and <code>idx_eq</code>. Now we come to the final condition where <code>idx_eq</code> sees a number <i>greater</i> than the pivot:
+So much for the interplay between <code>idx_lt</code> and <code>idx_eq</code>. Now we come to the
+final condition where <code>idx_eq</code> sees a number <i>greater</i> than the pivot:
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &gt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--gt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--gt--pivot">    <span class="org-keyword">else</span>:
       idx_gt -= 1
       <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_gt</span>] = nums[idx_gt], nums[idx_eq]
 </pre></div></div><p>
-In this case, we "throw over" the number to the right side of the list (to <code>idx_gt</code>), and in return get the number that <code>idx_gt</code> (whatever it may be) pointed to. Because of of-by-one issues, we have to decrement <code>idx_gt</code> first. Note that we <b>do not</b> increment <code>idx_eq</code> here, because we have no idea what <code>idx_gt</code> was pointing at previously.
+In this case, we "throw over" the number to the right side of the list (to
+<code>idx_gt</code>), and in return get the number that <code>idx_gt</code> (whatever it may be)
+pointed to. Because of of-by-one issues, we have to decrement <code>idx_gt</code> first.
+Note that we <b>do not</b> increment <code>idx_eq</code> here, because we have no idea what
+<code>idx_gt</code> was pointing at previously.
 </p>
 </div>
 </div>
@@ -430,14 +473,16 @@ In this case, we "throw over" the number to the right side of the list (to <code
   ]
 
   <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
-    <span class="org-keyword">for</span> given_nums, idx_pivot, expected_nums, expected_lt, expected_eq <span class="org-keyword">in</span> <span class="org-keyword">self</span>.<span class="org-variable-name">cases</span>:
+    <span class="org-keyword">for</span> parts <span class="org-keyword">in</span> <span class="org-keyword">self</span>.<span class="org-variable-name">cases</span>:
+      <span class="org-variable-name">given_nums</span>, <span class="org-variable-name">idx_pivot</span>, <span class="org-variable-name">expected_nums</span>, <span class="org-variable-name">expected_lt</span>, <span class="org-variable-name">expected_eq</span> = parts
       <span class="org-variable-name">got_lt</span>, <span class="org-variable-name">got_eq</span> = dutch_flag_partition(given_nums, idx_pivot)
 
       <span class="org-keyword">self</span>.assertEqual(given_nums, expected_nums)
       <span class="org-keyword">self</span>.assertEqual(got_lt, expected_lt)
       <span class="org-keyword">self</span>.assertEqual(got_eq, expected_eq)
 
-  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=16, max_size=16),
+  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=16,
+                  max_size=16),
          st.integers(min_value=0, max_value=15))
   <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_nums, idx_pivot):
     <span class="org-comment-delimiter"># </span><span class="org-comment">Save the pivot now, because given_nums will get modified in-place (which</span>
@@ -476,28 +521,46 @@ In this case, we "throw over" the number to the right side of the list (to <code
 <h2 id="h-Final-remarks"><span class="section-number-2">5.</span> Final remarks</h2>
 <div class="outline-text-2" id="text-h-Final-remarks">
 <p>
-The idea of partitioning is useful for implementing <i>quicksort</i>, because we can recursively call this function to sort a large list. There are two variations to do quicksort-style partitioning:
+The idea of partitioning is useful for implementing <i>quicksort</i>, because we can
+recursively call this function to sort a large list. There are two variations to
+do quicksort-style partitioning:
 </p>
 
 <ol class="org-ol">
-<li>(Dutch National Flag style, aka "fat pivot" (<a href="#citeproc_bib_item_2">Bentley, 2000, p. 123</a>)) elements equal to the pivot are gathered together in a single partitioning step, and</li>
-<li>(traditional quicksort) there are 2 partitions (elements less than, elements greater than) on each side of just a single "pivot" element).</li>
+<li>(Dutch National Flag style, aka "fat pivot" (<a href="#citeproc_bib_item_2">Bentley, 2000, p. 123</a>)) elements
+equal to the pivot are gathered together in a single partitioning step, and</li>
+<li>(traditional quicksort) there are 2 partitions (elements less than, elements
+greater than) on each side of just a single "pivot" element).</li>
 </ol>
 
 <p>
-The "fat pivot" style as presented here performs better in cases where there are a significant number of duplicate elements (<a href="#citeproc_bib_item_5">Sedgewick &#38; Wayne, 2011, p. 296</a>). For example, if the entire list only has duplicates (e.g., every element is "7"), the traditional 3-way partitioning step of quicksort will still recurse repeatedly (because it only sorts 1 element (the pivot element) at a time), whereas the "fat pivot" style will not need te recurse at all as it will detect all duplicate elements in a single invocation.
+The "fat pivot" style as presented here performs better in cases where there are
+a significant number of duplicate elements (<a href="#citeproc_bib_item_5">Sedgewick &#38; Wayne, 2011, p. 296</a>). For example,
+if the entire list only has duplicates (e.g., every element is "7"), the
+traditional 3-way partitioning step of quicksort will still recurse repeatedly
+(because it only sorts 1 element (the pivot element) at a time), whereas the
+"fat pivot" style will not need te recurse at all as it will detect all
+duplicate elements in a single invocation.
 </p>
 
 <p>
-A variation of the "fat pivot" algorithm puts the elements equal to the pivot on both the left and right ends of the array (<a href="#citeproc_bib_item_5">Sedgewick &#38; Wayne, 2011, p. 306</a>), and does a final swap of these elements into the middle of the list (to sit between the less-than and greater-than elements). This variant "appears to be best in practice" (<a href="#citeproc_bib_item_4">Knuth, 1997, p. 635</a>), and appeared after "15 further years of experience" after Robert Sedgewick's analysis of traditional quicksort in the late 1970's (<a href="#citeproc_bib_item_4">Knuth, 1997, p. 122</a>).
+A variation of the "fat pivot" algorithm puts the elements equal to the pivot on
+both the left and right ends of the array (<a href="#citeproc_bib_item_5">Sedgewick &#38; Wayne, 2011, p. 306</a>), and does a
+final swap of these elements into the middle of the list (to sit between the
+less-than and greater-than elements). This variant "appears to be best in
+practice" (<a href="#citeproc_bib_item_4">Knuth, 1997, p. 635</a>), and appeared after "15 further years of
+experience" after Robert Sedgewick's analysis of traditional quicksort in the
+late 1970's (<a href="#citeproc_bib_item_4">Knuth, 1997, p. 122</a>).
 </p>
 
 <p>
-(<a href="#citeproc_bib_item_3">Cormen, 2009, p. 186</a>) sadly only poses the Dutch National Flag as a problem and leaves the analysis of it mostly up to the reader.
+(<a href="#citeproc_bib_item_3">Cormen, 2009, p. 186</a>) sadly only poses the Dutch National Flag as a problem and
+leaves the analysis of it mostly up to the reader.
 </p>
 
 <p>
-(<a href="#citeproc_bib_item_6">Skiena, 2008, pp. 125–126</a>) gives a good intuitive explanation of traditional quicksort's performance characteristics.
+(<a href="#citeproc_bib_item_6">Skiena, 2008, pp. 125–126</a>) gives a good intuitive explanation of traditional
+quicksort's performance characteristics.
 </p>
 </div>
 </div>

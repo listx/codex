@@ -61,7 +61,8 @@ class Test(unittest.TestCase):
       self.assertEqual(brute_force(given_prices), expected)
       self.assertEqual(optimal(given_prices), expected)
 
-  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0, max_size=14))
+  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0,
+                  max_size=14))
   def test_random(self, given_prices: list[int]):
     got = brute_force(given_prices)
 

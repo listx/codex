@@ -7,8 +7,8 @@
 # that this is not the default option is odd.
 #+PROPERTY: header-args :noweb no-export
 
-# Number the top 5 levels of headings; since h1 is the title, this means headings
-# up to 5 numbers --- e.g., "1.2.3.4.5".
+# Number the top 5 levels of headings; since h1 is the title, this means
+# headings up to 5 numbers --- e.g., "1.2.3.4.5".
 #+OPTIONS: H:5
 
 #+BIBLIOGRAPHY: ./citations.bib
@@ -49,7 +49,7 @@ description of each one, and references.
 #+HTML_HEAD: .problems-table col:nth-of-type(3) { width: 30%; }
 #+HTML_HEAD: </style>
 #+ATTR_HTML: :class problems-table
-| Name                     | Tags                | References                                                                            |
+| Name                     | Tags                | References                                                                                   |
 |--------------------------+---------------------+----------------------------------------------------------------------------------------------|
 | [[file:problem/parity/README.org][Parity]]                   | bitwise             | [cite:@epip 27; @hd 96]                                                                      |
 | [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]        | geometry            | [cite:@epip 39]                                                                              |
@@ -90,7 +90,8 @@ checking the correctness of the puzzle solutions collected in this work.
 
 #+begin_src bibtex :tangle citations.bib :eval no :exports none
 @book{epip,
-    title = {{Elements of Programming Interviews in Python: The Insiders' Guide}},
+    title = {{Elements of Programming Interviews in Python: The Insiders'
+                  Guide}},
     author = {Aziz, Adnan and Lee, Tsung-Hsien and Prakash, Amit},
     year = {2018},
     isbn = {9781537713946},
@@ -180,8 +181,10 @@ checking the correctness of the puzzle solutions collected in this work.
 }
 
 @misc{se112007,
-    title = {{O(1) space, O(N) complexity algorithm for buy and sell stock twice interview question}},
-    author = {eefiasfira (https://cs.stackexchange.com/users/107747/eefiasfira)},
+    title = {{O(1) space, O(N) complexity algorithm for buy and sell stock twice
+                  interview question}},
+    author = {eefiasfira
+                  (https://cs.stackexchange.com/users/107747/eefiasfira)},
     howpublished = {Computer Science Stack Exchange},
     note = {URL:https://cs.stackexchange.com/q/112007 (version: 2021-04-21)},
     eprint = {https://cs.stackexchange.com/q/112007},

@@ -7,7 +7,9 @@
 
 * Problem statement
 
-This is the same problem as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] but with the difference that we can buy and sell again within the same range [cite:@epip 53]. This means that you can buy/sell once, or twice, in order to maximize the profit.
+This is the same problem as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] but with the difference
+that we can buy and sell again within the same range [cite:@epip 53]. This means
+that you can buy/sell once, or twice, in order to maximize the profit.
 
 ** Inputs and outputs
 
@@ -22,7 +24,8 @@ This is the same problem as in [[file:~/prog/codex/problem/buy_sell_stock_once/R
 
 ** Housekeeping
 
-There are a lot of moving parts to keep track of. Let's use a data type to keep things orderly.
+There are a lot of moving parts to keep track of. Let's use a data type to keep
+things orderly.
 
 #+header: :noweb-ref __NREF__buy_sell_twice
 #+begin_src python
@@ -34,7 +37,8 @@ TXN = collections.namedtuple('TXN', ('buy_date', 'sell_date', 'profit'))
 
 * Insights
 
-We can divide up the prices into two sublists. The first sublist is a buy/sell window, and the second sublist is another separate buy/sell window.
+We can divide up the prices into two sublists. The first sublist is a buy/sell
+window, and the second sublist is another separate buy/sell window.
 
 #+begin_example
 prices = [1,   2,   3,   1,   2,   3]
@@ -44,17 +48,26 @@ split2 = [1,   2,   3]   [1,  2,   3]
 split3 = [1,   2,   3,   1]  [2,   3]
 #+end_example
 
-This way, we can consider the maximum possible buy/sell profit margin (same algorithm as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]) of each sublist. Then we can work with these 2 buy/sell profits and just sum them up as we consider each split.
+This way, we can consider the maximum possible buy/sell profit margin (same
+algorithm as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]) of each sublist. Then we can work
+with these 2 buy/sell profits and just sum them up as we consider each split.
 
-The downside with the above approach is that we we're not reusing the information gleaned from the earlier splits in the later splits. So there's some level of duplicate work.
+The downside with the above approach is that we we're not reusing the
+information gleaned from the earlier splits in the later splits. So there's some
+level of duplicate work.
 
-Instead we can do a 2-pass algorithm. Here we consider two cases: (1) selling on the current day (with the minimum (buy point) looking into the past), and (2) buying on the current day (with the maximum (sell point) looking into the future). The final trick is to make sure that the days considered in both passes are on different days (to simulate buying and selling twice).
+Instead we can do a 2-pass algorithm. Here we consider two cases: (1) selling on
+the current day (with the minimum (buy point) looking into the past), and (2)
+buying on the current day (with the maximum (sell point) looking into the
+future). The final trick is to make sure that the days considered in both passes
+are on different days (to simulate buying and selling twice).
 
 * Solutions
 
 ** Brute force
 
-First get the optimum buy/sell dates if we are only buying and selling just once.
+First get the optimum buy/sell dates if we are only buying and selling just
+once.
 
 #+header: :noweb-ref __NREF__buy_sell_twice
 #+begin_src python
@@ -77,7 +90,11 @@ def brute_force(prices: list[int]) -> Optional[TXN]:
   return None
 #+end_src
 
-Now split up the given list into 2 sublists, where each sublist must have length 2 or greater. The length must be at least 2, because this is the minimum length for buying and selling. Now run =brute_force= against each of these sublists. If the two buy/sell transactions' combined profit is greater than the single transaction's profit, we take note of it.
+Now split up the given list into 2 sublists, where each sublist must have length
+2 or greater. The length must be at least 2, because this is the minimum length
+for buying and selling. Now run =brute_force= against each of these sublists. If
+the two buy/sell transactions' combined profit is greater than the single
+transaction's profit, we take note of it.
 
 #+header: :noweb-ref __NREF__buy_sell_twice
 #+begin_src python
@@ -115,7 +132,9 @@ def brute_force_sublists(prices: list[int]
   return None
 #+end_src
 
-Now that we know how to calculate the max profit for a single transaction as well as two transactions, we just have to compare them and see which one has a greater profit.
+Now that we know how to calculate the max profit for a single transaction as
+well as two transactions, we just have to compare them and see which one has a
+greater profit.
 
 #+header: :noweb-ref __NREF__buy_sell_twice
 #+begin_src python
@@ -148,15 +167,38 @@ def brute_force_maybe_sell_twice(prices: list[int]
 
 *** Tweaks
 
-If we use the =optimal()= algorithm in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] and use that to replace the call to =brute_force()=, we can get the time complexity down to $O(n^2)$, because for each sublist, we will call =optimal()= (which has $O(n)$ time complexity).
+If we use the =optimal()= algorithm in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] and use that to
+replace the call to =brute_force()=, we can get the time complexity down to
+$O(n^2)$, because for each sublist, we will call =optimal()= (which has $O(n)$
+time complexity).
 
 ** Two-pass algorithm
 
-The first pass is basically the same as =optimal()= from [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]], but applied twice -- once "forward" and again "backward". In the first pass, we record the max possible profit if we're selling on that day. This pass is basically the same as the optimum solution in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]. The algorithm there iterates through each price, keeps a running /minimum/ price seen (this assumes buying at that time), and records a profit or loss by selling on the day it is looking at.
+The first pass is basically the same as =optimal()= from [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock
+once"]], but applied twice -- once "forward" and again "backward". In the first
+pass, we record the max possible profit if we're selling on that day. This pass
+is basically the same as the optimum solution in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]. The
+algorithm there iterates through each price, keeps a running /minimum/ price
+seen (this assumes buying at that time), and records a profit or loss by selling
+on the day it is looking at.
 
-Then we can do a second pass by iterating through each day in reverse, getting the max profit if we we're /buying/ on that day --- this is the inverse of the first pass because we track the running /maximum price/ (thereby assuming that we /sell/ on that day). The current day we're looking at is the day of the second purchase. During this second pass we can use the information from the first pass to determine the max possible profit for buying and selling twice.
+Then we can do a second pass by iterating through each day in reverse, getting
+the max profit if we we're /buying/ on that day --- this is the inverse of the
+first pass because we track the running /maximum price/ (thereby assuming that
+we /sell/ on that day). The current day we're looking at is the day of the
+second purchase. During this second pass we can use the information from the
+first pass to determine the max possible profit for buying and selling twice.
 
-Essentially these two passes, on their own, can get the same answer for the scenario of buying and selling once. The first one asks "assuming that we bought already and /must sell/ today, how much money can I make?" while the second one asks "assuming that we must sell sometime in the future and /must buy/ today, how much money will I make?". They are two sides of the same coin. The key property of the second question though, is that we can ask it while iterating backwards in time, such that we only have to iterate backwards /once/, just like how we can iterate forwards /once/ with the first algorithm. Using these two complementary styles minimizes the number of traversals because we can burn the candle at both ends, so to speak.
+Essentially these two passes, on their own, can get the same answer for the
+scenario of buying and selling once. The first one asks "assuming that we bought
+already and /must sell/ today, how much money can I make?" while the second one
+asks "assuming that we must sell sometime in the future and /must buy/ today,
+how much money will I make?". They are two sides of the same coin. The key
+property of the second question though, is that we can ask it while iterating
+backwards in time, such that we only have to iterate backwards /once/, just like
+how we can iterate forwards /once/ with the first algorithm. Using these two
+complementary styles minimizes the number of traversals because we can burn the
+candle at both ends, so to speak.
 
 #+header: :noweb-ref __NREF__buy_sell_twice
 #+begin_src python
@@ -179,7 +221,8 @@ def two_pass_maybe_sell_twice(prices: list[int]
     max_profit_if_sell_now = price - min_price_so_far
 
     if max_profit_if_sell_now > max_profit_sell_once:
-      max_profit_sell_once = max(int(max_profit_if_sell_now), max_profit_sell_once)
+      max_profit_sell_once = max(int(max_profit_if_sell_now),
+                                 max_profit_sell_once)
       txn1 = TXN(buy_date, date, max_profit_sell_once)
 
     if txn1 is not None:
@@ -219,24 +262,42 @@ def two_pass_maybe_sell_twice(prices: list[int]
   return txn1, txn2
 #+end_src
 
-In the second pass, we do ~price >= max_price_so_far~ instead of the simpler ~price > max_price_so_far~ because we want to agree exactly with the brute force approach. For example, consider the case
+In the second pass, we do ~price >= max_price_so_far~ instead of the simpler
+~price > max_price_so_far~ because we want to agree exactly with the brute force
+approach. For example, consider the case
 
 #+begin_example
 1  2  1  1  2  (prices)
 0  1  2  3  4  (day number)
 #+end_example
 
-Obviously there must be two transactions in order to maximize profit here, buying at price 1 and selling at price 2 (we do this twice). However for the second transaction we could buy at price 1 on day 2 or day 3 --- the profit at the end is the same. The brute force approach splits into sublists and looks at prices going left to right in both sublists, but for the two-pass algorithm, for the second pass, the prices are looked at right to left. In order to make the two-pass algorithm override its previous choice of day 3 with day 2, we use the ~>=~ sign.
+Obviously there must be two transactions in order to maximize profit here,
+buying at price 1 and selling at price 2 (we do this twice). However for the
+second transaction we could buy at price 1 on day 2 or day 3 --- the profit at
+the end is the same. The brute force approach splits into sublists and looks at
+prices going left to right in both sublists, but for the two-pass algorithm, for
+the second pass, the prices are looked at right to left. In order to make the
+two-pass algorithm override its previous choice of day 3 with day 2, we use the
+~>=~ sign.
 
 *** Complexity
-- Time: $O(n)$, because we have 2 passes, each length $n$ over the list of prices. Instead of $2n$ we just have $n$ because that's how Big-Oh notation works.
-- Space: $O(n)$, because we have to create a new array, =profit_txn1=, which is equal to the size of the list of prices.
+- Time: $O(n)$, because we have 2 passes, each length $n$ over the list of
+  prices. Instead of $2n$ we just have $n$ because that's how Big-Oh notation
+  works.
+- Space: $O(n)$, because we have to create a new array, =profit_txn1=, which is
+  equal to the size of the list of prices.
 
 ** Single-pass algorithm
 
-This algorithm only requirse a single pass, and also only uses $O(1)$ space complexity, improving on the two-pass algorithm [cite:@se112007]. It is able to do this by keeping track of three maximum values. It is slightly different than the style of solutions we've looked at so far because it does not keep track of the buy and sell dates.
+This algorithm only requirse a single pass, and also only uses $O(1)$ space
+complexity, improving on the two-pass algorithm [cite:@se112007]. It is able to
+do this by keeping track of three maximum values. It is slightly different than
+the style of solutions we've looked at so far because it does not keep track of
+the buy and sell dates.
 
-The key is to assume that a second buy has occurred at some previous iteration, and then to see how much profit we can make after a second sale if we assume that we can sell for a second time today (in the current iteration).
+The key is to assume that a second buy has occurred at some previous iteration,
+and then to see how much profit we can make after a second sale if we assume
+that we can sell for a second time today (in the current iteration).
 
 #+header: :noweb-ref __NREF__buy_sell_twice
 #+begin_src python
@@ -268,17 +329,33 @@ def single_pass_maybe_sell_twice(prices: list[int]
   return None
 #+end_src
 
-Variables =min_price_so_far= and =max_profit_after_first_sell= are the essentially the same variables used in the optimum solution for [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]].
+Variables =min_price_so_far= and =max_profit_after_first_sell= are the
+essentially the same variables used in the optimum solution for [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell
+stock once"]].
 
-Variable =max_profit_after_second_buy= will only track the cheapest price available while still assuming the context of =max_profit_after_first_sell=. It's like tracking a second minimum price value (for the best value for the second buy), except that we track the /maximum/ (leftover) profit to be made. The corresponding =max_profit_after_second_sell= variable just checks what the total profit would be assuming a second sale; the neat thing is that it already has the profits from the first sale accounted for.
+Variable =max_profit_after_second_buy= will only track the cheapest price
+available while still assuming the context of =max_profit_after_first_sell=.
+It's like tracking a second minimum price value (for the best value for the
+second buy), except that we track the /maximum/ (leftover) profit to be made.
+The corresponding =max_profit_after_second_sell= variable just checks what the
+total profit would be assuming a second sale; the neat thing is that it already
+has the profits from the first sale accounted for.
 
-One difference with this algorithm than the other approaches we've seen so far is that it considers selling stock on the same day that it bought stock.
+One difference with this algorithm than the other approaches we've seen so far
+is that it considers selling stock on the same day that it bought stock.
 
-You may also be wondering if it is possible to tweak this algorithm to keep track of the buy and sell dates (as we have done in the other algorithms). This is not possible. For example, consider the following input: =[3, 4, 2, 5, 1, 6]=. When we see the price at 1, we will set this as the new =min_price_so_far=. However by setting this value, we make this the date of the first buy date (as it is used for calculating =max_profit_after_first_sell=), which is wrong (it should be the second buy date).
+You may also be wondering if it is possible to tweak this algorithm to keep
+track of the buy and sell dates (as we have done in the other algorithms). This
+is not possible. For example, consider the following input: =[3, 4, 2, 5, 1,
+6]=. When we see the price at 1, we will set this as the new =min_price_so_far=.
+However by setting this value, we make this the date of the first buy date (as
+it is used for calculating =max_profit_after_first_sell=), which is wrong (it
+should be the second buy date).
 
 *** Complexity
 - Time: $O(n)$, because we do a single pass over all elements.
-- Space: $O(1)$, because we only need to keep track of a fixed number of variables, independent of the size of the list of prices.
+- Space: $O(1)$, because we only need to keep track of a fixed number of
+  variables, independent of the size of the list of prices.
 
 * Tests
 
@@ -316,7 +393,8 @@ class Test(unittest.TestCase):
       self.assertEqual(two_pass_maybe_sell_twice(given_prices), expected,
                        msg=f'{given_prices=}')
 
-  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0, max_size=14))
+  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0,
+                  max_size=14))
   def test_random(self, given_prices: list[int]):
     got_sell_once = brute_force(given_prices)
     got_maybe_sell_twice = brute_force_maybe_sell_twice(given_prices)

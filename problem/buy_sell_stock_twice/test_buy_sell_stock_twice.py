@@ -96,7 +96,8 @@ def two_pass_maybe_sell_twice(prices: list[int]
     max_profit_if_sell_now = price - min_price_so_far
 
     if max_profit_if_sell_now > max_profit_sell_once:
-      max_profit_sell_once = max(int(max_profit_if_sell_now), max_profit_sell_once)
+      max_profit_sell_once = max(int(max_profit_if_sell_now),
+                                 max_profit_sell_once)
       txn1 = TXN(buy_date, date, max_profit_sell_once)
 
     if txn1 is not None:
@@ -185,7 +186,8 @@ class Test(unittest.TestCase):
       self.assertEqual(two_pass_maybe_sell_twice(given_prices), expected,
                        msg=f'{given_prices=}')
 
-  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0, max_size=14))
+  @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0,
+                  max_size=14))
   def test_random(self, given_prices: list[int]):
     got_sell_once = brute_force(given_prices)
     got_maybe_sell_twice = brute_force_maybe_sell_twice(given_prices)

@@ -236,7 +236,8 @@
 <h2 id="h-Problem-statement"><span class="section-number-2">1.</span> Problem statement</h2>
 <div class="outline-text-2" id="text-h-Problem-statement">
 <p>
-Given a list of numbers, rearrange the elements so that the even numbers appear first (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 41</a>). Return the number of even numbers found.
+Given a list of numbers, rearrange the elements so that the even numbers appear
+first (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 41</a>). Return the number of even numbers found.
 </p>
 </div>
 </div>
@@ -245,7 +246,9 @@ Given a list of numbers, rearrange the elements so that the even numbers appear 
 <h2 id="h-Insights"><span class="section-number-2">2.</span> Insights</h2>
 <div class="outline-text-2" id="text-h-Insights">
 <p>
-With a list, we can operate efficiently on both ends at the same time (that is, instead of traversing only left-to-right, we can also traverse right-to-left at the same time).
+With a list, we can operate efficiently on both ends at the same time (that is,
+instead of traversing only left-to-right, we can also traverse right-to-left at
+the same time).
 </p>
 </div>
 </div>
@@ -269,7 +272,10 @@ With a list, we can operate efficiently on both ends at the same time (that is, 
     <span class="org-variable-name">idx_even</span> += 1
   <span class="org-keyword">return</span> idx_even
 </pre></div></div><p>
-In <code>even_odd()</code>, the given list of numbers is modified in-place so that all the even numbers are placed in front of the list. We use 2 indices, <code>idx_even</code> and <code>idx_odd</code>, and they are set to the left-edge and right-edge of the list, respectively. Below is an example with the list <code>[13, 40, 20, 18, 7,  9,  8]</code>.
+In <code>even_odd()</code>, the given list of numbers is modified in-place so that all the
+even numbers are placed in front of the list. We use 2 indices, <code>idx_even</code> and
+<code>idx_odd</code>, and they are set to the left-edge and right-edge of the list,
+respectively. Below is an example with the list <code>[13, 40, 20, 18, 7,  9,  8]</code>.
 </p>
 
 <pre class="example" id="org0000004">
@@ -280,7 +286,8 @@ In <code>even_odd()</code>, the given list of numbers is modified in-place so th
 </pre>
 
 <p>
-The element <code>11</code> is odd, so we decrement <code>idx_odd</code>. This happens a couple more times because both <code>9</code> and <code>7</code> are odd.
+The element <code>11</code> is odd, so we decrement <code>idx_odd</code>. This happens a couple more
+times because both <code>9</code> and <code>7</code> are odd.
 </p>
 
 <pre class="example" id="org0000005">
@@ -293,7 +300,8 @@ The element <code>11</code> is odd, so we decrement <code>idx_odd</code>. This h
 </pre>
 
 <p>
-Now <code>ints[idx_odd]</code> is <code>18</code> and it is not odd. So we must swap (and increment <code>idx_even</code>).
+Now <code>ints[idx_odd]</code> is <code>18</code> and it is not odd. So we must swap (and increment
+<code>idx_even</code>).
 </p>
 
 <pre class="example" id="org0000006">
@@ -307,7 +315,9 @@ Now <code>ints[idx_odd]</code> is <code>18</code> and it is not odd. So we must 
 
 
 <p>
-<code>40</code> is even (and so is <code>20</code>) so we end up hitting this code path a couple more times, so <code>idx_even</code> eventually gets incremented to <code>3</code>, and at this point the <code>while</code> loop terminates.
+<code>40</code> is even (and so is <code>20</code>) so we end up hitting this code path a couple more
+times, so <code>idx_even</code> eventually gets incremented to <code>3</code>, and at this point the
+<code>while</code> loop terminates.
 </p>
 
 <p>
@@ -317,7 +327,9 @@ Let's have a closer look at the <code>while</code> loop inside <code>even_odd()<
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">while loop</label><span class="lilac-caption-link-symbol"><a href="#while-loop">&#x1f517;</a></span></div><pre class="src src-python" id="while-loop">  <span class="org-keyword">while</span> idx_even &lt; idx_odd:
     ...
 </pre></div></div><p>
-The <code>idx_even &lt; idx_odd</code> just means to stop processing whenever the two indices cross over each other (because we must uphold the guarantee of having the odd numbers on the right side of the list when we're done processing).
+The <code>idx_even &lt; idx_odd</code> just means to stop processing whenever the two indices
+cross over each other (because we must uphold the guarantee of having the odd
+numbers on the right side of the list when we're done processing).
 </p>
 
 <p>
@@ -327,7 +339,10 @@ Now let's check the <code>if</code> condition.
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">first if-condition</label><span class="lilac-caption-link-symbol"><a href="#first-if-condition">&#x1f517;</a></span></div><pre class="src src-python" id="first-if-condition">    <span class="org-keyword">if</span> ints[idx_odd] &amp; 1:
       <span class="org-variable-name">idx_odd</span> -= 1
 </pre></div></div><p>
-This part is straightforward &#x2014; if we observe that the number which <code>idx_odd</code> is pointing to is already odd, it's already in the correct position. So the only thing left to do is to decrement <code>idx_odd</code> so that we can consider the next number to the left.
+This part is straightforward &#x2014; if we observe that the number which <code>idx_odd</code>
+is pointing to is already odd, it's already in the correct position. So the only
+thing left to do is to decrement <code>idx_odd</code> so that we can consider the next
+number to the left.
 </p>
 
 <p>
@@ -338,21 +353,37 @@ Now comes the swapping behavior.
       <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_even</span>], <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_odd</span>] = ints[idx_odd], ints[idx_even]
       <span class="org-variable-name">idx_even</span> += 1
 </pre></div></div><p>
-We hit this branch if <code>idx_odd</code> is pointing to an <b>even</b> number. We know that because this number is even, we want to push it to the left edge of the list. Luckily we already have a pointer for this, <code>idx_even</code>. So we perform a swap to throw over the number we just looked at (<code>ints[idx_odd]</code>) over to the "even" side. The number that we get in return as a result of the swap (namely, <code>ints[idx_even]</code>) may or may not be odd. However it doesn't matter because we'll check it in the next iteration of the loop.
+We hit this branch if <code>idx_odd</code> is pointing to an <b>even</b> number. We know that
+because this number is even, we want to push it to the left edge of the list.
+Luckily we already have a pointer for this, <code>idx_even</code>. So we perform a swap to
+throw over the number we just looked at (<code>ints[idx_odd]</code>) over to the "even"
+side. The number that we get in return as a result of the swap (namely,
+<code>ints[idx_even]</code>) may or may not be odd. However it doesn't matter because we'll
+check it in the next iteration of the loop.
 </p>
 
 <p>
-Lastly we have to increment <code>idx_even</code> because we know that we just gave it an even number (the one we threw over to the even side). In other words the even side grew by 1 number, so it makes sense to increment <code>idx_even</code> to reflect this growth.
+Lastly we have to increment <code>idx_even</code> because we know that we just gave it an
+even number (the one we threw over to the even side). In other words the even
+side grew by 1 number, so it makes sense to increment <code>idx_even</code> to reflect this
+growth.
 </p>
 
 <p>
-So much for the <code>while</code> loop. As for the calculation of the number of even numbers, this is just the <code>idx_even</code> index, plus 1 if <code>idx_even</code> is currently looking at an even number (after the loop is done incrementing it).
+So much for the <code>while</code> loop. As for the calculation of the number of even
+numbers, this is just the <code>idx_even</code> index, plus 1 if <code>idx_even</code> is currently
+looking at an even number (after the loop is done incrementing it).
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name"><code>idx_even</code> (off-by-1)</label><span class="lilac-caption-link-symbol"><a href="#code-idx-even--code---off-by-1">&#x1f517;</a></span></div><pre class="src src-python" id="code-idx-even--code---off-by-1">  <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
     <span class="org-variable-name">idx_even</span> += 1
 </pre></div></div><p>
-We have to increment <code>idx_even</code> in such a case because this means that the number it is looking at after the <code>while</code> loop finished was <b>not</b> "thrown over" explicitly by the swapping code path in the loop. This can happen for the case where every number is even &#x2014; in this case we end up incrementing <code>idx_even</code> until it equals <code>idx_odd</code> (at the tail end of the list), when the loop terminates. Example:
+We have to increment <code>idx_even</code> in such a case because this means that the
+number it is looking at after the <code>while</code> loop finished was <b>not</b> "thrown over"
+explicitly by the swapping code path in the loop. This can happen for the case
+where every number is even &#x2014; in this case we end up incrementing <code>idx_even</code>
+until it equals <code>idx_odd</code> (at the tail end of the list), when the loop
+terminates. Example:
 </p>
 
 <pre class="example" id="org000000f">
@@ -364,7 +395,11 @@ We have to increment <code>idx_even</code> in such a case because this means tha
 </pre>
 
 <p>
-In this case, <code>idx_even</code> is 6, but there are 7 even numbers in the list. So we have to add 1 to get the correct answer. For all other cases, where <code>idx_even</code> is looking at an odd number, this means that the number immediately to the left of <code>idx_even</code> is the last even number. So there's nothing more to adjust and we already have the correct value, so we do nothing.
+In this case, <code>idx_even</code> is 6, but there are 7 even numbers in the list. So we
+have to add 1 to get the correct answer. For all other cases, where <code>idx_even</code>
+is looking at an odd number, this means that the number immediately to the left
+of <code>idx_even</code> is the last even number. So there's nothing more to adjust and we
+already have the correct value, so we do nothing.
 </p>
 </div>
 </div>
@@ -397,7 +432,8 @@ In this case, <code>idx_even</code> is 6, but there are 7 even numbers in the li
       <span class="org-keyword">self</span>.assertEqual(given_ints, expected_ints)
       <span class="org-keyword">self</span>.assertEqual(got_evens, expected_evens)
 
-  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=0, max_size=16))
+  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=0,
+                  max_size=16))
   <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_ints):
     even_nums = even_odd(given_ints)
     <span class="org-comment-delimiter"># </span><span class="org-comment">If we found some even numbers, these elements must actually all be even.</span>

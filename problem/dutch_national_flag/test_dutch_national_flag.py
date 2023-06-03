@@ -44,14 +44,16 @@ class Test(unittest.TestCase):
   ]
 
   def test_simple_cases(self):
-    for given_nums, idx_pivot, expected_nums, expected_lt, expected_eq in self.cases:
+    for parts in self.cases:
+      given_nums, idx_pivot, expected_nums, expected_lt, expected_eq = parts
       got_lt, got_eq = dutch_flag_partition(given_nums, idx_pivot)
 
       self.assertEqual(given_nums, expected_nums)
       self.assertEqual(got_lt, expected_lt)
       self.assertEqual(got_eq, expected_eq)
 
-  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=16, max_size=16),
+  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=16,
+                  max_size=16),
          st.integers(min_value=0, max_value=15))
   def test_random(self, given_nums, idx_pivot):
     # Save the pivot now, because given_nums will get modified in-place (which

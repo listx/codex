@@ -37,7 +37,8 @@ class Test(unittest.TestCase):
       self.assertEqual(given_ints, expected_ints)
       self.assertEqual(got_evens, expected_evens)
 
-  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=0, max_size=16))
+  @given(st.lists(st.integers(min_value=0, max_value=100), min_size=0,
+                  max_size=16))
   def test_random(self, given_ints):
     even_nums = even_odd(given_ints)
     # If we found some even numbers, these elements must actually all be even.
