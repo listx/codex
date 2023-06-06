@@ -2,4 +2,5 @@
 **/*.auctex-auto
 **/*.hypothesis
 tangle
+update-deps
 weave

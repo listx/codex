@@ -192,7 +192,8 @@
 </style>
 <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
 <link rel="stylesheet" type="text/css" href="lilac.css" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&family=Source+Code+Pro">
+<link rel="stylesheet" href=
+"https://fonts.googleapis.com/css2?family=Source+Serif+Pro&family=Source+Code+Pro">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="lilac.js"></script>
 <style type="text/css">
@@ -254,7 +255,11 @@
 </ul>
 </li>
 <li><a href="#h-Tangling--generating-the-source-code">4.2. Tangling (generating the source code)</a></li>
-<li><a href="#h-Development-environment--Nix-shell">4.3. Development environment (Nix shell)</a></li>
+<li><a href="#h-Development-environment--Nix-shell">4.3. Development environment (Nix shell)</a>
+<ul>
+<li><a href="#h-Update-Nix-dependencies">4.3.1. Update Nix dependencies</a></li>
+</ul>
+</li>
 <li><a href="#h-Elisp">4.4. Elisp</a></li>
 </ul>
 </li>
@@ -527,6 +532,8 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 <span class="org-comment-delimiter"># </span><span class="org-comment">Enter development environment.</span>
 <span class="org-makefile-targets">shell</span>:
     nix-shell --pure
+
+<span class="lilac-child-link-from-parent"><a href="#__NREF__Makefile-update-deps">Makefile-update-deps</a></span>
 </pre></div></div>
 </div>
 
@@ -575,6 +582,7 @@ instead.
 **/*.auctex-auto
 **/*.hypothesis
 tangle
+update-deps
 weave
 </pre></div></div>
 </div>
@@ -672,6 +680,22 @@ pkgs.mkShell ({
   ];
 })
 </pre></div></div>
+</div>
+
+<div id="outline-container-h-Update-Nix-dependencies" class="outline-4">
+<h4 id="h-Update-Nix-dependencies"><span class="section-number-4">4.3.1.</span> Update Nix dependencies</h4>
+<div class="outline-text-4" id="text-h-Update-Nix-dependencies">
+<p>
+This is based on Lilac's own code for updating Nix dependencies with <a href="https://github.com/nmattia/niv"><code>niv</code></a>.
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-update-deps</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-update-deps">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-update-deps"><span class="org-variable-name">nixpkgs_stable_channel</span> := nixos-23.05
+<span class="org-makefile-targets">update-deps</span>: package/nix/sources.json package/nix/sources.nix
+    cd package &amp;&amp; niv update nixpkgs --branch $(<span class="org-variable-name">nixpkgs_stable_channel</span>)
+    cd package &amp;&amp; niv update
+    touch update-deps
+</pre></div></div>
+</div>
 </div>
 </div>
 

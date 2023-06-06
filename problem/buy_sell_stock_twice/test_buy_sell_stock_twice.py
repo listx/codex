@@ -3,8 +3,6 @@ import unittest
 
 from typing import Optional
 
-from typing import Optional
-
 import collections
 TXN = collections.namedtuple('TXN', ('buy_date', 'sell_date', 'profit'))
 def brute_force(prices: list[int]) -> Optional[TXN]:

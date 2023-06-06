@@ -29,8 +29,6 @@ things orderly.
 
 #+header: :noweb-ref __NREF__buy_sell_twice
 #+begin_src python
-from typing import Optional
-
 import collections
 TXN = collections.namedtuple('TXN', ('buy_date', 'sell_date', 'profit'))
 #+end_src
