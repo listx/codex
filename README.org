@@ -58,15 +58,13 @@ description of each one, and references.
 | [[file:problem/buy_sell_stock_once/README.org][Buy and sell stock once]]  | array               | [cite:@epip 51]                                                                              |
 | [[file:problem/buy_sell_stock_twice/README.org][Buy and sell stock twice]] | array               | [cite:@epip 53]                                                                              |
 
-** Python tricks
+** Appendix
 
-There are some [[file:appendix/python_tricks/README.org][Python-language-specific tricks]] available for programming
-problems. You might want to skim over this if your Python skills are rusty.
-
-** Mathematics
-
-Some (some would argue /all/) topics in programming have mathematical
-underpinnings. See the [[file:appendix/mathematics/README.org][Mathematics]] appendix.
+- [[file:appendix/python_tricks/README.org][Python tricks]] :: There are some Python-language-specific tricks available for
+  programming problems. You might want to skim over this if your Python skills
+  are rusty.
+- [[file:appendix/mathematics/README.org][Mathematics]] :: Some (some would argue /all/) topics in programming have
+  mathematical underpinnings.
 
 * Tests
 
