@@ -248,12 +248,13 @@
 <li><a href="#h-Introduction">1. Introduction</a></li>
 <li><a href="#h-Two-s-Complement">2. Two's Complement</a>
 <ul>
-<li><a href="#h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system">2.1. Using the two's complement to represent negative numbers (signed number system)</a>
+<li><a href="#h-Overview">2.1. Overview</a></li>
+<li><a href="#h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system">2.2. Using the two's complement to represent negative numbers (signed number system)</a>
 <ul>
-<li><a href="#h-Negating-a-positive-number--or-the--paper-folding--analogy">2.1.1. Negating a positive number, or the "paper folding" analogy</a></li>
+<li><a href="#h-Negating-a-positive-number--or-the--paper-folding--analogy">2.2.1. Negating a positive number, or the "paper folding" analogy</a></li>
 </ul>
 </li>
-<li><a href="#h-Other-notes">2.2. Other notes</a></li>
+<li><a href="#h-Other-notes">2.3. Other notes</a></li>
 </ul>
 </li>
 <li><a href="#h-References">3. References</a></li>
@@ -279,7 +280,11 @@ here essentially means base 2 (binary). Simply put, if 2 numbers when added
 together equal a power-of-2 number (\(2^N\)), they are each others' two's
 complement.
 </p>
+</div>
 
+<div id="outline-container-h-Overview" class="outline-3">
+<h3 id="h-Overview"><span class="section-number-3">2.1.</span> Overview</h3>
+<div class="outline-text-3" id="text-h-Overview">
 <p>
 Because examples are worth a million words, let's see some examples of numbers
 and their two's complements for unsigned 4-bit numbers (the idea extends to any
@@ -579,9 +584,10 @@ And now all that remains to get the complement is just adding 1 to <code>NOT X</
 that the total on the right is 16 instead of 15.
 </p>
 </div>
+</div>
 
 <div id="outline-container-h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system" class="outline-3">
-<h3 id="h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system"><span class="section-number-3">2.1.</span> Using the two's complement to represent negative numbers (signed number system)</h3>
+<h3 id="h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system"><span class="section-number-3">2.2.</span> Using the two's complement to represent negative numbers (signed number system)</h3>
 <div class="outline-text-3" id="text-h-Using-the-two-s-complement-to-represent-negative-numbers--signed-number-system">
 <p>
 In the discussion above, we only talked about unsigned numbers. That is, the
@@ -838,7 +844,7 @@ two's complement (<code>0011</code> plus 1) <code>0100</code> (4). So the signed
 </div>
 
 <div id="outline-container-h-Negating-a-positive-number--or-the--paper-folding--analogy" class="outline-4">
-<h4 id="h-Negating-a-positive-number--or-the--paper-folding--analogy"><span class="section-number-4">2.1.1.</span> Negating a positive number, or the "paper folding" analogy</h4>
+<h4 id="h-Negating-a-positive-number--or-the--paper-folding--analogy"><span class="section-number-4">2.2.1.</span> Negating a positive number, or the "paper folding" analogy</h4>
 <div class="outline-text-4" id="text-h-Negating-a-positive-number--or-the--paper-folding--analogy">
 <p>
 In the example above we got some arbitrary word with the leading bit turned on,
@@ -1086,7 +1092,7 @@ same method to get the positive version of a negative number. So if you have
 </div>
 
 <div id="outline-container-h-Other-notes" class="outline-3">
-<h3 id="h-Other-notes"><span class="section-number-3">2.2.</span> Other notes</h3>
+<h3 id="h-Other-notes"><span class="section-number-3">2.3.</span> Other notes</h3>
 <div class="outline-text-3" id="text-h-Other-notes">
 <p>
 This "paper folding" idea presented above is essentially the same idea for

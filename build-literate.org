@@ -50,6 +50,7 @@ weave: build-html
 
 build-html: README.html $(woven_html)
 .PHONY: build-html
+.PHONY: appendix/mathematics/twos-complement.html
 
 README.html: build-literate.org README.org citations.bib
 	$(call run_emacs,(lilac-gen-css-and-exit),README.org)
