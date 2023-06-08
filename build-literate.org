@@ -75,7 +75,7 @@ check: lint test
 
 test: tangle
 	python -m unittest discover -s problem
-.PHONY: test
+	touch test
 
 lint: mypy ruff
 .PHONY: lint
@@ -131,6 +131,7 @@ instead.
 ,**/*.auctex-auto
 ,**/*.hypothesis
 tangle
+test
 update-deps
 weave
 #+end_src

@@ -100,7 +100,7 @@ check: lint test
 
 test: tangle
 	python -m unittest discover -s problem
-.PHONY: test
+	touch test
 
 lint: mypy ruff
 .PHONY: lint

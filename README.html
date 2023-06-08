@@ -508,7 +508,7 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 
 <span class="org-makefile-targets">test</span>: tangle
     python -m unittest discover -s problem
-<span class="org-makefile-targets">.PHONY</span>: test
+    touch test
 
 <span class="org-makefile-targets">lint</span>: mypy ruff
 <span class="org-makefile-targets">.PHONY</span>: lint
@@ -574,6 +574,7 @@ instead.
 **/*.auctex-auto
 **/*.hypothesis
 tangle
+test
 update-deps
 weave
 </pre></div></div>
