@@ -88,6 +88,20 @@ __NREF__Makefile-update-deps
 
 ** Use =lilac.theme= file
 
+First we track Lilac as a submodule within this project, and then symlink to the
+CSS, JS, and theme files to the project root. Symlinking adds a level of
+indirection such that if we ever decide to move around the submodule location to
+somewhere else, we won't have to update all of our Org files and can instead
+just update these symlinks.
+
+Then in all of our published Org files, we do
+
+#+begin_src org
+#+SETUPFILE: path/to/lilac.theme
+#+end_src
+
+to get the CSS/JS that comes with Lilac.
+
 ** Ignore woven HTML from =git diff=
 
 Typically we only need to look at the rendered HTML output in a web browser as

@@ -523,6 +523,22 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 <div id="outline-container-h-Use--lilac-theme--file" class="outline-4">
 <h4 id="h-Use--lilac-theme--file"><span class="section-number-4">4.1.1.</span> Use <code>lilac.theme</code> file</h4>
 <div class="outline-text-4" id="text-h-Use--lilac-theme--file">
+<p>
+First we track Lilac as a submodule within this project, and then symlink to the
+CSS, JS, and theme files to the project root. Symlinking adds a level of
+indirection such that if we ever decide to move around the submodule location to
+somewhere else, we won't have to update all of our Org files and can instead
+just update these symlinks.
+</p>
+
+<p>
+Then in all of our published Org files, we do
+</p>
+
+<div class="org-src-container"><pre class="src src-org" id="org0000002"><span class="org-org-meta-line">#+SETUPFILE: path/to/lilac.theme</span>
+</pre></div><p>
+to get the CSS/JS that comes with Lilac.
+</p>
 </div>
 </div>
 
