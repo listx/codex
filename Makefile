@@ -23,11 +23,6 @@ define weave_org
 $(1): $(2) build-literate.org
 	@echo weaving $(2)
 	$(call run_emacs,(lilac-publish),$(2))
-	sed -i 's/<style>.csl-left-margin{float: left; padding-right: 0em/\
-<style>.csl-left-margin{float: left; padding-right: 1em/' $(1)
-	sed -i 's/.csl-right-inline{margin: 0 0 0 1em;}<\/style>/\
-.csl-right-inline{margin: 0 0 0 2em;}<\/style>/' $(1)
-	sed -i 's|<h2>Table of Contents</h2>||' $(1)
 
 endef
 
@@ -80,11 +75,6 @@ build-html: README.html $(woven_html)
 README.html syntax-highlighting.css &: build-literate.org README.org citations.bib
 	$(call run_emacs,(lilac-gen-css-and-exit),README.org)
 	$(call run_emacs,(lilac-publish),README.org)
-	sed -i 's/<style>.csl-left-margin{float: left; padding-right: 0em/'\
-	'<style>.csl-left-margin{float: left; padding-right: 1em/' README.html
-	sed -i 's/.csl-right-inline{margin: 0 0 0 1em;}<\/style>/'\
-	'.csl-right-inline{margin: 0 0 0 2em;}<\/style>/' README.html
-	sed -i 's|<h2>Table of Contents</h2>||' README.html
 
 $(foreach d,$(appendix_dirs_without_prefix),\
 	$(eval $(call weave_org,\

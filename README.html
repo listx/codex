@@ -466,11 +466,6 @@ define weave_org
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">2</span>) build-literate.org
     <span class="org-type">@</span><span class="org-makefile-shell">echo weaving $(</span><span class="org-makefile-shell"><span class="org-variable-name">2</span></span><span class="org-makefile-shell">)</span>
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),$(<span class="org-variable-name">2</span>))
-    sed -i <span class="org-string">'s/&lt;style&gt;.csl-left-margin{float: left; padding-right: 0em/\</span>
-<span class="org-string">&lt;style&gt;.csl-left-margin{float: left; padding-right: 1em/'</span> $(<span class="org-variable-name">1</span>)
-    sed -i <span class="org-string">'s/.csl-right-inline{margin: 0 0 0 1em;}&lt;\/style&gt;/\</span>
-<span class="org-string">.csl-right-inline{margin: 0 0 0 2em;}&lt;\/style&gt;/'</span> $(<span class="org-variable-name">1</span>)
-    sed -i <span class="org-string">'s|&lt;h2&gt;Table of Contents&lt;/h2&gt;||'</span> $(<span class="org-variable-name">1</span>)
 
 endef
 
@@ -488,11 +483,6 @@ endef
 <span class="org-makefile-targets">README.html syntax-highlighting.css &amp;</span>: build-literate.org README.org citations.bib
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-gen-css-and-exit),README.org)
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),README.org)
-    sed -i <span class="org-string">'s/&lt;style&gt;.csl-left-margin{float: left; padding-right: 0em/'</span>\
-    <span class="org-string">'&lt;style&gt;.csl-left-margin{float: left; padding-right: 1em/'</span> README.html
-    sed -i <span class="org-string">'s/.csl-right-inline{margin: 0 0 0 1em;}&lt;\/style&gt;/'</span>\
-    <span class="org-string">'.csl-right-inline{margin: 0 0 0 2em;}&lt;\/style&gt;/'</span> README.html
-    sed -i <span class="org-string">'s|&lt;h2&gt;Table of Contents&lt;/h2&gt;||'</span> README.html
 
 $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">appendix_dirs_without_prefix</span>),\
     $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> weave_org,\
