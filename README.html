@@ -480,6 +480,11 @@ endef
 <span class="org-makefile-targets">.PHONY</span>: build-html
 <span class="org-makefile-targets">.PHONY</span>: appendix/mathematics/twos-complement.html
 
+<span class="org-makefile-targets">appendix/mathematics/README.html</span>: appendix/mathematics/twos-complement.org
+    $(<span class="org-variable-name">call</span> weave_org,\
+    appendix/mathematics/README.html,\
+    appendix/mathematics/README.org)
+
 <span class="org-makefile-targets">README.html syntax-highlighting.css &amp;</span>: build-literate.org README.org citations.bib
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-gen-css-and-exit),README.org)
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),README.org)
