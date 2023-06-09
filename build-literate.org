@@ -52,7 +52,7 @@ build-html: README.html $(woven_html)
 .PHONY: build-html
 .PHONY: appendix/mathematics/twos-complement.html
 
-README.html: build-literate.org README.org citations.bib
+README.html syntax-highlighting.css &: build-literate.org README.org citations.bib
 	$(call run_emacs,(lilac-gen-css-and-exit),README.org)
 	$(call run_emacs,(lilac-publish),README.org)
 	sed -i 's/<style>.csl-left-margin{float: left; padding-right: 0em/'\

@@ -485,7 +485,7 @@ endef
 <span class="org-makefile-targets">.PHONY</span>: build-html
 <span class="org-makefile-targets">.PHONY</span>: appendix/mathematics/twos-complement.html
 
-<span class="org-makefile-targets">README.html</span>: build-literate.org README.org citations.bib
+<span class="org-makefile-targets">README.html syntax-highlighting.css &amp;</span>: build-literate.org README.org citations.bib
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-gen-css-and-exit),README.org)
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),README.org)
     sed -i <span class="org-string">'s/&lt;style&gt;.csl-left-margin{float: left; padding-right: 0em/'</span>\
