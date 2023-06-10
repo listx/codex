@@ -122,6 +122,32 @@ digit and work our way left.
   additional space (beyond the input string, whose memory allocation is not part
   of our algorithm's behavior).
 
+*** Variation with =functools=
+
+This version uses =functools.reduce()= from the =functools= module to iterate in
+through the input string in the opposite direction (left-to-right). The trick is
+to multiply whatever previous (partial) sum we have by 10 on each subsequent
+iteration.
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+def str_to_int_functional(s: str) -> int:
+    res = functools.reduce(
+        lambda partial_sum, digit: partial_sum * 10 + (ord(digit) - ord('0')),
+        s[s[0] == "-":],
+        0)
+    if s[0] == "-":
+        res *= -1
+    return res
+#+end_src
+
+Note the ~s[s[0] == "-":]~ trick --- this simplifies to =s[1:]= (skipping the
+first character) only if the first character is a negative sign symbol.
+
+One other difference is that we no longer have to raise anything to a power
+using the =**= operator, because we spread this out over each iteration by
+multiplying the partial sum by 10.
+
 * Tests
 
 #+name: Tests
@@ -129,6 +155,8 @@ digit and work our way left.
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 from hypothesis import given, strategies as st
 import unittest
+
+import functools
 
 __NREF__code
 
@@ -154,8 +182,10 @@ class Test(unittest.TestCase):
   def test_random(self, given_int: int):
     got_str = int_to_str(given_int)
     got_int = str_to_int(got_str)
+    got_int_functional = str_to_int_functional(got_str)
     # Check roundtrip.
     self.assertEqual(got_int, given_int, msg=f'{given_int=}')
+    self.assertEqual(got_int_functional, given_int, msg=f'{given_int=}')
 
 if __name__ == "__main__":
   unittest.main(exit=False)

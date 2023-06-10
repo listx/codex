@@ -257,6 +257,7 @@
 <li><a href="#h-str--to--int">3.2. <code>str</code> to <code>int</code></a>
 <ul>
 <li><a href="#h-Complexity-1">3.2.1. Complexity</a></li>
+<li><a href="#h-Variation-with--functools">3.2.2. Variation with <code>functools</code></a></li>
 </ul>
 </li>
 </ul>
@@ -295,14 +296,14 @@ just a numerical lookup (using ASCII values directly)
 <div id="outline-container-h-int--to--str" class="outline-3">
 <h3 id="h-int--to--str"><span class="section-number-3">3.1.</span> <code>int</code> to <code>str</code></h3>
 <div class="outline-text-3" id="text-h-int--to--str">
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(1/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-1"><span class="org-keyword">def</span> <span class="org-function-name">int_to_str</span>(n: <span class="org-builtin">int</span>) -&gt; <span class="org-builtin">str</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(1/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-1"><span class="org-keyword">def</span> <span class="org-function-name">int_to_str</span>(n: <span class="org-builtin">int</span>) -&gt; <span class="org-builtin">str</span>:
 </pre></div></div><p>
 If the number is negative, we have to keep track of this separately. It
 simplifies our algorithm if we always only work with positive integers, so we
 also make the number positive if necessary as a preparatory step.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(2/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-2">  <span class="org-variable-name">negative</span> = <span class="org-constant">False</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(2/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-2">  <span class="org-variable-name">negative</span> = <span class="org-constant">False</span>
   <span class="org-keyword">if</span> n &lt; 0:
     <span class="org-variable-name">negative</span> = <span class="org-constant">True</span>
     <span class="org-variable-name">n</span> = -n
@@ -324,7 +325,7 @@ technically requires less copying (we avoid moving array elements by appending
 to it).
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(3/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-3">  <span class="org-variable-name">digits</span> = []
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(3/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-3">  <span class="org-variable-name">digits</span> = []
   <span class="org-keyword">while</span> <span class="org-constant">True</span>:
     digit = n % 10
     <span class="org-variable-name">digit_ascii_codepoint</span> = <span class="org-builtin">ord</span>(<span class="org-string">'0'</span>) + digit
@@ -337,7 +338,7 @@ Note that we had to use the <code>ord()</code> and <code>chr()</code> <a href="f
 with ASCII codepoints easier.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(4/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-4">  <span class="org-variable-name">res</span> = <span class="org-string">"-"</span> <span class="org-keyword">if</span> negative <span class="org-keyword">else</span> <span class="org-string">""</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(4/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-4">  <span class="org-variable-name">res</span> = <span class="org-string">"-"</span> <span class="org-keyword">if</span> negative <span class="org-keyword">else</span> <span class="org-string">""</span>
   <span class="org-variable-name">res</span> += <span class="org-string">""</span>.join(<span class="org-builtin">reversed</span>(digits))
   <span class="org-keyword">return</span> res
 </pre></div></div>
@@ -357,12 +358,12 @@ with ASCII codepoints easier.
 <div id="outline-container-h-str--to--int" class="outline-3">
 <h3 id="h-str--to--int"><span class="section-number-3">3.2.</span> <code>str</code> to <code>int</code></h3>
 <div class="outline-text-3" id="text-h-str--to--int">
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(5/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-5"><span class="org-keyword">def</span> <span class="org-function-name">str_to_int</span>(s: <span class="org-builtin">str</span>) -&gt; <span class="org-builtin">int</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(5/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-5"><span class="org-keyword">def</span> <span class="org-function-name">str_to_int</span>(s: <span class="org-builtin">str</span>) -&gt; <span class="org-builtin">int</span>:
 </pre></div></div><p>
 If the input is the empty string, we return a default value, zero.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(6/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-6">  <span class="org-variable-name">res</span> = 0
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(6/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-6">  <span class="org-variable-name">res</span> = 0
 
   <span class="org-keyword">if</span> <span class="org-keyword">not</span> s:
     <span class="org-keyword">return</span> res
@@ -370,7 +371,7 @@ If the input is the empty string, we return a default value, zero.
 Now we have to consider if the number is negative, as before.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(7/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-7">  <span class="org-variable-name">negative</span> = <span class="org-constant">False</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(7/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-7">  <span class="org-variable-name">negative</span> = <span class="org-constant">False</span>
   <span class="org-keyword">if</span> s[0] == <span class="org-string">"-"</span>:
     negative = <span class="org-constant">True</span>
     s = s[1:] <span class="org-comment-delimiter"># </span><span class="org-comment">Drop the "-" character.</span>
@@ -379,7 +380,7 @@ We now loop through the input string in reverse. We start with the rightmost
 digit and work our way left.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(8/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-8">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-8">  <span class="org-keyword">for</span> power, digit <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(<span class="org-builtin">reversed</span>(s)):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(8/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-8">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-8">  <span class="org-keyword">for</span> power, digit <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(<span class="org-builtin">reversed</span>(s)):
     <span class="org-variable-name">num</span> = <span class="org-builtin">ord</span>(digit) - <span class="org-builtin">ord</span>(<span class="org-string">"0"</span>)
     <span class="org-variable-name">res</span> += (10**power) * num
 
@@ -401,6 +402,37 @@ of our algorithm's behavior).</li>
 </ul>
 </div>
 </div>
+
+<div id="outline-container-h-Variation-with--functools" class="outline-4">
+<h4 id="h-Variation-with--functools"><span class="section-number-4">3.2.2.</span> Variation with <code>functools</code></h4>
+<div class="outline-text-4" id="text-h-Variation-with--functools">
+<p>
+This version uses <code>functools.reduce()</code> from the <code>functools</code> module to iterate in
+through the input string in the opposite direction (left-to-right). The trick is
+to multiply whatever previous (partial) sum we have by 10 on each subsequent
+iteration.
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(9/9) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-9">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-9"><span class="org-keyword">def</span> <span class="org-function-name">str_to_int_functional</span>(s: <span class="org-builtin">str</span>) -&gt; <span class="org-builtin">int</span>:
+    res = functools.<span class="org-builtin">reduce</span>(
+        <span class="org-keyword">lambda</span> partial_sum, digit: partial_sum * 10 + (<span class="org-builtin">ord</span>(digit) - <span class="org-builtin">ord</span>(<span class="org-string">'0'</span>)),
+        s[s[0] == <span class="org-string">"-"</span>:],
+        0)
+    <span class="org-keyword">if</span> s[0] == <span class="org-string">"-"</span>:
+        res *= -1
+    <span class="org-keyword">return</span> res
+</pre></div></div><p>
+Note the <code>s[s[0] == "-":]</code> trick &#x2014; this simplifies to <code>s[1:]</code> (skipping the
+first character) only if the first character is a negative sign symbol.
+</p>
+
+<p>
+One other difference is that we no longer have to raise anything to a power
+using the <code>**</code> operator, because we spread this out over each iteration by
+multiplying the partial sum by 10.
+</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -409,6 +441,8 @@ of our algorithm's behavior).</li>
 <div class="outline-text-2" id="text-h-Tests">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Tests</label><span class="lilac-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
 <span class="org-keyword">import</span> unittest
+
+<span class="org-keyword">import</span> functools
 
 <span class="lilac-child-link-from-parent"><a href="#__NREF__code-1">code</a></span>
 
@@ -434,8 +468,10 @@ of our algorithm's behavior).</li>
   <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_int: <span class="org-builtin">int</span>):
     got_str = int_to_str(given_int)
     got_int = str_to_int(got_str)
+    got_int_functional = str_to_int_functional(got_str)
     <span class="org-comment-delimiter"># </span><span class="org-comment">Check roundtrip.</span>
     <span class="org-keyword">self</span>.assertEqual(got_int, given_int, msg=f<span class="org-string">'</span>{given_int=}<span class="org-string">'</span>)
+    <span class="org-keyword">self</span>.assertEqual(got_int_functional, given_int, msg=f<span class="org-string">'</span>{given_int=}<span class="org-string">'</span>)
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
   unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)

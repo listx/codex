@@ -1,6 +1,8 @@
 from hypothesis import given, strategies as st
 import unittest
 
+import functools
+
 def int_to_str(n: int) -> str:
   negative = False
   if n < 0:
@@ -34,6 +36,14 @@ def str_to_int(s: str) -> int:
     res *= -1
 
   return res
+def str_to_int_functional(s: str) -> int:
+    res = functools.reduce(
+        lambda partial_sum, digit: partial_sum * 10 + (ord(digit) - ord('0')),
+        s[s[0] == "-":],
+        0)
+    if s[0] == "-":
+        res *= -1
+    return res
 
 class Test(unittest.TestCase):
   cases = [
@@ -57,8 +67,10 @@ class Test(unittest.TestCase):
   def test_random(self, given_int: int):
     got_str = int_to_str(given_int)
     got_int = str_to_int(got_str)
+    got_int_functional = str_to_int_functional(got_str)
     # Check roundtrip.
     self.assertEqual(got_int, given_int, msg=f'{given_int=}')
+    self.assertEqual(got_int_functional, given_int, msg=f'{given_int=}')
 
 if __name__ == "__main__":
   unittest.main(exit=False)
