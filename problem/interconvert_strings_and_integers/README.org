@@ -1,0 +1,169 @@
+#+title: Interconvert strings and integers
+#+SETUPFILE: ../../lilac.theme
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+Convert a string representation of an integer into the integer and vice versa
+[cite:@epip 75].
+
+* Insights
+
+For the simplest case, there is only a single digit and doing the conversion is
+just a numerical lookup (using ASCII values directly)
+
+* Solutions
+
+** =int= to =str=
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+def int_to_str(n: int) -> str:
+#+end_src
+
+If the number is negative, we have to keep track of this separately. It
+simplifies our algorithm if we always only work with positive integers, so we
+also make the number positive if necessary as a preparatory step.
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+  negative = False
+  if n < 0:
+    negative = True
+    n = -n
+#+end_src
+
+Now we have to repeatedly divide the number and get the modulo as well. This way
+we only ever concern ourselves with one digit at a time.
+
+One thing to keep in mind is that the string result will never be empty, because
+an integer type's "constructor" is some numeric value. So we use a =while True=
+loop conditional here because we know that we must do some amount of building up
+the result string.
+
+Another thing to keep in mind is that we build up a list in reverse because it
+technically requires less copying (we avoid moving array elements by appending
+to it).
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+  digits = []
+  while True:
+    digit = n % 10
+    digit_ascii_codepoint = ord('0') + digit
+    digits.append(chr(digit_ascii_codepoint))
+    n //= 10
+    if n == 0:
+      break
+#+end_src
+
+Note that we had to use the =ord()= and =chr()= [[file:~/prog/codex/appendix/python_tricks/README.org][built-ins]]. These make working
+with ASCII codepoints easier.
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+  res = "-" if negative else ""
+  res += "".join(reversed(digits))
+  return res
+#+end_src
+
+*** Complexity
+- Time: $O(d)$ where $d$ is the number of digits in the input number.
+- Space: $O(d)$ (same as above).
+
+** =str= to =int=
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+def str_to_int(s: str) -> int:
+#+end_src
+
+If the input is the empty string, we return a default value, zero.
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+  res = 0
+
+  if not s:
+    return res
+#+end_src
+
+Now we have to consider if the number is negative, as before.
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+  negative = False
+  if s[0] == "-":
+    negative = True
+    s = s[1:] # Drop the "-" character.
+#+end_src
+
+We now loop through the input string in reverse. We start with the rightmost
+digit and work our way left.
+
+#+header: :noweb-ref __NREF__code
+#+begin_src python
+  for power, digit in enumerate(reversed(s)):
+    num = ord(digit) - ord("0")
+    res += (10**power) * num
+
+  if negative:
+    res *= -1
+
+  return res
+#+end_src
+
+*** Complexity
+- Time: $O(d)$ where $d$ is the number of digits in the input number.
+- Space: $O(1)$ because we only need to use a single integer variable for
+  additional space (beyond the input string, whose memory allocation is not part
+  of our algorithm's behavior).
+
+* Tests
+
+#+name: Tests
+#+caption: Tests
+#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+from hypothesis import given, strategies as st
+import unittest
+
+__NREF__code
+
+class Test(unittest.TestCase):
+  cases = [
+    (-234,  "-234"),
+    (-1,  "-1"),
+    (0,   "0"),
+    (1,   "1"),
+    (123, "123"),
+  ]
+
+  def test_simple_cases(self):
+    for given_int, expected in self.cases:
+      self.assertEqual(int_to_str(given_int), expected,
+                       msg=f'{given_int=}')
+
+    for expected, given_str in self.cases:
+      self.assertEqual(str_to_int(given_str), expected,
+                       msg=f'{given_str=}')
+
+  @given(st.integers(min_value=-1000000, max_value=1000000))
+  def test_random(self, given_int: int):
+    got_str = int_to_str(given_int)
+    got_int = str_to_int(got_str)
+    # Check roundtrip.
+    self.assertEqual(got_int, given_int, msg=f'{given_int=}')
+
+if __name__ == "__main__":
+  unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :tangle __init__.py :exports none
+#+end_src
+
+* References
+#+CITE_EXPORT: csl apa.csl
+#+PRINT_BIBLIOGRAPHY:

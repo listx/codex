@@ -252,6 +252,8 @@ def is_palindrome(s: str) -> bool:
   return all(s[i] == s[~i] for i in range(len(s) // 2))
 #+end_src
 
+Time complexity is $O(n)$ and space complexity is $O(1)$.
+
 * Tests
 
 #+name: Tests
