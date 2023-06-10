@@ -312,23 +312,23 @@ By symmetry, the code for <code>no_vertical_overlap()</code> is rather similar.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(2/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-2"><span class="org-keyword">def</span> <span class="org-function-name">no_horizontal_overlap</span>(a, b):
-  <span class="org-comment-delimiter"># </span><span class="org-comment">"L" means leftmost point</span>
-  <span class="org-comment-delimiter"># </span><span class="org-comment">"R" means rightmost point</span>
-  <span class="org-variable-name">a_L</span> = a.x
-  <span class="org-variable-name">a_R</span> = a.x + a.width
-  <span class="org-variable-name">b_L</span> = b.x
-  <span class="org-variable-name">b_R</span> = b.x + b.width
-  <span class="org-keyword">return</span> a_R &lt; b_L <span class="org-keyword">or</span> a_L &gt; b_R
+    <span class="org-comment-delimiter"># </span><span class="org-comment">"L" means leftmost point</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">"R" means rightmost point</span>
+    <span class="org-variable-name">a_L</span> = a.x
+    <span class="org-variable-name">a_R</span> = a.x + a.width
+    <span class="org-variable-name">b_L</span> = b.x
+    <span class="org-variable-name">b_R</span> = b.x + b.width
+    <span class="org-keyword">return</span> a_R &lt; b_L <span class="org-keyword">or</span> a_L &gt; b_R
 <span class="org-keyword">def</span> <span class="org-function-name">no_vertical_overlap</span>(a, b):
-  <span class="org-comment-delimiter"># </span><span class="org-comment">"B" means bottommost point</span>
-  <span class="org-comment-delimiter"># </span><span class="org-comment">"T" means topmost point</span>
-  <span class="org-variable-name">a_B</span> = a.y
-  <span class="org-variable-name">a_T</span> = a.y + a.height
-  <span class="org-variable-name">b_B</span> = b.y
-  <span class="org-variable-name">b_T</span> = b.y + b.height
-  <span class="org-keyword">return</span> a_T &lt; b_B <span class="org-keyword">or</span> a_B &gt; b_T
+    <span class="org-comment-delimiter"># </span><span class="org-comment">"B" means bottommost point</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">"T" means topmost point</span>
+    <span class="org-variable-name">a_B</span> = a.y
+    <span class="org-variable-name">a_T</span> = a.y + a.height
+    <span class="org-variable-name">b_B</span> = b.y
+    <span class="org-variable-name">b_T</span> = b.y + b.height
+    <span class="org-keyword">return</span> a_T &lt; b_B <span class="org-keyword">or</span> a_B &gt; b_T
 <span class="org-keyword">def</span> <span class="org-function-name">no_overlap</span>(a, b):
-  <span class="org-keyword">return</span> no_horizontal_overlap(a, b) <span class="org-keyword">or</span> no_vertical_overlap(a, b)
+    <span class="org-keyword">return</span> no_horizontal_overlap(a, b) <span class="org-keyword">or</span> no_vertical_overlap(a, b)
 </pre></div></div><p>
 The code in (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 40</a>) actually does the opposite to check for overlap
 (instead of no-overlap). And so they use <code>a_R &gt;= b_L and a_L &lt;= b_R</code> instead.
@@ -342,16 +342,16 @@ actual overlapping (smaller) rectangle.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(3/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-3"><span class="org-keyword">def</span> <span class="org-function-name">overlapping_rectangle</span>(a, b):
-  <span class="org-keyword">if</span> no_overlap(a, b):
-    <span class="org-keyword">return</span> <span class="org-constant">None</span>
-  <span class="org-variable-name">a_L</span> = a.x
-  <span class="org-variable-name">a_R</span> = a.x + a.width
-  <span class="org-variable-name">b_L</span> = b.x
-  <span class="org-variable-name">b_R</span> = b.x + b.width
-  <span class="org-variable-name">a_B</span> = a.y
-  <span class="org-variable-name">a_T</span> = a.y + a.height
-  <span class="org-variable-name">b_B</span> = b.y
-  <span class="org-variable-name">b_T</span> = b.y + b.height
+    <span class="org-keyword">if</span> no_overlap(a, b):
+        <span class="org-keyword">return</span> <span class="org-constant">None</span>
+    <span class="org-variable-name">a_L</span> = a.x
+    <span class="org-variable-name">a_R</span> = a.x + a.width
+    <span class="org-variable-name">b_L</span> = b.x
+    <span class="org-variable-name">b_R</span> = b.x + b.width
+    <span class="org-variable-name">a_B</span> = a.y
+    <span class="org-variable-name">a_T</span> = a.y + a.height
+    <span class="org-variable-name">b_B</span> = b.y
+    <span class="org-variable-name">b_T</span> = b.y + b.height
 </pre></div></div><p>
 Now that we have all of our points defined, first consider the \((X, Y)\)
 coordinate (lower-left corner) of the overlapping rectangle (let's call this
@@ -383,8 +383,8 @@ So we need to get either <code>a_L</code> or <code>b_L</code>. In both cases, th
 b_L)</code>. For the Y axis, similar logic follows and we need to use <code>max(a_B, b_B)</code>.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(4/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-4">  <span class="org-variable-name">v_x</span> = <span class="org-builtin">max</span>(a_L, b_L)
-  <span class="org-variable-name">v_y</span> = <span class="org-builtin">max</span>(a_B, b_B)
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(4/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-4">    <span class="org-variable-name">v_x</span> = <span class="org-builtin">max</span>(a_L, b_L)
+    <span class="org-variable-name">v_y</span> = <span class="org-builtin">max</span>(a_B, b_B)
 </pre></div></div><p>
 What about width the width? The width is the rightmost point subtracted by the
 leftmost point. We already know the leftmost point of <code>v</code>, <code>v_x</code>. So we just
@@ -417,9 +417,9 @@ where in both cases, the value is <code>min(a_R, b_R)</code>. Then we can just s
 essentially the same.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(5/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-5">  <span class="org-variable-name">v_width</span> = <span class="org-builtin">min</span>(a_R, b_R) - v_x
-  <span class="org-variable-name">v_height</span> = <span class="org-builtin">min</span>(a_T, b_T) - v_y
-  <span class="org-keyword">return</span> Rect(v_x, v_y, v_width, v_height)
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">overlapping_rectangle</a></span>(5/5) <span class="lilac-caption-link-symbol"><a href="#__NREF__overlapping_rectangle-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__overlapping_rectangle-5">    <span class="org-variable-name">v_width</span> = <span class="org-builtin">min</span>(a_R, b_R) - v_x
+    <span class="org-variable-name">v_height</span> = <span class="org-builtin">min</span>(a_T, b_T) - v_y
+    <span class="org-keyword">return</span> Rect(v_x, v_y, v_width, v_height)
 </pre></div></div>
 </div>
 </div>
@@ -432,21 +432,21 @@ essentially the same.
 <span class="lilac-child-link-from-parent"><a href="#__NREF__overlapping_rectangle-1">overlapping_rectangle</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">TestOverlappingRect</span>(unittest.TestCase):
-  <span class="org-variable-name">cases</span> = [
-    (Rect(0, 0, 1, 1), Rect(2, 2, 0, 0), <span class="org-constant">None</span>),
-    (Rect(0, 0, 1, 1), Rect(2, 2, 0, 0), <span class="org-constant">None</span>),
-    (Rect(0, 0, 1, 1), Rect(1, 1, 0, 0), Rect(1, 1, 0, 0)),
-    (Rect(0, 0, 5, 5), Rect(1, 1, 2, 6), Rect(1, 1, 2, 4)),
-  ]
+    <span class="org-variable-name">cases</span> = [
+        (Rect(0, 0, 1, 1), Rect(2, 2, 0, 0), <span class="org-constant">None</span>),
+        (Rect(0, 0, 1, 1), Rect(2, 2, 0, 0), <span class="org-constant">None</span>),
+        (Rect(0, 0, 1, 1), Rect(1, 1, 0, 0), Rect(1, 1, 0, 0)),
+        (Rect(0, 0, 5, 5), Rect(1, 1, 2, 6), Rect(1, 1, 2, 4)),
+    ]
 
-  <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
-    <span class="org-keyword">for</span> a, b, result <span class="org-keyword">in</span> <span class="org-keyword">self</span>.cases:
-      <span class="org-keyword">self</span>.assertEqual(overlapping_rectangle(a, b), result)
-      <span class="org-comment-delimiter"># </span><span class="org-comment">Also check the reverse (when we swap the order of the rectangles).</span>
-      <span class="org-keyword">self</span>.assertEqual(overlapping_rectangle(b, a), result)
+    <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
+        <span class="org-keyword">for</span> a, b, result <span class="org-keyword">in</span> <span class="org-keyword">self</span>.cases:
+            <span class="org-keyword">self</span>.assertEqual(overlapping_rectangle(a, b), result)
+            <span class="org-comment-delimiter"># </span><span class="org-comment">Also check the reverse (when we swap the order of the rectangles).</span>
+            <span class="org-keyword">self</span>.assertEqual(overlapping_rectangle(b, a), result)
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-  unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 </div>

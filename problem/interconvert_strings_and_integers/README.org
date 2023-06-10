@@ -30,10 +30,10 @@ also make the number positive if necessary as a preparatory step.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-  negative = False
-  if n < 0:
-    negative = True
-    n = -n
+    negative = False
+    if n < 0:
+        negative = True
+        n = -n
 #+end_src
 
 Now we have to repeatedly divide the number and get the modulo as well. This way
@@ -50,14 +50,14 @@ to it).
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-  digits = []
-  while True:
-    digit = n % 10
-    digit_ascii_codepoint = ord('0') + digit
-    digits.append(chr(digit_ascii_codepoint))
-    n //= 10
-    if n == 0:
-      break
+    digits = []
+    while True:
+        digit = n % 10
+        digit_ascii_codepoint = ord('0') + digit
+        digits.append(chr(digit_ascii_codepoint))
+        n //= 10
+        if n == 0:
+            break
 #+end_src
 
 Note that we had to use the =ord()= and =chr()= [[file:~/prog/codex/appendix/python_tricks/README.org][built-ins]]. These make working
@@ -65,9 +65,9 @@ with ASCII codepoints easier.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-  res = "-" if negative else ""
-  res += "".join(reversed(digits))
-  return res
+    res = "-" if negative else ""
+    res += "".join(reversed(digits))
+    return res
 #+end_src
 
 *** Complexity
@@ -85,20 +85,20 @@ If the input is the empty string, we return a default value, zero.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-  res = 0
+    res = 0
 
-  if not s:
-    return res
+    if not s:
+        return res
 #+end_src
 
 Now we have to consider if the number is negative, as before.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-  negative = False
-  if s[0] == "-":
-    negative = True
-    s = s[1:] # Drop the "-" character.
+    negative = False
+    if s[0] == "-":
+        negative = True
+        s = s[1:] # Drop the "-" character.
 #+end_src
 
 We now loop through the input string in reverse. We start with the rightmost
@@ -106,14 +106,14 @@ digit and work our way left.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-  for power, digit in enumerate(reversed(s)):
-    num = ord(digit) - ord("0")
-    res += (10**power) * num
+    for power, digit in enumerate(reversed(s)):
+        num = ord(digit) - ord("0")
+        res += (10**power) * num
 
-  if negative:
-    res *= -1
+    if negative:
+        res *= -1
 
-  return res
+    return res
 #+end_src
 
 *** Complexity
@@ -161,34 +161,34 @@ import functools
 __NREF__code
 
 class Test(unittest.TestCase):
-  cases = [
-    (-234,  "-234"),
-    (-1,  "-1"),
-    (0,   "0"),
-    (1,   "1"),
-    (123, "123"),
-  ]
+    cases = [
+        (-234,  "-234"),
+        (-1,  "-1"),
+        (0,   "0"),
+        (1,   "1"),
+        (123, "123"),
+    ]
 
-  def test_simple_cases(self):
-    for given_int, expected in self.cases:
-      self.assertEqual(int_to_str(given_int), expected,
-                       msg=f'{given_int=}')
+    def test_simple_cases(self):
+        for given_int, expected in self.cases:
+            self.assertEqual(int_to_str(given_int), expected,
+                             msg=f'{given_int=}')
 
-    for expected, given_str in self.cases:
-      self.assertEqual(str_to_int(given_str), expected,
-                       msg=f'{given_str=}')
+        for expected, given_str in self.cases:
+            self.assertEqual(str_to_int(given_str), expected,
+                             msg=f'{given_str=}')
 
-  @given(st.integers(min_value=-1000000, max_value=1000000))
-  def test_random(self, given_int: int):
-    got_str = int_to_str(given_int)
-    got_int = str_to_int(got_str)
-    got_int_functional = str_to_int_functional(got_str)
-    # Check roundtrip.
-    self.assertEqual(got_int, given_int, msg=f'{given_int=}')
-    self.assertEqual(got_int_functional, given_int, msg=f'{given_int=}')
+    @given(st.integers(min_value=-1000000, max_value=1000000))
+    def test_random(self, given_int: int):
+        got_str = int_to_str(given_int)
+        got_int = str_to_int(got_str)
+        got_int_functional = str_to_int_functional(got_str)
+        # Check roundtrip.
+        self.assertEqual(got_int, given_int, msg=f'{given_int=}')
+        self.assertEqual(got_int_functional, given_int, msg=f'{given_int=}')
 
 if __name__ == "__main__":
-  unittest.main(exit=False)
+    unittest.main(exit=False)
 #+end_src
 
 #+begin_src python :tangle __init__.py :exports none

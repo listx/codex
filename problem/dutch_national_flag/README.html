@@ -280,42 +280,43 @@ For our solution, we don't use colors and instead use quicksort's naming scheme.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">rearrange_list_even_odd</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">dutch_flag_partition</span>(nums, idx_pivot):
-  <span class="org-keyword">if</span> <span class="org-keyword">not</span> nums:
-    <span class="org-keyword">return</span> 0, 0
+    <span class="org-keyword">if</span> <span class="org-keyword">not</span> nums:
+        <span class="org-keyword">return</span> 0, 0
 
-  <span class="org-comment-delimiter"># </span><span class="org-comment">If the given idx_pivot is out of bounds, just use 0. This is the pivot</span>
-  <span class="org-comment-delimiter"># </span><span class="org-comment">*index*, so we will use the value (whatever it is) at index 0 as the pivot.</span>
-  <span class="org-keyword">if</span> idx_pivot &lt; 0 <span class="org-keyword">or</span> idx_pivot &gt; (<span class="org-builtin">len</span>(nums) - 1):
-    <span class="org-variable-name">idx_pivot</span> = 0
+    <span class="org-comment-delimiter"># </span><span class="org-comment">If the given idx_pivot is out of bounds, just use 0. This is the pivot</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">*index*, so we will use the value (whatever it is) at index 0 as the</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">*pivot.</span>
+    <span class="org-keyword">if</span> idx_pivot &lt; 0 <span class="org-keyword">or</span> idx_pivot &gt; (<span class="org-builtin">len</span>(nums) - 1):
+        <span class="org-variable-name">idx_pivot</span> = 0
 
-  <span class="org-variable-name">pivot</span> = nums[idx_pivot]
-  <span class="org-comment-delimiter"># </span><span class="org-comment">Track numbers less than pivot.</span>
-  <span class="org-variable-name">idx_lt</span> = 0
-  <span class="org-comment-delimiter"># </span><span class="org-comment">Track numbers equal to pivot.</span>
-  <span class="org-variable-name">idx_eq</span> = 0
-  <span class="org-comment-delimiter"># </span><span class="org-comment">Track numbers greater than pivot. Note that this index is out-of-bounds.</span>
-  <span class="org-variable-name">idx_gt</span> = <span class="org-builtin">len</span>(nums)
+    <span class="org-variable-name">pivot</span> = nums[idx_pivot]
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Track numbers less than pivot.</span>
+    <span class="org-variable-name">idx_lt</span> = 0
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Track numbers equal to pivot.</span>
+    <span class="org-variable-name">idx_eq</span> = 0
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Track numbers greater than pivot. Note that this index is out-of-bounds.</span>
+    <span class="org-variable-name">idx_gt</span> = <span class="org-builtin">len</span>(nums)
 
-  <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
-    <span class="org-keyword">if</span> nums[idx_eq] == pivot:
-      idx_eq += 1
-    <span class="org-keyword">elif</span> nums[idx_eq] &lt; pivot:
-      <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_lt</span>], <span class="org-variable-name">nums</span>[idx_eq] = nums[idx_eq], nums[idx_lt]
-      idx_lt += 1
-      idx_eq += 1
-    <span class="org-keyword">else</span>:
-      idx_gt -= 1
-      <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>], <span class="org-variable-name">nums</span>[idx_gt] = nums[idx_gt], nums[idx_eq]
+    <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
+        <span class="org-keyword">if</span> nums[idx_eq] == pivot:
+            idx_eq += 1
+        <span class="org-keyword">elif</span> nums[idx_eq] &lt; pivot:
+            <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_lt</span>], <span class="org-variable-name">nums</span>[idx_eq] = nums[idx_eq], nums[idx_lt]
+            idx_lt += 1
+            idx_eq += 1
+        <span class="org-keyword">else</span>:
+            idx_gt -= 1
+            <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>], <span class="org-variable-name">nums</span>[idx_gt] = nums[idx_gt], nums[idx_eq]
 
-  <span class="org-comment-delimiter"># </span><span class="org-comment">Return (1) the count of numbers less than the pivot, and (2) the count of</span>
-  <span class="org-comment-delimiter"># </span><span class="org-comment">numbers equal to the pivot.</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Return (1) the count of numbers less than the pivot, and (2) the count of</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">numbers equal to the pivot.</span>
 
-  <span class="org-keyword">return</span> idx_lt, idx_eq - idx_lt
+    <span class="org-keyword">return</span> idx_lt, idx_eq - idx_lt
 </pre></div></div><p>
 The <code>while</code> condition
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">while condition</label><span class="lilac-caption-link-symbol"><a href="#while-condition">&#x1f517;</a></span></div><pre class="src src-python" id="while-condition">  <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">while condition</label><span class="lilac-caption-link-symbol"><a href="#while-condition">&#x1f517;</a></span></div><pre class="src src-python" id="while-condition">    <span class="org-keyword">while</span> idx_eq &lt; idx_gt:
 </pre></div></div><p>
 just checks whether we still have some nonzero size of unchecked numbers (in
 group "unknown").
@@ -330,8 +331,8 @@ As we iterate through the loop, we always check the number pointed by <code>idx_
 Now let's consider the simplest case:
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number == pivot</label><span class="lilac-caption-link-symbol"><a href="#number----pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number----pivot">    <span class="org-keyword">if</span> nums[idx_eq] == pivot:
-      idx_eq += 1
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number == pivot</label><span class="lilac-caption-link-symbol"><a href="#number----pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number----pivot">        <span class="org-keyword">if</span> nums[idx_Eq] == pivot:
+            idx_eq += 1
 </pre></div></div><p>
 This is straightforward &#x2014; if <code>idx_eq</code> is looking at a number that is equal to
 the pivot, we "count" it by incrementing <code>idx_eq</code>. This is the happy path.
@@ -342,10 +343,10 @@ Now let's examine the case where <code>idx_eq</code> is pointing to a number les
 pivot:
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &lt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--lt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--lt--pivot">    <span class="org-keyword">elif</span> nums[idx_eq] &lt; <span class="org-variable-name">pivot</span>:
-      <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_lt</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>] = nums[idx_eq], nums[idx_lt]
-      <span class="org-variable-name">idx_lt</span> += 1
-      <span class="org-variable-name">idx_eq</span> += 1
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &lt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--lt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--lt--pivot">        <span class="org-keyword">elif</span> nums[idx_eq] &lt; <span class="org-variable-name">pivot</span>:
+            <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_lt</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>] = nums[idx_eq], nums[idx_lt]
+            <span class="org-variable-name">idx_lt</span> += 1
+            <span class="org-variable-name">idx_eq</span> += 1
 </pre></div></div><p>
 In this case, <code>idx_eq</code> just found a number smaller than the pivot, so it
 "trades" it with <code>idx_lt</code> via a swap. We must increment <code>idx_lt</code> because it
@@ -443,9 +444,9 @@ So much for the interplay between <code>idx_lt</code> and <code>idx_eq</code>. N
 final condition where <code>idx_eq</code> sees a number <i>greater</i> than the pivot:
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &gt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--gt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--gt--pivot">    <span class="org-keyword">else</span>:
-      idx_gt -= 1
-      <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_gt</span>] = nums[idx_gt], nums[idx_eq]
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">number &gt; pivot</label><span class="lilac-caption-link-symbol"><a href="#number--gt--pivot">&#x1f517;</a></span></div><pre class="src src-python" id="number--gt--pivot">        <span class="org-keyword">else</span>:
+            idx_gt -= 1
+            <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_eq</span>], <span class="org-variable-name">nums</span>[<span class="org-variable-name">idx_gt</span>] = nums[idx_gt], nums[idx_eq]
 </pre></div></div><p>
 In this case, we "throw over" the number to the right side of the list (to
 <code>idx_gt</code>), and in return get the number that <code>idx_gt</code> (whatever it may be)
@@ -465,55 +466,55 @@ Note that we <b>do not</b> increment <code>idx_eq</code> here, because we have n
 <span class="lilac-child-link-from-parent"><a href="#__NREF__rearrange_list_even_odd">rearrange_list_even_odd</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
-  <span class="org-variable-name">cases</span> = [
-    ([],                    0, [],                    0, 0),
-    ([0],                   0, [0],                   0, 1),
-    ([0, 0, 0, 0],          0, [0, 0, 0, 0],          0, 4),
-    ([0, 1, 2, 0, 1, 2, 1], 1, [0, 0, 1, 1, 1, 2, 2], 2, 3),
-    ([1, 1, 0],             1, [0, 1, 1],             1, 2),
-  ]
+    <span class="org-variable-name">cases</span> = [
+        ([],                    0, [],                    0, 0),
+        ([0],                   0, [0],                   0, 1),
+        ([0, 0, 0, 0],          0, [0, 0, 0, 0],          0, 4),
+        ([0, 1, 2, 0, 1, 2, 1], 1, [0, 0, 1, 1, 1, 2, 2], 2, 3),
+        ([1, 1, 0],             1, [0, 1, 1],             1, 2),
+    ]
 
-  <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
-    <span class="org-keyword">for</span> parts <span class="org-keyword">in</span> <span class="org-keyword">self</span>.<span class="org-variable-name">cases</span>:
-      <span class="org-variable-name">given_nums</span>, <span class="org-variable-name">idx_pivot</span>, <span class="org-variable-name">expected_nums</span>, <span class="org-variable-name">expected_lt</span>, <span class="org-variable-name">expected_eq</span> = parts
-      <span class="org-variable-name">got_lt</span>, <span class="org-variable-name">got_eq</span> = dutch_flag_partition(given_nums, idx_pivot)
+    <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
+        <span class="org-keyword">for</span> parts <span class="org-keyword">in</span> <span class="org-keyword">self</span>.<span class="org-variable-name">cases</span>:
+            <span class="org-variable-name">given_nums</span>, <span class="org-variable-name">idx_pivot</span>, <span class="org-variable-name">expected_nums</span>, <span class="org-variable-name">expected_lt</span>, <span class="org-variable-name">expected_eq</span> = parts
+            <span class="org-variable-name">got_lt</span>, <span class="org-variable-name">got_eq</span> = dutch_flag_partition(given_nums, idx_pivot)
 
-      <span class="org-keyword">self</span>.assertEqual(given_nums, expected_nums)
-      <span class="org-keyword">self</span>.assertEqual(got_lt, expected_lt)
-      <span class="org-keyword">self</span>.assertEqual(got_eq, expected_eq)
+            <span class="org-keyword">self</span>.assertEqual(given_nums, expected_nums)
+            <span class="org-keyword">self</span>.assertEqual(got_lt, expected_lt)
+            <span class="org-keyword">self</span>.assertEqual(got_eq, expected_eq)
 
-  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=16,
-                  max_size=16),
-         st.integers(min_value=0, max_value=15))
-  <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_nums, idx_pivot):
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Save the pivot now, because given_nums will get modified in-place (which</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">means given_nums[idx_pivot] could point to a different value later).</span>
-    pivot = given_nums[idx_pivot]
-    <span class="org-variable-name">got_lt</span>, <span class="org-variable-name">got_eq</span> = dutch_flag_partition(given_nums, idx_pivot)
-    len_given_nums = <span class="org-builtin">len</span>(given_nums)
+    <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=16,
+                    max_size=16),
+            st.integers(min_value=0, max_value=15))
+    <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_nums, idx_pivot):
+        <span class="org-comment-delimiter"># </span><span class="org-comment">Save the pivot now, because given_nums will get modified in-place (which</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">means given_nums[idx_pivot] could point to a different value later).</span>
+        pivot = given_nums[idx_pivot]
+        <span class="org-variable-name">got_lt</span>, <span class="org-variable-name">got_eq</span> = dutch_flag_partition(given_nums, idx_pivot)
+        len_given_nums = <span class="org-builtin">len</span>(given_nums)
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">If all elements are the same, then that means that all of them are equal</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">to the pivot (no matter which idx_pivot we choose, we'll always end up</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">with a pivot that is the same as all other numbers in the list). This</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">means that the count of numbers equal to the pivot must be same as the</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">length of the entire list.</span>
-    <span class="org-keyword">if</span> <span class="org-builtin">all</span>(num == given_nums[0] <span class="org-keyword">for</span> num <span class="org-keyword">in</span> given_nums):
-      <span class="org-keyword">self</span>.assertEqual(got_eq, len_given_nums)
+        <span class="org-comment-delimiter"># </span><span class="org-comment">If all elements are the same, then that means that all of them are equal</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">to the pivot (no matter which idx_pivot we choose, we'll always end up</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">with a pivot that is the same as all other numbers in the list). This</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">means that the count of numbers equal to the pivot must be same as the</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">length of the entire list.</span>
+        <span class="org-keyword">if</span> <span class="org-builtin">all</span>(num == given_nums[0] <span class="org-keyword">for</span> num <span class="org-keyword">in</span> given_nums):
+            <span class="org-keyword">self</span>.assertEqual(got_eq, len_given_nums)
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">The subtotals of elements less than and equal to the pivot must never</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">exceed the length of the entire list.</span>
-    <span class="org-keyword">self</span>.assertLessEqual(got_lt + got_eq, len_given_nums)
+        <span class="org-comment-delimiter"># </span><span class="org-comment">The subtotals of elements less than and equal to the pivot must never</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">exceed the length of the entire list.</span>
+        <span class="org-keyword">self</span>.assertLessEqual(got_lt + got_eq, len_given_nums)
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Check that the size of the subarray of numbers greater than the pivot</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">(which we can deduce by summing got_lt and got_eq) has</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">numbers that are indeed greater than the pivot.</span>
-    <span class="org-keyword">if</span> got_lt + got_eq &lt; len_given_nums:
-      expected_gt = len_given_nums - got_lt - got_eq
-      <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span> (len_given_nums - expected_gt, len_given_nums):
-        <span class="org-keyword">self</span>.assertGreater(given_nums[i], pivot)
+        <span class="org-comment-delimiter"># </span><span class="org-comment">Check that the size of the subarray of numbers greater than the pivot</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">(which we can deduce by summing got_lt and got_eq) has</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">numbers that are indeed greater than the pivot.</span>
+        <span class="org-keyword">if</span> got_lt + got_eq &lt; len_given_nums:
+            expected_gt = len_given_nums - got_lt - got_eq
+            <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span> (len_given_nums - expected_gt, len_given_nums):
+                <span class="org-keyword">self</span>.assertGreater(given_nums[i], pivot)
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-  unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 </div>

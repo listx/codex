@@ -436,11 +436,11 @@ compute the parity of 4-bit words, 8-bit words, etc.
 <h3 id="h-Brute-force"><span class="section-number-3">4.1.</span> Brute force</h3>
 <div class="outline-text-3" id="text-h-Brute-force">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">brute_force</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__brute_force">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__brute_force"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(word):
-  <span class="org-variable-name">parity_bit</span> = 0
-  <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
-    parity_bit ^= word &amp; 1
-    <span class="org-variable-name">word</span> &gt;&gt;= 1
-  <span class="org-keyword">return</span> parity_bit
+    <span class="org-variable-name">parity_bit</span> = 0
+    <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
+        parity_bit ^= word &amp; 1
+        <span class="org-variable-name">word</span> &gt;&gt;= 1
+    <span class="org-keyword">return</span> parity_bit
 </pre></div></div><p>
 This approach just computes the parity of a single word by examining every bit
 in the word. It also uses bitwise XOR to only store 1 or 0 (instead of actually
@@ -461,11 +461,11 @@ The time complexity is \(O(n)\) where \(n\) is the word size.
 <h4 id="h-Clear-lowest-set-bit"><span class="section-number-4">4.1.1.</span> Clear lowest set bit</h4>
 <div class="outline-text-4" id="text-h-Clear-lowest-set-bit">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">clear_lsb</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__clear_lsb">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__clear_lsb"><span class="org-keyword">def</span> <span class="org-function-name">clear_lsb</span>(word):
-  <span class="org-variable-name">parity_bit</span> = 0
-  <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
-    parity_bit ^= 1
-    <span class="org-variable-name">word</span> &amp;= word - 1
-  <span class="org-keyword">return</span> parity_bit
+    <span class="org-variable-name">parity_bit</span> = 0
+    <span class="org-keyword">while</span> <span class="org-variable-name">word</span>:
+        parity_bit ^= 1
+        <span class="org-variable-name">word</span> &amp;= word - 1
+    <span class="org-keyword">return</span> parity_bit
 </pre></div></div><p>
 Here we use the <code>word &amp;= word - 1</code> trick to clear the lowest 1-bit in a word
 (aka the Least Significant Bit, or LSB). This is a classic bitwise trick. This
@@ -486,13 +486,13 @@ though, because we'd run the <code>while</code> loop above 64 times if all 64 bi
 <h3 id="h-XOR-folding"><span class="section-number-3">4.2.</span> XOR-folding</h3>
 <div class="outline-text-3" id="text-h-XOR-folding">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold</span>(word):
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 4
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
-  <span class="org-keyword">return</span> word &amp; 1
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 4
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
+    <span class="org-keyword">return</span> word &amp; 1
 </pre></div></div><p>
 The key to this solution (<a href="#citeproc_bib_item_1">Aziz et al., 2018, pp. 29–30</a>) is that we are essentially "folding"
 the word into itself over and over again until we just get a single bit left.
@@ -631,12 +631,12 @@ one is faster (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 30</a>).
 <h3 id="h-XOR-folding-with-in-register-table-lookup"><span class="section-number-3">4.3.</span> XOR-folding with in-register table lookup</h3>
 <div class="outline-text-3" id="text-h-XOR-folding-with-in-register-table-lookup">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold_lookup</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold_lookup">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_lookup"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_lookup</span>(word):
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 4
-  <span class="org-variable-name">word</span> = 0x6996 &gt;&gt; (word &amp; 0xf)
-  <span class="org-keyword">return</span> word &amp; 1
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 8
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 4
+    <span class="org-variable-name">word</span> = 0x6996 &gt;&gt; (word &amp; 0xf)
+    <span class="org-keyword">return</span> word &amp; 1
 </pre></div></div><p>
 This is a small improvement over the previous version, noted in (<a href="#citeproc_bib_item_2">Warren, 2013, p. 97</a>).
 The use of the <code>0x6996</code> constant is called an "in-register table lookup".
@@ -771,11 +771,11 @@ hexadecimal.
 <h3 id="h-XOR-fold-by-nibbles"><span class="section-number-3">4.4.</span> XOR-fold by nibbles</h3>
 <div class="outline-text-3" id="text-h-XOR-fold-by-nibbles">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold_nibbles</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold_nibbles">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_nibbles"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_nibbles</span>(word):
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
-  <span class="org-variable-name">word</span> &amp;= 0x1111111111111111
-  <span class="org-variable-name">word</span> *= 0x1111111111111111
-  <span class="org-keyword">return</span> (word &gt;&gt; 60) &amp; 1
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 1
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 2
+    <span class="org-variable-name">word</span> &amp;= 0x1111111111111111
+    <span class="org-variable-name">word</span> *= 0x1111111111111111
+    <span class="org-keyword">return</span> (word &gt;&gt; 60) &amp; 1
 </pre></div></div><p>
 This method is also from (<a href="#citeproc_bib_item_2">Warren, 2013, pp. 97–98</a>). It uses XOR-folding to get the parity
 of each nibble (4-bit word) with the first 3 lines. Then it uses a
@@ -1005,11 +1005,11 @@ these keys as indices to a list, instead of using a dictionary.
 <span class="org-variable-name">PARITY</span> = [xor_fold(word) <span class="org-keyword">for</span> word <span class="org-keyword">in</span> <span class="org-builtin">range</span>(1 &lt;&lt; 16)]
 
 <span class="org-keyword">def</span> <span class="org-function-name">caching</span>(word):
-  <span class="org-variable-name">a</span> = PARITY[word &gt;&gt; 48]
-  <span class="org-variable-name">b</span> = PARITY[word &gt;&gt; 32 &amp; 0xffff]
-  <span class="org-variable-name">c</span> = PARITY[word &gt;&gt; 16 &amp; 0xffff]
-  <span class="org-variable-name">d</span> = PARITY[word       &amp; 0xffff]
-  <span class="org-keyword">return</span> a ^ b ^ c ^ d
+    <span class="org-variable-name">a</span> = PARITY[word &gt;&gt; 48]
+    <span class="org-variable-name">b</span> = PARITY[word &gt;&gt; 32 &amp; 0xffff]
+    <span class="org-variable-name">c</span> = PARITY[word &gt;&gt; 16 &amp; 0xffff]
+    <span class="org-variable-name">d</span> = PARITY[word       &amp; 0xffff]
+    <span class="org-keyword">return</span> a ^ b ^ c ^ d
 </pre></div></div><p>
 Note that we don't have to mask the lower 16 bits for calculating <code>a</code> above,
 because shifting down by 48 bits only leaves 16 bits of information (everything
@@ -1035,9 +1035,9 @@ greater speedup.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">xor_fold_caching</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__xor_fold_caching">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__xor_fold_caching"><span class="org-keyword">def</span> <span class="org-function-name">xor_fold_caching</span>(word):
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
-  <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
-  <span class="org-keyword">return</span> PARITY[word &amp; 0xffff]
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 32
+    <span class="org-variable-name">word</span> ^= word &gt;&gt; 16
+    <span class="org-keyword">return</span> PARITY[word &amp; 0xffff]
 </pre></div></div>
 </div>
 </div>
@@ -1064,40 +1064,40 @@ greater speedup.
 <span class="lilac-child-link-from-parent"><a href="#__NREF__xor_fold_nibbles">xor_fold_nibbles</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">TestParity</span>(unittest.TestCase):
-  <span class="org-variable-name">cases</span> = [
-    (0b0, 0),
-    (0b1, 1),
-    (0b1011, 1),
-    (0b1000010000, 0),
-    (0b11, 0),
-    (0b11111, 1),
-    (0b1000000000000000000000000000000000000000000000000000000000000000, 1),
-    (0b1000000000000000000000000000000000000000100000000000000000000000, 0),
-  ]
+    <span class="org-variable-name">cases</span> = [
+        (0b0, 0),
+        (0b1, 1),
+        (0b1011, 1),
+        (0b1000010000, 0),
+        (0b11, 0),
+        (0b11111, 1),
+        (0b1000000000000000000000000000000000000000000000000000000000000000, 1),
+        (0b1000000000000000000000000000000000000000100000000000000000000000, 0),
+    ]
 
-  <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
-    <span class="org-keyword">for</span> word, parity_bit <span class="org-keyword">in</span> <span class="org-keyword">self</span>.cases:
-      <span class="org-keyword">self</span>.assertEqual(brute_force(word), parity_bit)
-      <span class="org-keyword">self</span>.assertEqual(clear_lsb(word), parity_bit)
-      <span class="org-keyword">self</span>.assertEqual(xor_fold(word), parity_bit)
-      <span class="org-keyword">self</span>.assertEqual(xor_fold_lookup(word), parity_bit)
-      <span class="org-keyword">self</span>.assertEqual(caching(word), parity_bit)
-      <span class="org-keyword">self</span>.assertEqual(xor_fold_caching(word), parity_bit)
-      <span class="org-keyword">self</span>.assertEqual(xor_fold_nibbles(word), parity_bit)
+    <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
+        <span class="org-keyword">for</span> word, parity_bit <span class="org-keyword">in</span> <span class="org-keyword">self</span>.cases:
+            <span class="org-keyword">self</span>.assertEqual(brute_force(word), parity_bit)
+            <span class="org-keyword">self</span>.assertEqual(clear_lsb(word), parity_bit)
+            <span class="org-keyword">self</span>.assertEqual(xor_fold(word), parity_bit)
+            <span class="org-keyword">self</span>.assertEqual(xor_fold_lookup(word), parity_bit)
+            <span class="org-keyword">self</span>.assertEqual(caching(word), parity_bit)
+            <span class="org-keyword">self</span>.assertEqual(xor_fold_caching(word), parity_bit)
+            <span class="org-keyword">self</span>.assertEqual(xor_fold_nibbles(word), parity_bit)
 
-  <span class="org-type">@given</span>(st.integers(min_value=0, max_value=((1&lt;&lt;64) - 1)))
-  <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, word):
-    parity_bit = xor_fold_nibbles(word)
-    <span class="org-keyword">self</span>.assertEqual(brute_force(word), parity_bit)
-    <span class="org-keyword">self</span>.assertEqual(clear_lsb(word), parity_bit)
-    <span class="org-keyword">self</span>.assertEqual(xor_fold(word), parity_bit)
-    <span class="org-keyword">self</span>.assertEqual(xor_fold_lookup(word), parity_bit)
-    <span class="org-keyword">self</span>.assertEqual(caching(word), parity_bit)
-    <span class="org-keyword">self</span>.assertEqual(xor_fold_caching(word), parity_bit)
-    <span class="org-keyword">self</span>.assertEqual(xor_fold_nibbles(word), parity_bit)
+    <span class="org-type">@given</span>(st.integers(min_value=0, max_value=((1&lt;&lt;64) - 1)))
+    <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, word):
+        parity_bit = xor_fold_nibbles(word)
+        <span class="org-keyword">self</span>.assertEqual(brute_force(word), parity_bit)
+        <span class="org-keyword">self</span>.assertEqual(clear_lsb(word), parity_bit)
+        <span class="org-keyword">self</span>.assertEqual(xor_fold(word), parity_bit)
+        <span class="org-keyword">self</span>.assertEqual(xor_fold_lookup(word), parity_bit)
+        <span class="org-keyword">self</span>.assertEqual(caching(word), parity_bit)
+        <span class="org-keyword">self</span>.assertEqual(xor_fold_caching(word), parity_bit)
+        <span class="org-keyword">self</span>.assertEqual(xor_fold_nibbles(word), parity_bit)
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-  unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 </div>

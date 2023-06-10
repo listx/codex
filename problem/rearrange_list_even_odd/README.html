@@ -258,20 +258,20 @@ the same time).
 <h2 id="h-Solution"><span class="section-number-2">3.</span> Solution</h2>
 <div class="outline-text-2" id="text-h-Solution">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">rearrange_list_even_odd</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__rearrange_list_even_odd">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__rearrange_list_even_odd"><span class="org-keyword">def</span> <span class="org-function-name">even_odd</span>(ints):
-  <span class="org-variable-name">idx_even</span> = 0
-  <span class="org-variable-name">idx_odd</span> = <span class="org-builtin">len</span>(ints) - 1
+    <span class="org-variable-name">idx_even</span> = 0
+    <span class="org-variable-name">idx_odd</span> = <span class="org-builtin">len</span>(ints) - 1
 
-  <span class="org-keyword">while</span> idx_even &lt; idx_odd:
-    <span class="org-keyword">if</span> ints[idx_odd] &amp; 1:
-      <span class="org-variable-name">idx_odd</span> -= 1
-    <span class="org-keyword">else</span>:
-      <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_even</span>], <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_odd</span>] = ints[idx_odd], ints[idx_even]
-      <span class="org-variable-name">idx_even</span> += 1
+    <span class="org-keyword">while</span> idx_even &lt; idx_odd:
+        <span class="org-keyword">if</span> ints[idx_odd] &amp; 1:
+            <span class="org-variable-name">idx_odd</span> -= 1
+        <span class="org-keyword">else</span>:
+            <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_even</span>], <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_odd</span>] = ints[idx_odd], ints[idx_even]
+            <span class="org-variable-name">idx_even</span> += 1
 
-  <span class="org-comment-delimiter"># </span><span class="org-comment">Return the number of even numbers found.</span>
-  <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
-    <span class="org-variable-name">idx_even</span> += 1
-  <span class="org-keyword">return</span> idx_even
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Return the number of even numbers found.</span>
+    <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
+        <span class="org-variable-name">idx_even</span> += 1
+    <span class="org-keyword">return</span> idx_even
 </pre></div></div><p>
 In <code>even_odd()</code>, the given list of numbers is modified in-place so that all the
 even numbers are placed in front of the list. We use 2 indices, <code>idx_even</code> and
@@ -325,8 +325,8 @@ times, so <code>idx_even</code> eventually gets incremented to <code>3</code>, a
 Let's have a closer look at the <code>while</code> loop inside <code>even_odd()</code>.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">while loop</label><span class="lilac-caption-link-symbol"><a href="#while-loop">&#x1f517;</a></span></div><pre class="src src-python" id="while-loop">  <span class="org-keyword">while</span> idx_even &lt; idx_odd:
-    ...
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">while loop</label><span class="lilac-caption-link-symbol"><a href="#while-loop">&#x1f517;</a></span></div><pre class="src src-python" id="while-loop">    <span class="org-keyword">while</span> idx_even &lt; idx_odd:
+        ...
 </pre></div></div><p>
 The <code>idx_even &lt; idx_odd</code> just means to stop processing whenever the two indices
 cross over each other (because we must uphold the guarantee of having the odd
@@ -337,8 +337,8 @@ numbers on the right side of the list when we're done processing).
 Now let's check the <code>if</code> condition.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">first if-condition</label><span class="lilac-caption-link-symbol"><a href="#first-if-condition">&#x1f517;</a></span></div><pre class="src src-python" id="first-if-condition">    <span class="org-keyword">if</span> ints[idx_odd] &amp; 1:
-      <span class="org-variable-name">idx_odd</span> -= 1
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">first if-condition</label><span class="lilac-caption-link-symbol"><a href="#first-if-condition">&#x1f517;</a></span></div><pre class="src src-python" id="first-if-condition">        <span class="org-keyword">if</span> ints[idx_odd] &amp; 1:
+            <span class="org-variable-name">idx_odd</span> -= 1
 </pre></div></div><p>
 This part is straightforward &#x2014; if we observe that the number which <code>idx_odd</code>
 is pointing to is already odd, it's already in the correct position. So the only
@@ -350,9 +350,9 @@ number to the left.
 Now comes the swapping behavior.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">else-condition</label><span class="lilac-caption-link-symbol"><a href="#else-condition">&#x1f517;</a></span></div><pre class="src src-python" id="else-condition">    <span class="org-keyword">else</span>:
-      <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_even</span>], <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_odd</span>] = ints[idx_odd], ints[idx_even]
-      <span class="org-variable-name">idx_even</span> += 1
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">else-condition</label><span class="lilac-caption-link-symbol"><a href="#else-condition">&#x1f517;</a></span></div><pre class="src src-python" id="else-condition">        <span class="org-keyword">else</span>:
+            <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_even</span>], <span class="org-variable-name">ints</span>[<span class="org-variable-name">idx_odd</span>] = ints[idx_odd], ints[idx_even]
+            <span class="org-variable-name">idx_even</span> += 1
 </pre></div></div><p>
 We hit this branch if <code>idx_odd</code> is pointing to an <b>even</b> number. We know that
 because this number is even, we want to push it to the left edge of the list.
@@ -376,8 +376,8 @@ numbers, this is just the <code>idx_even</code> index, plus 1 if <code>idx_even<
 looking at an even number (after the loop is done incrementing it).
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name"><code>idx_even</code> (off-by-1)</label><span class="lilac-caption-link-symbol"><a href="#code-idx-even--code---off-by-1">&#x1f517;</a></span></div><pre class="src src-python" id="code-idx-even--code---off-by-1">  <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
-    <span class="org-variable-name">idx_even</span> += 1
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name"><code>idx_even</code> (off-by-1)</label><span class="lilac-caption-link-symbol"><a href="#code-idx-even--code---off-by-1">&#x1f517;</a></span></div><pre class="src src-python" id="code-idx-even--code---off-by-1">    <span class="org-keyword">if</span> ints <span class="org-keyword">and</span> ints[idx_even] &amp; 1 == 0:
+        <span class="org-variable-name">idx_even</span> += 1
 </pre></div></div><p>
 We have to increment <code>idx_even</code> in such a case because this means that the
 number it is looking at after the <code>while</code> loop finished was <b>not</b> "thrown over"
@@ -414,44 +414,44 @@ already have the correct value, so we do nothing.
 <span class="lilac-child-link-from-parent"><a href="#__NREF__rearrange_list_even_odd">rearrange_list_even_odd</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
-  <span class="org-variable-name">cases</span> = [
-    ([],        [],        0),
-    ([0],       [0],       1),
-    ([1],       [1],       0),
-    ([0, 2],    [2, 0],    2),
-    ([1, 2],    [2, 1],    1),
-    ([0, 2, 3], [2, 0, 3], 2),
-    ([0, 3, 2], [2, 0, 3], 2),
-    ([1, 3, 5], [1, 3, 5], 0),
-    ([2, 4, 6], [6, 2, 4], 3),
-  ]
+    <span class="org-variable-name">cases</span> = [
+        ([],        [],        0),
+        ([0],       [0],       1),
+        ([1],       [1],       0),
+        ([0, 2],    [2, 0],    2),
+        ([1, 2],    [2, 1],    1),
+        ([0, 2, 3], [2, 0, 3], 2),
+        ([0, 3, 2], [2, 0, 3], 2),
+        ([1, 3, 5], [1, 3, 5], 0),
+        ([2, 4, 6], [6, 2, 4], 3),
+    ]
 
-  <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
-    <span class="org-keyword">for</span> given_ints, expected_ints, expected_evens <span class="org-keyword">in</span> <span class="org-keyword">self</span>.<span class="org-variable-name">cases</span>:
-      got_evens = even_odd(given_ints)
+    <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
+        <span class="org-keyword">for</span> given_ints, expected_ints, expected_evens <span class="org-keyword">in</span> <span class="org-keyword">self</span>.<span class="org-variable-name">cases</span>:
+            got_evens = even_odd(given_ints)
 
-      <span class="org-keyword">self</span>.assertEqual(given_ints, expected_ints)
-      <span class="org-keyword">self</span>.assertEqual(got_evens, expected_evens)
+            <span class="org-keyword">self</span>.assertEqual(given_ints, expected_ints)
+            <span class="org-keyword">self</span>.assertEqual(got_evens, expected_evens)
 
-  <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=0,
-                  max_size=16))
-  <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_ints):
-    even_nums = even_odd(given_ints)
-    <span class="org-comment-delimiter"># </span><span class="org-comment">If we found some even numbers, these elements must actually all be even.</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">And the remaining elements (if any) must all be odd.</span>
-    <span class="org-keyword">if</span> even_nums &gt; 0:
-      <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(0, even_nums):
-        <span class="org-keyword">self</span>.assertFalse(given_ints[i] &amp; 1)
-      <span class="org-keyword">for</span> j <span class="org-keyword">in</span> <span class="org-builtin">range</span>(even_nums, <span class="org-builtin">len</span>(given_ints)):
-        <span class="org-keyword">self</span>.assertTrue(given_ints[j] &amp; 1)
-    <span class="org-comment-delimiter"># </span><span class="org-comment">If we did not find any even numbers, but the given list was not empty,</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">then it means that all numbers in the list are odd.</span>
-    <span class="org-keyword">elif</span> given_ints:
-      <span class="org-keyword">for</span> j <span class="org-keyword">in</span> <span class="org-builtin">range</span>(0, <span class="org-builtin">len</span>(given_ints)):
-        <span class="org-keyword">self</span>.assertTrue(given_ints[j] &amp; 1)
+    <span class="org-type">@given</span>(st.lists(st.integers(min_value=0, max_value=100), min_size=0,
+                    max_size=16))
+    <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_ints):
+        even_nums = even_odd(given_ints)
+        <span class="org-comment-delimiter"># </span><span class="org-comment">If we found some even numbers, these elements must actually all be</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">even. And the remaining elements (if any) must all be odd.</span>
+        <span class="org-keyword">if</span> even_nums &gt; 0:
+            <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(0, even_nums):
+                <span class="org-keyword">self</span>.assertFalse(given_ints[i] &amp; 1)
+            <span class="org-keyword">for</span> j <span class="org-keyword">in</span> <span class="org-builtin">range</span>(even_nums, <span class="org-builtin">len</span>(given_ints)):
+                <span class="org-keyword">self</span>.assertTrue(given_ints[j] &amp; 1)
+        <span class="org-comment-delimiter"># </span><span class="org-comment">If we did not find any even numbers, but the given list was not empty,</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">then it means that all numbers in the list are odd.</span>
+        <span class="org-keyword">elif</span> given_ints:
+            <span class="org-keyword">for</span> j <span class="org-keyword">in</span> <span class="org-builtin">range</span>(0, <span class="org-builtin">len</span>(given_ints)):
+                <span class="org-keyword">self</span>.assertTrue(given_ints[j] &amp; 1)
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-  unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 </div>
