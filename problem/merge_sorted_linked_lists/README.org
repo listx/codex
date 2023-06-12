@@ -1,0 +1,181 @@
+#+title: Merge sorted linked lists
+#+SETUPFILE: ../../lilac.theme
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+Merge two sorted linked lists together into a new linked list [cite:@epip 92].
+
+* Insights
+
+Because the input lists are already sorted, we only need to traverse through
+them once. We just have to make sure that we choose the node that has the
+smallest value in either list, and then proceed to the next node.
+
+The other thing to keep in mind is that we want to append to the list by adding
+to a /tail/ node. Otherwise if we keep appending from the head, we'll end up
+prepending things instead of appending things, ending up with nodes in reversed
+order.
+
+Note that we use the linked list library implemented in [[file:~/prog/codex/problem/implement_linked_lists/README.org]["Implement linked
+lists"]]. There, the =insert()= method creates a new =LinkedList= object each
+time. This is a bit expensive because we already have the objects allocated in
+the input lists =a= and =b=.
+
+* Solution(s)
+
+** Always append to the tail
+
+Here's the code.
+
+#+caption: merge
+#+begin_src python :noweb yes
+__NREF__merge
+#+end_src
+
+Now let's go over this in detail.
+
+First we create a new linked list node. We create two references to it, =head=
+and =tail=. We will modify tail by moving it along down the linked list we will
+build up when we traverse through the input lists. When we're done we will
+return the =head= node which we will leave untouched during this algorithm.
+
+#+header: :noweb-ref __NREF__merge
+#+begin_src python
+def merge(a: lib.LinkedList, b: lib.LinkedList) -> lib.LinkedList:
+    head = tail = lib.LinkedList()
+#+end_src
+
+We assume that the input lists' head nodes do not contain any data themselves.
+And so we "shift" the head nodes of =a= and =b= by one node as a preparatory
+step.
+
+#+header: :noweb-ref __NREF__merge
+#+begin_src python
+    a = a.next
+    b = b.next
+#+end_src
+
+Now comes the traversal. We traverse as long as either input list has nodes.
+
+#+header: :noweb-ref __NREF__merge
+#+begin_src python
+    while a or b:
+#+end_src
+
+Within each iteration, we check for 2 main cases:
+
+1. both =a= and =b= have nodes, or
+2. only one or both are at the tail (=None= type).
+
+If both lists have nodes, we do the comparison check to determine which node has
+the smaller element. Then we make =tail.next= point to this node. We then
+advance the node we chose to its next one (because we must not check this node
+again in a future comparison).
+
+#+header: :noweb-ref __NREF__merge
+#+begin_src python
+        if a and b:
+            if a.elt < b.elt:
+                tail.next = a
+                a = a.next
+            else:
+                tail.next = b
+                b = b.next
+#+end_src
+
+If either or both input lists are empty, then we simply make =tail.next= point
+to the non-empty one. If both are empty then =a or b= evaluates to =None=, which
+is still what we want. Then we break out of the loop to save time because there
+is nothing more to compare.
+
+#+header: :noweb-ref __NREF__merge
+#+begin_src python
+        else:
+            tail.next = a or b
+            break
+#+end_src
+
+Finally before we end the iteration, we advance the tail node. This is important
+because we want to /append/ to the list as we traverse along the input lists to
+find the next smallest element.
+
+#+header: :noweb-ref __NREF__merge
+#+begin_src python
+        tail = tail.next
+#+end_src
+
+When we're done we just need to return the original head node.
+
+#+header: :noweb-ref __NREF__merge
+#+begin_src python
+    return head
+#+end_src
+
+*** Complexity
+- Time: $O(a+b)$ where $a$ and $b$ are the number of nodes in the input lists
+  for the worst-case, where both input lists have similar numbers of nodes. In
+  the best case, one list is much shorter than the other and we can break out of
+  the loop early.
+- Space: $O(1)$ because we only create 1 new node for the returned =head= node.
+
+* Tests
+
+#+name: Tests
+#+caption: Tests
+#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+from hypothesis import given, strategies as st
+import random
+import unittest
+
+import merge_sorted_linked_lists.linked_list as lib
+
+__NREF__merge
+
+class Test(unittest.TestCase):
+    def test_merge_simple_cases(self):
+        cases = [
+            ([], [], []),
+            ([1], [], [1]),
+            ([], [1], [1]),
+            ([1], [1], [1, 1]),
+            ([1, 2, 3], [1], [1, 1, 2, 3]),
+            ([1, 2], [1, 3], [1, 1, 2, 3]),
+            ([1, 3, 5], [2, 4, 6, 8, 10], [1, 2, 3, 4, 5, 6, 8, 10]),
+            ([1, 2, 3], [], [1, 2, 3]),
+            ([], [1, 2, 3], [1, 2, 3]),
+        ]
+        for list_a, list_b, list_expected in cases:
+            a = lib.LinkedList(*list_a)
+            b = lib.LinkedList(*list_b)
+            expected = lib.LinkedList(*list_expected)
+
+            got = merge(a, b)
+            self.assertTrue(got.equal(expected),
+                            msg=f'{got=} {list_expected=}')
+
+    @given(st.lists(st.integers(min_value=1, max_value=100),
+                    min_size=0,
+                    max_size=20))
+    def test_merge_random(self, given_elts: list[int]):
+        size_a = random.randint(0, len(given_elts))
+        a = given_elts[0:size_a]
+        b = given_elts[size_a:]
+        expected = lib.LinkedList(*sorted(given_elts))
+        got = merge(lib.LinkedList(*sorted(a)),
+                    lib.LinkedList(*sorted(b)))
+        self.assertTrue(got.equal(expected),
+                        msg=f'{got=} {expected=}')
+if __name__ == "__main__":
+    unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :tangle __init__.py :exports none
+#+end_src
+
+* References
+#+CITE_EXPORT: csl apa.csl
+#+PRINT_BIBLIOGRAPHY:

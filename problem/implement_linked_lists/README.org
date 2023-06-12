@@ -1,0 +1,428 @@
+#+title: Implement linked lists
+#+SETUPFILE: ../../lilac.theme
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+Implement a linked list library [cite:@epip 91].
+
+#+begin_sidenote
+The book [cite:@epip] does not actually pose this problem as an interview
+question, but they advise that implementing this is "an excellent way to become
+comfortable with [linked] lists."
+#+end_sidenote
+
+* Insights
+
+Manipulation of the /links/ between nodes is key. Also, insertion and deletion
+is easy if we keep track of an initial "head" node.
+
+* Solution
+
+#+name: __NREF__code
+#+begin_src python
+class LinkedList:
+    __NREF__linked_list_class_methods
+#+end_src
+
+A linked list's node has data (for the current node) and a pointer to the next
+node. We name the data part as =elt= for /element/.
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python
+def __init__(self, *args):
+    self.elt = None
+    self.next = None
+#+end_src
+
+By default the initial (head) node is a placeholder node used solely to keep
+track of the overall linked list. If there are any arguments, we treat them as
+individual elements for insertion. But we first reverse the arguments because
+this is the only way to keep the original order; otherwise the order gets
+reversed because insertion always happens with respect to the head node (not the
+tail node). See the discussion about insertion in the next section for more
+details.
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python
+    for elt in reversed(args):
+        self.insert(elt)
+#+end_src
+
+We reverse =args= before insertion because of the way insertion works. Below are
+some examples of how initialization behaves.
+
+#+begin_example
+list = LinkedList()
+
+list looks like:
+HEAD_NODE -> None
+
+list = LinkedList(15)
+
+list looks like:
+HEAD_NODE -> 15 -> None
+
+list = LinkedList(1, 2, 3)
+
+list looks like:
+HEAD_NODE -> 1 -> 2 -> 3 -> None
+#+end_example
+
+** Insertion
+
+Insertion just requires creating a new node with the given data, and inserting
+it after the current one.
+
+We first make the new node also point to the next element of the current node.
+At this point both the current and new node point to the same "next" node. We
+then make the current node point instead to the new node. In other words, we are
+prepending to the list.
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python -r -l "#ref:%s"
+def insert(self, elt: Any) -> None:  #ref:insert
+    node_new = LinkedList()
+    node_new.elt = elt
+    node_new.next = self.next
+    self.next = node_new
+#+end_src
+
+*** Complexity
+- Time: $O(1)$.
+- Space: $O(1)$.
+
+*** What if the head node also stores an element?
+
+We could indeed store data in the head node also.
+
+For example, if the head node has data in it, we just make the new element point
+to us and then make this new element's node our new head node. This way, we
+still prepend to the list just like before (but without the separate =HEAD_NODE=
+shown above).
+
+One problem with the above  (which is how the book [cite:@epip] implements
+linked lists) is that there is no way to represent an empty linked list with 0
+nodes (nodes which have data). This is because (1) we must have at least the
+head node to represent a linked list, and (2) because the head node itself has
+data, a linked list cannot be "empty". The book treats the integer =0= as a
+non-data element, but this is awkward at best.
+
+Other than non-emptiness, we face another problem. We cannot easily make the
+=insert()= function a method of the =LinkedList= class, because we have to make
+=self= (the current head node) become another (new) node object. That is, when
+we insert an element, we want this new element's node object to become the new
+head node of an existing list.
+
+This is problematic in Python because you aren't really meant to assign a new
+object to =self=. We could get around it by using =copy.deepcopy()= in order to
+assign =self= to =node_new= (overwriting =self= in the process). See
+https://stackoverflow.com/a/29591356.  This copy is expensive though and
+reflects the difficulty in trying to reset =self= to another object in Python.
+
+For this reason we don't bother with allowing the head node to have data.
+Still, for sake of completeness we demonstrate how one would still try to
+use such a scheme for purposes of inserting a new element.
+
+#+name: Make head node hold data
+#+caption: Make head node hold data
+#+begin_src python
+import copy
+
+class LinkedList:
+    def insert(self, elt: Any) -> None:
+        node_new = LinkedList()
+        node_new.elt = elt
+        node_new.next = self
+        self.__dict__ = copy.deepcopy(node_new.__dict__)
+#+end_src
+
+** Print (=__repr__=)
+
+This is useful for debugging. The code here follows the =__repr__= example from
+[[https://github.com/python/cpython/blob/69e2da02928ccf65c6664111a386f5745785136f/Lib/datetime.py#L693][CPython's datetime implementation]].
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python
+def __repr__(self):
+    elts = []
+    node = self
+    while node.next:
+        elts.append(repr(node.next.elt))
+        node = node.next
+        if node.next is None:
+            break
+    return "%s.%s(%s)" % (self.__class__.__module__,
+                        self.__class__.__qualname__,
+                        ", ".join(elts))
+#+end_src
+
+** Size
+
+This calculates the total number of nodes in the linked list, not counting the
+head node if it does not contain any data.
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python
+def size(self) -> int:
+    # Skip head node which doesn't hold any element.
+    node = self.next
+
+    n = 0
+    while node:
+        n += 1
+        node = node.next
+
+    return n
+#+end_src
+
+** Equality
+
+=equal= compares our current linked list with another linked list, by comparing
+every single node in each list. Specifically, we check both that the elements in
+each linked list are the same, but also that there are an equal number of nodes.
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python
+def equal(self, b: LinkedList) -> bool:
+    a = self
+    while a.next or b.next:
+        if a.next and b.next and a.next.elt == b.next.elt:
+            a = a.next
+            b = b.next
+            continue
+        return False
+    return True
+#+end_src
+
+** Lookup
+
+In order to look up an element, we have to traverse through the list until we
+find it. We skip the head node though because it doesn't hold any data.
+
+Strictly speaking, the head node could also hold data. In languages with directo
+pointer access we would use a pointer type for /elt/ and store =NULL= (invalid
+memory address) for the head node's element; this way, we would know if we were
+looking at a head node by comparing with =NULL=.
+
+However, Python doesn't really have this concept so we choose to avoid storing
+data in the head node. One benefit of doing this is that the list behaves like a
+stack, even for the very first element. See the discussion around insertion
+below.
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python
+def lookup(self, elt: Any) -> Optional[LinkedList]:
+
+    current_node = self.next
+
+    while current_node and current_node.elt != elt:
+        current_node = current_node.next
+
+    # This will be None if we failed to find the given element.
+    return current_node
+#+end_src
+
+*** Complexity
+- Time: $O(n)$ where $n$ is the number of nodes in the linked list.
+- Space: $O(1)$.
+
+** Deletion
+
+This deletes the node after the current one. In a way, it's the mirror of the
+first step of [[(insert)][=insert()=]] above where we were in a state where both nodes were
+pointing to the same next element. Here, we make the current node point to the
+node after the next node.
+
+We take special care to do nothing if the list is empty (as there is nothing to
+delete).
+
+If we repeatedly delete nodes in the manner described above (by passing in the
+head node), the effect would be to delete the nodes in the opposite order from
+the order they were inserted --- much like a stack data structure.
+
+#+header: :noweb-ref __NREF__linked_list_class_methods
+#+begin_src python
+def delete_after(self) -> None:
+    if self.next is None:
+        return
+
+    self.next = self.next.next
+#+end_src
+
+*** Complexity
+- Time: $O(1)$.
+- Space: $O(1)$.
+
+* Tests
+
+#+begin_sidenote
+The =from __future__ import annotations= line is to enable self-referencing type
+annotations. See [[* Export]].
+#+end_sidenote
+
+#+name: Tests
+#+caption: Tests
+#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+from __future__ import annotations
+from hypothesis import given, strategies as st
+import unittest
+from typing import Any, Optional
+import random
+
+__NREF__code
+
+class Test(unittest.TestCase):
+    __NREF__test_cases
+
+if __name__ == "__main__":
+    unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :tangle __init__.py :exports none
+#+end_src
+
+** Initialization
+
+Here are some basic checks regarding initialization.
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_init_empty(self):
+    linked_list = LinkedList()
+    self.assertEqual(linked_list.size(), 0)
+
+def test_init_singleton(self):
+    linked_list = LinkedList(1)
+    self.assertEqual(linked_list.size(), 1)
+
+def test_init_multiple(self):
+    linked_list = LinkedList(1, 2, 3, 4, 5)
+    self.assertEqual(linked_list.size(), 5)
+    # Head node holds nothing.
+    self.assertEqual(linked_list.elt, None)
+    self.assertEqual(linked_list.next.elt, 1)
+#+end_src
+
+** Insertion
+
+We check that insertion results in items being prepended to the list. So the
+head node always points to the last-inserted node (or is the last-inserted node
+itself if we are using head nodes that hold data).
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_insertion_head_without_data(self):
+    linked_list = LinkedList(1, 2, 3)
+    self.assertTrue(linked_list.equal(LinkedList(1, 2, 3)))
+
+@given(st.lists(st.integers(min_value=1, max_value=100),
+                min_size=0,
+                max_size=20))
+def test_insertion_random(self, given_elts: list[int]):
+    linked_list = LinkedList(*given_elts)
+    self.assertEqual(linked_list.size(), len(given_elts))
+#+end_src
+
+** Size
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_size(self):
+    cases = [
+        ([], 0),
+        ([1], 1),
+        ([1, 2], 2),
+    ]
+    for elts, expected in cases:
+        linked_list = LinkedList(*elts)
+        self.assertEqual(linked_list.size(), expected,
+                         msg=f'{expected=}')
+#+end_src
+
+** Equality
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_equality(self):
+    cases = [
+        ([], [], True),
+        ([1], [], False),
+        ([1], [1], True),
+        ([1], [1, 2], False),
+    ]
+    for xs, ys, expected in cases:
+        x = LinkedList(*xs)
+        y = LinkedList(*ys)
+        self.assertEqual(x.equal(y), expected,
+                         msg=f'{x=} {y=}')
+#+end_src
+
+** Lookup
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_lookup(self):
+    cases = [
+        ([], None, lambda exp: exp is None),
+        ([None], None, lambda exp: exp.elt is None),
+        ([], 0, lambda exp: exp is None),
+        ([], 1, lambda exp: exp is None),
+        ([1], 1, lambda exp: exp.elt == 1),
+        ([1, 2], 2, lambda exp: exp.elt == 2),
+        ([1, 2], 3, lambda exp: exp is None),
+    ]
+    for elts, key, expected_func in cases:
+        linked_list = LinkedList(*elts)
+        self.assertTrue(expected_func(linked_list.lookup(key)),
+                         msg=f'{key=}')
+#+end_src
+
+** Deletion
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_deletion_basic(self):
+    linked_list = LinkedList(1, 2, 3)
+    # If we delete element 1, we're gonna be pointing at 2, then 3.
+    linked_list.delete_after()
+    self.assertTrue(linked_list.equal(LinkedList(2, 3)))
+
+@given(st.lists(st.integers(min_value=1, max_value=100),
+                min_size=1,
+                max_size=20))
+def test_deletion_random(self, given_elts: list[int]):
+    linked_list = LinkedList(*given_elts)
+    deletions = random.randint(0, len(given_elts))
+    for _ in range(deletions):
+        linked_list.delete_after()
+    self.assertEqual(linked_list.size(), len(given_elts) - deletions)
+
+def test_deletion_nop(self):
+    linked_list = LinkedList()
+    linked_list.delete_after()
+    self.assertEqual(linked_list.size(), 0)
+#+end_src
+
+* Export
+
+This linked list library is used in other problems. So we export it here to a
+separate reusable file (aka Python module). Then from a problem folder, we can
+symlink to it to pull it in. This way we don't have to bother with modifying
+Python paths.
+
+The line =from __future__ import annotations= is so that the class methods can
+refer to itself (the enclosing class). See [[https://stackoverflow.com/questions/33533148/how-do-i-type-hint-a-method-with-the-type-of-the-enclosing-class][this discussion]].
+
+#+begin_src python :eval no :session test :tangle linked_list.py
+from __future__ import annotations
+from typing import Any, Optional
+__NREF__code
+#+end_src
+
+* References
+#+CITE_EXPORT: csl apa.csl
+#+PRINT_BIBLIOGRAPHY:
