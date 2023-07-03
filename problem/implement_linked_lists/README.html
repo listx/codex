@@ -506,7 +506,9 @@ every single node in each list. Specifically, we check both that the elements in
 each linked list are the same, but also that there are an equal number of nodes.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(6/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-6"><span class="org-keyword">def</span> <span class="org-function-name">equal</span>(<span class="org-keyword">self</span>, b: LinkedList) -&gt; <span class="org-builtin">bool</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(6/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-6"><span class="org-keyword">def</span> <span class="org-function-name">__eq__</span>(<span class="org-keyword">self</span>, b) -&gt; <span class="org-builtin">bool</span>:
+    <span class="org-keyword">if</span> <span class="org-keyword">not</span> <span class="org-builtin">isinstance</span>(b, LinkedList):
+        <span class="org-keyword">return</span> <span class="org-constant">NotImplemented</span>
     a = <span class="org-keyword">self</span>
     <span class="org-keyword">while</span> a.<span class="org-builtin">next</span> <span class="org-keyword">or</span> b.<span class="org-builtin">next</span>:
         <span class="org-keyword">if</span> a.<span class="org-builtin">next</span> <span class="org-keyword">and</span> b.<span class="org-builtin">next</span> <span class="org-keyword">and</span> a.<span class="org-builtin">next</span>.elt == b.<span class="org-builtin">next</span>.elt:
@@ -668,7 +670,7 @@ itself if we are using head nodes that hold data).
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(2/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-2"><span class="org-keyword">def</span> <span class="org-function-name">test_insertion_head_without_data</span>(<span class="org-keyword">self</span>):
     <span class="org-variable-name">linked_list</span> = LinkedList(1, 2, 3)
-    <span class="org-keyword">self</span>.assertTrue(linked_list.equal(LinkedList(1, 2, 3)))
+    <span class="org-keyword">self</span>.assertEqual(linked_list, LinkedList(1, 2, 3))
 
 <span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
                 min_size=0,
@@ -710,7 +712,7 @@ itself if we are using head nodes that hold data).
     <span class="org-keyword">for</span> xs, ys, expected <span class="org-keyword">in</span> <span class="org-variable-name">cases</span>:
         x = LinkedList(*xs)
         <span class="org-variable-name">y</span> = LinkedList(*ys)
-        <span class="org-keyword">self</span>.assertEqual(x.equal(y), expected,
+        <span class="org-keyword">self</span>.assertEqual(x == y, expected,
                          msg=f<span class="org-string">'</span>{x=}<span class="org-string"> </span>{y=}<span class="org-string">'</span>)
 </pre></div></div>
 </div>
@@ -744,7 +746,7 @@ itself if we are using head nodes that hold data).
     <span class="org-variable-name">linked_list</span> = LinkedList(1, 2, 3)
     <span class="org-comment-delimiter"># </span><span class="org-comment">If we delete element 1, we're gonna be pointing at 2, then 3.</span>
     linked_list.delete_after()
-    <span class="org-keyword">self</span>.assertTrue(linked_list.equal(LinkedList(2, 3)))
+    <span class="org-keyword">self</span>.assertEqual(linked_list, LinkedList(2, 3))
 
 <span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
                 min_size=1,

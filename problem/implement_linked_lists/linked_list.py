@@ -32,7 +32,9 @@ class LinkedList:
             node = node.next
     
         return n
-    def equal(self, b: LinkedList) -> bool:
+    def __eq__(self, b) -> bool:
+        if not isinstance(b, LinkedList):
+            return NotImplemented
         a = self
         while a.next or b.next:
             if a.next and b.next and a.next.elt == b.next.elt:

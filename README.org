@@ -60,6 +60,7 @@ description of each one, and references.
 | [[file:problem/interconvert_strings_and_integers/README.org][Interconvert strings and integers]] | array, string       | [cite:@epip 75]                                                                              |
 | [[file:problem/implement_linked_lists/README.org][Implement linked lists]]            | linked list         | [cite:@epip 91]                                                                              |
 | [[file:problem/merge_sorted_linked_lists/README.org][Merge sorted linked lists]]         | linked list         | [cite:@epip 92]                                                                              |
+| [[file:problem/implement_stack_with_max/README.org][Implement stack with "max" method]] | stack               | [cite:@epip 106]                                                                             |
 
 ** Appendix
 

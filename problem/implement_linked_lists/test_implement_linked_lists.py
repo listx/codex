@@ -36,7 +36,9 @@ class LinkedList:
             node = node.next
     
         return n
-    def equal(self, b: LinkedList) -> bool:
+    def __eq__(self, b) -> bool:
+        if not isinstance(b, LinkedList):
+            return NotImplemented
         a = self
         while a.next or b.next:
             if a.next and b.next and a.next.elt == b.next.elt:
@@ -77,7 +79,7 @@ class Test(unittest.TestCase):
         self.assertEqual(linked_list.next.elt, 1)
     def test_insertion_head_without_data(self):
         linked_list = LinkedList(1, 2, 3)
-        self.assertTrue(linked_list.equal(LinkedList(1, 2, 3)))
+        self.assertEqual(linked_list, LinkedList(1, 2, 3))
     
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=0,
@@ -105,7 +107,7 @@ class Test(unittest.TestCase):
         for xs, ys, expected in cases:
             x = LinkedList(*xs)
             y = LinkedList(*ys)
-            self.assertEqual(x.equal(y), expected,
+            self.assertEqual(x == y, expected,
                              msg=f'{x=} {y=}')
     def test_lookup(self):
         cases = [
@@ -125,7 +127,7 @@ class Test(unittest.TestCase):
         linked_list = LinkedList(1, 2, 3)
         # If we delete element 1, we're gonna be pointing at 2, then 3.
         linked_list.delete_after()
-        self.assertTrue(linked_list.equal(LinkedList(2, 3)))
+        self.assertEqual(linked_list, LinkedList(2, 3))
     
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=1,

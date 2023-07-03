@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
             expected = lib.LinkedList(*list_expected)
 
             got = merge(a, b)
-            self.assertTrue(got.equal(expected),
+            self.assertEqual(got, expected,
                             msg=f'{got=} {list_expected=}')
 
     @given(st.lists(st.integers(min_value=1, max_value=100),
@@ -54,7 +54,7 @@ class Test(unittest.TestCase):
         expected = lib.LinkedList(*sorted(given_elts))
         got = merge(lib.LinkedList(*sorted(a)),
                     lib.LinkedList(*sorted(b)))
-        self.assertTrue(got.equal(expected),
+        self.assertEqual(got, expected,
                         msg=f'{got=} {expected=}')
 if __name__ == "__main__":
     unittest.main(exit=False)
