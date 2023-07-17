@@ -58,7 +58,7 @@ description of each one, and references.
 | [[file:problem/buy_sell_stock_once/README.org][Buy and sell stock once]]           | array               | [cite:@epip 51]                                                                              |
 | [[file:problem/buy_sell_stock_twice/README.org][Buy and sell stock twice]]          | array               | [cite:@epip 53]                                                                              |
 | [[file:problem/interconvert_strings_and_integers/README.org][Interconvert strings and integers]] | array, string       | [cite:@epip 75]                                                                              |
-| [[file:problem/implement_linked_lists/README.org][Implement linked lists]]            | linked list         | [cite:@epip 91]                                                                              |
+| [[file:problem/implement_linked_list/README.org][Implement linked list]]             | linked list         | [cite:@epip 91]                                                                              |
 | [[file:problem/merge_sorted_linked_lists/README.org][Merge sorted linked lists]]         | linked list         | [cite:@epip 92]                                                                              |
 | [[file:problem/implement_stack_with_max/README.org][Implement stack with "max" method]] | stack               | [cite:@epip 106]                                                                             |
 
