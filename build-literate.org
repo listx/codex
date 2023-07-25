@@ -107,6 +107,56 @@ Then in all of our published Org files, we do
 
 to get the CSS/JS that comes with Lilac.
 
+** Custom CSS and HTML <head> content
+
+We tweak Lilac's default CSS a bit.
+
+For now we just change the title font to be a bit more whimsical. Because we
+don't pull in the codex.css file for our problem pages, they do not inherit
+these settings (which for now is what we want).
+
+#+name: __NREF__codex-html-head
+#+begin_src emacs-lisp
+; See https://stackoverflow.com/a/27285582/437583.
+(setq lilac-html-head
+      (concat
+       "<link rel=\"stylesheet\" type=\"text/css\" href=\"codex.css\" />\n"
+       "<link rel=\"stylesheet\" href="
+        "\"https://fonts.googleapis.com/css2"
+        "?family=Bungee+Shade:wght@400"
+       "\">"
+       ))
+#+end_src
+
+#+name: codex.css
+#+caption: codex.css
+#+begin_src css :tangle codex.css
+h1 {
+    font-family: "Bungee Shade", serif;
+    font-size: 100pt;
+}
+
+:root {
+    --bg: #fff;
+    --fg: #000;
+    --bg-code: #f7f7f7;
+    --border-code: #777;
+    --border-light: #ccc;
+    --fg-link: #0000ff;
+    --fg-nref-link: #21618c;
+    --bg-nref-link: #d8f6ff;
+    --fg-nref-link-hover: #7d3c98;
+    --bg-nref-link-hover: #f8e9ff;
+    --fg-toc-item: green;
+    --bg-toc-item: #f1ffef;
+    --fg-heading: black;
+    --clear: rgba(255, 255, 255, 0);
+    --font-serif: "Source Serif Pro", serif;
+    --font-sans: "Source Sans Pro", sans;
+    --font-mono: "Source Code Pro", monospace;
+}
+#+end_src
+
 ** Ignore woven HTML from =git diff=
 
 Typically we only need to look at the rendered HTML output in a web browser as
@@ -257,4 +307,6 @@ update-deps: package/nix/sources.json package/nix/sources.nix
 
 (setq org-cite-csl-styles-dir
       (concat (getenv "LILAC_ROOT") "/deps/styles/"))
+
+__NREF__codex-html-head
 #+end_src
