@@ -190,7 +190,9 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Source+Code+Pro">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Source+Code+Pro&family=Overlock:ital,wght@1,900">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="lilac.js"></script>
 <link rel="stylesheet" type="text/css" href="syntax-highlighting.css"/>
@@ -581,9 +583,8 @@ We tweak Lilac's default CSS a bit.
 </p>
 
 <p>
-For now we just change the title font to be a bit more whimsical. Because we
-don't pull in the codex.css file for our problem pages, they do not inherit
-these settings (which for now is what we want).
+Make all HTML files we generate try to pull in a local file called
+<code>codex.css</code>, as well as a custom font.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#codex-el">codex-html-head</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__codex-html-head">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="__NREF__codex-html-head"><span class="org-comment-delimiter">; </span><span class="org-comment">See https://stackoverflow.com/a/27285582/437583.</span>
@@ -595,29 +596,24 @@ these settings (which for now is what we want).
         <span class="org-string">"?family=Bungee+Shade:wght@400"</span>
        <span class="org-string">"\"&gt;"</span>
        ))
-</pre></div></div><div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.css</label><span class="lilac-caption-link-symbol"><a href="#codex-css">&#x1f517;</a></span></div><pre class="src src-css" id="codex-css"><span class="org-css-selector">h1 </span>{
+</pre></div></div><p>
+Now supply the default <code>codex.css</code> file. This makes the title font bigger and
+use a more ornate font for it.
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.css</label><span class="lilac-caption-link-symbol"><a href="#codex-css">&#x1f517;</a></span></div><pre class="src src-css" id="codex-css"><span class="org-css-selector">h1.title </span>{
     <span class="org-css-property">font-family</span>: <span class="org-string">"Bungee Shade"</span>, serif;
     <span class="org-css-property">font-size</span>: 100pt;
 }
+</pre></div></div><p>
+This is a second CSS file where we customize the title text of the pages for the
+problems. We just (manually) create a symlink from the problem page's
+<code>codex.css</code> to this one (because we don't want to use the regular <code>codex.css</code>
+from above).
+</p>
 
-<span class="org-css-selector">:root</span> {
-    <span class="org-variable-name">--bg</span>: <span class="custom-13">#fff</span>;
-    <span class="org-variable-name">--fg</span>: <span class="custom-12">#000</span>;
-    <span class="org-variable-name">--bg-code</span>: <span class="custom-11">#f7f7f7</span>;
-    <span class="org-variable-name">--border-code</span>: <span class="custom-10">#777</span>;
-    <span class="org-variable-name">--border-light</span>: <span class="custom-9">#ccc</span>;
-    <span class="org-variable-name">--fg-link</span>: <span class="custom-8">#0000ff</span>;
-    <span class="org-variable-name">--fg-nref-link</span>: <span class="custom-7">#21618c</span>;
-    <span class="org-variable-name">--bg-nref-link</span>: <span class="custom-6">#d8f6ff</span>;
-    <span class="org-variable-name">--fg-nref-link-hover</span>: <span class="custom-5">#7d3c98</span>;
-    <span class="org-variable-name">--bg-nref-link-hover</span>: <span class="custom-4">#f8e9ff</span>;
-    <span class="org-variable-name">--fg-toc-item</span>: <span class="custom-3">green</span>;
-    <span class="org-variable-name">--bg-toc-item</span>: <span class="custom-2">#f1ffef</span>;
-    <span class="org-variable-name">--fg-heading</span>: <span class="custom-1">black</span>;
-    <span class="org-variable-name">--clear</span>: <span class="custom">rgba(255, 255, 255, 0)</span>;
-    <span class="org-variable-name">--font-serif</span>: <span class="org-string">"Source Serif Pro"</span>, serif;
-    <span class="org-variable-name">--font-sans</span>: <span class="org-string">"Source Sans Pro"</span>, sans;
-    <span class="org-variable-name">--font-mono</span>: <span class="org-string">"Source Code Pro"</span>, monospace;
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.problems.css</label><span class="lilac-caption-link-symbol"><a href="#codex-problems-css">&#x1f517;</a></span></div><pre class="src src-css" id="codex-problems-css"><span class="org-css-selector">h1.title </span>{
+    <span class="org-css-property">font-family</span>: <span class="org-string">"Source Serif Pro"</span>, serif;
 }
 </pre></div></div>
 </div>

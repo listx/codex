@@ -111,9 +111,8 @@ to get the CSS/JS that comes with Lilac.
 
 We tweak Lilac's default CSS a bit.
 
-For now we just change the title font to be a bit more whimsical. Because we
-don't pull in the codex.css file for our problem pages, they do not inherit
-these settings (which for now is what we want).
+Make all HTML files we generate try to pull in a local file called
+=codex.css=, as well as a custom font.
 
 #+name: __NREF__codex-html-head
 #+begin_src emacs-lisp
@@ -128,32 +127,28 @@ these settings (which for now is what we want).
        ))
 #+end_src
 
+Now supply the default =codex.css= file. This makes the title font bigger and
+use a more ornate font for it.
+
 #+name: codex.css
 #+caption: codex.css
 #+begin_src css :tangle codex.css
-h1 {
+h1.title {
     font-family: "Bungee Shade", serif;
     font-size: 100pt;
 }
+#+end_src
 
-:root {
-    --bg: #fff;
-    --fg: #000;
-    --bg-code: #f7f7f7;
-    --border-code: #777;
-    --border-light: #ccc;
-    --fg-link: #0000ff;
-    --fg-nref-link: #21618c;
-    --bg-nref-link: #d8f6ff;
-    --fg-nref-link-hover: #7d3c98;
-    --bg-nref-link-hover: #f8e9ff;
-    --fg-toc-item: green;
-    --bg-toc-item: #f1ffef;
-    --fg-heading: black;
-    --clear: rgba(255, 255, 255, 0);
-    --font-serif: "Source Serif Pro", serif;
-    --font-sans: "Source Sans Pro", sans;
-    --font-mono: "Source Code Pro", monospace;
+This is a second CSS file where we customize the title text of the pages for the
+problems. We just (manually) create a symlink from the problem page's
+=codex.css= to this one (because we don't want to use the regular =codex.css=
+from above).
+
+#+name: codex.problems.css
+#+caption: codex.problems.css
+#+begin_src css :tangle codex.problem.css
+h1.title {
+    font-family: "Source Serif Pro", serif;
 }
 #+end_src
 
