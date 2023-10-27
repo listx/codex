@@ -1,7 +1,7 @@
 #+title: Literate Programming Build System
 #+PROPERTY: header-args :noweb no-export
 
-We use [[https://github.com/listx/lilac][Lilac]] for literate programming. To build everythings just run =make
+We use [[https://github.com/listx/lilac][Lilac]] for literate programming. To build everything just run =make
 shell= to drop inside the development environment shell then run =make= inside
 it.
 
