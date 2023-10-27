@@ -38,6 +38,11 @@ and format strings.
 FIXME: Make this table into a class where all cells below the header uses a
 monospaced font (so that we don't have to do the manual delineations with the
 equal sign).
+
+See https://orgmode.org/manual/CSS-support.html and how we can assign a
+particular HTML subclass to a particular headline (heading).
+
+Perhaps even better: https://emacs.stackexchange.com/questions/5980/setting-class-attribute-for-html-table-in-orgmode-export
 #+end_comment
 
 | Expression         | Result of evaluation |
