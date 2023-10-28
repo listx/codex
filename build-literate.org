@@ -75,7 +75,7 @@ test: tangle
 	python -m unittest discover -s problem appendix
 	touch test
 
-lint: mypy ruff
+lint: mypy ruff spellcheck
 .PHONY: lint
 
 mypy: tangle
@@ -85,6 +85,8 @@ mypy: tangle
 ruff: tangle
 	ruff problem
 .PHONY: ruff
+
+__NREF__Makefile-spellcheck
 
 # Enter development environment.
 shell:
@@ -268,6 +270,34 @@ $(foreach p,$(problem_dirs_without_prefix),\
 	problem/$(p)/README.org)))
 #+end_src
 
+* Linting
+
+** Spell checker
+
+We use [[https://crates.io/crates/typos-cli][typos-cli]] to check for spelling errors. Below we configure it to only
+check the original source material --- Org files.
+
+#+name: _typos.toml
+#+caption: _typos.toml
+#+begin_src toml :tangle _typos.toml :eval no
+[files]
+extend-exclude = [
+    "*.html",
+    "deps/*",
+]
+#+end_src
+
+Here we have the Makefile rules for linting, which include this spellchecker.
+
+#+name: __NREF__Makefile-spellcheck
+#+begin_src makefile
+ORG_FILES = $(shell find . -type f -name '*.org')
+
+spellcheck: $(ORG_FILES)
+	typos
+.PHONY: spellcheck
+#+end_src
+
 * Development environment (Nix shell)
 
 This is taken from https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1.
@@ -296,6 +326,9 @@ pkgs.mkShell ({
     # Misc
     pkgs.git
     pkgs.less
+
+    # Spell checking.
+    pkgs.typos
 
     # Python testing and linting.
     pkgs.python39Packages.hypothesis

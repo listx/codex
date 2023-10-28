@@ -98,7 +98,7 @@ test: tangle
 	python -m unittest discover -s problem appendix
 	touch test
 
-lint: mypy ruff
+lint: mypy ruff spellcheck
 .PHONY: lint
 
 mypy: tangle
@@ -108,6 +108,12 @@ mypy: tangle
 ruff: tangle
 	ruff problem
 .PHONY: ruff
+
+ORG_FILES = $(shell find . -type f -name '*.org')
+
+spellcheck: $(ORG_FILES)
+	typos
+.PHONY: spellcheck
 
 # Enter development environment.
 shell:

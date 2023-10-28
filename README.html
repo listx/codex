@@ -268,12 +268,17 @@
 </ul>
 </li>
 <li><a href="#h-Tangling--generating-the-source-code">4.2. Tangling (generating the source code)</a></li>
-<li><a href="#h-Development-environment--Nix-shell">4.3. Development environment (Nix shell)</a>
+<li><a href="#h-Linting">4.3. Linting</a>
 <ul>
-<li><a href="#h-Update-Nix-dependencies">4.3.1. Update Nix dependencies</a></li>
+<li><a href="#h-Spell-checker">4.3.1. Spell checker</a></li>
 </ul>
 </li>
-<li><a href="#h-Elisp">4.4. Elisp</a></li>
+<li><a href="#h-Development-environment--Nix-shell">4.4. Development environment (Nix shell)</a>
+<ul>
+<li><a href="#h-Update-Nix-dependencies">4.4.1. Update Nix dependencies</a></li>
+</ul>
+</li>
+<li><a href="#h-Elisp">4.5. Elisp</a></li>
 </ul>
 </li>
 <li><a href="#h-References">5. References</a></li>
@@ -546,7 +551,7 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
     python -m unittest discover -s problem appendix
     touch test
 
-<span class="org-makefile-targets">lint</span>: mypy ruff
+<span class="org-makefile-targets">lint</span>: mypy ruff spellcheck
 <span class="org-makefile-targets">.PHONY</span>: lint
 
 <span class="org-makefile-targets">mypy</span>: tangle
@@ -556,6 +561,8 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 <span class="org-makefile-targets">ruff</span>: tangle
     ruff problem
 <span class="org-makefile-targets">.PHONY</span>: ruff
+
+<span class="lilac-child-link-from-parent"><a href="#__NREF__Makefile-spellcheck">Makefile-spellcheck</a></span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Enter development environment.</span>
 <span class="org-makefile-targets">shell</span>:
@@ -772,8 +779,40 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
 </div>
 </div>
 
+<div id="outline-container-h-Linting" class="outline-3">
+<h3 id="h-Linting"><span class="section-number-3">4.3.</span> Linting</h3>
+<div class="outline-text-3" id="text-h-Linting">
+</div>
+
+<div id="outline-container-h-Spell-checker" class="outline-4">
+<h4 id="h-Spell-checker"><span class="section-number-4">4.3.1.</span> Spell checker</h4>
+<div class="outline-text-4" id="text-h-Spell-checker">
+<p>
+We use <a href="https://crates.io/crates/typos-cli">typos-cli</a> to check for spelling errors. Below we configure it to only
+check the original source material &#x2014; Org files.
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">_typos.toml</label><span class="lilac-caption-link-symbol"><a href="#typos-toml">&#x1f517;</a></span></div><pre class="src src-toml" id="typos-toml">[files]
+extend-exclude = [
+    "*.html",
+    "deps/*",
+]
+</pre></div></div><p>
+Here we have the Makefile rules for linting, which include this spellchecker.
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-spellcheck</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-spellcheck">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-spellcheck"><span class="org-variable-name">ORG_FILES</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'*.org'</span>)
+
+<span class="org-makefile-targets">spellcheck</span>: $(<span class="org-variable-name">ORG_FILES</span>)
+    typos
+<span class="org-makefile-targets">.PHONY</span>: spellcheck
+</pre></div></div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-h-Development-environment--Nix-shell" class="outline-3">
-<h3 id="h-Development-environment--Nix-shell"><span class="section-number-3">4.3.</span> Development environment (Nix shell)</h3>
+<h3 id="h-Development-environment--Nix-shell"><span class="section-number-3">4.4.</span> Development environment (Nix shell)</h3>
 <div class="outline-text-3" id="text-h-Development-environment--Nix-shell">
 <p>
 This is taken from <a href="https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1">https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1</a>.
@@ -803,6 +842,9 @@ pkgs.mkShell ({
     pkgs.git
     pkgs.less
 
+    <span class="org-comment"># Spell checking.</span>
+    pkgs.typos
+
     <span class="org-comment"># Python testing and linting.</span>
     pkgs.python39Packages.hypothesis
     pkgs.python39Packages.mypy
@@ -813,7 +855,7 @@ pkgs.mkShell ({
 </div>
 
 <div id="outline-container-h-Update-Nix-dependencies" class="outline-4">
-<h4 id="h-Update-Nix-dependencies"><span class="section-number-4">4.3.1.</span> Update Nix dependencies</h4>
+<h4 id="h-Update-Nix-dependencies"><span class="section-number-4">4.4.1.</span> Update Nix dependencies</h4>
 <div class="outline-text-4" id="text-h-Update-Nix-dependencies">
 <p>
 This is based on Lilac's own code for updating Nix dependencies with <a href="https://github.com/nmattia/niv"><code>niv</code></a>.
@@ -830,7 +872,7 @@ This is based on Lilac's own code for updating Nix dependencies with <a href="ht
 </div>
 
 <div id="outline-container-h-Elisp" class="outline-3">
-<h3 id="h-Elisp"><span class="section-number-3">4.4.</span> Elisp</h3>
+<h3 id="h-Elisp"><span class="section-number-3">4.5.</span> Elisp</h3>
 <div class="outline-text-3" id="text-h-Elisp">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.el</label><span class="lilac-caption-link-symbol"><a href="#codex-el">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="codex-el"><span class="org-comment-delimiter">; </span><span class="org-comment">See https://stackoverflow.com/a/27285582/437583.</span>
 (<span class="org-keyword">defun</span> <span class="org-function-name">codex-test-file-name</span> ()

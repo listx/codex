@@ -15,6 +15,9 @@ pkgs.mkShell ({
     pkgs.git
     pkgs.less
 
+    # Spell checking.
+    pkgs.typos
+
     # Python testing and linting.
     pkgs.python39Packages.hypothesis
     pkgs.python39Packages.mypy
