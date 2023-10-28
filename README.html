@@ -248,7 +248,17 @@
 <li><a href="#h-Weaving--generating-the-docs">4.1. Weaving (generating the docs)</a>
 <ul>
 <li><a href="#h-Use--lilac-theme--file">4.1.1. Use <code>lilac.theme</code> file</a></li>
-<li><a href="#h-Custom-CSS-and-HTML--head--content">4.1.2. Custom CSS and HTML &lt;head&gt; content</a></li>
+<li><a href="#h-Custom-CSS-and-HTML--head--content">4.1.2. Custom CSS and HTML &lt;head&gt; content</a>
+<ul>
+<li><a href="#h-Main-CSS-file">4.1.2.1. Main CSS file</a>
+<ul>
+<li><a href="#h-Title-font">4.1.2.1.1. Title font</a></li>
+<li><a href="#h-Tables">4.1.2.1.2. Tables</a></li>
+</ul>
+</li>
+<li><a href="#h-Secondary-CSS-file">4.1.2.2. Secondary CSS file</a></li>
+</ul>
+</li>
 <li><a href="#h-Ignore-woven-HTML-from--git-diff">4.1.3. Ignore woven HTML from <code>git diff</code></a>
 <ul>
 <li><a href="#h-git-add--p">4.1.3.1. <code>git add -p</code></a></li>
@@ -598,16 +608,55 @@ Make all HTML files we generate try to pull in a local file called
         <span class="org-string">"?family=Bungee+Shade:wght@400"</span>
        <span class="org-string">"\"&gt;"</span>
        ))
-</pre></div></div><p>
-Now supply the default <code>codex.css</code> file. This makes the title font bigger and
-use a more ornate font for it.
+</pre></div></div>
+</div>
+
+<div id="outline-container-h-Main-CSS-file" class="outline-5">
+<h5 id="h-Main-CSS-file"><span class="section-number-5">4.1.2.1.</span> Main CSS file</h5>
+<div class="outline-text-5" id="text-h-Main-CSS-file">
+<p>
+The default <code>codex.css</code> file has some miscellaneous customizations.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.css</label><span class="lilac-caption-link-symbol"><a href="#codex-css">&#x1f517;</a></span></div><pre class="src src-css" id="codex-css"><span class="org-css-selector">h1.title </span>{
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.css</label><span class="lilac-caption-link-symbol"><a href="#codex-css">&#x1f517;</a></span></div><pre class="src src-css" id="codex-css"><span class="lilac-child-link-from-parent"><a href="#__NREF__codex-css-title-font">codex-css-title-font</a></span>
+<span class="lilac-child-link-from-parent"><a href="#__NREF__codex-css-tables">codex-css-tables</a></span>
+</pre></div></div>
+</div>
+
+<div id="outline-container-h-Title-font" class="outline-6">
+<h6 id="h-Title-font"><span class="section-number-6">4.1.2.1.1.</span> Title font</h6>
+<div class="outline-text-6" id="text-h-Title-font">
+<p>
+This makes the title font bigger and uses a more ornate font for it.
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#codex-css">codex-css-title-font</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__codex-css-title-font">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__codex-css-title-font"><span class="org-css-selector">h1.title </span>{
     <span class="org-css-property">font-family</span>: <span class="org-string">"Bungee Shade"</span>, serif;
     <span class="org-css-property">font-size</span>: 100pt;
 }
-</pre></div></div><p>
+</pre></div></div>
+</div>
+</div>
+
+<div id="outline-container-h-Tables" class="outline-6">
+<h6 id="h-Tables"><span class="section-number-6">4.1.2.1.2.</span> Tables</h6>
+<div class="outline-text-6" id="text-h-Tables">
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#codex-css">codex-css-tables</a></span><span class="lilac-caption-parent-link"><a href="#codex-problems-css">2</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__codex-css-tables">&#x1f517;</a></span></div><pre class="src src-css" id="__NREF__codex-css-tables"><span class="org-css-selector">table.monospace-except-header </span>{
+    <span class="org-css-property">font-family</span>: monospace;
+}
+
+<span class="org-css-selector">table.monospace-except-header thead </span>{
+    <span class="org-css-property">font-family</span>: var(<span class="org-variable-name">--font-serif</span>);
+}
+</pre></div></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-h-Secondary-CSS-file" class="outline-5">
+<h5 id="h-Secondary-CSS-file"><span class="section-number-5">4.1.2.2.</span> Secondary CSS file</h5>
+<div class="outline-text-5" id="text-h-Secondary-CSS-file">
+<p>
 This is a second CSS file where we customize the title text of the pages for the
 problems. We just (manually) create a symlink from the problem page's
 <code>codex.css</code> to this one (because we don't want to use the regular <code>codex.css</code>
@@ -617,7 +666,9 @@ from above).
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.problems.css</label><span class="lilac-caption-link-symbol"><a href="#codex-problems-css">&#x1f517;</a></span></div><pre class="src src-css" id="codex-problems-css"><span class="org-css-selector">h1.title </span>{
     <span class="org-css-property">font-family</span>: <span class="org-string">"Source Serif Pro"</span>, serif;
 }
+<span class="lilac-child-link-from-parent"><a href="#__NREF__codex-css-tables">codex-css-tables</a></span>
 </pre></div></div>
+</div>
 </div>
 </div>
 

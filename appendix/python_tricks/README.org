@@ -34,25 +34,15 @@ with =0b=.
 The table below has some examples, including equivalent methods using =format=
 and format strings.
 
-#+begin_comment
-FIXME: Make this table into a class where all cells below the header uses a
-monospaced font (so that we don't have to do the manual delineations with the
-equal sign).
-
-See https://orgmode.org/manual/CSS-support.html and how we can assign a
-particular HTML subclass to a particular headline (heading).
-
-Perhaps even better: https://emacs.stackexchange.com/questions/5980/setting-class-attribute-for-html-table-in-orgmode-export
-#+end_comment
-
-| Expression         | Result of evaluation |
-|--------------------+----------------------|
-| =bin(3)=           | ='0b11'=             |
-| =bin(-5)=          | ='-0b101'=           |
-| =format(14, '#b')= | ='0b1110'=           |
-| =format(14, 'b')=  | ='1110'=             |
-| =f'{14:#b}'=       | ='0b1110'=           |
-| =f'{14:b}'=        | ='1110'=             |
+#+ATTR_HTML: :class monospace-except-header
+| Expression       | Result of evaluation |
+|------------------+----------------------|
+| bin(3)           | '0b11'               |
+| bin(-5)          | '-0b101'             |
+| format(14, '#b') | '0b1110'             |
+| format(14, 'b')  | '1110'               |
+| f'{14:#b}'       | '0b1110'             |
+| f'{14:b}'        | '1110'               |
 
 The ~bin(x)~, ~oct(x)~, and ~hex(x)~ functions all behave similarly but for the
 binary, octal, and hexadecimal bases, respectively.
@@ -95,10 +85,11 @@ loss of data is never a good thing to do.
 
 Inverse of =ord()=.
 
+#+ATTR_HTML: :class monospace-except-header
 | Expression  | Result of evaluation |
 |-------------+----------------------|
-| =chr(97)=   | ='a'=                |
-| =chr(8364)= | ='€'=                |
+| chr(97)     | 'a'                  |
+| chr(8364)   | '€'                  |
 
 **** ~ord()~
 
@@ -106,10 +97,11 @@ Inverse of =ord()=.
 
 Inverse of =chr()=.
 
+#+ATTR_HTML: :class monospace-except-header
 | Expression | Result of evaluation |
 |------------+----------------------|
-| =ord('a')= | =97=                 |
-| =ord('€')= | =8364=               |
+| ord('a')   | 97                   |
+| ord('€')   | 8364                 |
 
 **** ~repr()~
 
