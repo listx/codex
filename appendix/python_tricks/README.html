@@ -293,7 +293,8 @@
 </li>
 <li><a href="#h-Pythonisms">2.2. Pythonisms</a>
 <ul>
-<li><a href="#h-Slice-syntax--FIXME">2.2.1. Slice syntax (FIXME)</a></li>
+<li><a href="#h-Indexing-strings--or-lists">2.2.1. Indexing strings (or lists)</a></li>
+<li><a href="#h-Slicing">2.2.2. Slicing</a></li>
 </ul>
 </li>
 <li><a href="#h-Array-traversal">2.3. Array traversal</a>
@@ -821,16 +822,62 @@ If you want to write <code>zip(range(3), ['a', 'b', 'c'])</code>, instead write
 <div class="outline-text-3" id="text-h-Pythonisms">
 </div>
 
-<div id="outline-container-h-Slice-syntax--FIXME" class="outline-4">
-<h4 id="h-Slice-syntax--FIXME"><span class="section-number-4">2.2.1.</span> Slice syntax (FIXME)</h4>
-<div class="outline-text-4" id="text-h-Slice-syntax--FIXME">
+<div id="outline-container-h-Indexing-strings--or-lists" class="outline-4">
+<h4 id="h-Indexing-strings--or-lists"><span class="section-number-4">2.2.1.</span> Indexing strings (or lists)</h4>
+<div class="outline-text-4" id="text-h-Indexing-strings--or-lists">
+<p>
+Python uses 0-based indexing, and you can use this to select any particular
+element in a string or list.
+</p>
+
 <p>
 Negative indices are allowed.
 </p>
 
-<p>
-See <a href="https://docs.python.org/3/tutorial/introduction.html#strings">https://docs.python.org/3/tutorial/introduction.html#strings</a>.
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_indices</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__test_indices">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_indices"><span class="org-keyword">def</span> <span class="org-function-name">test_indices</span>(<span class="org-keyword">self</span>):
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[0], <span class="org-string">'a'</span>)
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[1], <span class="org-string">'b'</span>)
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[-1], <span class="org-string">'g'</span>)
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[-2], <span class="org-string">'f'</span>)
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[-7], <span class="org-string">'a'</span>)
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Negative indices do not go on forever.</span>
+  <span class="org-keyword">with</span> <span class="org-keyword">self</span>.assertRaises(<span class="org-type">IndexError</span>):
+    <span class="org-string">'abcdefg'</span>[-8]
+</pre></div></div><p>
+See <a href="https://docs.python.org/3/tutorial/introduction.html#text">https://docs.python.org/3/tutorial/introduction.html#text</a>.
 </p>
+</div>
+</div>
+
+<div id="outline-container-h-Slicing" class="outline-4">
+<h4 id="h-Slicing"><span class="section-number-4">2.2.2.</span> Slicing</h4>
+<div class="outline-text-4" id="text-h-Slicing">
+<p>
+Whereas indexing returns a single element in a list-like structure, <i>slicing</i>
+returns a substring (a series of consecutive elements inside the list). The
+syntax is <code>&lt;start index (included)&gt;:&lt;final index (excluded)&gt;</code>.
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_slices</a></span>(1/3) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_slices-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_slices-1"><span class="org-keyword">def</span> <span class="org-function-name">test_slices</span>(<span class="org-keyword">self</span>):
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[0:2], <span class="org-string">'ab'</span>)
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[2:5], <span class="org-string">'cde'</span>)
+</pre></div></div><p>
+If the start index is omitted, it defaults to <code>0</code>. If the final index is
+omitted, it defaults to the length of the string (so it's the same as grabbing
+all remaining elements).
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_slices</a></span>(2/3) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_slices-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_slices-2">  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[:2], <span class="org-string">'ab'</span>)
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[2:], <span class="org-string">'cdefg'</span>)
+</pre></div></div><p>
+Slices indexes that are out of range are handled gracefully (they do not raise
+an error).
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_slices</a></span>(3/3) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_slices-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_slices-3">  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[1000:], <span class="org-string">''</span>)
+  <span class="org-keyword">self</span>.assertEqual(<span class="org-string">'abcdefg'</span>[:1000], <span class="org-string">'abcdefg'</span>)
+</pre></div></div>
 </div>
 </div>
 </div>
@@ -868,6 +915,9 @@ Time complexity is \(O(n)\) and space complexity is \(O(1)\).
 <span class="lilac-child-link-from-parent"><a href="#__NREF__tricks">tricks</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
+
+  <span class="lilac-child-link-from-parent"><a href="#__NREF__test_indices">test_indices</a></span>
+  <span class="lilac-child-link-from-parent"><a href="#__NREF__test_slices-1">test_slices</a></span>
 
   <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
     <span class="org-keyword">pass</span>

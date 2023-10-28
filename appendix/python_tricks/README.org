@@ -230,11 +230,60 @@ If you want to write ~zip(range(3), ['a', 'b', 'c'])~, instead write
 
 ** Pythonisms
 
-*** Slice syntax (FIXME)
+*** Indexing strings (or lists)
+
+Python uses 0-based indexing, and you can use this to select any particular
+element in a string or list.
 
 Negative indices are allowed.
 
-See https://docs.python.org/3/tutorial/introduction.html#strings.
+#+name: __NREF__test_indices
+#+begin_src python
+def test_indices(self):
+  self.assertEqual('abcdefg'[0], 'a')
+  self.assertEqual('abcdefg'[1], 'b')
+  self.assertEqual('abcdefg'[-1], 'g')
+  self.assertEqual('abcdefg'[-2], 'f')
+  self.assertEqual('abcdefg'[-7], 'a')
+
+  # Negative indices do not go on forever.
+  with self.assertRaises(IndexError):
+    'abcdefg'[-8]
+#+end_src
+
+See [[https://docs.python.org/3/tutorial/introduction.html#text]].
+
+*** Slicing
+
+Whereas indexing returns a single element in a list-like structure, /slicing/
+returns a substring (a series of consecutive elements inside the list). The
+syntax is =<start index (included)>:<final index (excluded)>=.
+
+#+header: :noweb-ref __NREF__test_slices
+#+begin_src python
+def test_slices(self):
+  self.assertEqual('abcdefg'[0:2], 'ab')
+  self.assertEqual('abcdefg'[2:5], 'cde')
+#+end_src
+
+If the start index is omitted, it defaults to =0=. If the final index is
+omitted, it defaults to the length of the string (so it's the same as grabbing
+all remaining elements).
+
+#+header: :noweb-ref __NREF__test_slices
+#+begin_src python
+  self.assertEqual('abcdefg'[:2], 'ab')
+  self.assertEqual('abcdefg'[2:], 'cdefg')
+#+end_src
+
+Slices indexes that are out of range are handled gracefully (they do not raise
+an error).
+
+#+header: :noweb-ref __NREF__test_slices
+#+begin_src python
+  self.assertEqual('abcdefg'[1000:], '')
+  self.assertEqual('abcdefg'[:1000], 'abcdefg')
+#+end_src
 
 ** Array traversal
 
@@ -263,6 +312,9 @@ from typing import Optional
 __NREF__tricks
 
 class Test(unittest.TestCase):
+
+  __NREF__test_indices
+  __NREF__test_slices
 
   def test_simple_cases(self):
     pass

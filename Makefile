@@ -95,7 +95,7 @@ check: lint test
 .PHONY: check
 
 test: tangle
-	python -m unittest discover -s problem
+	python -m unittest discover -s problem appendix
 	touch test
 
 lint: mypy ruff

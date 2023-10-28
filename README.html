@@ -543,7 +543,7 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 <span class="org-makefile-targets">.PHONY</span>: check
 
 <span class="org-makefile-targets">test</span>: tangle
-    python -m unittest discover -s problem
+    python -m unittest discover -s problem appendix
     touch test
 
 <span class="org-makefile-targets">lint</span>: mypy ruff
