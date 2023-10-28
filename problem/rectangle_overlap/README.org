@@ -17,7 +17,8 @@ import collections
 Rect = collections.namedtuple('Rect', ('x', 'y', 'width', 'height'))
 #+end_src
 
-FIXME: Insert Tikz diagram. In the meantime, see [cite:@epip 39].
+For a diagram of the various kinds of overlap we can expect, see [cite:@epip
+39].
 
 * Problem statement
 
