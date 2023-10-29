@@ -31,7 +31,7 @@ all: check weave
 
 # Currently we don't have any optimizations for tangling, but we still set
 # CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.
-$(all_tangled_sources) tangle &: $(src)
+$(all_tangled_sources) tangle &: $(src) appendix/python_tricks/README.org
 	@echo tangling in parallel
 	CODEX_LP_QUICK=1 make -C $(PROJ_ROOT) -j$(PROCS) $(all_tangled_sources)
 	touch tangle

@@ -741,7 +741,7 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-tangle</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-comment-delimiter"># </span><span class="org-comment">Currently we don't have any optimizations for tangling, but we still set</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.</span>
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">all_tangled_sources</span></span><span class="org-makefile-targets">) tangle &amp;</span>: $(<span class="org-variable-name">src</span>)
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">all_tangled_sources</span></span><span class="org-makefile-targets">) tangle &amp;</span>: $(<span class="org-variable-name">src</span>) appendix/python_tricks/README.org
     <span class="org-type">@</span><span class="org-makefile-shell">echo tangling in parallel</span>
     <span class="org-variable-name">CODEX_LP_QUICK</span>=1 make -C $(<span class="org-variable-name">PROJ_ROOT</span>) -j$(<span class="org-variable-name">PROCS</span>) $(<span class="org-variable-name">all_tangled_sources</span>)
     touch tangle
