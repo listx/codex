@@ -307,8 +307,6 @@ Time complexity is $O(n)$ and space complexity is $O(1)$.
 #+begin_src python :eval no :session test :tangle (codex-test-file-name)
 import unittest
 
-from typing import Optional
-
 __NREF__tricks
 
 class Test(unittest.TestCase):
