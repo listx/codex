@@ -13,7 +13,7 @@ woven_html = $(patsubst problem/%.org, problem/%.html, $(src)) \
 	$(patsubst appendix/%.org, appendix/%.html, $(src_appendix))
 # problem/foo problem/bar ...
 problem_dirs = $(shell find problem -maxdepth 1 -type d | sort | tail -n+2)
-appendix_dirs = $(shell find appendix -maxdepth 1 -type d | sort | tail -n+2)
+appendix_dirs = $(shell find appendix -maxdepth 1 -type d | sort | tail -n+2 | grep -v mathematics)
 # foo bar ...
 problem_dirs_without_prefix = $(subst problem/,,$(problem_dirs))
 appendix_dirs_without_prefix = $(subst appendix/,,$(appendix_dirs))

@@ -501,7 +501,7 @@ endef
     $(<span class="org-variable-name">patsubst</span> appendix/%.org, appendix/%.html, $(<span class="org-variable-name">src_appendix</span>))
 <span class="org-comment-delimiter"># </span><span class="org-comment">problem/foo problem/bar ...</span>
 <span class="org-variable-name">problem_dirs</span> = $(<span class="org-variable-name">shell</span> find problem -maxdepth 1 -type d | sort | tail -n+2)
-<span class="org-variable-name">appendix_dirs</span> = $(<span class="org-variable-name">shell</span> find appendix -maxdepth 1 -type d | sort | tail -n+2)
+<span class="org-variable-name">appendix_dirs</span> = $(<span class="org-variable-name">shell</span> find appendix -maxdepth 1 -type d | sort | tail -n+2 | grep -v mathematics)
 <span class="org-comment-delimiter"># </span><span class="org-comment">foo bar ...</span>
 <span class="org-variable-name">problem_dirs_without_prefix</span> = $(<span class="org-variable-name">subst</span> problem/,,$(<span class="org-variable-name">problem_dirs</span>))
 <span class="org-variable-name">appendix_dirs_without_prefix</span> = $(<span class="org-variable-name">subst</span> appendix/,,$(<span class="org-variable-name">appendix_dirs</span>))
