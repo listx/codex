@@ -102,11 +102,11 @@ lint: mypy ruff spellcheck
 .PHONY: lint
 
 mypy: tangle
-	mypy problem
+	mypy problem appendix
 .PHONY: mypy
 
 ruff: tangle
-	ruff problem
+	ruff problem appendix
 .PHONY: ruff
 
 ORG_FILES = $(shell find . -type f -name '*.org')
