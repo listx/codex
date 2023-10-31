@@ -537,10 +537,6 @@ endef
 <span class="org-makefile-targets">README.html</span>: build-literate.org README.org citations.bib
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),README.org)
 
-<span class="org-makefile-targets">syntax-highlighting.css</span>:
-    $(<span class="org-variable-name">call</span> run_emacs_nobatch,(lilac-gen-css-and-exit),README.org)
-<span class="org-makefile-targets">.PHONY</span>: syntax-highlighting.css
-
 $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">appendix_dirs_without_prefix</span>),\
     $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> weave_org,\
     appendix/$(<span class="org-variable-name">d</span>)/README.html,\

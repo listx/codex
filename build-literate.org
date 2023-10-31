@@ -61,10 +61,6 @@ appendix/mathematics/README.html: appendix/mathematics/README.org appendix/mathe
 README.html: build-literate.org README.org citations.bib
 	$(call run_emacs,(lilac-publish),README.org)
 
-syntax-highlighting.css:
-	$(call run_emacs_nobatch,(lilac-gen-css-and-exit),README.org)
-.PHONY: syntax-highlighting.css
-
 $(foreach d,$(appendix_dirs_without_prefix),\
 	$(eval $(call weave_org,\
 	appendix/$(d)/README.html,\
