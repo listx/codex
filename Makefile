@@ -78,10 +78,8 @@ build-html: README.html $(woven_html)
 .PHONY: build-html
 .PHONY: appendix/mathematics/twos-complement.html
 
-appendix/mathematics/README.html: appendix/mathematics/twos-complement.org
-	$(call weave_org,\
-	appendix/mathematics/README.html,\
-	appendix/mathematics/README.org)
+appendix/mathematics/README.html: appendix/mathematics/README.org appendix/mathematics/twos-complement.org
+	$(call run_emacs,(lilac-publish),appendix/mathematics/README.org)
 
 README.html: build-literate.org README.org citations.bib
 	$(call run_emacs,(lilac-publish),README.org)
