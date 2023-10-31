@@ -7,6 +7,12 @@ define run_emacs
 		--load $(PROJ_ROOT)/codex.el \
 		--eval="$(1)"
 endef
+define run_emacs_nobatch
+	LILAC_ROOT=$(LILAC_ROOT) emacs $(2) --quick --kill \
+		--load $(LILAC_ROOT)/lilac.el \
+		--load $(PROJ_ROOT)/codex.el \
+		--eval="$(1)"
+endef
 src = $(shell find problem/ -type f -name '*.org')
 src_appendix = $(shell find appendix/ -type f -name '*.org')
 woven_html = $(patsubst problem/%.org, problem/%.html, $(src)) \
@@ -77,9 +83,12 @@ appendix/mathematics/README.html: appendix/mathematics/twos-complement.org
 	appendix/mathematics/README.html,\
 	appendix/mathematics/README.org)
 
-README.html syntax-highlighting.css &: build-literate.org README.org citations.bib
-	$(call run_emacs,(lilac-gen-css-and-exit),README.org)
+README.html: build-literate.org README.org citations.bib
 	$(call run_emacs,(lilac-publish),README.org)
+
+syntax-highlighting.css:
+	$(call run_emacs_nobatch,(lilac-gen-css-and-exit),README.org)
+.PHONY: syntax-highlighting.css
 
 $(foreach d,$(appendix_dirs_without_prefix),\
 	$(eval $(call weave_org,\

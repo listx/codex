@@ -219,27 +219,38 @@
      }
 // @license-end
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -320,7 +331,7 @@ things orderly.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">buy_sell_twice</a></span>(1/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__buy_sell_twice-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__buy_sell_twice-1"><span class="org-keyword">import</span> collections
-<span class="org-variable-name">TXN</span> = collections.namedtuple(<span class="org-string">'TXN'</span>, (<span class="org-string">'buy_date'</span>, <span class="org-string">'sell_date'</span>, <span class="org-string">'profit'</span>))
+<span class="org-variable-name">TXN</span> <span class="org-operator">=</span> collections.namedtuple(<span class="org-string">'TXN'</span>, (<span class="org-string">'buy_date'</span>, <span class="org-string">'sell_date'</span>, <span class="org-string">'profit'</span>))
 </pre></div></div>
 </div>
 </div>
@@ -377,17 +388,17 @@ First get the optimum buy/sell dates if we are only buying and selling just
 once.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">buy_sell_twice</a></span>(2/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__buy_sell_twice-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__buy_sell_twice-2"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) -&gt; <span class="org-variable-name">Optional</span>[TXN]:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">buy_sell_twice</a></span>(2/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__buy_sell_twice-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__buy_sell_twice-2"><span class="org-keyword">def</span> <span class="org-function-name">brute_force</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[TXN]:
     <span class="org-keyword">if</span> <span class="org-keyword">not</span> prices:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
-    max_profit_so_far = 0
+    <span class="org-variable-name">max_profit_so_far</span> <span class="org-operator">=</span> 0
     <span class="org-keyword">for</span> buy_date, price_buy <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(prices):
-        <span class="org-keyword">for</span> sell_date <span class="org-keyword">in</span> <span class="org-builtin">range</span>(buy_date + 1, <span class="org-builtin">len</span>(prices)):
-            <span class="org-variable-name">profit</span> = prices[sell_date] - price_buy
-            <span class="org-keyword">if</span> profit &gt; <span class="org-variable-name">max_profit_so_far</span>:
-                max_profit_so_far = profit
-                <span class="org-variable-name">transaction_dates</span> = TXN(buy_date, sell_date, profit)
+        <span class="org-keyword">for</span> sell_date <span class="org-keyword">in</span> <span class="org-builtin">range</span>(buy_date <span class="org-operator">+</span> 1, <span class="org-builtin">len</span>(prices)):
+            <span class="org-variable-name">profit</span> <span class="org-operator">=</span> prices[sell_date] <span class="org-operator">-</span> price_buy
+            <span class="org-keyword">if</span> profit <span class="org-operator">&gt;</span> max_profit_so_far:
+                <span class="org-variable-name">max_profit_so_far</span> <span class="org-operator">=</span> profit
+                <span class="org-variable-name">transaction_dates</span> <span class="org-operator">=</span> TXN(buy_date, sell_date, profit)
 
     <span class="org-keyword">if</span> max_profit_so_far:
         <span class="org-keyword">return</span> transaction_dates
@@ -403,32 +414,32 @@ transaction's profit, we take note of it.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">buy_sell_twice</a></span>(3/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__buy_sell_twice-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__buy_sell_twice-3"><span class="org-keyword">def</span> <span class="org-function-name">brute_force_sublists</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
-    ) -&gt; Optional[<span class="org-builtin">tuple</span>[TXN, TXN]]:
+    ) <span class="org-operator">-&gt;</span> Optional[<span class="org-builtin">tuple</span>[TXN, TXN]]:
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">There are 2 sublists and each one must have at least 2 items.</span>
-    <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) &lt; 4:
+    <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) <span class="org-operator">&lt;</span> 4:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">Divide up prices into sublists.</span>
-    <span class="org-variable-name">sublists</span> = [(prices[0:i], prices[i:])
+    <span class="org-variable-name">sublists</span> <span class="org-operator">=</span> [(prices[0:i], prices[i:])
     <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(0, <span class="org-builtin">len</span>(prices))
-    <span class="org-keyword">if</span> i &gt; 1 <span class="org-keyword">and</span> <span class="org-builtin">len</span>(prices) - i &gt; 1]
+    <span class="org-keyword">if</span> i <span class="org-operator">&gt;</span> 1 <span class="org-keyword">and</span> <span class="org-builtin">len</span>(prices) <span class="org-operator">-</span> i <span class="org-operator">&gt;</span> 1]
 
-    <span class="org-variable-name">txn_dates</span> = <span class="org-constant">None</span>
-    <span class="org-variable-name">max_sell_twice</span> = 0
-    <span class="org-keyword">for</span> list1, list2 <span class="org-keyword">in</span> <span class="org-variable-name">sublists</span>:
-        txn1 = brute_force(list1)
-        <span class="org-variable-name">txn2</span> = brute_force(list2)
+    <span class="org-variable-name">txn_dates</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
+    <span class="org-variable-name">max_sell_twice</span> <span class="org-operator">=</span> 0
+    <span class="org-keyword">for</span> list1, list2 <span class="org-keyword">in</span> sublists:
+        <span class="org-variable-name">txn1</span> <span class="org-operator">=</span> brute_force(list1)
+        <span class="org-variable-name">txn2</span> <span class="org-operator">=</span> brute_force(list2)
         <span class="org-keyword">if</span> txn1 <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span> <span class="org-keyword">and</span> txn2 <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>:
-            <span class="org-keyword">if</span> txn1.profit + txn2.profit &gt; <span class="org-variable-name">max_sell_twice</span>:
+            <span class="org-keyword">if</span> txn1.profit <span class="org-operator">+</span> txn2.profit <span class="org-operator">&gt;</span> max_sell_twice:
                 <span class="org-comment-delimiter"># </span><span class="org-comment">The indices (dates) for txn2 are wrong because list2 will</span>
                 <span class="org-comment-delimiter"># </span><span class="org-comment">start at its own index 0. So we need to give the dates an</span>
                 <span class="org-comment-delimiter"># </span><span class="org-comment">offset.</span>
-                txn2 = txn2._replace(buy_date = txn2.buy_date + <span class="org-builtin">len</span>(list1))
-                txn2 = txn2._replace(sell_date = txn2.sell_date + <span class="org-builtin">len</span>(list1))
+                <span class="org-variable-name">txn2</span> <span class="org-operator">=</span> txn2._replace(buy_date <span class="org-operator">=</span> txn2.buy_date <span class="org-operator">+</span> <span class="org-builtin">len</span>(list1))
+                <span class="org-variable-name">txn2</span> <span class="org-operator">=</span> txn2._replace(sell_date <span class="org-operator">=</span> txn2.sell_date <span class="org-operator">+</span> <span class="org-builtin">len</span>(list1))
 
-                txn_dates = (txn1, txn2)
-                max_sell_twice = <span class="org-builtin">max</span>(txn1.profit + txn2.profit,
+                <span class="org-variable-name">txn_dates</span> <span class="org-operator">=</span> (txn1, txn2)
+                <span class="org-variable-name">max_sell_twice</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(txn1.profit <span class="org-operator">+</span> txn2.profit,
                                     max_sell_twice)
 
     <span class="org-keyword">if</span> max_sell_twice:
@@ -442,10 +453,10 @@ greater profit.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">buy_sell_twice</a></span>(4/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__buy_sell_twice-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__buy_sell_twice-4"><span class="org-keyword">def</span> <span class="org-function-name">brute_force_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
-    ) -&gt; Optional[<span class="org-builtin">tuple</span>[Optional[TXN], Optional[TXN]]]:
+    ) <span class="org-operator">-&gt;</span> Optional[<span class="org-builtin">tuple</span>[Optional[TXN], Optional[TXN]]]:
 
-    <span class="org-variable-name">txn</span> = brute_force(prices)
-    <span class="org-variable-name">txn_pair</span> = brute_force_sublists(prices)
+    <span class="org-variable-name">txn</span> <span class="org-operator">=</span> brute_force(prices)
+    <span class="org-variable-name">txn_pair</span> <span class="org-operator">=</span> brute_force_sublists(prices)
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">If there's no way to make a profit with a single sale, give up.</span>
     <span class="org-keyword">if</span> txn <span class="org-keyword">is</span> <span class="org-constant">None</span>:
@@ -454,9 +465,9 @@ greater profit.
     <span class="org-keyword">if</span> txn_pair <span class="org-keyword">is</span> <span class="org-constant">None</span>:
         <span class="org-keyword">return</span> txn, <span class="org-constant">None</span>
 
-    max_sell_twice = txn_pair[0].profit + txn_pair[1].profit
+    <span class="org-variable-name">max_sell_twice</span> <span class="org-operator">=</span> txn_pair[0].profit <span class="org-operator">+</span> txn_pair[1].profit
 
-    <span class="org-keyword">if</span> max_sell_twice &gt; txn.profit:
+    <span class="org-keyword">if</span> max_sell_twice <span class="org-operator">&gt;</span> txn.profit:
         <span class="org-keyword">return</span> txn_pair
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">If the max_sell_twice profit wasn't bigger, then the best we got is the</span>
@@ -524,59 +535,59 @@ candle at both ends, so to speak.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">buy_sell_twice</a></span>(5/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__buy_sell_twice-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__buy_sell_twice-5"><span class="org-keyword">def</span> <span class="org-function-name">two_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
-    ) -&gt; Optional[<span class="org-builtin">tuple</span>[Optional[TXN], Optional[TXN]]]:
-    <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) &lt; 2:
+    ) <span class="org-operator">-&gt;</span> Optional[<span class="org-builtin">tuple</span>[Optional[TXN], Optional[TXN]]]:
+    <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) <span class="org-operator">&lt;</span> 2:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
-    <span class="org-variable-name">min_price_so_far</span> = <span class="org-builtin">float</span>(<span class="org-string">'inf'</span>)
-    <span class="org-variable-name">max_profit_sell_once</span> = 0
-    <span class="org-variable-name">txn1</span> = <span class="org-constant">None</span>
-    <span class="org-variable-name">txn2</span> = <span class="org-constant">None</span>
-    <span class="org-variable-name">profit_txn1</span> = [TXN(-1, -1, -1)] * <span class="org-builtin">len</span>(prices)
+    <span class="org-variable-name">min_price_so_far</span> <span class="org-operator">=</span> <span class="org-builtin">float</span>(<span class="org-string">'inf'</span>)
+    <span class="org-variable-name">max_profit_sell_once</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">txn1</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
+    <span class="org-variable-name">txn2</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
+    <span class="org-variable-name">profit_txn1</span> <span class="org-operator">=</span> [TXN(<span class="org-operator">-</span>1, <span class="org-operator">-</span>1, <span class="org-operator">-</span>1)] <span class="org-operator">*</span> <span class="org-builtin">len</span>(prices)
 
     <span class="org-keyword">for</span> date, price <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(prices):
-        <span class="org-keyword">if</span> price &lt; <span class="org-variable-name">min_price_so_far</span>:
-            buy_date = date
-            <span class="org-variable-name">min_price_so_far</span> = <span class="org-builtin">min</span>(price, min_price_so_far)
+        <span class="org-keyword">if</span> price <span class="org-operator">&lt;</span> min_price_so_far:
+            <span class="org-variable-name">buy_date</span> <span class="org-operator">=</span> date
+            <span class="org-variable-name">min_price_so_far</span> <span class="org-operator">=</span> <span class="org-builtin">min</span>(price, min_price_so_far)
 
-        <span class="org-variable-name">max_profit_if_sell_now</span> = price - min_price_so_far
+        <span class="org-variable-name">max_profit_if_sell_now</span> <span class="org-operator">=</span> price <span class="org-operator">-</span> min_price_so_far
 
-        <span class="org-keyword">if</span> max_profit_if_sell_now &gt; <span class="org-variable-name">max_profit_sell_once</span>:
-            max_profit_sell_once = <span class="org-builtin">max</span>(<span class="org-builtin">int</span>(max_profit_if_sell_now),
+        <span class="org-keyword">if</span> max_profit_if_sell_now <span class="org-operator">&gt;</span> max_profit_sell_once:
+            <span class="org-variable-name">max_profit_sell_once</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(<span class="org-builtin">int</span>(max_profit_if_sell_now),
                                         max_profit_sell_once)
-            <span class="org-variable-name">txn1</span> = TXN(buy_date, date, max_profit_sell_once)
+            <span class="org-variable-name">txn1</span> <span class="org-operator">=</span> TXN(buy_date, date, max_profit_sell_once)
 
         <span class="org-keyword">if</span> txn1 <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>:
-            profit_txn1[<span class="org-variable-name">date</span>] = txn1
+            <span class="org-variable-name">profit_txn1</span>[date] <span class="org-operator">=</span> txn1
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">Our current understanding of the max possible profit is by looking at one</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">buy and one sell.</span>
-    <span class="org-variable-name">max_profit</span> = max_profit_sell_once
+    <span class="org-variable-name">max_profit</span> <span class="org-operator">=</span> max_profit_sell_once
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">Now consider a second sale.</span>
-    <span class="org-variable-name">max_price_so_far</span> = 0
+    <span class="org-variable-name">max_price_so_far</span> <span class="org-operator">=</span> 0
     <span class="org-keyword">for</span> date, price <span class="org-keyword">in</span> <span class="org-builtin">reversed</span>(<span class="org-builtin">list</span>(<span class="org-builtin">enumerate</span>(prices[2:], 2))):
-        <span class="org-keyword">if</span> price &gt;= <span class="org-variable-name">max_price_so_far</span>:
-            sell_date = date
-            <span class="org-variable-name">max_price_so_far</span> = <span class="org-builtin">max</span>(max_price_so_far, price)
+        <span class="org-keyword">if</span> price <span class="org-operator">&gt;=</span> max_price_so_far:
+            <span class="org-variable-name">sell_date</span> <span class="org-operator">=</span> date
+            <span class="org-variable-name">max_price_so_far</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(max_price_so_far, price)
 
-        <span class="org-variable-name">profit_txn2</span> = max_price_so_far - price
+        <span class="org-variable-name">profit_txn2</span> <span class="org-operator">=</span> max_price_so_far <span class="org-operator">-</span> price
 
-        <span class="org-keyword">if</span> profit_txn2 &lt;= 0:
+        <span class="org-keyword">if</span> profit_txn2 <span class="org-operator">&lt;=</span> 0:
             <span class="org-keyword">continue</span>
 
-        <span class="org-variable-name">max_profit_sell_twice</span> = profit_txn1[date - 1].profit + profit_txn2
-        <span class="org-keyword">if</span> max_profit_sell_twice &lt; max_profit:
+        <span class="org-variable-name">max_profit_sell_twice</span> <span class="org-operator">=</span> profit_txn1[date <span class="org-operator">-</span> 1].profit <span class="org-operator">+</span> profit_txn2
+        <span class="org-keyword">if</span> max_profit_sell_twice <span class="org-operator">&lt;</span> max_profit:
             <span class="org-keyword">continue</span>
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">If selling once or twice gives us the same profit, then just sell</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">once.</span>
-        <span class="org-keyword">if</span> txn1 <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span> <span class="org-keyword">and</span> txn1.profit == max_profit_sell_twice:
+        <span class="org-keyword">if</span> txn1 <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span> <span class="org-keyword">and</span> txn1.profit <span class="org-operator">==</span> max_profit_sell_twice:
             <span class="org-keyword">continue</span>
 
-        max_profit = <span class="org-builtin">max</span>(max_profit, max_profit_sell_twice)
-        txn1 = profit_txn1[date - 1]
-        txn2 = TXN(date, sell_date, profit_txn2)
+        <span class="org-variable-name">max_profit</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(max_profit, max_profit_sell_twice)
+        <span class="org-variable-name">txn1</span> <span class="org-operator">=</span> profit_txn1[date <span class="org-operator">-</span> 1]
+        <span class="org-variable-name">txn2</span> <span class="org-operator">=</span> TXN(date, sell_date, profit_txn2)
 
     <span class="org-keyword">if</span> txn1 <span class="org-keyword">is</span> <span class="org-constant">None</span>:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
@@ -637,25 +648,25 @@ that we can sell for a second time today (in the current iteration).
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">buy_sell_twice</a></span>(6/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__buy_sell_twice-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__buy_sell_twice-6"><span class="org-keyword">def</span> <span class="org-function-name">single_pass_maybe_sell_twice</span>(prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]
-    ) -&gt; Optional[<span class="org-builtin">int</span>]:
-    <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) &lt; 2:
+    ) <span class="org-operator">-&gt;</span> Optional[<span class="org-builtin">int</span>]:
+    <span class="org-keyword">if</span> <span class="org-builtin">len</span>(prices) <span class="org-operator">&lt;</span> 2:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
 
-    <span class="org-variable-name">min_price_so_far</span> = <span class="org-builtin">float</span>(<span class="org-string">'inf'</span>)
-    <span class="org-variable-name">max_profit_after_first_sell</span> = 0
-    <span class="org-variable-name">max_profit_after_second_buy</span> = <span class="org-builtin">float</span>(<span class="org-string">'-inf'</span>)
-    <span class="org-variable-name">max_profit_after_second_sell</span> = 0
+    <span class="org-variable-name">min_price_so_far</span> <span class="org-operator">=</span> <span class="org-builtin">float</span>(<span class="org-string">'inf'</span>)
+    <span class="org-variable-name">max_profit_after_first_sell</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_profit_after_second_buy</span> <span class="org-operator">=</span> <span class="org-builtin">float</span>(<span class="org-string">'-inf'</span>)
+    <span class="org-variable-name">max_profit_after_second_sell</span> <span class="org-operator">=</span> 0
 
-    <span class="org-keyword">for</span> price <span class="org-keyword">in</span> <span class="org-variable-name">prices</span>:
-        min_price_so_far = <span class="org-builtin">min</span>(price, min_price_so_far)
-        <span class="org-variable-name">max_profit_after_first_sell</span> = <span class="org-builtin">max</span>(
-            <span class="org-builtin">int</span>(price - min_price_so_far),
+    <span class="org-keyword">for</span> price <span class="org-keyword">in</span> prices:
+        <span class="org-variable-name">min_price_so_far</span> <span class="org-operator">=</span> <span class="org-builtin">min</span>(price, min_price_so_far)
+        <span class="org-variable-name">max_profit_after_first_sell</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(
+            <span class="org-builtin">int</span>(price <span class="org-operator">-</span> min_price_so_far),
             max_profit_after_first_sell)
-        <span class="org-variable-name">max_profit_after_second_buy</span> = <span class="org-builtin">max</span>(
-            max_profit_after_first_sell - price,
+        <span class="org-variable-name">max_profit_after_second_buy</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(
+            max_profit_after_first_sell <span class="org-operator">-</span> price,
             max_profit_after_second_buy)
-        <span class="org-variable-name">max_profit_after_second_sell</span> = <span class="org-builtin">max</span>(
-            <span class="org-builtin">int</span>(price + max_profit_after_second_buy),
+        <span class="org-variable-name">max_profit_after_second_sell</span> <span class="org-operator">=</span> <span class="org-builtin">max</span>(
+            <span class="org-builtin">int</span>(price <span class="org-operator">+</span> max_profit_after_second_buy),
             max_profit_after_second_sell)
 
     <span class="org-keyword">if</span> max_profit_after_second_sell:
@@ -718,7 +729,7 @@ variables, independent of the size of the list of prices.</li>
 <span class="lilac-child-link-from-parent"><a href="#__NREF__buy_sell_twice-1">buy_sell_twice</a></span>
 
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
-    <span class="org-variable-name">cases</span> = [
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
         ([],                          <span class="org-constant">None</span>),
         ([0],                         <span class="org-constant">None</span>),
         ([0, 0, 0, 0],                <span class="org-constant">None</span>),
@@ -737,15 +748,15 @@ variables, independent of the size of the list of prices.</li>
     <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
         <span class="org-keyword">for</span> given_prices, expected <span class="org-keyword">in</span> <span class="org-keyword">self</span>.cases:
             <span class="org-keyword">self</span>.assertEqual(brute_force_maybe_sell_twice(given_prices),
-                             expected, msg=f<span class="org-string">'</span>{given_prices=}<span class="org-string">'</span>)
+                             expected, msg<span class="org-operator">=</span>f<span class="org-string">'</span>{given_prices<span class="org-operator">=</span>}<span class="org-string">'</span>)
             <span class="org-keyword">self</span>.assertEqual(two_pass_maybe_sell_twice(given_prices),
-                             expected, msg=f<span class="org-string">'</span>{given_prices=}<span class="org-string">'</span>)
+                             expected, msg<span class="org-operator">=</span>f<span class="org-string">'</span>{given_prices<span class="org-operator">=</span>}<span class="org-string">'</span>)
 
-    <span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100), min_size=0,
-                    max_size=14))
+    <span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100), min_size<span class="org-operator">=</span>0,
+                    max_size<span class="org-operator">=</span>14))
     <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, given_prices: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-        got_sell_once = brute_force(given_prices)
-        got_maybe_sell_twice = brute_force_maybe_sell_twice(given_prices)
+        <span class="org-variable-name">got_sell_once</span> <span class="org-operator">=</span> brute_force(given_prices)
+        <span class="org-variable-name">got_maybe_sell_twice</span> <span class="org-operator">=</span> brute_force_maybe_sell_twice(given_prices)
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">If we say that we should buy/sell twice, then it must be because we</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">can make more money than buying and selling only once.</span>
@@ -754,7 +765,7 @@ variables, independent of the size of the list of prices.</li>
             <span class="org-keyword">and</span> got_maybe_sell_twice[0] <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
             <span class="org-keyword">and</span> got_maybe_sell_twice[1] <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>):
             <span class="org-keyword">self</span>.assertGreater(
-                got_maybe_sell_twice[0].profit + got_maybe_sell_twice[1].profit,
+                got_maybe_sell_twice[0].profit <span class="org-operator">+</span> got_maybe_sell_twice[1].profit,
                 got_sell_once.profit)
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">Check that the other solutions agree with brute force.</span>
@@ -765,11 +776,11 @@ variables, independent of the size of the list of prices.</li>
             <span class="org-keyword">and</span> got_maybe_sell_twice[0] <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
             <span class="org-keyword">and</span> got_maybe_sell_twice[1] <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>):
             <span class="org-keyword">self</span>.assertEqual(single_pass_maybe_sell_twice(given_prices),
-                            got_maybe_sell_twice[0].profit +
+                            got_maybe_sell_twice[0].profit <span class="org-operator">+</span>
                             got_maybe_sell_twice[1].profit )
 
-<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> <span class="org-operator">==</span> <span class="org-string">"__main__"</span>:
+    unittest.main(<span class="org-constant">exit</span><span class="org-operator">=</span><span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 </div>

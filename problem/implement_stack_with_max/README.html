@@ -219,27 +219,38 @@
      }
 // @license-end
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -358,8 +369,8 @@ get any element in constant time).
 
 </div>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(1/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, *args):
-    <span class="org-keyword">self</span>.<span class="org-variable-name">ll</span> = lib_linked_list.LinkedList()
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(1/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, <span class="org-operator">*</span>args):
+    <span class="org-keyword">self</span>.<span class="org-variable-name">ll</span> <span class="org-operator">=</span> lib_linked_list.LinkedList()
     <span class="org-keyword">for</span> elt <span class="org-keyword">in</span> args:
         <span class="org-keyword">self</span>.push(elt)
 </pre></div></div>
@@ -380,8 +391,8 @@ stack. So instead of storing just the element itself, we store a separate max
 value that represents the max value of all previously-pushed elements.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(2/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-2"><span class="org-keyword">def</span> <span class="org-function-name">push</span>(<span class="org-keyword">self</span>, elt: Any) -&gt; <span class="org-constant">None</span>:
-    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() == 0:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(2/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-2"><span class="org-keyword">def</span> <span class="org-function-name">push</span>(<span class="org-keyword">self</span>, elt: Any) <span class="org-operator">-&gt;</span> <span class="org-constant">None</span>:
+    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() <span class="org-operator">==</span> 0:
         <span class="org-keyword">self</span>.ll.insert((elt, elt))
     <span class="org-keyword">else</span>:
         <span class="org-keyword">self</span>.ll.insert((elt, <span class="org-builtin">max</span>(elt, <span class="org-keyword">self</span>.<span class="org-builtin">max</span>())))
@@ -408,10 +419,10 @@ with the element.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(3/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-3"><span class="org-keyword">def</span> <span class="org-function-name">max</span>(<span class="org-keyword">self</span>):
-    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() == 0:
+    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() <span class="org-operator">==</span> 0:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
-    <span class="org-variable-name">node</span> = <span class="org-keyword">self</span>.ll.<span class="org-builtin">next</span>
-    (<span class="org-variable-name">_</span>, <span class="org-builtin">max</span>) = node.elt
+    <span class="org-variable-name">node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll.<span class="org-builtin">next</span>
+    (<span class="org-variable-name">_</span>, <span class="org-builtin">max</span>) <span class="org-operator">=</span> node.elt
     <span class="org-keyword">return</span> <span class="org-builtin">max</span>
 </pre></div></div>
 </div>
@@ -429,9 +440,9 @@ Popping isn't really special at all &#x2014; we just make sure to:
 <li>return the value of the element to the caller.</li>
 </ol>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(4/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-4"><span class="org-keyword">def</span> <span class="org-function-name">pop</span>(<span class="org-keyword">self</span>) -&gt; <span class="org-variable-name">Optional</span>[Any]:
-    node = <span class="org-keyword">self</span>.ll.<span class="org-builtin">next</span>
-    (<span class="org-variable-name">elt</span>, <span class="org-variable-name">_</span>) = node.elt <span class="org-keyword">if</span> node <span class="org-keyword">else</span> (<span class="org-constant">None</span>, <span class="org-constant">None</span>)
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(4/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-4"><span class="org-keyword">def</span> <span class="org-function-name">pop</span>(<span class="org-keyword">self</span>) <span class="org-operator">-&gt;</span> Optional[Any]:
+    <span class="org-variable-name">node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll.<span class="org-builtin">next</span>
+    (<span class="org-variable-name">elt</span>, <span class="org-variable-name">_</span>) <span class="org-operator">=</span> node.elt <span class="org-keyword">if</span> node <span class="org-keyword">else</span> (<span class="org-constant">None</span>, <span class="org-constant">None</span>)
     <span class="org-keyword">self</span>.ll.delete_after()
     <span class="org-keyword">return</span> elt
 </pre></div></div>
@@ -457,14 +468,14 @@ This is useful for debugging. The code here follows the <code>__repr__</code> ex
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(5/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-5"><span class="org-keyword">def</span> <span class="org-function-name">__repr__</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">elts</span> = []
-    <span class="org-variable-name">node</span> = <span class="org-keyword">self</span>.ll
+    <span class="org-variable-name">elts</span> <span class="org-operator">=</span> []
+    <span class="org-variable-name">node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll
     <span class="org-keyword">while</span> node.<span class="org-builtin">next</span>:
         elts.append(<span class="org-builtin">repr</span>(node.<span class="org-builtin">next</span>.elt))
-        node = node.<span class="org-builtin">next</span>
+        <span class="org-variable-name">node</span> <span class="org-operator">=</span> node.<span class="org-builtin">next</span>
         <span class="org-keyword">if</span> node.<span class="org-builtin">next</span> <span class="org-keyword">is</span> <span class="org-constant">None</span>:
             <span class="org-keyword">break</span>
-    <span class="org-keyword">return</span> <span class="org-string">"%s.%s(%s)"</span> % (<span class="org-keyword">self</span>.__class__.<span class="org-builtin">__module__</span>,
+    <span class="org-keyword">return</span> <span class="org-string">"%s.%s(%s)"</span> <span class="org-operator">%</span> (<span class="org-keyword">self</span>.__class__.<span class="org-builtin">__module__</span>,
                         <span class="org-keyword">self</span>.__class__.<span class="org-builtin">__qualname__</span>,
                         <span class="org-string">", "</span>.join(elts))
 </pre></div></div>
@@ -474,7 +485,7 @@ This is useful for debugging. The code here follows the <code>__repr__</code> ex
 <div id="outline-container-h-Size" class="outline-4">
 <h4 id="h-Size"><span class="section-number-4">3.1.5.</span> Size</h4>
 <div class="outline-text-4" id="text-h-Size">
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(6/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-6"><span class="org-keyword">def</span> <span class="org-function-name">size</span>(<span class="org-keyword">self</span>) -&gt; <span class="org-builtin">int</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(6/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-6"><span class="org-keyword">def</span> <span class="org-function-name">size</span>(<span class="org-keyword">self</span>) <span class="org-operator">-&gt;</span> <span class="org-builtin">int</span>:
     <span class="org-keyword">return</span> <span class="org-keyword">self</span>.ll.size()
 </pre></div></div>
 </div>
@@ -483,8 +494,8 @@ This is useful for debugging. The code here follows the <code>__repr__</code> ex
 <div id="outline-container-h-Equality" class="outline-4">
 <h4 id="h-Equality"><span class="section-number-4">3.1.6.</span> Equality</h4>
 <div class="outline-text-4" id="text-h-Equality">
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(7/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-7"><span class="org-keyword">def</span> <span class="org-function-name">__eq__</span>(<span class="org-keyword">self</span>, other) -&gt; <span class="org-builtin">bool</span>:
-    <span class="org-keyword">return</span> <span class="org-keyword">self</span>.ll == other.ll
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(7/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-7"><span class="org-keyword">def</span> <span class="org-function-name">__eq__</span>(<span class="org-keyword">self</span>, other) <span class="org-operator">-&gt;</span> <span class="org-builtin">bool</span>:
+    <span class="org-keyword">return</span> <span class="org-keyword">self</span>.ll <span class="org-operator">==</span> other.ll
 </pre></div></div>
 </div>
 </div>
@@ -519,9 +530,9 @@ The main thing is that we have to add a new secondary stack (<code>ll_max</code>
 track of the maximum values.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(1/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, *args):
-    <span class="org-keyword">self</span>.<span class="org-variable-name">ll_max</span> = lib_linked_list.LinkedList()
-    <span class="org-builtin">super</span>().__init__(*args)
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(1/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, <span class="org-operator">*</span>args):
+    <span class="org-keyword">self</span>.<span class="org-variable-name">ll_max</span> <span class="org-operator">=</span> lib_linked_list.LinkedList()
+    <span class="org-builtin">super</span>().__init__(<span class="org-operator">*</span>args)
 </pre></div></div>
 </div>
 
@@ -533,7 +544,7 @@ Insertion is pretty simple: we first insert the element into the main stack,
 <code>ll</code>.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(2/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-2"><span class="org-keyword">def</span> <span class="org-function-name">push</span>(<span class="org-keyword">self</span>, elt: Any) -&gt; <span class="org-constant">None</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(2/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-2"><span class="org-keyword">def</span> <span class="org-function-name">push</span>(<span class="org-keyword">self</span>, elt: Any) <span class="org-operator">-&gt;</span> <span class="org-constant">None</span>:
     <span class="org-keyword">self</span>.ll.insert(elt)
 </pre></div></div><p>
 Now we have to update <code>ll_max</code>. The first edge case is if we are inserting the
@@ -542,7 +553,7 @@ the current maximum, and so we insert it immediately. We set this element's
 counter to <code>1</code> as it is the first max item at this value.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(3/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-3">    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() == 1:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(3/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-3">    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() <span class="org-operator">==</span> 1:
         <span class="org-keyword">self</span>.ll_max.insert((elt, 1))
         <span class="org-keyword">return</span>
 </pre></div></div><p>
@@ -557,16 +568,16 @@ If the element is the same size as the current maximum, we just bump this
 maximum value's counter.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(4/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-4">    (<span class="org-variable-name">max_cur</span>, <span class="org-variable-name">n</span>) = <span class="org-keyword">self</span>.ll_max.<span class="org-builtin">next</span>.elt
-    <span class="org-keyword">if</span> elt == max_cur:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(4/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-4">    (<span class="org-variable-name">max_cur</span>, <span class="org-variable-name">n</span>) <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll_max.<span class="org-builtin">next</span>.elt
+    <span class="org-keyword">if</span> elt <span class="org-operator">==</span> max_cur:
         <span class="org-keyword">self</span>.ll_max.delete_after()
-        <span class="org-keyword">self</span>.ll_max.insert((max_cur, n+1))
+        <span class="org-keyword">self</span>.ll_max.insert((max_cur, n<span class="org-operator">+</span>1))
 </pre></div></div><p>
 Otherwise, we have to insert a new value into <code>ll_max</code>, just like we did for the
 case above for inserting into an empty stack.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(5/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-5">    <span class="org-keyword">elif</span> elt &gt; max_cur:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(5/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-5">    <span class="org-keyword">elif</span> elt <span class="org-operator">&gt;</span> max_cur:
         <span class="org-keyword">self</span>.ll_max.insert((elt, 1))
 </pre></div></div>
 </div>
@@ -581,9 +592,9 @@ stack.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(6/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-6"><span class="org-keyword">def</span> <span class="org-function-name">max</span>(<span class="org-keyword">self</span>):
-    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() == 0:
+    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() <span class="org-operator">==</span> 0:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
-    (<span class="org-builtin">max</span>, <span class="org-variable-name">_n</span>) = <span class="org-keyword">self</span>.ll_max.<span class="org-builtin">next</span>.elt
+    (<span class="org-builtin">max</span>, <span class="org-variable-name">_n</span>) <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll_max.<span class="org-builtin">next</span>.elt
     <span class="org-keyword">return</span> <span class="org-builtin">max</span>
 </pre></div></div>
 </div>
@@ -596,9 +607,9 @@ stack.
 First we have to delete the element from the main stack.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(7/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-7"><span class="org-keyword">def</span> <span class="org-function-name">pop</span>(<span class="org-keyword">self</span>) -&gt; <span class="org-variable-name">Optional</span>[Any]:
-    node = <span class="org-keyword">self</span>.ll.<span class="org-builtin">next</span>
-    <span class="org-variable-name">elt</span> = node.elt <span class="org-keyword">if</span> node <span class="org-keyword">else</span> <span class="org-constant">None</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(7/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-7"><span class="org-keyword">def</span> <span class="org-function-name">pop</span>(<span class="org-keyword">self</span>) <span class="org-operator">-&gt;</span> Optional[Any]:
+    <span class="org-variable-name">node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll.<span class="org-builtin">next</span>
+    <span class="org-variable-name">elt</span> <span class="org-operator">=</span> node.elt <span class="org-keyword">if</span> node <span class="org-keyword">else</span> <span class="org-constant">None</span>
     <span class="org-keyword">self</span>.ll.delete_after()
 </pre></div></div><p>
 If we just popped the last element of the stack, then the stack is empty and
@@ -606,7 +617,7 @@ there are no more maximum values, and so we also delete whatever last item
 remaining in <code>ll_max</code>.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(8/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-8">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-8">    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() == 0:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(8/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-8">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-8">    <span class="org-keyword">if</span> <span class="org-keyword">self</span>.size() <span class="org-operator">==</span> 0:
         <span class="org-keyword">self</span>.ll_max.delete_after()
         <span class="org-keyword">return</span> elt
 </pre></div></div><p>
@@ -630,11 +641,11 @@ the max value, and restoring it to its counter with its decremented value, but
 only if it is above 1 (if zero, then we have to delete this max value outright).
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(9/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-9">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-9">    (<span class="org-variable-name">max_cur</span>, <span class="org-variable-name">n</span>) = <span class="org-keyword">self</span>.ll_max.<span class="org-builtin">next</span>.elt
-    <span class="org-keyword">if</span> elt == max_cur:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(9/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-9">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-9">    (<span class="org-variable-name">max_cur</span>, <span class="org-variable-name">n</span>) <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll_max.<span class="org-builtin">next</span>.elt
+    <span class="org-keyword">if</span> elt <span class="org-operator">==</span> max_cur:
         <span class="org-keyword">self</span>.ll_max.delete_after()
-        <span class="org-keyword">if</span> n &gt; 1:
-            <span class="org-keyword">self</span>.ll_max.insert((max_cur, n-1))
+        <span class="org-keyword">if</span> n <span class="org-operator">&gt;</span> 1:
+            <span class="org-keyword">self</span>.ll_max.insert((max_cur, n<span class="org-operator">-</span>1))
 
     <span class="org-keyword">return</span> elt
 </pre></div></div>
@@ -650,16 +661,16 @@ class <code>StackNaive</code>, but also marshal the second stack <code>ll_max</c
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(10/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-10">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-10"><span class="org-keyword">def</span> <span class="org-function-name">__repr__</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">elts</span> = []
-    <span class="org-variable-name">node</span> = <span class="org-keyword">self</span>.ll_max
+    <span class="org-variable-name">elts</span> <span class="org-operator">=</span> []
+    <span class="org-variable-name">node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.ll_max
     <span class="org-keyword">while</span> node.<span class="org-builtin">next</span>:
         elts.append(<span class="org-builtin">repr</span>(node.<span class="org-builtin">next</span>.elt))
-        node = node.<span class="org-builtin">next</span>
+        <span class="org-variable-name">node</span> <span class="org-operator">=</span> node.<span class="org-builtin">next</span>
         <span class="org-keyword">if</span> node.<span class="org-builtin">next</span> <span class="org-keyword">is</span> <span class="org-constant">None</span>:
             <span class="org-keyword">break</span>
-    ll_repr = <span class="org-builtin">super</span>().__repr__()
-    <span class="org-variable-name">ll_max_repr</span> = <span class="org-string">"ll_max(%s)"</span> % (<span class="org-string">", "</span>.join(elts))
-    <span class="org-keyword">return</span> <span class="org-string">"%s (%s)"</span> % (ll_repr, ll_max_repr)
+    <span class="org-variable-name">ll_repr</span> <span class="org-operator">=</span> <span class="org-builtin">super</span>().__repr__()
+    <span class="org-variable-name">ll_max_repr</span> <span class="org-operator">=</span> <span class="org-string">"ll_max(%s)"</span> <span class="org-operator">%</span> (<span class="org-string">", "</span>.join(elts))
+    <span class="org-keyword">return</span> <span class="org-string">"%s (%s)"</span> <span class="org-operator">%</span> (ll_repr, ll_max_repr)
 </pre></div></div>
 </div>
 </div>
@@ -671,9 +682,9 @@ class <code>StackNaive</code>, but also marshal the second stack <code>ll_max</c
 Equality simply checks whether both the primary and secondary stacks are equal.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(11/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-11">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-11"><span class="org-keyword">def</span> <span class="org-function-name">__eq__</span>(<span class="org-keyword">self</span>, other) -&gt; <span class="org-builtin">bool</span>:
-    <span class="org-keyword">return</span> <span class="org-keyword">self</span>.ll == other.ll \
-        <span class="org-keyword">and</span> <span class="org-keyword">self</span>.ll_max == other.ll_max
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(11/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-11">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-11"><span class="org-keyword">def</span> <span class="org-function-name">__eq__</span>(<span class="org-keyword">self</span>, other) <span class="org-operator">-&gt;</span> <span class="org-builtin">bool</span>:
+    <span class="org-keyword">return</span> <span class="org-keyword">self</span>.ll <span class="org-operator">==</span> other.ll \
+        <span class="org-keyword">and</span> <span class="org-keyword">self</span>.ll_max <span class="org-operator">==</span> other.ll_max
 </pre></div></div>
 </div>
 </div>
@@ -717,8 +728,8 @@ annotations.
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
     <span class="lilac-child-link-from-parent"><a href="#__NREF__test_cases-1">test_cases</a></span>
 
-<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> <span class="org-operator">==</span> <span class="org-string">"__main__"</span>:
+    unittest.main(<span class="org-constant">exit</span><span class="org-operator">=</span><span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 
@@ -730,29 +741,29 @@ Here are some basic checks regarding initialization.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(1/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-1"><span class="org-keyword">def</span> <span class="org-function-name">test_init_empty_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = StackNaive()
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive()
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 0)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_init_empty</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = Stack()
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack()
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 0)
 
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_init_singleton_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = StackNaive(1)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive(1)
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 1)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_init_singleton</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = Stack(1)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack(1)
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 1)
 
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_init_multiple_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = StackNaive(1, 2, 3, 4, 5)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive(1, 2, 3, 4, 5)
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 5)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_init_multiple</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = Stack(1, 2, 3, 4, 5)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack(1, 2, 3, 4, 5)
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 5)
 </pre></div></div>
 </div>
@@ -762,32 +773,32 @@ Here are some basic checks regarding initialization.
 <h3 id="h-Insertion--push--2"><span class="section-number-3">4.2.</span> Insertion (push)</h3>
 <div class="outline-text-3" id="text-h-Insertion--push--2">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(2/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-2"><span class="org-keyword">def</span> <span class="org-function-name">test_insertion_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = StackNaive()
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive()
     stack.push(1)
     stack.push(2)
     stack.push(3)
     <span class="org-keyword">self</span>.assertEqual(stack, StackNaive(1, 2, 3))
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_insertion</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = Stack()
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack()
     stack.push(1)
     stack.push(2)
     stack.push(3)
     <span class="org-keyword">self</span>.assertEqual(stack, Stack(1, 2, 3))
 
 
-<span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
-                min_size=0,
-                max_size=20))
+<span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100),
+                min_size<span class="org-operator">=</span>0,
+                max_size<span class="org-operator">=</span>20))
 <span class="org-keyword">def</span> <span class="org-function-name">test_insertion_random_naive</span>(<span class="org-keyword">self</span>, given_elts: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-    stack = StackNaive(*given_elts)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive(<span class="org-operator">*</span>given_elts)
     <span class="org-keyword">self</span>.assertEqual(stack.size(), <span class="org-builtin">len</span>(given_elts))
 
-<span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
-                min_size=0,
-                max_size=20))
+<span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100),
+                min_size<span class="org-operator">=</span>0,
+                max_size<span class="org-operator">=</span>20))
 <span class="org-keyword">def</span> <span class="org-function-name">test_insertion_random</span>(<span class="org-keyword">self</span>, given_elts: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-    stack = Stack(*given_elts)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack(<span class="org-operator">*</span>given_elts)
     <span class="org-keyword">self</span>.assertEqual(stack.size(), <span class="org-builtin">len</span>(given_elts))
 </pre></div></div>
 </div>
@@ -797,26 +808,26 @@ Here are some basic checks regarding initialization.
 <h3 id="h-Size-1"><span class="section-number-3">4.3.</span> Size</h3>
 <div class="outline-text-3" id="text-h-Size-1">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(3/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-3"><span class="org-keyword">def</span> <span class="org-function-name">test_size_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">cases</span> = [
-        ([], 0),
-        ([1], 1),
-        ([1, 2], 2),
-    ]
-    <span class="org-keyword">for</span> elts, expected <span class="org-keyword">in</span> <span class="org-variable-name">cases</span>:
-        stack = StackNaive(*elts)
-        <span class="org-keyword">self</span>.assertEqual(stack.size(), expected,
-                         msg=f<span class="org-string">'</span>{expected=}<span class="org-string">'</span>)
-
-<span class="org-keyword">def</span> <span class="org-function-name">test_size</span>(<span class="org-keyword">self</span>):
-    cases = [
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
         ([], 0),
         ([1], 1),
         ([1, 2], 2),
     ]
     <span class="org-keyword">for</span> elts, expected <span class="org-keyword">in</span> cases:
-        stack = Stack(*elts)
+        <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive(<span class="org-operator">*</span>elts)
         <span class="org-keyword">self</span>.assertEqual(stack.size(), expected,
-                         msg=f<span class="org-string">'</span>{expected=}<span class="org-string">'</span>)
+                         msg<span class="org-operator">=</span>f<span class="org-string">'</span>{expected<span class="org-operator">=</span>}<span class="org-string">'</span>)
+
+<span class="org-keyword">def</span> <span class="org-function-name">test_size</span>(<span class="org-keyword">self</span>):
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
+        ([], 0),
+        ([1], 1),
+        ([1, 2], 2),
+    ]
+    <span class="org-keyword">for</span> elts, expected <span class="org-keyword">in</span> cases:
+        <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack(<span class="org-operator">*</span>elts)
+        <span class="org-keyword">self</span>.assertEqual(stack.size(), expected,
+                         msg<span class="org-operator">=</span>f<span class="org-string">'</span>{expected<span class="org-operator">=</span>}<span class="org-string">'</span>)
 </pre></div></div>
 </div>
 </div>
@@ -825,30 +836,30 @@ Here are some basic checks regarding initialization.
 <h3 id="h-Equality-2"><span class="section-number-3">4.4.</span> Equality</h3>
 <div class="outline-text-3" id="text-h-Equality-2">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(4/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-4"><span class="org-keyword">def</span> <span class="org-function-name">test_equality_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">cases</span> = [
-        ([], [], <span class="org-constant">True</span>),
-        ([1], [], <span class="org-constant">False</span>),
-        ([1], [1], <span class="org-constant">True</span>),
-        ([1], [1, 2], <span class="org-constant">False</span>),
-    ]
-    <span class="org-keyword">for</span> xs, ys, expected <span class="org-keyword">in</span> <span class="org-variable-name">cases</span>:
-        x = StackNaive(*xs)
-        <span class="org-variable-name">y</span> = StackNaive(*ys)
-        <span class="org-keyword">self</span>.assertEqual(x == y, expected,
-                         msg=f<span class="org-string">'</span>{x=}<span class="org-string"> </span>{y=}<span class="org-string">'</span>)
-
-<span class="org-keyword">def</span> <span class="org-function-name">test_equality</span>(<span class="org-keyword">self</span>):
-    cases = [
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
         ([], [], <span class="org-constant">True</span>),
         ([1], [], <span class="org-constant">False</span>),
         ([1], [1], <span class="org-constant">True</span>),
         ([1], [1, 2], <span class="org-constant">False</span>),
     ]
     <span class="org-keyword">for</span> xs, ys, expected <span class="org-keyword">in</span> cases:
-        x = Stack(*xs)
-        y = Stack(*ys)
-        <span class="org-keyword">self</span>.assertEqual(x == y, expected,
-                         msg=f<span class="org-string">'</span>{x=}<span class="org-string"> </span>{y=}<span class="org-string">'</span>)
+        <span class="org-variable-name">x</span> <span class="org-operator">=</span> StackNaive(<span class="org-operator">*</span>xs)
+        <span class="org-variable-name">y</span> <span class="org-operator">=</span> StackNaive(<span class="org-operator">*</span>ys)
+        <span class="org-keyword">self</span>.assertEqual(x <span class="org-operator">==</span> y, expected,
+                         msg<span class="org-operator">=</span>f<span class="org-string">'</span>{x<span class="org-operator">=</span>}<span class="org-string"> </span>{y<span class="org-operator">=</span>}<span class="org-string">'</span>)
+
+<span class="org-keyword">def</span> <span class="org-function-name">test_equality</span>(<span class="org-keyword">self</span>):
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
+        ([], [], <span class="org-constant">True</span>),
+        ([1], [], <span class="org-constant">False</span>),
+        ([1], [1], <span class="org-constant">True</span>),
+        ([1], [1, 2], <span class="org-constant">False</span>),
+    ]
+    <span class="org-keyword">for</span> xs, ys, expected <span class="org-keyword">in</span> cases:
+        <span class="org-variable-name">x</span> <span class="org-operator">=</span> Stack(<span class="org-operator">*</span>xs)
+        <span class="org-variable-name">y</span> <span class="org-operator">=</span> Stack(<span class="org-operator">*</span>ys)
+        <span class="org-keyword">self</span>.assertEqual(x <span class="org-operator">==</span> y, expected,
+                         msg<span class="org-operator">=</span>f<span class="org-string">'</span>{x<span class="org-operator">=</span>}<span class="org-string"> </span>{y<span class="org-operator">=</span>}<span class="org-string">'</span>)
 </pre></div></div>
 </div>
 </div>
@@ -857,46 +868,46 @@ Here are some basic checks regarding initialization.
 <h3 id="h-Deletion--pop--2"><span class="section-number-3">4.5.</span> Deletion (pop)</h3>
 <div class="outline-text-3" id="text-h-Deletion--pop--2">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(5/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-5"><span class="org-keyword">def</span> <span class="org-function-name">test_deletion_basic_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">stack</span> = StackNaive(1, 2, 3)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive(1, 2, 3)
     stack.pop()
     <span class="org-keyword">self</span>.assertEqual(stack, StackNaive(1, 2),
-                    msg=f<span class="org-string">'</span>{stack=}<span class="org-string">'</span>)
+                    msg<span class="org-operator">=</span>f<span class="org-string">'</span>{stack<span class="org-operator">=</span>}<span class="org-string">'</span>)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_deletion_basic</span>(<span class="org-keyword">self</span>):
-    stack = Stack(1, 2, 3)
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack(1, 2, 3)
     stack.pop()
     <span class="org-keyword">self</span>.assertEqual(stack, Stack(1, 2),
-                    msg=f<span class="org-string">'</span>{stack=}<span class="org-string">'</span>)
+                    msg<span class="org-operator">=</span>f<span class="org-string">'</span>{stack<span class="org-operator">=</span>}<span class="org-string">'</span>)
 
 
-<span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
-                min_size=1,
-                max_size=20))
+<span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100),
+                min_size<span class="org-operator">=</span>1,
+                max_size<span class="org-operator">=</span>20))
 <span class="org-keyword">def</span> <span class="org-function-name">test_deletion_random_naive</span>(<span class="org-keyword">self</span>, given_elts: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-    stack = StackNaive(*given_elts)
-    deletions = random.randint(0, <span class="org-builtin">len</span>(given_elts))
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive(<span class="org-operator">*</span>given_elts)
+    <span class="org-variable-name">deletions</span> <span class="org-operator">=</span> random.randint(0, <span class="org-builtin">len</span>(given_elts))
     <span class="org-keyword">for</span> _ <span class="org-keyword">in</span> <span class="org-builtin">range</span>(deletions):
         stack.pop()
-    <span class="org-keyword">self</span>.assertEqual(stack.size(), <span class="org-builtin">len</span>(given_elts) - deletions)
+    <span class="org-keyword">self</span>.assertEqual(stack.size(), <span class="org-builtin">len</span>(given_elts) <span class="org-operator">-</span> deletions)
 
-<span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
-                min_size=1,
-                max_size=20))
+<span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100),
+                min_size<span class="org-operator">=</span>1,
+                max_size<span class="org-operator">=</span>20))
 <span class="org-keyword">def</span> <span class="org-function-name">test_deletion_random</span>(<span class="org-keyword">self</span>, given_elts: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-    stack = Stack(*given_elts)
-    deletions = random.randint(0, <span class="org-builtin">len</span>(given_elts))
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack(<span class="org-operator">*</span>given_elts)
+    <span class="org-variable-name">deletions</span> <span class="org-operator">=</span> random.randint(0, <span class="org-builtin">len</span>(given_elts))
     <span class="org-keyword">for</span> _ <span class="org-keyword">in</span> <span class="org-builtin">range</span>(deletions):
         stack.pop()
-    <span class="org-keyword">self</span>.assertEqual(stack.size(), <span class="org-builtin">len</span>(given_elts) - deletions)
+    <span class="org-keyword">self</span>.assertEqual(stack.size(), <span class="org-builtin">len</span>(given_elts) <span class="org-operator">-</span> deletions)
 
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_deletion_nop_naive</span>(<span class="org-keyword">self</span>):
-    stack = StackNaive()
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive()
     stack.pop()
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 0)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_deletion_nop</span>(<span class="org-keyword">self</span>):
-    stack = Stack()
+    <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack()
     stack.pop()
     <span class="org-keyword">self</span>.assertEqual(stack.size(), 0)
 </pre></div></div>
@@ -912,29 +923,7 @@ it.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(6/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-6"><span class="org-keyword">def</span> <span class="org-function-name">test_max_naive</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">cases</span> = [
-        ([1, 2, 3], [1, 2, 3], [2, 1]),
-        ([2, 3, 10], [2, 3, 10], [3, 2]),
-        ([10, 9, 8], [10, 10, 10], [10, 10]),
-        ([1, 10, 5], [1, 10, 10], [10, 1]),
-        ([2, 1, 2, 1], [2, 2, 2, 2], [2, 2, 2]),
-        ([2, 1, 1, 1], [2, 2, 2, 2], [2, 2, 2]),
-        ([2, 1, 8, 1], [2, 2, 8, 8], [8, 2, 2]),
-        ([2, 1, 8, 8, 1], [2, 2, 8, 8, 8], [8, 8, 2, 2]),
-    ]
-    <span class="org-keyword">for</span> elts, maxes, restored_maxes <span class="org-keyword">in</span> <span class="org-variable-name">cases</span>:
-        stack = StackNaive()
-        <span class="org-keyword">for</span> (elt, <span class="org-builtin">max</span>) <span class="org-keyword">in</span> <span class="org-builtin">zip</span>(elts, maxes):
-            stack.push(elt)
-            <span class="org-keyword">self</span>.assertEqual(stack.<span class="org-builtin">max</span>(), <span class="org-builtin">max</span>,
-                             msg=f<span class="org-string">'</span>{stack=}<span class="org-string">'</span>)
-        <span class="org-keyword">for</span> restored_max <span class="org-keyword">in</span> restored_maxes:
-            stack.pop()
-            <span class="org-keyword">self</span>.assertEqual(stack.<span class="org-builtin">max</span>(), restored_max,
-                             msg=f<span class="org-string">'</span>{stack=}<span class="org-string">'</span>)
-
-<span class="org-keyword">def</span> <span class="org-function-name">test_max</span>(<span class="org-keyword">self</span>):
-    cases = [
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
         ([1, 2, 3], [1, 2, 3], [2, 1]),
         ([2, 3, 10], [2, 3, 10], [3, 2]),
         ([10, 9, 8], [10, 10, 10], [10, 10]),
@@ -945,15 +934,37 @@ it.
         ([2, 1, 8, 8, 1], [2, 2, 8, 8, 8], [8, 8, 2, 2]),
     ]
     <span class="org-keyword">for</span> elts, maxes, restored_maxes <span class="org-keyword">in</span> cases:
-        stack = Stack()
+        <span class="org-variable-name">stack</span> <span class="org-operator">=</span> StackNaive()
         <span class="org-keyword">for</span> (elt, <span class="org-builtin">max</span>) <span class="org-keyword">in</span> <span class="org-builtin">zip</span>(elts, maxes):
             stack.push(elt)
             <span class="org-keyword">self</span>.assertEqual(stack.<span class="org-builtin">max</span>(), <span class="org-builtin">max</span>,
-                             msg=f<span class="org-string">'</span>{stack=}<span class="org-string">'</span>)
+                             msg<span class="org-operator">=</span>f<span class="org-string">'</span>{stack<span class="org-operator">=</span>}<span class="org-string">'</span>)
         <span class="org-keyword">for</span> restored_max <span class="org-keyword">in</span> restored_maxes:
             stack.pop()
             <span class="org-keyword">self</span>.assertEqual(stack.<span class="org-builtin">max</span>(), restored_max,
-                             msg=f<span class="org-string">'</span>{stack=}<span class="org-string">'</span>)
+                             msg<span class="org-operator">=</span>f<span class="org-string">'</span>{stack<span class="org-operator">=</span>}<span class="org-string">'</span>)
+
+<span class="org-keyword">def</span> <span class="org-function-name">test_max</span>(<span class="org-keyword">self</span>):
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
+        ([1, 2, 3], [1, 2, 3], [2, 1]),
+        ([2, 3, 10], [2, 3, 10], [3, 2]),
+        ([10, 9, 8], [10, 10, 10], [10, 10]),
+        ([1, 10, 5], [1, 10, 10], [10, 1]),
+        ([2, 1, 2, 1], [2, 2, 2, 2], [2, 2, 2]),
+        ([2, 1, 1, 1], [2, 2, 2, 2], [2, 2, 2]),
+        ([2, 1, 8, 1], [2, 2, 8, 8], [8, 2, 2]),
+        ([2, 1, 8, 8, 1], [2, 2, 8, 8, 8], [8, 8, 2, 2]),
+    ]
+    <span class="org-keyword">for</span> elts, maxes, restored_maxes <span class="org-keyword">in</span> cases:
+        <span class="org-variable-name">stack</span> <span class="org-operator">=</span> Stack()
+        <span class="org-keyword">for</span> (elt, <span class="org-builtin">max</span>) <span class="org-keyword">in</span> <span class="org-builtin">zip</span>(elts, maxes):
+            stack.push(elt)
+            <span class="org-keyword">self</span>.assertEqual(stack.<span class="org-builtin">max</span>(), <span class="org-builtin">max</span>,
+                             msg<span class="org-operator">=</span>f<span class="org-string">'</span>{stack<span class="org-operator">=</span>}<span class="org-string">'</span>)
+        <span class="org-keyword">for</span> restored_max <span class="org-keyword">in</span> restored_maxes:
+            stack.pop()
+            <span class="org-keyword">self</span>.assertEqual(stack.<span class="org-builtin">max</span>(), restored_max,
+                             msg<span class="org-operator">=</span>f<span class="org-string">'</span>{stack<span class="org-operator">=</span>}<span class="org-string">'</span>)
 </pre></div></div>
 </div>
 </div>

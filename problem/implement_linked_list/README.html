@@ -219,27 +219,38 @@
      }
 // @license-end
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -327,9 +338,9 @@ A linked list's node has data (for the current node) and a pointer to the next
 node. We name the data part as <code>elt</code> for <i>element</i>.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(1/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, *args):
-    <span class="org-keyword">self</span>.<span class="org-variable-name">elt</span> = <span class="org-constant">None</span>
-    <span class="org-keyword">self</span>.<span class="org-builtin">next</span> = <span class="org-constant">None</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(1/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, <span class="org-operator">*</span>args):
+    <span class="org-keyword">self</span>.<span class="org-variable-name">elt</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
+    <span class="org-keyword">self</span>.<span class="org-builtin">next</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
 </pre></div></div><p>
 By default the initial (head) node is a placeholder node used solely to keep
 track of the overall linked list. If there are any arguments, we treat them as
@@ -380,11 +391,11 @@ then make the current node point instead to the new node. In other words, we are
 prepending to the list.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(3/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-3"><span id="coderef-insert" class="coderef-off"><span class="org-keyword">def</span> <span class="org-function-name">insert</span>(<span class="org-keyword">self</span>, elt: Any) -&gt; <span class="org-constant">None</span>:</span>
-    node_new = LinkedList()
-    node_new.<span class="org-variable-name">elt</span> = elt
-    node_new.<span class="org-builtin">next</span> = <span class="org-keyword">self</span>.<span class="org-builtin">next</span>
-    <span class="org-keyword">self</span>.<span class="org-builtin">next</span> = node_new
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(3/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-3"><span id="coderef-insert" class="coderef-off"><span class="org-keyword">def</span> <span class="org-function-name">insert</span>(<span class="org-keyword">self</span>, elt: Any) <span class="org-operator">-&gt;</span> <span class="org-constant">None</span>:</span>
+    <span class="org-variable-name">node_new</span> <span class="org-operator">=</span> LinkedList()
+    node_new.<span class="org-variable-name">elt</span> <span class="org-operator">=</span> elt
+    node_new.<span class="org-builtin">next</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.<span class="org-builtin">next</span>
+    <span class="org-keyword">self</span>.<span class="org-builtin">next</span> <span class="org-operator">=</span> node_new
 </pre></div></div>
 </div>
 
@@ -446,11 +457,11 @@ use such a scheme for purposes of inserting a new element.
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Make head node hold data</label><span class="lilac-caption-link-symbol"><a href="#Make-head-node-hold-data">&#x1f517;</a></span></div><pre class="src src-python" id="Make-head-node-hold-data"><span class="org-keyword">import</span> copy
 
 <span class="org-keyword">class</span> <span class="org-type">LinkedList</span>:
-    <span class="org-keyword">def</span> <span class="org-function-name">insert</span>(<span class="org-keyword">self</span>, elt: Any) -&gt; <span class="org-constant">None</span>:
-        node_new = LinkedList()
-        node_new.<span class="org-variable-name">elt</span> = elt
-        node_new.<span class="org-builtin">next</span> = <span class="org-keyword">self</span>
-        <span class="org-keyword">self</span>.<span class="org-builtin">__dict__</span> = copy.deepcopy(node_new.<span class="org-builtin">__dict__</span>)
+    <span class="org-keyword">def</span> <span class="org-function-name">insert</span>(<span class="org-keyword">self</span>, elt: Any) <span class="org-operator">-&gt;</span> <span class="org-constant">None</span>:
+        <span class="org-variable-name">node_new</span> <span class="org-operator">=</span> LinkedList()
+        node_new.<span class="org-variable-name">elt</span> <span class="org-operator">=</span> elt
+        node_new.<span class="org-builtin">next</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>
+        <span class="org-keyword">self</span>.<span class="org-builtin">__dict__</span> <span class="org-operator">=</span> copy.deepcopy(node_new.<span class="org-builtin">__dict__</span>)
 </pre></div></div>
 </div>
 </div>
@@ -465,14 +476,14 @@ This is useful for debugging. The code here follows the <code>__repr__</code> ex
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(4/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-4"><span class="org-keyword">def</span> <span class="org-function-name">__repr__</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">elts</span> = []
-    <span class="org-variable-name">node</span> = <span class="org-keyword">self</span>
+    <span class="org-variable-name">elts</span> <span class="org-operator">=</span> []
+    <span class="org-variable-name">node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>
     <span class="org-keyword">while</span> node.<span class="org-builtin">next</span>:
         elts.append(<span class="org-builtin">repr</span>(node.<span class="org-builtin">next</span>.elt))
-        node = node.<span class="org-builtin">next</span>
+        <span class="org-variable-name">node</span> <span class="org-operator">=</span> node.<span class="org-builtin">next</span>
         <span class="org-keyword">if</span> node.<span class="org-builtin">next</span> <span class="org-keyword">is</span> <span class="org-constant">None</span>:
             <span class="org-keyword">break</span>
-    <span class="org-keyword">return</span> <span class="org-string">"%s.%s(%s)"</span> % (<span class="org-keyword">self</span>.__class__.<span class="org-builtin">__module__</span>,
+    <span class="org-keyword">return</span> <span class="org-string">"%s.%s(%s)"</span> <span class="org-operator">%</span> (<span class="org-keyword">self</span>.__class__.<span class="org-builtin">__module__</span>,
                         <span class="org-keyword">self</span>.__class__.<span class="org-builtin">__qualname__</span>,
                         <span class="org-string">", "</span>.join(elts))
 </pre></div></div>
@@ -487,14 +498,14 @@ This calculates the total number of nodes in the linked list, not counting the
 head node if it does not contain any data.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(5/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-5"><span class="org-keyword">def</span> <span class="org-function-name">size</span>(<span class="org-keyword">self</span>) -&gt; <span class="org-builtin">int</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(5/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-5"><span class="org-keyword">def</span> <span class="org-function-name">size</span>(<span class="org-keyword">self</span>) <span class="org-operator">-&gt;</span> <span class="org-builtin">int</span>:
     <span class="org-comment-delimiter"># </span><span class="org-comment">Skip head node which doesn't hold any element.</span>
-    node = <span class="org-keyword">self</span>.<span class="org-builtin">next</span>
+    <span class="org-variable-name">node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.<span class="org-builtin">next</span>
 
-    <span class="org-variable-name">n</span> = 0
-    <span class="org-keyword">while</span> <span class="org-variable-name">node</span>:
-        n += 1
-        <span class="org-variable-name">node</span> = node.<span class="org-builtin">next</span>
+    <span class="org-variable-name">n</span> <span class="org-operator">=</span> 0
+    <span class="org-keyword">while</span> node:
+        <span class="org-variable-name">n</span> <span class="org-operator">+=</span> 1
+        <span class="org-variable-name">node</span> <span class="org-operator">=</span> node.<span class="org-builtin">next</span>
 
     <span class="org-keyword">return</span> n
 </pre></div></div>
@@ -510,14 +521,14 @@ every single node in each list. Specifically, we check both that the elements in
 each linked list are the same, but also that there are an equal number of nodes.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(6/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-6"><span class="org-keyword">def</span> <span class="org-function-name">__eq__</span>(<span class="org-keyword">self</span>, b) -&gt; <span class="org-builtin">bool</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(6/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-6"><span class="org-keyword">def</span> <span class="org-function-name">__eq__</span>(<span class="org-keyword">self</span>, b) <span class="org-operator">-&gt;</span> <span class="org-builtin">bool</span>:
     <span class="org-keyword">if</span> <span class="org-keyword">not</span> <span class="org-builtin">isinstance</span>(b, LinkedList):
         <span class="org-keyword">return</span> <span class="org-constant">NotImplemented</span>
-    a = <span class="org-keyword">self</span>
+    <span class="org-variable-name">a</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>
     <span class="org-keyword">while</span> a.<span class="org-builtin">next</span> <span class="org-keyword">or</span> b.<span class="org-builtin">next</span>:
-        <span class="org-keyword">if</span> a.<span class="org-builtin">next</span> <span class="org-keyword">and</span> b.<span class="org-builtin">next</span> <span class="org-keyword">and</span> a.<span class="org-builtin">next</span>.elt == b.<span class="org-builtin">next</span>.elt:
-            a = a.<span class="org-builtin">next</span>
-            b = b.<span class="org-builtin">next</span>
+        <span class="org-keyword">if</span> a.<span class="org-builtin">next</span> <span class="org-keyword">and</span> b.<span class="org-builtin">next</span> <span class="org-keyword">and</span> a.<span class="org-builtin">next</span>.elt <span class="org-operator">==</span> b.<span class="org-builtin">next</span>.elt:
+            <span class="org-variable-name">a</span> <span class="org-operator">=</span> a.<span class="org-builtin">next</span>
+            <span class="org-variable-name">b</span> <span class="org-operator">=</span> b.<span class="org-builtin">next</span>
             <span class="org-keyword">continue</span>
         <span class="org-keyword">return</span> <span class="org-constant">False</span>
     <span class="org-keyword">return</span> <span class="org-constant">True</span>
@@ -547,12 +558,12 @@ stack, even for the very first element. See the discussion around insertion
 below.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(7/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-7"><span class="org-keyword">def</span> <span class="org-function-name">lookup</span>(<span class="org-keyword">self</span>, elt: Any) -&gt; <span class="org-variable-name">Optional</span>[LinkedList]:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(7/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-7"><span class="org-keyword">def</span> <span class="org-function-name">lookup</span>(<span class="org-keyword">self</span>, elt: Any) <span class="org-operator">-&gt;</span> Optional[LinkedList]:
 
-    current_node = <span class="org-keyword">self</span>.<span class="org-builtin">next</span>
+    <span class="org-variable-name">current_node</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.<span class="org-builtin">next</span>
 
-    <span class="org-keyword">while</span> current_node <span class="org-keyword">and</span> current_node.elt != <span class="org-variable-name">elt</span>:
-        current_node = current_node.<span class="org-builtin">next</span>
+    <span class="org-keyword">while</span> current_node <span class="org-keyword">and</span> current_node.elt <span class="org-operator">!=</span> elt:
+        <span class="org-variable-name">current_node</span> <span class="org-operator">=</span> current_node.<span class="org-builtin">next</span>
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">This will be None if we failed to find the given element.</span>
     <span class="org-keyword">return</span> current_node
@@ -591,11 +602,11 @@ head node), the effect would be to delete the nodes in the opposite order from
 the order they were inserted &#x2014; much like a stack data structure.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(8/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-8">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-8"><span class="org-keyword">def</span> <span class="org-function-name">delete_after</span>(<span class="org-keyword">self</span>) -&gt; <span class="org-constant">None</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code">linked_list_class_methods</a></span>(8/8) <span class="lilac-caption-link-symbol"><a href="#__NREF__linked_list_class_methods-8">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__linked_list_class_methods-8"><span class="org-keyword">def</span> <span class="org-function-name">delete_after</span>(<span class="org-keyword">self</span>) <span class="org-operator">-&gt;</span> <span class="org-constant">None</span>:
     <span class="org-keyword">if</span> <span class="org-keyword">self</span>.<span class="org-builtin">next</span> <span class="org-keyword">is</span> <span class="org-constant">None</span>:
         <span class="org-keyword">return</span>
 
-    <span class="org-keyword">self</span>.<span class="org-builtin">next</span> = <span class="org-keyword">self</span>.<span class="org-builtin">next</span>.<span class="org-builtin">next</span>
+    <span class="org-keyword">self</span>.<span class="org-builtin">next</span> <span class="org-operator">=</span> <span class="org-keyword">self</span>.<span class="org-builtin">next</span>.<span class="org-builtin">next</span>
 </pre></div></div>
 </div>
 
@@ -633,8 +644,8 @@ annotations. See <a href="#h-Export">5</a>.
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
     <span class="lilac-child-link-from-parent"><a href="#__NREF__test_cases-1">test_cases</a></span>
 
-<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> <span class="org-operator">==</span> <span class="org-string">"__main__"</span>:
+    unittest.main(<span class="org-constant">exit</span><span class="org-operator">=</span><span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 
@@ -646,15 +657,15 @@ Here are some basic checks regarding initialization.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(1/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-1"><span class="org-keyword">def</span> <span class="org-function-name">test_init_empty</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">linked_list</span> = LinkedList()
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList()
     <span class="org-keyword">self</span>.assertEqual(linked_list.size(), 0)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_init_singleton</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">linked_list</span> = LinkedList(1)
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(1)
     <span class="org-keyword">self</span>.assertEqual(linked_list.size(), 1)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_init_multiple</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">linked_list</span> = LinkedList(1, 2, 3, 4, 5)
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(1, 2, 3, 4, 5)
     <span class="org-keyword">self</span>.assertEqual(linked_list.size(), 5)
     <span class="org-comment-delimiter"># </span><span class="org-comment">Head node holds nothing.</span>
     <span class="org-keyword">self</span>.assertEqual(linked_list.elt, <span class="org-constant">None</span>)
@@ -673,14 +684,14 @@ itself if we are using head nodes that hold data).
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(2/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-2"><span class="org-keyword">def</span> <span class="org-function-name">test_insertion_head_without_data</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">linked_list</span> = LinkedList(1, 2, 3)
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(1, 2, 3)
     <span class="org-keyword">self</span>.assertEqual(linked_list, LinkedList(1, 2, 3))
 
-<span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
-                min_size=0,
-                max_size=20))
+<span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100),
+                min_size<span class="org-operator">=</span>0,
+                max_size<span class="org-operator">=</span>20))
 <span class="org-keyword">def</span> <span class="org-function-name">test_insertion_random</span>(<span class="org-keyword">self</span>, given_elts: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-    linked_list = LinkedList(*given_elts)
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(<span class="org-operator">*</span>given_elts)
     <span class="org-keyword">self</span>.assertEqual(linked_list.size(), <span class="org-builtin">len</span>(given_elts))
 </pre></div></div>
 </div>
@@ -690,15 +701,15 @@ itself if we are using head nodes that hold data).
 <h3 id="h-Size-1"><span class="section-number-3">4.3.</span> Size</h3>
 <div class="outline-text-3" id="text-h-Size-1">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(3/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-3"><span class="org-keyword">def</span> <span class="org-function-name">test_size</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">cases</span> = [
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
         ([], 0),
         ([1], 1),
         ([1, 2], 2),
     ]
-    <span class="org-keyword">for</span> elts, expected <span class="org-keyword">in</span> <span class="org-variable-name">cases</span>:
-        linked_list = LinkedList(*elts)
+    <span class="org-keyword">for</span> elts, expected <span class="org-keyword">in</span> cases:
+        <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(<span class="org-operator">*</span>elts)
         <span class="org-keyword">self</span>.assertEqual(linked_list.size(), expected,
-                         msg=f<span class="org-string">'</span>{expected=}<span class="org-string">'</span>)
+                         msg<span class="org-operator">=</span>f<span class="org-string">'</span>{expected<span class="org-operator">=</span>}<span class="org-string">'</span>)
 </pre></div></div>
 </div>
 </div>
@@ -707,17 +718,17 @@ itself if we are using head nodes that hold data).
 <h3 id="h-Equality-1"><span class="section-number-3">4.4.</span> Equality</h3>
 <div class="outline-text-3" id="text-h-Equality-1">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(4/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-4"><span class="org-keyword">def</span> <span class="org-function-name">test_equality</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">cases</span> = [
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
         ([], [], <span class="org-constant">True</span>),
         ([1], [], <span class="org-constant">False</span>),
         ([1], [1], <span class="org-constant">True</span>),
         ([1], [1, 2], <span class="org-constant">False</span>),
     ]
-    <span class="org-keyword">for</span> xs, ys, expected <span class="org-keyword">in</span> <span class="org-variable-name">cases</span>:
-        x = LinkedList(*xs)
-        <span class="org-variable-name">y</span> = LinkedList(*ys)
-        <span class="org-keyword">self</span>.assertEqual(x == y, expected,
-                         msg=f<span class="org-string">'</span>{x=}<span class="org-string"> </span>{y=}<span class="org-string">'</span>)
+    <span class="org-keyword">for</span> xs, ys, expected <span class="org-keyword">in</span> cases:
+        <span class="org-variable-name">x</span> <span class="org-operator">=</span> LinkedList(<span class="org-operator">*</span>xs)
+        <span class="org-variable-name">y</span> <span class="org-operator">=</span> LinkedList(<span class="org-operator">*</span>ys)
+        <span class="org-keyword">self</span>.assertEqual(x <span class="org-operator">==</span> y, expected,
+                         msg<span class="org-operator">=</span>f<span class="org-string">'</span>{x<span class="org-operator">=</span>}<span class="org-string"> </span>{y<span class="org-operator">=</span>}<span class="org-string">'</span>)
 </pre></div></div>
 </div>
 </div>
@@ -726,19 +737,19 @@ itself if we are using head nodes that hold data).
 <h3 id="h-Lookup-1"><span class="section-number-3">4.5.</span> Lookup</h3>
 <div class="outline-text-3" id="text-h-Lookup-1">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(5/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-5"><span class="org-keyword">def</span> <span class="org-function-name">test_lookup</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">cases</span> = [
+    <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
         ([], <span class="org-constant">None</span>, <span class="org-keyword">lambda</span> exp: exp <span class="org-keyword">is</span> <span class="org-constant">None</span>),
         ([<span class="org-constant">None</span>], <span class="org-constant">None</span>, <span class="org-keyword">lambda</span> exp: exp.elt <span class="org-keyword">is</span> <span class="org-constant">None</span>),
         ([], 0, <span class="org-keyword">lambda</span> exp: exp <span class="org-keyword">is</span> <span class="org-constant">None</span>),
         ([], 1, <span class="org-keyword">lambda</span> exp: exp <span class="org-keyword">is</span> <span class="org-constant">None</span>),
-        ([1], 1, <span class="org-keyword">lambda</span> exp: exp.elt == 1),
-        ([1, 2], 2, <span class="org-keyword">lambda</span> exp: exp.elt == 2),
+        ([1], 1, <span class="org-keyword">lambda</span> exp: exp.elt <span class="org-operator">==</span> 1),
+        ([1, 2], 2, <span class="org-keyword">lambda</span> exp: exp.elt <span class="org-operator">==</span> 2),
         ([1, 2], 3, <span class="org-keyword">lambda</span> exp: exp <span class="org-keyword">is</span> <span class="org-constant">None</span>),
     ]
     <span class="org-keyword">for</span> elts, key, expected_func <span class="org-keyword">in</span> cases:
-        linked_list = LinkedList(*elts)
+        <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(<span class="org-operator">*</span>elts)
         <span class="org-keyword">self</span>.assertTrue(expected_func(linked_list.lookup(key)),
-                         msg=f<span class="org-string">'</span>{key=}<span class="org-string">'</span>)
+                         msg<span class="org-operator">=</span>f<span class="org-string">'</span>{key<span class="org-operator">=</span>}<span class="org-string">'</span>)
 </pre></div></div>
 </div>
 </div>
@@ -747,23 +758,23 @@ itself if we are using head nodes that hold data).
 <h3 id="h-Deletion-1"><span class="section-number-3">4.6.</span> Deletion</h3>
 <div class="outline-text-3" id="text-h-Deletion-1">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(6/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-6"><span class="org-keyword">def</span> <span class="org-function-name">test_deletion_basic</span>(<span class="org-keyword">self</span>):
-    <span class="org-variable-name">linked_list</span> = LinkedList(1, 2, 3)
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(1, 2, 3)
     <span class="org-comment-delimiter"># </span><span class="org-comment">If we delete element 1, we're gonna be pointing at 2, then 3.</span>
     linked_list.delete_after()
     <span class="org-keyword">self</span>.assertEqual(linked_list, LinkedList(2, 3))
 
-<span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
-                min_size=1,
-                max_size=20))
+<span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100),
+                min_size<span class="org-operator">=</span>1,
+                max_size<span class="org-operator">=</span>20))
 <span class="org-keyword">def</span> <span class="org-function-name">test_deletion_random</span>(<span class="org-keyword">self</span>, given_elts: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-    linked_list = LinkedList(*given_elts)
-    deletions = random.randint(0, <span class="org-builtin">len</span>(given_elts))
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList(<span class="org-operator">*</span>given_elts)
+    <span class="org-variable-name">deletions</span> <span class="org-operator">=</span> random.randint(0, <span class="org-builtin">len</span>(given_elts))
     <span class="org-keyword">for</span> _ <span class="org-keyword">in</span> <span class="org-builtin">range</span>(deletions):
         linked_list.delete_after()
-    <span class="org-keyword">self</span>.assertEqual(linked_list.size(), <span class="org-builtin">len</span>(given_elts) - deletions)
+    <span class="org-keyword">self</span>.assertEqual(linked_list.size(), <span class="org-builtin">len</span>(given_elts) <span class="org-operator">-</span> deletions)
 
 <span class="org-keyword">def</span> <span class="org-function-name">test_deletion_nop</span>(<span class="org-keyword">self</span>):
-    linked_list = LinkedList()
+    <span class="org-variable-name">linked_list</span> <span class="org-operator">=</span> LinkedList()
     linked_list.delete_after()
     <span class="org-keyword">self</span>.assertEqual(linked_list.size(), 0)
 </pre></div></div>

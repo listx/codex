@@ -9,7 +9,7 @@ in
 pkgs.mkShell ({
   buildInputs = [
     # Tangling and weaving for Literate Programming.
-    pkgs.emacs
+    pkgs.emacs29-nox
 
     # Misc
     pkgs.git

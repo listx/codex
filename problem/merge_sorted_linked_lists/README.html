@@ -219,27 +219,38 @@
      }
 // @license-end
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -311,22 +322,22 @@ the input lists <code>a</code> and <code>b</code>.
 Here's the code.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">merge</label><span class="lilac-caption-link-symbol"><a href="#merge">&#x1f517;</a></span></div><pre class="src src-python" id="merge"><span class="org-keyword">def</span> <span class="org-function-name">merge</span>(a: lib.LinkedList, b: lib.LinkedList) -&gt; lib.<span class="org-variable-name">LinkedList</span>:
-    head = <span class="org-variable-name">tail</span> = lib.LinkedList()
-    <span class="org-variable-name">a</span> = a.<span class="org-builtin">next</span>
-    <span class="org-variable-name">b</span> = b.<span class="org-builtin">next</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">merge</label><span class="lilac-caption-link-symbol"><a href="#merge">&#x1f517;</a></span></div><pre class="src src-python" id="merge"><span class="org-keyword">def</span> <span class="org-function-name">merge</span>(a: lib.LinkedList, b: lib.LinkedList) <span class="org-operator">-&gt;</span> lib.LinkedList:
+    <span class="org-variable-name">head</span> <span class="org-operator">=</span> tail <span class="org-operator">=</span> lib.LinkedList()
+    <span class="org-variable-name">a</span> <span class="org-operator">=</span> a.<span class="org-builtin">next</span>
+    <span class="org-variable-name">b</span> <span class="org-operator">=</span> b.<span class="org-builtin">next</span>
     <span class="org-keyword">while</span> a <span class="org-keyword">or</span> b:
         <span class="org-keyword">if</span> a <span class="org-keyword">and</span> b:
-            <span class="org-keyword">if</span> a.elt &lt; b.<span class="org-variable-name">elt</span>:
-                tail.<span class="org-builtin">next</span> = a
-                <span class="org-variable-name">a</span> = a.<span class="org-builtin">next</span>
+            <span class="org-keyword">if</span> a.elt <span class="org-operator">&lt;</span> b.elt:
+                tail.<span class="org-builtin">next</span> <span class="org-operator">=</span> a
+                <span class="org-variable-name">a</span> <span class="org-operator">=</span> a.<span class="org-builtin">next</span>
             <span class="org-keyword">else</span>:
-                tail.<span class="org-builtin">next</span> = b
-                <span class="org-variable-name">b</span> = b.<span class="org-builtin">next</span>
+                tail.<span class="org-builtin">next</span> <span class="org-operator">=</span> b
+                <span class="org-variable-name">b</span> <span class="org-operator">=</span> b.<span class="org-builtin">next</span>
         <span class="org-keyword">else</span>:
-            tail.<span class="org-builtin">next</span> = a <span class="org-keyword">or</span> b
+            tail.<span class="org-builtin">next</span> <span class="org-operator">=</span> a <span class="org-keyword">or</span> b
             <span class="org-keyword">break</span>
-        <span class="org-variable-name">tail</span> = tail.<span class="org-builtin">next</span>
+        <span class="org-variable-name">tail</span> <span class="org-operator">=</span> tail.<span class="org-builtin">next</span>
     <span class="org-keyword">return</span> head
 </pre></div></div><p>
 Now let's go over this in detail.
@@ -339,16 +350,16 @@ build up when we traverse through the input lists. When we're done we will
 return the <code>head</code> node which we will leave untouched during this algorithm.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(1/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-1"><span class="org-keyword">def</span> <span class="org-function-name">merge</span>(a: lib.LinkedList, b: lib.LinkedList) -&gt; lib.<span class="org-variable-name">LinkedList</span>:
-    head = <span class="org-variable-name">tail</span> = lib.LinkedList()
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(1/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-1"><span class="org-keyword">def</span> <span class="org-function-name">merge</span>(a: lib.LinkedList, b: lib.LinkedList) <span class="org-operator">-&gt;</span> lib.LinkedList:
+    <span class="org-variable-name">head</span> <span class="org-operator">=</span> tail <span class="org-operator">=</span> lib.LinkedList()
 </pre></div></div><p>
 We assume that the input lists' head nodes do not contain any data themselves.
 And so we "shift" the head nodes of <code>a</code> and <code>b</code> by one node as a preparatory
 step.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(2/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-2">    <span class="org-variable-name">a</span> = a.<span class="org-builtin">next</span>
-    <span class="org-variable-name">b</span> = b.<span class="org-builtin">next</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(2/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-2">    <span class="org-variable-name">a</span> <span class="org-operator">=</span> a.<span class="org-builtin">next</span>
+    <span class="org-variable-name">b</span> <span class="org-operator">=</span> b.<span class="org-builtin">next</span>
 </pre></div></div><p>
 Now comes the traversal. We traverse as long as either input list has nodes.
 </p>
@@ -371,12 +382,12 @@ again in a future comparison).
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(4/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-4">        <span class="org-keyword">if</span> a <span class="org-keyword">and</span> b:
-            <span class="org-keyword">if</span> a.elt &lt; b.<span class="org-variable-name">elt</span>:
-                tail.<span class="org-builtin">next</span> = a
-                <span class="org-variable-name">a</span> = a.<span class="org-builtin">next</span>
+            <span class="org-keyword">if</span> a.elt <span class="org-operator">&lt;</span> b.elt:
+                tail.<span class="org-builtin">next</span> <span class="org-operator">=</span> a
+                <span class="org-variable-name">a</span> <span class="org-operator">=</span> a.<span class="org-builtin">next</span>
             <span class="org-keyword">else</span>:
-                tail.<span class="org-builtin">next</span> = b
-                <span class="org-variable-name">b</span> = b.<span class="org-builtin">next</span>
+                tail.<span class="org-builtin">next</span> <span class="org-operator">=</span> b
+                <span class="org-variable-name">b</span> <span class="org-operator">=</span> b.<span class="org-builtin">next</span>
 </pre></div></div><p>
 If either or both input lists are empty, then we simply make <code>tail.next</code> point
 to the non-empty one. If both are empty then <code>a or b</code> evaluates to <code>None</code>, which
@@ -385,7 +396,7 @@ is nothing more to compare.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(5/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-5">        <span class="org-keyword">else</span>:
-            tail.<span class="org-builtin">next</span> = a <span class="org-keyword">or</span> b
+            tail.<span class="org-builtin">next</span> <span class="org-operator">=</span> a <span class="org-keyword">or</span> b
             <span class="org-keyword">break</span>
 </pre></div></div><p>
 Finally before we end the iteration, we advance the tail node. This is important
@@ -393,7 +404,7 @@ because we want to <i>append</i> to the list as we traverse along the input list
 find the next smallest element.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(6/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-6">        <span class="org-variable-name">tail</span> = tail.<span class="org-builtin">next</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">merge</a></span>(6/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__merge-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__merge-6">        <span class="org-variable-name">tail</span> <span class="org-operator">=</span> tail.<span class="org-builtin">next</span>
 </pre></div></div><p>
 When we're done we just need to return the original head node.
 </p>
@@ -430,7 +441,7 @@ the loop early.</li>
 
 <span class="org-keyword">class</span> <span class="org-type">Test</span>(unittest.TestCase):
     <span class="org-keyword">def</span> <span class="org-function-name">test_merge_simple_cases</span>(<span class="org-keyword">self</span>):
-        <span class="org-variable-name">cases</span> = [
+        <span class="org-variable-name">cases</span> <span class="org-operator">=</span> [
             ([], [], []),
             ([1], [], [1]),
             ([], [1], [1]),
@@ -441,29 +452,29 @@ the loop early.</li>
             ([1, 2, 3], [], [1, 2, 3]),
             ([], [1, 2, 3], [1, 2, 3]),
         ]
-        <span class="org-keyword">for</span> list_a, list_b, list_expected <span class="org-keyword">in</span> <span class="org-variable-name">cases</span>:
-            a = lib.LinkedList(*list_a)
-            <span class="org-variable-name">b</span> = lib.LinkedList(*list_b)
-            <span class="org-variable-name">expected</span> = lib.LinkedList(*list_expected)
+        <span class="org-keyword">for</span> list_a, list_b, list_expected <span class="org-keyword">in</span> cases:
+            <span class="org-variable-name">a</span> <span class="org-operator">=</span> lib.LinkedList(<span class="org-operator">*</span>list_a)
+            <span class="org-variable-name">b</span> <span class="org-operator">=</span> lib.LinkedList(<span class="org-operator">*</span>list_b)
+            <span class="org-variable-name">expected</span> <span class="org-operator">=</span> lib.LinkedList(<span class="org-operator">*</span>list_expected)
 
-            <span class="org-variable-name">got</span> = merge(a, b)
+            <span class="org-variable-name">got</span> <span class="org-operator">=</span> merge(a, b)
             <span class="org-keyword">self</span>.assertEqual(got, expected,
-                            msg=f<span class="org-string">'</span>{got=}<span class="org-string"> </span>{list_expected=}<span class="org-string">'</span>)
+                            msg<span class="org-operator">=</span>f<span class="org-string">'</span>{got<span class="org-operator">=</span>}<span class="org-string"> </span>{list_expected<span class="org-operator">=</span>}<span class="org-string">'</span>)
 
-    <span class="org-type">@given</span>(st.lists(st.integers(min_value=1, max_value=100),
-                    min_size=0,
-                    max_size=20))
+    <span class="org-type">@given</span>(st.lists(st.integers(min_value<span class="org-operator">=</span>1, max_value<span class="org-operator">=</span>100),
+                    min_size<span class="org-operator">=</span>0,
+                    max_size<span class="org-operator">=</span>20))
     <span class="org-keyword">def</span> <span class="org-function-name">test_merge_random</span>(<span class="org-keyword">self</span>, given_elts: <span class="org-builtin">list</span>[<span class="org-builtin">int</span>]):
-        size_a = random.randint(0, <span class="org-builtin">len</span>(given_elts))
-        a = given_elts[0:size_a]
-        b = given_elts[size_a:]
-        expected = lib.LinkedList(*<span class="org-builtin">sorted</span>(given_elts))
-        got = merge(lib.LinkedList(*<span class="org-builtin">sorted</span>(a)),
-                    lib.LinkedList(*<span class="org-builtin">sorted</span>(b)))
+        <span class="org-variable-name">size_a</span> <span class="org-operator">=</span> random.randint(0, <span class="org-builtin">len</span>(given_elts))
+        <span class="org-variable-name">a</span> <span class="org-operator">=</span> given_elts[0:size_a]
+        <span class="org-variable-name">b</span> <span class="org-operator">=</span> given_elts[size_a:]
+        <span class="org-variable-name">expected</span> <span class="org-operator">=</span> lib.LinkedList(<span class="org-operator">*</span><span class="org-builtin">sorted</span>(given_elts))
+        <span class="org-variable-name">got</span> <span class="org-operator">=</span> merge(lib.LinkedList(<span class="org-operator">*</span><span class="org-builtin">sorted</span>(a)),
+                    lib.LinkedList(<span class="org-operator">*</span><span class="org-builtin">sorted</span>(b)))
         <span class="org-keyword">self</span>.assertEqual(got, expected,
-                        msg=f<span class="org-string">'</span>{got=}<span class="org-string"> </span>{expected=}<span class="org-string">'</span>)
-<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> == <span class="org-string">"__main__"</span>:
-    unittest.main(<span class="org-constant">exit</span>=<span class="org-constant">False</span>)
+                        msg<span class="org-operator">=</span>f<span class="org-string">'</span>{got<span class="org-operator">=</span>}<span class="org-string"> </span>{expected<span class="org-operator">=</span>}<span class="org-string">'</span>)
+<span class="org-keyword">if</span> <span class="org-builtin">__name__</span> <span class="org-operator">==</span> <span class="org-string">"__main__"</span>:
+    unittest.main(<span class="org-constant">exit</span><span class="org-operator">=</span><span class="org-constant">False</span>)
 </pre></div></div>
 </div>
 </div>
