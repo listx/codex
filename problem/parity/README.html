@@ -657,9 +657,11 @@ The use of the <code>0x6996</code> constant is called an "in-register table look
 Basically, once we get down to 4 bits, there are only 16 possibilities left,
 because 4 bits can only represent \(2^{4} = 16\) unique numbers, 0 to 15. The
 <code>0x6996</code> constant is simply computed by looking at all possible numbers 0 to 15,
-computing their parity, and assigning this to a new bit string. That is, the
-<code>0110 1001 1001 0110</code> in binary get from the Parity column below is <code>0x6996</code> in
-hexadecimal.
+computing their parity, and assigning this to a new bit string. We start with
+the 15th bit though and go down to 0, because we shift this constant to the
+right in <code>0x6996 &gt;&gt; (word &amp; 0xf)</code>. The <code>0x6996</code> is <code>0110 1001 1001 0110</code> in
+binary, and you can see how we got these binary bits by looking at the Parity
+column in the table below.
 </p>
 
 <table>
