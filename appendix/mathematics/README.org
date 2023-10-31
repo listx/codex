@@ -13,6 +13,11 @@ This section discusses some mathematical topics related to programming.
 
 #+include: "twos-complement.org" :lines "2-"
 
-* References
-#+CITE_EXPORT: csl apa.csl
-#+PRINT_BIBLIOGRAPHY:
+#+begin_comment
+This is a comment block because currently we do not reference any of the source
+materials in this section. Comment this area out so that we don't end up with a
+blank "References" headline.
+,* References
+,#+CITE_EXPORT: csl apa.csl
+,#+PRINT_BIBLIOGRAPHY:
+#+end_comment
