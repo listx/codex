@@ -75,8 +75,8 @@ check: lint test
 .PHONY: check
 
 test: tangle
-	python -m unittest discover -s problem
-	python -m unittest discover -s appendix
+	python -m unittest discover --failfast --start-directory problem
+	python -m unittest discover --failfast --start-directory appendix
 	touch test
 
 lint: mypy ruff spellcheck
