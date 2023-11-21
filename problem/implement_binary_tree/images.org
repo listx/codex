@@ -1,0 +1,35 @@
+* Insertion
+
+#+header: :eval yes
+#+header: :file binary_tree_test_insert.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\usetikzlibrary {graphs,graphdrawing} \usegdlibrary {trees}
+\tikz \graph [binary tree layout, nodes={draw,circle}, sibling sep=0pt]
+  { 1 -- { 2 -- {4,}, 3} };
+#+end_src
+
+* Traversal
+
+#+header: :eval yes
+#+header: :file binary_tree.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\usetikzlibrary {graphs,graphdrawing} \usegdlibrary {trees}
+\tikz \graph [binary tree layout, nodes={draw,circle}, sibling sep=0pt]
+  { 5 -- { 1 -- {0, 4 -- {2,}}, 9 -- {7, 10}} };
+#+end_src
+
+* Perfect trees
+
+#+header: :eval yes
+#+header: :file binary_tree_perfect.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\usetikzlibrary {graphs,graphdrawing} \usegdlibrary {trees}
+\tikz \graph [binary tree layout, nodes={draw,circle}, sibling sep=0pt]
+  { 1 -- { 2 -- {4, 5}, 3 -- {6, 7}} };
+#+end_src
