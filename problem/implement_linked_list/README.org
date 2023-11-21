@@ -272,10 +272,9 @@ annotations. See [[* Export]].
 from __future__ import annotations
 from hypothesis import given, strategies as st
 import unittest
-from typing import Any, Optional
 import random
 
-__NREF__code
+from .linked_list import LinkedList
 
 class Test(unittest.TestCase):
     __NREF__test_cases

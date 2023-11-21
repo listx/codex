@@ -34,7 +34,7 @@ class BinaryTree:
                     new_node = True
                 x = x.left
             hist.append((x, new_node))
-    
+
         # Update counts back up the tree (by visiting seen nodes) by processing
         # hist. We skip the last node because it already has a count of 1 by
         # default.
@@ -46,7 +46,7 @@ class BinaryTree:
                 if delta == 1:
                     continue
             node.count += delta
-    
+
         # Finally, set the value on the node.
         x.val = val
         return start
@@ -76,7 +76,7 @@ class BinaryTree:
         # find the node we want to delete. Abort.
         if x is None:
             return None
-    
+
         # Find the node to delete. We recurse down here, but the main point is that
         # only the last call to _delete() will do the actual deletion. All calls to
         # _delete() leading up to the last one just perform navigation and
@@ -88,10 +88,10 @@ class BinaryTree:
                 x.left = self._delete(x.left, directions[1:])
             x.count = self._size(x.left) + self._size(x.right) + 1
             return x
-    
+
         # We've arrived at the node we want to delete. We deal with the 3 possible
         # cases.
-    
+
         # If there are two children, we have to pick a replacement from the
         # leftmost root node. Picking a replacement is a bit tricky because the
         # current parent of the replacement needs to no longer point to it
@@ -120,7 +120,7 @@ class BinaryTree:
         # deleting this BinaryTree object, essentially).
         else:
             return None
-    
+
         return x
     def _pop_leftmost_leaf_node(self, x: Node) -> Node:
         hist = []
@@ -137,7 +137,7 @@ class BinaryTree:
                 went_left = False
                 continue
             break
-    
+
         # If we had any children (descended down the tree), we have to modify it so
         # that the parent of the leaf node is no longer pointing to this leaf node.
         # Otherwise, the leaf node would still stay in the tree and would not be
@@ -149,13 +149,13 @@ class BinaryTree:
                 hist[-1].right = None
         for h in hist:
             h.count -= 1
-    
+
         return x
     def delete(self, directions: Optional[List[int]]=None):
         if directions is None:
             directions = []
         to_delete = None
-    
+
         try:
             to_delete = self.lookup(directions)
         except ValueError:
@@ -171,27 +171,27 @@ class BinaryTree:
             return to_delete
     def traverse_preorder(self, func: Callable[[Node], None]):
         return self._traverse_preorder(self.root, func)
-    
+
     def _traverse_preorder(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
         func(x)
         self._traverse_preorder(x.left, func)
         self._traverse_preorder(x.right, func)
-    
+
     def traverse_inorder(self, func: Callable[[Node], None]):
         return self._traverse_inorder(self.root, func)
-    
+
     def _traverse_inorder(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
         self._traverse_inorder(x.left, func)
         func(x)
         self._traverse_inorder(x.right, func)
-    
+
     def traverse_postorder(self, func: Callable[[Node], None]):
         return self._traverse_postorder(self.root, func)
-    
+
     def _traverse_postorder(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
@@ -200,17 +200,17 @@ class BinaryTree:
         func(x)
     def bfs(self, func: Callable[[Node], None]):
         return self._bfs(self.root, func)
-    
+
     def _bfs(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
-    
+
         nodes_at_current_depth = [x]
         while nodes_at_current_depth:
             # Process all nodes at current depth.
             for node in nodes_at_current_depth:
                 func(node)
-    
+
             # Now add all nodes at the next depth.
             children = []
             for node in nodes_at_current_depth:
@@ -220,28 +220,28 @@ class BinaryTree:
                     children.append(node.left)
                 if node.right:
                     children.append(node.right)
-    
+
             # Repeat the loop at the next depth.
             nodes_at_current_depth = children
     def bfs_single_pass(self, func: Callable[[Node], None]):
         return self._bfs(self.root, func)
-    
+
     def _bfs_single_pass(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
-    
+
         q = deque([x])
         while q:
             # Process the head of the queue. As we process each one, just before we
             # discard it we check if it has children, and if so, add them to the end
             # of the queue.
-    
+
             node = q.popleft()
             if not node:
                 continue
-    
+
             func(node)
-    
+
             # Add this node's children, if any.
             if node.left:
                 q.append(node.left)

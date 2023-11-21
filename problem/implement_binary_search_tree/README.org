@@ -485,11 +485,8 @@ def _bfs_single_pass(self, x: Optional[Node], func: Callable[[Node], None]):
 from __future__ import annotations
 from hypothesis import given, strategies as st
 import unittest
-from typing import Any, Callable, Optional
 
-# BEGIN binary tree implementation.
-__NREF__code
-# END binary tree implementation.
+from .binary_search_tree import BinarySearchTree, Node
 
 class Test(unittest.TestCase):
     __NREF__test_cases

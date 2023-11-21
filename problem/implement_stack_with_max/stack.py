@@ -70,7 +70,7 @@ class Stack(StackNaive):
             self.ll_max.delete_after()
             if n > 1:
                 self.ll_max.insert((max_cur, n-1))
-    
+
         return elt
     def __repr__(self):
         elts = []

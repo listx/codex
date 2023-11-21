@@ -345,10 +345,9 @@ annotations.
 from __future__ import annotations
 from hypothesis import given, strategies as st
 import unittest
-from typing import Any, Optional
 import random
 
-__NREF__code
+from .stack import Stack, StackNaive
 
 class Test(unittest.TestCase):
     __NREF__test_cases

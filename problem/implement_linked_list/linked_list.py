@@ -25,12 +25,12 @@ class LinkedList:
     def size(self) -> int:
         # Skip head node which doesn't hold any element.
         node = self.next
-    
+
         n = 0
         while node:
             n += 1
             node = node.next
-    
+
         return n
     def __eq__(self, b) -> bool:
         if not isinstance(b, LinkedList):
@@ -44,16 +44,16 @@ class LinkedList:
             return False
         return True
     def lookup(self, elt: Any) -> Optional[LinkedList]:
-    
+
         current_node = self.next
-    
+
         while current_node and current_node.elt != elt:
             current_node = current_node.next
-    
+
         # This will be None if we failed to find the given element.
         return current_node
     def delete_after(self) -> None:
         if self.next is None:
             return
-    
+
         self.next = self.next.next
