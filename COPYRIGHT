@@ -2,8 +2,5 @@ Copyright © 2023 Linus Arver
 
 All rights reserved.
 
-All source code blocks in all Org (*.org) files (where a code block is defined
-as bits of code between the "#+begin_src" and "#+end_src" markers) are licensed
-under the Apache License, Version 2.0. This includes all problem solutions as
-well as any auxiliary code blocks needed to get the Org files in publishable
-form.
+This repository is licensed under the Apache License, Version 2.0. See the
+LICENSE file.
