@@ -158,7 +158,7 @@ essentially the same.
 
 #+name: Tests
 #+caption: Tests
-#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+#+begin_src python :eval no :session test :tangle test.py
 import unittest
 
 __NREF__overlapping_rectangle

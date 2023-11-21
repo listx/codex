@@ -103,7 +103,7 @@ The time complexity is $O(n)$.
 
 #+name: Tests
 #+caption: Tests
-#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+#+begin_src python :eval no :session test :tangle test.py
 from hypothesis import given, strategies as st
 import unittest
 

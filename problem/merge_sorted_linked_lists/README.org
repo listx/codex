@@ -126,7 +126,7 @@ When we're done we just need to return the original head node.
 
 #+name: Tests
 #+caption: Tests
-#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+#+begin_src python :eval no :session test :tangle test.py
 from hypothesis import given, strategies as st
 import random
 import unittest

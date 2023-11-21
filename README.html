@@ -511,7 +511,7 @@ endef
 <span class="org-variable-name">test_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'__init__.py'</span> | sed <span class="org-string">'s|/__init__.py||'</span>)
 <span class="org-comment-delimiter"># </span><span class="org-comment">All problem dirs with Tikz-generated images.</span>
 <span class="org-variable-name">image_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'images.org'</span> | sed -e <span class="org-string">'s|/[^/]*$$||'</span> -e <span class="org-string">'s|^problem/||'</span> | sort -u)
-<span class="org-variable-name">all_tests_verified</span> = $(<span class="org-variable-name">patsubst</span> %.py, %.py.verified, $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'test_*.py'</span>))
+<span class="org-variable-name">all_tests_verified</span> = $(<span class="org-variable-name">patsubst</span> %.py, %.py.verified, $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'test.py'</span>))
 
 define weave_org
 
@@ -785,7 +785,7 @@ $(<span class="org-variable-name">foreach</span> img,$(<span class="org-variable
     $(<span class="org-variable-name">img</span>))))
 
 define tangle_tests
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/__init__.py $(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test_$(</span><span class="org-variable-name"><span class="org-makefile-targets">2</span></span><span class="org-makefile-targets">).py &amp;</span>: $(<span class="org-variable-name">1</span>)/README.org
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/__init__.py $(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test.py &amp;</span>: $(<span class="org-variable-name">1</span>)/README.org
     <span class="org-type">@</span><span class="org-makefile-shell">echo tangling $(</span><span class="org-makefile-shell"><span class="org-variable-name">1</span></span><span class="org-makefile-shell">)/README.org</span>
     $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),$(<span class="org-variable-name">1</span>)/README.org)
     find $(<span class="org-variable-name">1</span>) -type f -name <span class="org-string">'*.py'</span> -execdir sed -i <span class="org-string">'s/[[:blank:]]*$$$$//'</span> {} +
@@ -793,17 +793,16 @@ endef
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">See https://stackoverflow.com/a/9694782/437583.</span>
 $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">test_dirs</span>),\
-    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> tangle_tests,$(<span class="org-variable-name">d</span>),$(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">d</span>) | sed <span class="org-string">'s|./[^/]\+/||'</span>))))
+    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> tangle_tests,$(<span class="org-variable-name">d</span>))))
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">$(</span><span class="org-comment"><span class="org-variable-name">2</span></span><span class="org-comment">) is the name of FOO in problem/FOO/...</span>
 define verify_tests
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test_$(</span><span class="org-variable-name"><span class="org-makefile-targets">2</span></span><span class="org-makefile-targets">).py.verified</span>: $(<span class="org-variable-name">1</span>)/test_$(<span class="org-variable-name">2</span>).py
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test.py.verified</span>: $(<span class="org-variable-name">1</span>)/test.py
     python -m unittest discover --failfast --start-directory $(<span class="org-variable-name">1</span>) --top $(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">1</span>) | sed -e <span class="org-string">'s|./||'</span> -e <span class="org-string">'s|/.\+||'</span>)
-    touch $(<span class="org-variable-name">1</span>)/test_$(<span class="org-variable-name">2</span>).py.verified
+    touch $(<span class="org-variable-name">1</span>)/test.py.verified
 endef
 
 $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">test_dirs</span>),\
-    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> verify_tests,$(<span class="org-variable-name">d</span>),$(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">d</span>) | sed <span class="org-string">'s|./[^/]\+/||'</span>))))
+    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> verify_tests,$(<span class="org-variable-name">d</span>))))
 </pre></div></div>
 </div>
 </div>
@@ -925,13 +924,7 @@ This is based on Lilac's own code for updating Nix dependencies with <a href="ht
 <div id="outline-container-h-Elisp" class="outline-3">
 <h3 id="h-Elisp"><span class="section-number-3">4.5.</span> Elisp</h3>
 <div class="outline-text-3" id="text-h-Elisp">
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.el</label><span class="lilac-caption-link-symbol"><a href="#codex-el">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="codex-el"><span class="org-comment-delimiter">; </span><span class="org-comment">See https://stackoverflow.com/a/27285582/437583.</span>
-(<span class="org-keyword">defun</span> <span class="org-function-name">codex-test-file-name</span> ()
-  (concat <span class="org-string">"test_"</span> (file-name-nondirectory
-                   (directory-file-name
-                    (file-name-directory (buffer-file-name))))  <span class="org-string"><span class="org-warning">".py"</span></span><span class="org-warning">))</span>
-
-(<span class="org-keyword">setq</span> org-cite-csl-styles-dir
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">codex.el</label><span class="lilac-caption-link-symbol"><a href="#codex-el">&#x1f517;</a></span></div><pre class="src src-emacs-lisp" id="codex-el">(<span class="org-keyword">setq</span> org-cite-csl-styles-dir
       (concat (getenv <span class="org-string">"LILAC_ROOT"</span>) <span class="org-string">"/deps/styles/"</span>))
 
 (<span class="org-keyword">setq</span> org-latex-pdf-process

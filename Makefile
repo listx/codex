@@ -23,7 +23,7 @@ problem_dirs_without_prefix = $(subst problem/,,$(problem_dirs))
 test_dirs = $(shell find . -type f -name '__init__.py' | sed 's|/__init__.py||')
 # All problem dirs with Tikz-generated images.
 image_dirs = $(shell find . -type f -name 'images.org' | sed -e 's|/[^/]*$$||' -e 's|^problem/||' | sort -u)
-all_tests_verified = $(patsubst %.py, %.py.verified, $(shell find . -type f -name 'test_*.py'))
+all_tests_verified = $(patsubst %.py, %.py.verified, $(shell find . -type f -name 'test.py'))
 
 define weave_org
 
@@ -76,7 +76,7 @@ $(foreach img,$(all_img_pdfs),\
 	$(img))))
 
 define tangle_tests
-$(1)/__init__.py $(1)/test_$(2).py &: $(1)/README.org
+$(1)/__init__.py $(1)/test.py &: $(1)/README.org
 	@echo tangling $(1)/README.org
 	$(call run_emacs,(org-babel-tangle),$(1)/README.org)
 	find $(1) -type f -name '*.py' -execdir sed -i 's/[[:blank:]]*$$$$//' {} +
@@ -84,17 +84,16 @@ endef
 
 # See https://stackoverflow.com/a/9694782/437583.
 $(foreach d,$(test_dirs),\
-	$(eval $(call tangle_tests,$(d),$(shell echo $(d) | sed 's|./[^/]\+/||'))))
+	$(eval $(call tangle_tests,$(d))))
 
-# $(2) is the name of FOO in problem/FOO/...
 define verify_tests
-$(1)/test_$(2).py.verified: $(1)/test_$(2).py
+$(1)/test.py.verified: $(1)/test.py
 	python -m unittest discover --failfast --start-directory $(1) --top $(shell echo $(1) | sed -e 's|./||' -e 's|/.\+||')
-	touch $(1)/test_$(2).py.verified
+	touch $(1)/test.py.verified
 endef
 
 $(foreach d,$(test_dirs),\
-	$(eval $(call verify_tests,$(d),$(shell echo $(d) | sed 's|./[^/]\+/||'))))
+	$(eval $(call verify_tests,$(d))))
 
 weave: $(woven_html)
 	touch weave

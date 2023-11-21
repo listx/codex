@@ -481,7 +481,7 @@ def _bfs_single_pass(self, x: Optional[Node], func: Callable[[Node], None]):
 
 #+name: __NREF__Tests
 #+caption: Tests
-#+begin_src python :eval no :session test :tangle (codex-test-file-name)
+#+begin_src python :eval no :session test :tangle test.py
 from __future__ import annotations
 from hypothesis import given, strategies as st
 import unittest
