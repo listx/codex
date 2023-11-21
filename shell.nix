@@ -37,6 +37,11 @@ pkgs.mkShell ({
     pkgs.git
     pkgs.less
 
+    # Update deps (bootstrap).
+    pkgs.niv
+    pkgs.nix
+    pkgs.cacert
+
     # Spell checking.
     pkgs.typos
 
