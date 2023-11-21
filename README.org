@@ -25,6 +25,12 @@ Literate Programming Build System]].
 As for why this project is named /Codex/, I just think it's a cool word that has
 the word "code" in it as a substring.
 
+** How to read this document
+
+Please do not use the GitHub-rendered view of this file, as many things like
+links and citations simply do not work. Instead go to [[https://funloop.org/codex]]
+for the best experience.
+
 * Problems
 
 Every problem gets its own =README.org= file in its own subfolder. The solutions
