@@ -296,7 +296,7 @@
 <h2 id="h-Problem-statement"><span class="section-number-2">1.</span> Problem statement</h2>
 <div class="outline-text-2" id="text-h-Problem-statement">
 <p>
-This is the same problem as in <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock once"</a> but with the difference
+This is the same problem as in <a href="../buy_sell_stock_once/README.html">"Buy and sell stock once"</a> but with the difference
 that we can buy and sell again within the same range (<a href="#citeproc_bib_item_1">Aziz et al., 2018, p. 53</a>). This means
 that you can buy/sell once, or twice, in order to maximize the profit.
 </p>
@@ -355,7 +355,7 @@ split3 = [1,   2,   3,   1]  [2,   3]
 
 <p>
 This way, we can consider the maximum possible buy/sell profit margin (same
-algorithm as in <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock once"</a>) of each sublist. Then we can work
+algorithm as in <a href="../buy_sell_stock_once/README.html">"Buy and sell stock once"</a>) of each sublist. Then we can work
 with these 2 buy/sell profits and just sum them up as we consider each split.
 </p>
 
@@ -490,7 +490,7 @@ greater profit.
 <h4 id="h-Tweaks"><span class="section-number-4">3.1.2.</span> Tweaks</h4>
 <div class="outline-text-4" id="text-h-Tweaks">
 <p>
-If we use the <code>optimal()</code> algorithm in <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock once"</a> and use that to
+If we use the <code>optimal()</code> algorithm in <a href="../buy_sell_stock_once/README.html">"Buy and sell stock once"</a> and use that to
 replace the call to <code>brute_force()</code>, we can get the time complexity down to
 \(O(n^2)\), because for each sublist, we will call <code>optimal()</code> (which has \(O(n)\)
 time complexity).
@@ -503,10 +503,10 @@ time complexity).
 <h3 id="h-Two-pass-algorithm"><span class="section-number-3">3.2.</span> Two-pass algorithm</h3>
 <div class="outline-text-3" id="text-h-Two-pass-algorithm">
 <p>
-The first pass is basically the same as <code>optimal()</code> from <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock
+The first pass is basically the same as <code>optimal()</code> from <a href="../buy_sell_stock_once/README.html">"Buy and sell stock
 once"</a>, but applied twice &#x2013; once "forward" and again "backward". In the first
 pass, we record the max possible profit if we're selling on that day. This pass
-is basically the same as the optimum solution in <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell stock once"</a>. The
+is basically the same as the optimum solution in <a href="../buy_sell_stock_once/README.html">"Buy and sell stock once"</a>. The
 algorithm there iterates through each price, keeps a running <i>minimum</i> price
 seen (this assumes buying at that time), and records a profit or loss by selling
 on the day it is looking at.
@@ -675,7 +675,7 @@ that we can sell for a second time today (in the current iteration).
     <span class="org-keyword">return</span> <span class="org-constant">None</span>
 </pre></div></div><p>
 Variables <code>min_price_so_far</code> and <code>max_profit_after_first_sell</code> are the
-essentially the same variables used in the optimum solution for <a href="file:///home/l/prog/codex/problem/buy_sell_stock_once/README.html">"Buy and sell
+essentially the same variables used in the optimum solution for <a href="../buy_sell_stock_once/README.html">"Buy and sell
 stock once"</a>.
 </p>
 

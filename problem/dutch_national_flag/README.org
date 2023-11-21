@@ -19,7 +19,7 @@ could say "less than the middle number", "equal to the middle number", and
 quicksort (where the "middle number" is called the /pivot/) is closely related.
 
 If we just consider 2 colors, then this is essentially the same as the
-[[file:~/prog/codex/problem/rearrange_list_even_odd/README.org]["Rearrange list"]] problem which partitioned a list of numbers into 2 groups, all
+[[file:../rearrange_list_even_odd/README.org]["Rearrange list"]] problem which partitioned a list of numbers into 2 groups, all
 even (if any) and odd (if any). There we used 2 indices to keep track of the
 left (even) and right (odd) groups, and we had 3 subgroups: even, unknown, odd.
 We shrank the unknown group to 0, and when this happened (when the even and odd
@@ -81,7 +81,7 @@ just checks whether we still have some nonzero size of unchecked numbers (in
 group "unknown").
 
 As we iterate through the loop, we always check the number pointed by =idx_eq=
-(similar to how we always kept an eye on =idx_odd= in [[file:~/prog/codex/problem/rearrange_list_even_odd/README.org]["Rearrange list"]]).
+(similar to how we always kept an eye on =idx_odd= in [[file:../rearrange_list_even_odd/README.org]["Rearrange list"]]).
 
 Now let's consider the simplest case:
 

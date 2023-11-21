@@ -10,7 +10,7 @@
 Implement a linked list library [cite:@epip 91].
 
 #+begin_sidenote
-The book [cite:@epip] does not actually pose this problem as an interview
+[cite/t:@epip] do not actually pose this problem as an interview
 question, but they advise that implementing this is "an excellent way to become
 comfortable with [linked] lists."
 #+end_sidenote
@@ -104,11 +104,11 @@ to us and then make this new element's node our new head node. This way, we
 still prepend to the list just like before (but without the separate =HEAD_NODE=
 shown above).
 
-One problem with the above  (which is how the book [cite:@epip] implements
+One problem with the above  (which is how [cite/t:@epip] implement
 linked lists) is that there is no way to represent an empty linked list with 0
 nodes (nodes which have data). This is because (1) we must have at least the
 head node to represent a linked list, and (2) because the head node itself has
-data, a linked list cannot be "empty". The book treats the integer =0= as a
+data, a linked list cannot be "empty". [cite/t:@epip] treat the integer =0= as a
 non-data element, but this is awkward at best.
 
 Other than non-emptiness, we face another problem. We cannot easily make the

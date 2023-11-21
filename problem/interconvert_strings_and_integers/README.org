@@ -60,7 +60,7 @@ to it).
             break
 #+end_src
 
-Note that we had to use the =ord()= and =chr()= [[file:~/prog/codex/appendix/python_tricks/README.org][built-ins]]. These make working
+Note that we had to use the =ord()= and =chr()= [[file:../../appendix/python_tricks/README.html#h-Python-built-ins][built-ins]]. These make working
 with ASCII codepoints easier.
 
 #+header: :noweb-ref __NREF__code

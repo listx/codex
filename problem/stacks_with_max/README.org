@@ -39,10 +39,10 @@ class StackNaive:
 #+end_src
 
 We represent the stack with a linked list. We already implemented a linked list
-in [[file:~/prog/codex/problem/linked_lists/README.org]["Linked list"]], so we just reuse that here.
+in [[file:../linked_lists/README.org]["Linked list"]], so we just reuse that here.
 
 #+begin_sidenote
-The book [cite:@epip] uses a native Python list to represent the stack. This is
+[cite/t:@epip] use a native Python list to represent the stack. This is
 simpler to implement. But we choose the linked list instead because it more
 closely mirrors a true stack --- namely, we are somewhat forced look at the
 last-inserted element only (unlike a list where one can do an index lookup to

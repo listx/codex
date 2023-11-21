@@ -7,7 +7,7 @@
 
 * Problem statement
 
-This is the same problem as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] but with the difference
+This is the same problem as in [[file:../buy_sell_stock_once/README.org]["Buy and sell stock once"]] but with the difference
 that we can buy and sell again within the same range [cite:@epip 53]. This means
 that you can buy/sell once, or twice, in order to maximize the profit.
 
@@ -47,7 +47,7 @@ split3 = [1,   2,   3,   1]  [2,   3]
 #+end_example
 
 This way, we can consider the maximum possible buy/sell profit margin (same
-algorithm as in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]) of each sublist. Then we can work
+algorithm as in [[file:../buy_sell_stock_once/README.org]["Buy and sell stock once"]]) of each sublist. Then we can work
 with these 2 buy/sell profits and just sum them up as we consider each split.
 
 The downside with the above approach is that we we're not reusing the
@@ -166,17 +166,17 @@ def brute_force_maybe_sell_twice(prices: list[int]
 
 *** Tweaks
 
-If we use the =optimal()= algorithm in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]] and use that to
+If we use the =optimal()= algorithm in [[file:../buy_sell_stock_once/README.org]["Buy and sell stock once"]] and use that to
 replace the call to =brute_force()=, we can get the time complexity down to
 $O(n^2)$, because for each sublist, we will call =optimal()= (which has $O(n)$
 time complexity).
 
 ** Two-pass algorithm
 
-The first pass is basically the same as =optimal()= from [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock
+The first pass is basically the same as =optimal()= from [[file:../buy_sell_stock_once/README.org]["Buy and sell stock
 once"]], but applied twice -- once "forward" and again "backward". In the first
 pass, we record the max possible profit if we're selling on that day. This pass
-is basically the same as the optimum solution in [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell stock once"]]. The
+is basically the same as the optimum solution in [[file:../buy_sell_stock_once/README.org]["Buy and sell stock once"]]. The
 algorithm there iterates through each price, keeps a running /minimum/ price
 seen (this assumes buying at that time), and records a profit or loss by selling
 on the day it is looking at.
@@ -330,7 +330,7 @@ def single_pass_maybe_sell_twice(prices: list[int]
 #+end_src
 
 Variables =min_price_so_far= and =max_profit_after_first_sell= are the
-essentially the same variables used in the optimum solution for [[file:~/prog/codex/problem/buy_sell_stock_once/README.org]["Buy and sell
+essentially the same variables used in the optimum solution for [[file:../buy_sell_stock_once/README.org]["Buy and sell
 stock once"]].
 
 Variable =max_profit_after_second_buy= will only track the cheapest price
