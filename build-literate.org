@@ -65,7 +65,7 @@ appendix/mathematics/README.html: appendix/mathematics/README.org appendix/mathe
 	$(call run_emacs,(lilac-publish),appendix/mathematics/README.org)
 
 appendix/python_tricks/README.html: appendix/python_tricks/README.org
-	$(call run_emacs,(lilac-publish),appendix/mathematics/README.org)
+	$(call run_emacs,(lilac-publish),appendix/python_tricks/README.org)
 
 check.verified: lint.verified test
 	touch check.verified
