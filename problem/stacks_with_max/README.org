@@ -1,4 +1,4 @@
-#+title: Implement stack with "max" method
+#+title: Stacks (with "max" method)
 #+SETUPFILE: ../../lilac.theme
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
@@ -32,14 +32,14 @@ value.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-from implement_linked_list.linked_list import LinkedList
+from linked_lists.linked_list import LinkedList
 
 class StackNaive:
     __NREF__stack_naive_class_methods
 #+end_src
 
 We represent the stack with a linked list. We already implemented a linked list
-in [[file:~/prog/codex/problem/implement_linked_lists/README.org]["Implement linked lists"]], so we just reuse that here.
+in [[file:~/prog/codex/problem/linked_lists/README.org]["Linked list"]], so we just reuse that here.
 
 #+begin_sidenote
 The book [cite:@epip] uses a native Python list to represent the stack. This is

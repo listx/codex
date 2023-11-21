@@ -1,4 +1,4 @@
-#+title: Implement binary tree
+#+title: Binary trees
 #+SETUPFILE: ../../lilac.theme
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5
@@ -37,7 +37,7 @@ algorithms than linked lists.
 
 ** Relation to binary search trees (BSTs)
 
-[[file:~/prog/codex/problem/implement_binary_search_tree/README.html][Binary /search/ trees]], or BSTs, are binary trees with additional ordering
+[[file:~/prog/codex/problem/binary_search_trees/README.html][Binary /search/ trees]], or BSTs, are binary trees with additional ordering
 guarantees. Whereas BSTs are all about maintaining this ordering guarantee
 (basically that all children on the left node are smaller than all children on
 the right node), plain binary trees are concerned more with the actual structure

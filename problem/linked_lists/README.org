@@ -1,4 +1,4 @@
-#+title: Implement linked list
+#+title: Linked lists
 #+SETUPFILE: ../../lilac.theme
 #+PROPERTY: header-args :noweb no-export
 #+OPTIONS: H:5

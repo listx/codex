@@ -131,7 +131,7 @@ from hypothesis import given, strategies as st
 import random
 import unittest
 
-from implement_linked_list.linked_list import LinkedList
+from linked_lists.linked_list import LinkedList
 
 __NREF__merge
 
