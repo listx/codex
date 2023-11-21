@@ -2,10 +2,10 @@ from hypothesis import given, strategies as st
 import random
 import unittest
 
-import merge_sorted_linked_lists.linked_list as lib
+from implement_linked_list.linked_list import LinkedList
 
-def merge(a: lib.LinkedList, b: lib.LinkedList) -> lib.LinkedList:
-    head = tail = lib.LinkedList()
+def merge(a: LinkedList, b: LinkedList) -> LinkedList:
+    head = tail = LinkedList()
     a = a.next
     b = b.next
     while a or b:
@@ -36,9 +36,9 @@ class Test(unittest.TestCase):
             ([], [1, 2, 3], [1, 2, 3]),
         ]
         for list_a, list_b, list_expected in cases:
-            a = lib.LinkedList(*list_a)
-            b = lib.LinkedList(*list_b)
-            expected = lib.LinkedList(*list_expected)
+            a = LinkedList(*list_a)
+            b = LinkedList(*list_b)
+            expected = LinkedList(*list_expected)
 
             got = merge(a, b)
             self.assertEqual(got, expected,
@@ -51,9 +51,9 @@ class Test(unittest.TestCase):
         size_a = random.randint(0, len(given_elts))
         a = given_elts[0:size_a]
         b = given_elts[size_a:]
-        expected = lib.LinkedList(*sorted(given_elts))
-        got = merge(lib.LinkedList(*sorted(a)),
-                    lib.LinkedList(*sorted(b)))
+        expected = LinkedList(*sorted(given_elts))
+        got = merge(LinkedList(*sorted(a)),
+                    LinkedList(*sorted(b)))
         self.assertEqual(got, expected,
                         msg=f'{got=} {expected=}')
 if __name__ == "__main__":

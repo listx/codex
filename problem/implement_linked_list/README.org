@@ -412,9 +412,7 @@ def test_deletion_nop(self):
 * Export
 
 This linked list library is used in other problems. So we export it here to a
-separate reusable file (aka Python module). Then from a problem folder, we can
-symlink to it to pull it in. This way we don't have to bother with modifying
-Python paths.
+separate reusable file (aka Python module).
 
 The line =from __future__ import annotations= is so that the class methods can
 refer to itself (the enclosing class). See [[https://stackoverflow.com/questions/33533148/how-do-i-type-hint-a-method-with-the-type-of-the-enclosing-class][this discussion]].

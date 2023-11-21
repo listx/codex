@@ -303,7 +303,8 @@
 <li><a href="#h-Max-API">4.6. Max API</a></li>
 </ul>
 </li>
-<li><a href="#h-References">5. References</a></li>
+<li><a href="#h-Export">5. Export</a></li>
+<li><a href="#h-References">6. References</a></li>
 </ul>
 </div>
 </div>
@@ -351,14 +352,16 @@ value.
 <div id="outline-container-h-Store---elt--max-" class="outline-3">
 <h3 id="h-Store---elt--max-"><span class="section-number-3">3.1.</span> Store <code>(elt, max)</code></h3>
 <div class="outline-text-3" id="text-h-Store---elt--max-">
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(1/2) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-1"><span class="org-keyword">class</span> <span class="org-type">StackNaive</span>:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span><span class="lilac-caption-parent-link"><a href="#org0000004">2</a></span>(1/2) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-1"><span class="org-keyword">from</span> implement_linked_list.linked_list <span class="org-keyword">import</span> LinkedList
+
+<span class="org-keyword">class</span> <span class="org-type">StackNaive</span>:
     <span class="lilac-child-link-from-parent"><a href="#__NREF__stack_naive_class_methods-1">stack_naive_class_methods</a></span>
 </pre></div></div><p>
 We represent the stack with a linked list. We already implemented a linked list
 in <a href="file:///home/l/prog/codex/problem/implement_linked_lists/README.html">"Implement linked lists"</a>, so we just reuse that here.
 </p>
 
-<div class="sidenote" id="org0000004">
+<div class="sidenote" id="org0000006">
 <p>
 The book (<a href="#citeproc_bib_item_1">Aziz et al., 2018</a>) uses a native Python list to represent the stack. This is
 simpler to implement. But we choose the linked list instead because it more
@@ -370,7 +373,7 @@ get any element in constant time).
 </div>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-1">stack_naive_class_methods</a></span>(1/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_naive_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_naive_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, <span class="org-operator">*</span>args):
-    <span class="org-keyword">self</span>.<span class="org-variable-name">ll</span> <span class="org-operator">=</span> lib_linked_list.LinkedList()
+    <span class="org-keyword">self</span>.<span class="org-variable-name">ll</span> <span class="org-operator">=</span> LinkedList()
     <span class="org-keyword">for</span> elt <span class="org-keyword">in</span> args:
         <span class="org-keyword">self</span>.push(elt)
 </pre></div></div>
@@ -523,7 +526,7 @@ We inherit from the <code>StackNaive</code> class because we can reuse some of t
 code.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span>(2/2) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-2"><span class="org-keyword">class</span> <span class="org-type">Stack</span>(StackNaive):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">code</a></span><span class="lilac-caption-parent-link"><a href="#org0000004">2</a></span>(2/2) <span class="lilac-caption-link-symbol"><a href="#__NREF__code-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__code-2"><span class="org-keyword">class</span> <span class="org-type">Stack</span>(StackNaive):
     <span class="lilac-child-link-from-parent"><a href="#__NREF__stack_class_methods-1">stack_class_methods</a></span>
 </pre></div></div><p>
 The main thing is that we have to add a new secondary stack (<code>ll_max</code>) to keep
@@ -531,7 +534,7 @@ track of the maximum values.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#__NREF__code-2">stack_class_methods</a></span>(1/11) <span class="lilac-caption-link-symbol"><a href="#__NREF__stack_class_methods-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__stack_class_methods-1"><span class="org-keyword">def</span> <span class="org-function-name">__init__</span>(<span class="org-keyword">self</span>, <span class="org-operator">*</span>args):
-    <span class="org-keyword">self</span>.<span class="org-variable-name">ll_max</span> <span class="org-operator">=</span> lib_linked_list.LinkedList()
+    <span class="org-keyword">self</span>.<span class="org-variable-name">ll_max</span> <span class="org-operator">=</span> LinkedList()
     <span class="org-builtin">super</span>().__init__(<span class="org-operator">*</span>args)
 </pre></div></div>
 </div>
@@ -707,7 +710,7 @@ single newly-pushed element is greater than all previously-pushed elements
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">4.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
-<div class="sidenote" id="org000002b">
+<div class="sidenote" id="org000002d">
 <p>
 The <code>from __future__ import annotations</code> line is to enable self-referencing type
 annotations.
@@ -720,8 +723,6 @@ annotations.
 <span class="org-keyword">import</span> unittest
 <span class="org-keyword">from</span> typing <span class="org-keyword">import</span> Any, Optional
 <span class="org-keyword">import</span> random
-
-<span class="org-keyword">import</span> implement_stack_with_max.linked_list <span class="org-keyword">as</span> lib_linked_list
 
 <span class="lilac-child-link-from-parent"><a href="#__NREF__code-1">code</a></span>
 
@@ -970,8 +971,22 @@ it.
 </div>
 </div>
 
+<div id="outline-container-h-Export" class="outline-2">
+<h2 id="h-Export"><span class="section-number-2">5.</span> Export</h2>
+<div class="outline-text-2" id="text-h-Export">
+<p>
+Make this library available in other problems.
+</p>
+
+<div class="org-src-container"><pre class="src src-python" id="org0000004"><span class="org-keyword">from</span> __future__ <span class="org-keyword">import</span> annotations
+<span class="org-keyword">from</span> typing <span class="org-keyword">import</span> Any, Optional
+<span class="lilac-child-link-from-parent"><a href="#__NREF__code-1">code</a></span>
+</pre></div>
+</div>
+</div>
+
 <div id="outline-container-h-References" class="outline-2">
-<h2 id="h-References"><span class="section-number-2">5.</span> References</h2>
+<h2 id="h-References"><span class="section-number-2">6.</span> References</h2>
 <div class="outline-text-2" id="text-h-References">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry" id="citeproc_bib_item_1">Aziz, A., Lee, T.-H., &#38; Prakash, A. (2018). <i>Elements of Programming Interviews in Python: The Insiders’ Guide</i>. CreateSpace Independent Publishing Platform (25 July. 2018).</div>

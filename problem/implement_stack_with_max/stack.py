@@ -1,11 +1,10 @@
 from __future__ import annotations
 from typing import Any, Optional
-
-import implement_stack_with_max.linked_list as lib_linked_list
+from implement_linked_list.linked_list import LinkedList
 
 class StackNaive:
     def __init__(self, *args):
-        self.ll = lib_linked_list.LinkedList()
+        self.ll = LinkedList()
         for elt in args:
             self.push(elt)
     def push(self, elt: Any) -> None:
@@ -41,7 +40,7 @@ class StackNaive:
         return self.ll == other.ll
 class Stack(StackNaive):
     def __init__(self, *args):
-        self.ll_max = lib_linked_list.LinkedList()
+        self.ll_max = LinkedList()
         super().__init__(*args)
     def push(self, elt: Any) -> None:
         self.ll.insert(elt)

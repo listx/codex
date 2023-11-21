@@ -32,6 +32,8 @@ value.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
+from implement_linked_list.linked_list import LinkedList
+
 class StackNaive:
     __NREF__stack_naive_class_methods
 #+end_src
@@ -50,7 +52,7 @@ get any element in constant time).
 #+header: :noweb-ref __NREF__stack_naive_class_methods
 #+begin_src python
 def __init__(self, *args):
-    self.ll = lib_linked_list.LinkedList()
+    self.ll = LinkedList()
     for elt in args:
         self.push(elt)
 #+end_src
@@ -176,7 +178,7 @@ track of the maximum values.
 #+header: :noweb-ref __NREF__stack_class_methods
 #+begin_src python
 def __init__(self, *args):
-    self.ll_max = lib_linked_list.LinkedList()
+    self.ll_max = LinkedList()
     super().__init__(*args)
 #+end_src
 
@@ -345,8 +347,6 @@ from hypothesis import given, strategies as st
 import unittest
 from typing import Any, Optional
 import random
-
-import implement_stack_with_max.linked_list as lib_linked_list
 
 __NREF__code
 
@@ -584,6 +584,16 @@ def test_max(self):
             stack.pop()
             self.assertEqual(stack.max(), restored_max,
                              msg=f'{stack=}')
+#+end_src
+
+* Export
+
+Make this library available in other problems.
+
+#+begin_src python :eval no :session test :tangle stack.py
+from __future__ import annotations
+from typing import Any, Optional
+__NREF__code
 #+end_src
 
 * References
