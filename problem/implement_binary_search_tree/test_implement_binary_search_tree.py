@@ -18,7 +18,7 @@ class BinarySearchTree:
         self.root = root
     def insert(self, key: int, val: Any=None):
         self.root = self._insert(self.root, key, val)
-    
+
     def _insert(self, x: Optional[Node], key: int, val: Any=None):
         if x is None:
             return Node(key, val)
@@ -41,7 +41,7 @@ class BinarySearchTree:
         return x.count
     def lookup(self, key: int):
         return self._lookup(self.root, key)
-    
+
     def _lookup(self, x: Optional[Node], key: int):
         if x is None:
             return None
@@ -74,32 +74,32 @@ class BinarySearchTree:
                 return x.right
             if x.right is None:
                 return x.left
-    
+
             # We have two children. We need to pick a replacement (smallest key
             # greater than the current key).
-    
+
             # Save a link to the node to be deleted, because we want links to the
             # original children of x.
             y = x
-    
+
             # Get the successor node with the lowest key greater than x.key.
             x = self._min(x.right)
-    
+
             # We can't just do "x.right = y.right" because y.right contains x
             # (self._min(x.right) is a read operation). So delete the successor out
             # of the right subtree, and assign this pruned subtree to be the
             # successor's right child.
             x.right = self._delete_min(y.right)
-    
+
             # The original left child of (the now-deleted) x is now the left child
             # of x's successor. We have to do this operation last because otherwise
             # this left child interferes with the algorithm in _delete_min().
             x.left = y.left
-    
+
         x.count = self._size(x.left) + self._size(x.right) + 1
-    
+
         return x
-    
+
     def min(self) -> Optional[int]:
         if self.root is None:
             return None
@@ -107,7 +107,7 @@ class BinarySearchTree:
         if x is None:
             return None
         return x.key
-    
+
     # Find the node with the smallest key in the given tree, rooted at node x.
     def _min(self, x: Node) -> Node:
         while True:
@@ -116,10 +116,10 @@ class BinarySearchTree:
                 break
             x = x.left
         return x
-    
+
     def delete_min(self):
         self.root = self._delete_min(self.root)
-    
+
     # Return a tree rooted at node x, but with the node containing the smallest key
     # in it removed from this tree.
     def _delete_min(self, x: Optional[Node]) -> Optional[Node]:
@@ -132,27 +132,27 @@ class BinarySearchTree:
         return x
     def traverse_preorder(self, func: Callable[[Node], None]):
         return self._traverse_preorder(self.root, func)
-    
+
     def _traverse_preorder(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
         func(x)
         self._traverse_preorder(x.left, func)
         self._traverse_preorder(x.right, func)
-    
+
     def traverse_inorder(self, func: Callable[[Node], None]):
         return self._traverse_inorder(self.root, func)
-    
+
     def _traverse_inorder(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
         self._traverse_inorder(x.left, func)
         func(x)
         self._traverse_inorder(x.right, func)
-    
+
     def traverse_postorder(self, func: Callable[[Node], None]):
         return self._traverse_postorder(self.root, func)
-    
+
     def _traverse_postorder(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
@@ -161,17 +161,17 @@ class BinarySearchTree:
         func(x)
     def bfs(self, func: Callable[[Node], None]):
         return self._bfs(self.root, func)
-    
+
     def _bfs(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
-    
+
         nodes_at_current_depth = [x]
         while nodes_at_current_depth:
             # Process all nodes at current depth.
             for node in nodes_at_current_depth:
                 func(node)
-    
+
             # Now add all nodes at the next depth.
             children = []
             for node in nodes_at_current_depth:
@@ -181,28 +181,28 @@ class BinarySearchTree:
                     children.append(node.left)
                 if node.right:
                     children.append(node.right)
-    
+
             # Repeat the loop at the next depth.
             nodes_at_current_depth = children
     def bfs_single_pass(self, func: Callable[[Node], None]):
         return self._bfs(self.root, func)
-    
+
     def _bfs_single_pass(self, x: Optional[Node], func: Callable[[Node], None]):
         if x is None:
             return
-    
+
         q = deque([x])
         while q:
             # Process the head of the queue. As we process each one, just before we
             # discard it we check if it has children, and if so, add them to the end
             # of the queue.
-    
+
             node = q.popleft()
             if not node:
                 continue
-    
+
             func(node)
-    
+
             # Add this node's children, if any.
             if node.left:
                 q.append(node.left)
@@ -214,7 +214,7 @@ class Test(unittest.TestCase):
     def test_init_empty(self):
         t = BinarySearchTree()
         self.assertEqual(0, t.size())
-    
+
     def test_init_nonempty(self):
         root = Node(50, "a")
         t = BinarySearchTree(root)
@@ -248,13 +248,13 @@ class Test(unittest.TestCase):
         self.assertEqual(t.size(), 0)
         t.delete(5)
         self.assertEqual(t.size(), 0)
-    
+
         # Delete the root node (no child).
         t = BinarySearchTree()
         t.insert_int(3)
         t.delete(3)
         self.assertEqual(t.size(), 0)
-    
+
         # Delete the root node (successor is left child).
         t = BinarySearchTree()
         t.insert_int(3, 1)
@@ -262,7 +262,7 @@ class Test(unittest.TestCase):
         t.delete(3)
         self.assertEqual(t.size(), 1)
         self.assertEqual(t.root.val, "val=1")
-    
+
         # Delete the root node (successor is right child).
         t = BinarySearchTree()
         t.insert_int(3, 4)
@@ -270,7 +270,7 @@ class Test(unittest.TestCase):
         t.delete(3)
         self.assertEqual(t.size(), 1)
         self.assertEqual(t.root.val, "val=4")
-    
+
         # Delete the root node (has 2 children; replacement is successor of right
         # child, but the right child itself is the successor because it has no
         # children on the left).
@@ -288,7 +288,7 @@ class Test(unittest.TestCase):
         self.assertEqual(t.root.left.val, "val=1")
         self.assertEqual(t.root.left.right.val, "val=2")
         self.assertEqual(t.root.right.val, "val=5")
-    
+
         t = BinarySearchTree()
         t.insert_int(3, 5, 1, 4, 2, 6)
         self.assertEqual(t.size(), 6)
@@ -307,7 +307,7 @@ class Test(unittest.TestCase):
         self.assertEqual(t.root.right.val, "val=6")
         self.assertEqual(t.root.right.left.val, "val=4")
         self.assertEqual(t.root.right.right, None)
-    
+
         t = BinarySearchTree()
         t.insert_int(2, 5, 7, 4, 3, 9, 1, 6)
         self.assertEqual(t.size(), 8)
@@ -341,7 +341,7 @@ class Test(unittest.TestCase):
         t = BinarySearchTree()
         t.insert_int(*keys)
         self.assertEqual(t.size(), starting_size)
-    
+
         # Repeatedly delete from a random node in the tree.
         deleted_count = 0
         for delete_me in to_delete_unique:
@@ -362,7 +362,7 @@ class Test(unittest.TestCase):
         t = BinarySearchTree()
         t.insert_int(*keys)
         self.assertEqual(t.size(), len(keys_unique))
-    
+
         for key in keys:
             t.delete(key)
         self.assertEqual(t.size(), 0)
@@ -370,25 +370,25 @@ class Test(unittest.TestCase):
         traversal_history = []
         def record_traversal_history(x: Node):
             traversal_history.append(x.key)
-    
+
         t = BinarySearchTree()
         t.insert_int(5, 1, 9, 4, 7, 2, 10, 0)
-    
+
         t.traverse_preorder(record_traversal_history)
         self.assertEqual(traversal_history, [5, 1, 0, 4, 2, 9, 7, 10])
-    
+
         traversal_history = []
         t.traverse_inorder(record_traversal_history)
         self.assertEqual(traversal_history, [0, 1, 2, 4, 5, 7, 9, 10])
-    
+
         traversal_history = []
         t.traverse_postorder(record_traversal_history)
         self.assertEqual(traversal_history, [0, 2, 4, 1, 7, 10, 9, 5])
-    
+
         traversal_history = []
         t.bfs(record_traversal_history)
         self.assertEqual(traversal_history, [5, 1, 9, 0, 4, 7, 10, 2])
-    
+
         traversal_history = []
         t.bfs_single_pass(record_traversal_history)
         self.assertEqual(traversal_history, [5, 1, 9, 0, 4, 7, 10, 2])
@@ -398,7 +398,7 @@ class Test(unittest.TestCase):
     def test_delete_random_keys_are_always_sorted(self, keys: list[int]):
         t = BinarySearchTree()
         t.insert_int(*keys)
-    
+
         traversal_history = []
         def record_traversal_history(x: Node):
             traversal_history.append(x.key)

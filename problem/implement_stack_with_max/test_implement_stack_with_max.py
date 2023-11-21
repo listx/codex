@@ -74,7 +74,7 @@ class Stack(StackNaive):
             self.ll_max.delete_after()
             if n > 1:
                 self.ll_max.insert((max_cur, n-1))
-    
+
         return elt
     def __repr__(self):
         elts = []
@@ -95,25 +95,25 @@ class Test(unittest.TestCase):
     def test_init_empty_naive(self):
         stack = StackNaive()
         self.assertEqual(stack.size(), 0)
-    
+
     def test_init_empty(self):
         stack = Stack()
         self.assertEqual(stack.size(), 0)
-    
-    
+
+
     def test_init_singleton_naive(self):
         stack = StackNaive(1)
         self.assertEqual(stack.size(), 1)
-    
+
     def test_init_singleton(self):
         stack = Stack(1)
         self.assertEqual(stack.size(), 1)
-    
-    
+
+
     def test_init_multiple_naive(self):
         stack = StackNaive(1, 2, 3, 4, 5)
         self.assertEqual(stack.size(), 5)
-    
+
     def test_init_multiple(self):
         stack = Stack(1, 2, 3, 4, 5)
         self.assertEqual(stack.size(), 5)
@@ -123,22 +123,22 @@ class Test(unittest.TestCase):
         stack.push(2)
         stack.push(3)
         self.assertEqual(stack, StackNaive(1, 2, 3))
-    
+
     def test_insertion(self):
         stack = Stack()
         stack.push(1)
         stack.push(2)
         stack.push(3)
         self.assertEqual(stack, Stack(1, 2, 3))
-    
-    
+
+
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=0,
                     max_size=20))
     def test_insertion_random_naive(self, given_elts: list[int]):
         stack = StackNaive(*given_elts)
         self.assertEqual(stack.size(), len(given_elts))
-    
+
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=0,
                     max_size=20))
@@ -155,7 +155,7 @@ class Test(unittest.TestCase):
             stack = StackNaive(*elts)
             self.assertEqual(stack.size(), expected,
                              msg=f'{expected=}')
-    
+
     def test_size(self):
         cases = [
             ([], 0),
@@ -178,7 +178,7 @@ class Test(unittest.TestCase):
             y = StackNaive(*ys)
             self.assertEqual(x == y, expected,
                              msg=f'{x=} {y=}')
-    
+
     def test_equality(self):
         cases = [
             ([], [], True),
@@ -196,14 +196,14 @@ class Test(unittest.TestCase):
         stack.pop()
         self.assertEqual(stack, StackNaive(1, 2),
                         msg=f'{stack=}')
-    
+
     def test_deletion_basic(self):
         stack = Stack(1, 2, 3)
         stack.pop()
         self.assertEqual(stack, Stack(1, 2),
                         msg=f'{stack=}')
-    
-    
+
+
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=1,
                     max_size=20))
@@ -213,7 +213,7 @@ class Test(unittest.TestCase):
         for _ in range(deletions):
             stack.pop()
         self.assertEqual(stack.size(), len(given_elts) - deletions)
-    
+
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=1,
                     max_size=20))
@@ -223,13 +223,13 @@ class Test(unittest.TestCase):
         for _ in range(deletions):
             stack.pop()
         self.assertEqual(stack.size(), len(given_elts) - deletions)
-    
-    
+
+
     def test_deletion_nop_naive(self):
         stack = StackNaive()
         stack.pop()
         self.assertEqual(stack.size(), 0)
-    
+
     def test_deletion_nop(self):
         stack = Stack()
         stack.pop()
@@ -255,7 +255,7 @@ class Test(unittest.TestCase):
                 stack.pop()
                 self.assertEqual(stack.max(), restored_max,
                                  msg=f'{stack=}')
-    
+
     def test_max(self):
         cases = [
             ([1, 2, 3], [1, 2, 3], [2, 1]),

@@ -11,7 +11,7 @@ class Test(unittest.TestCase):
     self.assertEqual('abcdefg'[-1], 'g')
     self.assertEqual('abcdefg'[-2], 'f')
     self.assertEqual('abcdefg'[-7], 'a')
-  
+
     # Negative indices do not go on forever.
     with self.assertRaises(IndexError):
       'abcdefg'[-8]

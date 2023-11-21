@@ -79,7 +79,7 @@ define tangle_tests
 $(1)/__init__.py $(1)/test_$(2).py &: $(1)/README.org
 	@echo tangling $(1)/README.org
 	$(call run_emacs,(org-babel-tangle),$(1)/README.org)
-	touch $(shell find $(1) -type f -name '*.py')
+	find $(1) -type f -name '*.py' -execdir sed -i 's/[[:blank:]]*$$$$//' {} +
 endef
 
 # See https://stackoverflow.com/a/9694782/437583.

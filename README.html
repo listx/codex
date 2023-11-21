@@ -788,7 +788,7 @@ define tangle_tests
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/__init__.py $(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test_$(</span><span class="org-variable-name"><span class="org-makefile-targets">2</span></span><span class="org-makefile-targets">).py &amp;</span>: $(<span class="org-variable-name">1</span>)/README.org
     <span class="org-type">@</span><span class="org-makefile-shell">echo tangling $(</span><span class="org-makefile-shell"><span class="org-variable-name">1</span></span><span class="org-makefile-shell">)/README.org</span>
     $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),$(<span class="org-variable-name">1</span>)/README.org)
-    touch $(<span class="org-variable-name">shell</span> find $(<span class="org-variable-name">1</span>) -type f -name <span class="org-string">'*.py'</span>)
+    find $(<span class="org-variable-name">1</span>) -type f -name <span class="org-string">'*.py'</span> -execdir sed -i <span class="org-string">'s/[[:blank:]]*$$$$//'</span> {} +
 endef
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">See https://stackoverflow.com/a/9694782/437583.</span>

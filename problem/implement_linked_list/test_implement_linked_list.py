@@ -29,12 +29,12 @@ class LinkedList:
     def size(self) -> int:
         # Skip head node which doesn't hold any element.
         node = self.next
-    
+
         n = 0
         while node:
             n += 1
             node = node.next
-    
+
         return n
     def __eq__(self, b) -> bool:
         if not isinstance(b, LinkedList):
@@ -48,29 +48,29 @@ class LinkedList:
             return False
         return True
     def lookup(self, elt: Any) -> Optional[LinkedList]:
-    
+
         current_node = self.next
-    
+
         while current_node and current_node.elt != elt:
             current_node = current_node.next
-    
+
         # This will be None if we failed to find the given element.
         return current_node
     def delete_after(self) -> None:
         if self.next is None:
             return
-    
+
         self.next = self.next.next
 
 class Test(unittest.TestCase):
     def test_init_empty(self):
         linked_list = LinkedList()
         self.assertEqual(linked_list.size(), 0)
-    
+
     def test_init_singleton(self):
         linked_list = LinkedList(1)
         self.assertEqual(linked_list.size(), 1)
-    
+
     def test_init_multiple(self):
         linked_list = LinkedList(1, 2, 3, 4, 5)
         self.assertEqual(linked_list.size(), 5)
@@ -80,7 +80,7 @@ class Test(unittest.TestCase):
     def test_insertion_head_without_data(self):
         linked_list = LinkedList(1, 2, 3)
         self.assertEqual(linked_list, LinkedList(1, 2, 3))
-    
+
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=0,
                     max_size=20))
@@ -128,7 +128,7 @@ class Test(unittest.TestCase):
         # If we delete element 1, we're gonna be pointing at 2, then 3.
         linked_list.delete_after()
         self.assertEqual(linked_list, LinkedList(2, 3))
-    
+
     @given(st.lists(st.integers(min_value=1, max_value=100),
                     min_size=1,
                     max_size=20))
@@ -138,7 +138,7 @@ class Test(unittest.TestCase):
         for _ in range(deletions):
             linked_list.delete_after()
         self.assertEqual(linked_list.size(), len(given_elts) - deletions)
-    
+
     def test_deletion_nop(self):
         linked_list = LinkedList()
         linked_list.delete_after()
