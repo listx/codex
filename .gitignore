@@ -1,7 +1,15 @@
 **/__pycache__
 **/*.auctex-auto
 **/*.hypothesis
-tangle
+**/*.pdf
+**/*.svg
+**/*.log
+**/*.py.verified
+check.verified
+lint.verified
+mypy.verified
+ruff.verified
+spellcheck.verified
 test
 update-deps
 weave

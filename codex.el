@@ -7,6 +7,9 @@
 (setq org-cite-csl-styles-dir
       (concat (getenv "LILAC_ROOT") "/deps/styles/"))
 
+(setq org-latex-pdf-process
+  '("lualatex --shell-escape --interaction nonstopmode --output-directory=%o %f"))
+
 ; See https://stackoverflow.com/a/27285582/437583.
 (setq lilac-html-head
       (concat

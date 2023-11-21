@@ -501,70 +501,64 @@ define run_emacs_nobatch
         --load $(<span class="org-variable-name">PROJ_ROOT</span>)/codex.el \
         <span class="org-variable-name">--eval</span>=<span class="org-string">"$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">)"</span>
 endef
-<span class="org-variable-name">src</span> = $(<span class="org-variable-name">shell</span> find problem/ -type f -name <span class="org-string">'*.org'</span>)
-<span class="org-variable-name">src_appendix</span> = $(<span class="org-variable-name">shell</span> find appendix/ -type f -name <span class="org-string">'*.org'</span>)
-<span class="org-variable-name">woven_html</span> = $(<span class="org-variable-name">patsubst</span> problem/%.org, problem/%.html, $(<span class="org-variable-name">src</span>)) \
-    $(<span class="org-variable-name">patsubst</span> appendix/%.org, appendix/%.html, $(<span class="org-variable-name">src_appendix</span>))
+<span class="org-variable-name">src_problem</span> = $(<span class="org-variable-name">shell</span> find problem/ -type f -name <span class="org-string">'README.org'</span>)
+<span class="org-variable-name">woven_html</span> = $(<span class="org-variable-name">patsubst</span> problem/%/README.org, problem/%/README.html, $(<span class="org-variable-name">src_problem</span>)) \
+    appendix/mathematics/README.html appendix/python_tricks/README.html README.html
 <span class="org-comment-delimiter"># </span><span class="org-comment">problem/foo problem/bar ...</span>
 <span class="org-variable-name">problem_dirs</span> = $(<span class="org-variable-name">shell</span> find problem -maxdepth 1 -type d | sort | tail -n+2)
-<span class="org-variable-name">appendix_dirs</span> = $(<span class="org-variable-name">shell</span> find appendix -maxdepth 1 -type d | sort | tail -n+2 | grep -v mathematics)
 <span class="org-comment-delimiter"># </span><span class="org-comment">foo bar ...</span>
 <span class="org-variable-name">problem_dirs_without_prefix</span> = $(<span class="org-variable-name">subst</span> problem/,,$(<span class="org-variable-name">problem_dirs</span>))
-<span class="org-variable-name">appendix_dirs_without_prefix</span> = $(<span class="org-variable-name">subst</span> appendix/,,$(<span class="org-variable-name">appendix_dirs</span>))
+<span class="org-variable-name">test_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'__init__.py'</span> | sed <span class="org-string">'s|/__init__.py||'</span>)
+<span class="org-comment-delimiter"># </span><span class="org-comment">All problem dirs with Tikz-generated images.</span>
+<span class="org-variable-name">image_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'images.org'</span> | sed -e <span class="org-string">'s|/[^/]*$$||'</span> -e <span class="org-string">'s|^problem/||'</span> | sort -u)
+<span class="org-variable-name">all_tests_verified</span> = $(<span class="org-variable-name">patsubst</span> %.py, %.py.verified, $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'test_*.py'</span>))
 
 define weave_org
 
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">2</span>) build-literate.org
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">2</span>) $(<span class="org-variable-name">shell</span> find $(<span class="org-variable-name">3</span>) -type f -name <span class="org-string">'images.org'</span> | xargs grep <span class="org-string">'img.pdf'</span> | sed -e <span class="org-string">'s|images.org:#+header: :file ||'</span> -e <span class="org-string">'s|.img.pdf|.svg|'</span>) build-literate.org
     <span class="org-type">@</span><span class="org-makefile-shell">echo weaving $(</span><span class="org-makefile-shell"><span class="org-variable-name">2</span></span><span class="org-makefile-shell">)</span>
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),$(<span class="org-variable-name">2</span>))
 
 endef
 
-<span class="org-makefile-targets">all</span>: check weave
+<span class="org-makefile-targets">all</span>: check.verified weave
 <span class="org-makefile-targets">.PHONY</span>: all
 
 <span class="lilac-child-link-from-parent"><a href="#__NREF__Makefile-tangle">Makefile-tangle</a></span>
 
-<span class="org-makefile-targets">weave</span>: build-html
-
-<span class="org-makefile-targets">build-html</span>: README.html $(<span class="org-variable-name">woven_html</span>)
-<span class="org-makefile-targets">.PHONY</span>: build-html
-<span class="org-makefile-targets">.PHONY</span>: appendix/mathematics/twos-complement.html
-
-<span class="org-makefile-targets">appendix/mathematics/README.html</span>: appendix/mathematics/README.org appendix/mathematics/twos-complement.org
-    $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),appendix/mathematics/README.org)
+<span class="org-makefile-targets">weave</span>: $(<span class="org-variable-name">woven_html</span>)
+    touch weave
 
 <span class="org-makefile-targets">README.html</span>: build-literate.org README.org citations.bib
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),README.org)
 
-$(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">appendix_dirs_without_prefix</span>),\
-    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> weave_org,\
-    appendix/$(<span class="org-variable-name">d</span>)/README.html,\
-    appendix/$(<span class="org-variable-name">d</span>)/README.org)))
-
 $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),\
     $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> weave_org,\
     problem/$(<span class="org-variable-name">d</span>)/README.html,\
-    problem/$(<span class="org-variable-name">d</span>)/README.org)))
+    problem/$(<span class="org-variable-name">d</span>)/README.org,problem)))
 
-<span class="org-makefile-targets">check</span>: lint test
-<span class="org-makefile-targets">.PHONY</span>: check
+<span class="org-makefile-targets">appendix/mathematics/README.html</span>: appendix/mathematics/README.org appendix/mathematics/twos-complement.org
+    $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),appendix/mathematics/README.org)
 
-<span class="org-makefile-targets">test</span>: tangle
-    python -m unittest discover --failfast --start-directory problem
-    python -m unittest discover --failfast --start-directory appendix
+<span class="org-makefile-targets">appendix/python_tricks/README.html</span>: appendix/python_tricks/README.org
+    $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),appendix/mathematics/README.org)
+
+<span class="org-makefile-targets">check.verified</span>: lint.verified test
+    touch check.verified
+
+<span class="org-makefile-targets">test</span>: $(<span class="org-variable-name">all_tests_verified</span>)
     touch test
 
-<span class="org-makefile-targets">lint</span>: mypy ruff spellcheck
-<span class="org-makefile-targets">.PHONY</span>: lint
+<span class="org-makefile-targets">lint.verified</span>: mypy.verified ruff.verified spellcheck.verified
+    touch lint.verified
 
-<span class="org-makefile-targets">mypy</span>: tangle
+<span class="org-makefile-targets">mypy.verified</span>: $(<span class="org-variable-name">all_tests_verified</span>)
     mypy problem appendix
-<span class="org-makefile-targets">.PHONY</span>: mypy
+    touch mypy.verified
 
-<span class="org-makefile-targets">ruff</span>: tangle
+<span class="org-makefile-targets">ruff.verified</span>: $(<span class="org-variable-name">all_tests_verified</span>)
     ruff problem appendix
-<span class="org-makefile-targets">.PHONY</span>: ruff
+    touch ruff.verified
 
 <span class="lilac-child-link-from-parent"><a href="#__NREF__Makefile-spellcheck">Makefile-spellcheck</a></span>
 
@@ -721,7 +715,15 @@ instead.
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">.gitignore</label><span class="lilac-caption-link-symbol"><a href="#gitignore">&#x1f517;</a></span></div><pre class="src src-gitignore" id="gitignore">**/__pycache__
 **/*.auctex-auto
 **/*.hypothesis
-tangle
+**/*.pdf
+**/*.svg
+**/*.log
+**/*.py.verified
+check.verified
+lint.verified
+mypy.verified
+ruff.verified
+spellcheck.verified
 test
 update-deps
 weave
@@ -743,42 +745,65 @@ code block is given a unique name.
 We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-tangle</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-comment-delimiter"># </span><span class="org-comment">Currently we don't have any optimizations for tangling, but we still set</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.</span>
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">all_tangled_sources</span></span><span class="org-makefile-targets">) tangle &amp;</span>: $(<span class="org-variable-name">src</span>) appendix/python_tricks/README.org
-    <span class="org-type">@</span><span class="org-makefile-shell">echo tangling in parallel</span>
-    <span class="org-variable-name">CODEX_LP_QUICK</span>=1 make -C $(<span class="org-variable-name">PROJ_ROOT</span>) -j$(<span class="org-variable-name">PROCS</span>) $(<span class="org-variable-name">all_tangled_sources</span>)
-    touch tangle
-
-<span class="org-variable-name">build_literate_org_output</span> = .gitattributes .gitignore Makefile shell.nix
-<span class="org-variable-name">all_tangled_sources</span> = citations.bib $(<span class="org-variable-name">build_literate_org_output</span>)\
-    appendix/python_tricks/__init__.py \
-    appendix/python_tricks/test_python_tricks.py \
-    $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),\
-        problem/$(<span class="org-variable-name">p</span>)/__init__.py problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py)
-
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">build_literate_org_output</span></span><span class="org-makefile-targets">) &amp;</span>: build-literate.org
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-tangle</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-variable-name">build_literate_tangled</span> = .gitattributes .gitignore codex.css codex.problem.css codex.el _typos.toml Makefile shell.nix
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">build_literate_tangled</span></span><span class="org-makefile-targets">) &amp;</span>: build-literate.org
     $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),build-literate.org)
+    touch $(<span class="org-variable-name">build_literate_tangled</span>)
 
 <span class="org-makefile-targets">citations.bib</span>: README.org
     $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),README.org)
+    touch citations.bib
 
-<span class="org-makefile-targets">appendix/python_tricks/test_python_tricks.py</span>: appendix/python_tricks/README.org
-    $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),appendix/python_tricks/README.org)
+define generate_img_pdfs
+$(<span class="org-variable-name">shell</span> grep <span class="org-string">'img.pdf'</span> $(<span class="org-variable-name">1</span>) | sed -e <span class="org-string">'s|^|$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">):|'</span> -e <span class="org-string">'s|images.org:#+header: :file ||'</span>) &amp;: $(<span class="org-variable-name">1</span>)
+    <span class="org-type">@</span><span class="org-makefile-shell">echo generating images from $(</span><span class="org-makefile-shell"><span class="org-variable-name">1</span></span><span class="org-makefile-shell">)</span>
+    $(<span class="org-variable-name">call</span> run_emacs,(org-html-export-to-html),$(<span class="org-variable-name">1</span>))
+    rm -f $(<span class="org-variable-name">patsubst</span> %/images.org, %/images.html, $(<span class="org-variable-name">1</span>))
+endef
+
+define generate_img_svgs
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">:</span><span class="org-variable-name"><span class="org-makefile-targets">.img.pdf</span></span><span class="org-makefile-targets">=.svg)</span>: $(<span class="org-variable-name">1</span>)
+    <span class="org-type">@</span><span class="org-makefile-shell">echo generating svg from $(</span><span class="org-makefile-shell"><span class="org-variable-name">1</span></span><span class="org-makefile-shell">)</span>
+    <span class="org-type">@</span><span class="org-makefile-shell">echo $(</span><span class="org-makefile-shell"><span class="org-variable-name">shell</span></span><span class="org-makefile-shell"> pwd)</span>
+    pdf2svg $(<span class="org-variable-name">1</span>) $(<span class="org-variable-name">1</span>).uncropped.svg
+    inkscape \
+        --export-plain-svg \
+        <span class="org-variable-name">--export-margin</span>=5 \
+        <span class="org-variable-name">--export-filename</span>=$(<span class="org-variable-name">1</span>:<span class="org-variable-name">.img.pdf</span>=.svg) \
+        --export-area-drawing \
+        $(<span class="org-variable-name">1</span>).uncropped.svg
+    rm $(<span class="org-variable-name">1</span>).uncropped.svg
+endef
+
+$(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">image_dirs</span>),\
+    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> generate_img_pdfs,\
+    $(<span class="org-variable-name">p</span>)/images.org)))
+
+<span class="org-variable-name">all_img_pdfs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'images.org'</span> | xargs grep <span class="org-string">'img.pdf'</span> | sed <span class="org-string">'s|images.org:#+header: :file ||'</span>)
+$(<span class="org-variable-name">foreach</span> img,$(<span class="org-variable-name">all_img_pdfs</span>),\
+    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> generate_img_svgs,\
+    $(<span class="org-variable-name">img</span>))))
 
 define tangle_tests
-
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">) $(</span><span class="org-variable-name"><span class="org-makefile-targets">2</span></span><span class="org-makefile-targets">) &amp;</span>: $(<span class="org-variable-name">3</span>)
-    <span class="org-type">@</span><span class="org-makefile-shell">echo tangling $(</span><span class="org-makefile-shell"><span class="org-variable-name">3</span></span><span class="org-makefile-shell">)</span>
-    $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),$(<span class="org-variable-name">3</span>))
-
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/__init__.py $(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test_$(</span><span class="org-variable-name"><span class="org-makefile-targets">2</span></span><span class="org-makefile-targets">).py &amp;</span>: $(<span class="org-variable-name">1</span>)/README.org
+    <span class="org-type">@</span><span class="org-makefile-shell">echo tangling $(</span><span class="org-makefile-shell"><span class="org-variable-name">1</span></span><span class="org-makefile-shell">)/README.org</span>
+    $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),$(<span class="org-variable-name">1</span>)/README.org)
+    touch $(<span class="org-variable-name">shell</span> find $(<span class="org-variable-name">1</span>) -type f -name <span class="org-string">'*.py'</span>)
 endef
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">See https://stackoverflow.com/a/9694782/437583.</span>
-$(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-name">problem_dirs_without_prefix</span>),\
-    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> tangle_tests,\
-    problem/$(<span class="org-variable-name">p</span>)/__init__.py,problem/$(<span class="org-variable-name">p</span>)/test_$(<span class="org-variable-name">p</span>).py,\
-    problem/$(<span class="org-variable-name">p</span>)/README.org)))
+$(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">test_dirs</span>),\
+    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> tangle_tests,$(<span class="org-variable-name">d</span>),$(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">d</span>) | sed <span class="org-string">'s|./[^/]\+/||'</span>))))
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">$(</span><span class="org-comment"><span class="org-variable-name">2</span></span><span class="org-comment">) is the name of FOO in problem/FOO/...</span>
+define verify_tests
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test_$(</span><span class="org-variable-name"><span class="org-makefile-targets">2</span></span><span class="org-makefile-targets">).py.verified</span>: $(<span class="org-variable-name">1</span>)/test_$(<span class="org-variable-name">2</span>).py
+    python -m unittest discover --failfast --start-directory $(<span class="org-variable-name">1</span>) --top $(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">1</span>) | sed -e <span class="org-string">'s|./||'</span> -e <span class="org-string">'s|/.\+||'</span>)
+    touch $(<span class="org-variable-name">1</span>)/test_$(<span class="org-variable-name">2</span>).py.verified
+endef
+
+$(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-name">test_dirs</span>),\
+    $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> verify_tests,$(<span class="org-variable-name">d</span>),$(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">d</span>) | sed <span class="org-string">'s|./[^/]\+/||'</span>))))
 </pre></div></div>
 </div>
 </div>
@@ -807,9 +832,9 @@ Here we have the Makefile rules for linting, which include this spellchecker.
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-spellcheck</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-spellcheck">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-spellcheck"><span class="org-variable-name">ORG_FILES</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'*.org'</span>)
 
-<span class="org-makefile-targets">spellcheck</span>: $(<span class="org-variable-name">ORG_FILES</span>)
+<span class="org-makefile-targets">spellcheck.verified</span>: $(<span class="org-variable-name">ORG_FILES</span>)
     typos
-<span class="org-makefile-targets">.PHONY</span>: spellcheck
+    touch spellcheck.verified
 </pre></div></div>
 </div>
 </div>
@@ -834,6 +859,23 @@ new problems).
   <span class="org-nix-attribute">sources</span> = <span class="org-nix-builtin">import</span> <span class="org-nix-constant">./package/nix/sources.nix</span>;
   <span class="org-comment"># The final "pkgs" attribute with all the bells and whistles of our overlays.</span>
   <span class="org-nix-attribute">pkgs</span> = <span class="org-nix-builtin">import</span> sources.nixpkgs {};
+  <span class="org-comment"># This minimalist latex setup is adapted from https://nixos.wiki/wiki/TexLive.</span>
+  <span class="org-nix-attribute">tex_for_orgmode</span> = (pkgs.texlive.combine {
+    <span class="org-comment"># Start with scheme-basic.</span>
+    <span class="org-nix-keyword">inherit</span> (pkgs.texlive) scheme-basic
+      <span class="org-comment"># Add in additional TeX packages (think CTAN package names).</span>
+      wrapfig amsmath ulem hyperref capt-of
+
+      <span class="org-comment"># TikZ.</span>
+      pgf
+      xkeyval
+      fontspec
+
+      <span class="org-comment"># Source Sans Pro font.</span>
+      sourcesanspro
+      ;
+  });
+
 <span class="org-nix-keyword">in</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">This is our development shell.</span>
@@ -841,6 +883,11 @@ pkgs.mkShell ({
   <span class="org-nix-attribute">buildInputs</span> = [
     <span class="org-comment"># Tangling and weaving for Literate Programming.</span>
     pkgs.emacs29-nox
+
+    <span class="org-comment"># Diagrams.</span>
+    pkgs.inkscape
+    pkgs.pdf2svg
+    tex_for_orgmode
 
     <span class="org-comment"># Misc</span>
     pkgs.git
@@ -886,6 +933,9 @@ This is based on Lilac's own code for updating Nix dependencies with <a href="ht
 
 (<span class="org-keyword">setq</span> org-cite-csl-styles-dir
       (concat (getenv <span class="org-string">"LILAC_ROOT"</span>) <span class="org-string">"/deps/styles/"</span>))
+
+(<span class="org-keyword">setq</span> org-latex-pdf-process
+  '(<span class="org-string">"lualatex --shell-escape --interaction nonstopmode --output-directory=%o %f"</span>))
 
 <span class="lilac-child-link-from-parent"><a href="#__NREF__codex-html-head">codex-html-head</a></span>
 </pre></div></div>

@@ -25,70 +25,64 @@ define run_emacs_nobatch
 		--load $(PROJ_ROOT)/codex.el \
 		--eval="$(1)"
 endef
-src = $(shell find problem/ -type f -name '*.org')
-src_appendix = $(shell find appendix/ -type f -name '*.org')
-woven_html = $(patsubst problem/%.org, problem/%.html, $(src)) \
-	$(patsubst appendix/%.org, appendix/%.html, $(src_appendix))
+src_problem = $(shell find problem/ -type f -name 'README.org')
+woven_html = $(patsubst problem/%/README.org, problem/%/README.html, $(src_problem)) \
+	appendix/mathematics/README.html appendix/python_tricks/README.html README.html
 # problem/foo problem/bar ...
 problem_dirs = $(shell find problem -maxdepth 1 -type d | sort | tail -n+2)
-appendix_dirs = $(shell find appendix -maxdepth 1 -type d | sort | tail -n+2 | grep -v mathematics)
 # foo bar ...
 problem_dirs_without_prefix = $(subst problem/,,$(problem_dirs))
-appendix_dirs_without_prefix = $(subst appendix/,,$(appendix_dirs))
+test_dirs = $(shell find . -type f -name '__init__.py' | sed 's|/__init__.py||')
+# All problem dirs with Tikz-generated images.
+image_dirs = $(shell find . -type f -name 'images.org' | sed -e 's|/[^/]*$$||' -e 's|^problem/||' | sort -u)
+all_tests_verified = $(patsubst %.py, %.py.verified, $(shell find . -type f -name 'test_*.py'))
 
 define weave_org
 
-$(1): $(2) build-literate.org
+$(1): $(2) $(shell find $(3) -type f -name 'images.org' | xargs grep 'img.pdf' | sed -e 's|images.org:#+header: :file ||' -e 's|.img.pdf|.svg|') build-literate.org
 	@echo weaving $(2)
 	$(call run_emacs,(lilac-publish),$(2))
 
 endef
 
-all: check weave
+all: check.verified weave
 .PHONY: all
 
 __NREF__Makefile-tangle
 
-weave: build-html
-
-build-html: README.html $(woven_html)
-.PHONY: build-html
-.PHONY: appendix/mathematics/twos-complement.html
-
-appendix/mathematics/README.html: appendix/mathematics/README.org appendix/mathematics/twos-complement.org
-	$(call run_emacs,(lilac-publish),appendix/mathematics/README.org)
+weave: $(woven_html)
+	touch weave
 
 README.html: build-literate.org README.org citations.bib
 	$(call run_emacs,(lilac-publish),README.org)
 
-$(foreach d,$(appendix_dirs_without_prefix),\
-	$(eval $(call weave_org,\
-	appendix/$(d)/README.html,\
-	appendix/$(d)/README.org)))
-
 $(foreach d,$(problem_dirs_without_prefix),\
 	$(eval $(call weave_org,\
 	problem/$(d)/README.html,\
-	problem/$(d)/README.org)))
+	problem/$(d)/README.org,problem)))
 
-check: lint test
-.PHONY: check
+appendix/mathematics/README.html: appendix/mathematics/README.org appendix/mathematics/twos-complement.org
+	$(call run_emacs,(lilac-publish),appendix/mathematics/README.org)
 
-test: tangle
-	python -m unittest discover --failfast --start-directory problem
-	python -m unittest discover --failfast --start-directory appendix
+appendix/python_tricks/README.html: appendix/python_tricks/README.org
+	$(call run_emacs,(lilac-publish),appendix/mathematics/README.org)
+
+check.verified: lint.verified test
+	touch check.verified
+
+test: $(all_tests_verified)
 	touch test
 
-lint: mypy ruff spellcheck
-.PHONY: lint
+lint.verified: mypy.verified ruff.verified spellcheck.verified
+	touch lint.verified
 
-mypy: tangle
+mypy.verified: $(all_tests_verified)
 	mypy problem appendix
-.PHONY: mypy
+	touch mypy.verified
 
-ruff: tangle
+ruff.verified: $(all_tests_verified)
 	ruff problem appendix
-.PHONY: ruff
+	touch ruff.verified
 
 __NREF__Makefile-spellcheck
 
@@ -220,7 +214,15 @@ instead.
 ,**/__pycache__
 ,**/*.auctex-auto
 ,**/*.hypothesis
-tangle
+,**/*.pdf
+,**/*.svg
+,**/*.log
+,**/*.py.verified
+check.verified
+lint.verified
+mypy.verified
+ruff.verified
+spellcheck.verified
 test
 update-deps
 weave
@@ -236,42 +238,65 @@ We simply tangle all major =*.org= files in the toplevel Makefile.
 
 #+name: __NREF__Makefile-tangle
 #+begin_src makefile
-# Currently we don't have any optimizations for tangling, but we still set
-# CODEX_LP_QUICK=1 anyway to align with what we do for weave-quick.
-$(all_tangled_sources) tangle &: $(src) appendix/python_tricks/README.org
-	@echo tangling in parallel
-	CODEX_LP_QUICK=1 make -C $(PROJ_ROOT) -j$(PROCS) $(all_tangled_sources)
-	touch tangle
-
-build_literate_org_output = .gitattributes .gitignore Makefile shell.nix
-all_tangled_sources = citations.bib $(build_literate_org_output)\
-	appendix/python_tricks/__init__.py \
-	appendix/python_tricks/test_python_tricks.py \
-	$(foreach p,$(problem_dirs_without_prefix),\
-		problem/$(p)/__init__.py problem/$(p)/test_$(p).py)
-
-$(build_literate_org_output) &: build-literate.org
+build_literate_tangled = .gitattributes .gitignore codex.css codex.problem.css codex.el _typos.toml Makefile shell.nix
+$(build_literate_tangled) &: build-literate.org
 	$(call run_emacs,(org-babel-tangle),build-literate.org)
+	touch $(build_literate_tangled)
 
 citations.bib: README.org
 	$(call run_emacs,(org-babel-tangle),README.org)
+	touch citations.bib
 
-appendix/python_tricks/test_python_tricks.py: appendix/python_tricks/README.org
-	$(call run_emacs,(org-babel-tangle),appendix/python_tricks/README.org)
+define generate_img_pdfs
+$(shell grep 'img.pdf' $(1) | sed -e 's|^|$(1):|' -e 's|images.org:#+header: :file ||') &: $(1)
+	@echo generating images from $(1)
+	$(call run_emacs,(org-html-export-to-html),$(1))
+	rm -f $(patsubst %/images.org, %/images.html, $(1))
+endef
+
+define generate_img_svgs
+$(1:.img.pdf=.svg): $(1)
+	@echo generating svg from $(1)
+	@echo $(shell pwd)
+	pdf2svg $(1) $(1).uncropped.svg
+	inkscape \
+		--export-plain-svg \
+		--export-margin=5 \
+		--export-filename=$(1:.img.pdf=.svg) \
+		--export-area-drawing \
+		$(1).uncropped.svg
+	rm $(1).uncropped.svg
+endef
+
+$(foreach p,$(image_dirs),\
+	$(eval $(call generate_img_pdfs,\
+	$(p)/images.org)))
+
+all_img_pdfs = $(shell find . -type f -name 'images.org' | xargs grep 'img.pdf' | sed 's|images.org:#+header: :file ||')
+$(foreach img,$(all_img_pdfs),\
+	$(eval $(call generate_img_svgs,\
+	$(img))))
 
 define tangle_tests
-
-$(1) $(2) &: $(3)
-	@echo tangling $(3)
-	$(call run_emacs,(org-babel-tangle),$(3))
-
+$(1)/__init__.py $(1)/test_$(2).py &: $(1)/README.org
+	@echo tangling $(1)/README.org
+	$(call run_emacs,(org-babel-tangle),$(1)/README.org)
+	touch $(shell find $(1) -type f -name '*.py')
 endef
 
 # See https://stackoverflow.com/a/9694782/437583.
-$(foreach p,$(problem_dirs_without_prefix),\
-	$(eval $(call tangle_tests,\
-	problem/$(p)/__init__.py,problem/$(p)/test_$(p).py,\
-	problem/$(p)/README.org)))
+$(foreach d,$(test_dirs),\
+	$(eval $(call tangle_tests,$(d),$(shell echo $(d) | sed 's|./[^/]\+/||'))))
+
+# $(2) is the name of FOO in problem/FOO/...
+define verify_tests
+$(1)/test_$(2).py.verified: $(1)/test_$(2).py
+	python -m unittest discover --failfast --start-directory $(1) --top $(shell echo $(1) | sed -e 's|./||' -e 's|/.\+||')
+	touch $(1)/test_$(2).py.verified
+endef
+
+$(foreach d,$(test_dirs),\
+	$(eval $(call verify_tests,$(d),$(shell echo $(d) | sed 's|./[^/]\+/||'))))
 #+end_src
 
 * Linting
@@ -297,9 +322,9 @@ Here we have the Makefile rules for linting, which include this spellchecker.
 #+begin_src makefile
 ORG_FILES = $(shell find . -type f -name '*.org')
 
-spellcheck: $(ORG_FILES)
+spellcheck.verified: $(ORG_FILES)
 	typos
-.PHONY: spellcheck
+	touch spellcheck.verified
 #+end_src
 
 * Development environment (Nix shell)
@@ -319,6 +344,23 @@ let
   sources = import ./package/nix/sources.nix;
   # The final "pkgs" attribute with all the bells and whistles of our overlays.
   pkgs = import sources.nixpkgs {};
+  # This minimalist latex setup is adapted from https://nixos.wiki/wiki/TexLive.
+  tex_for_orgmode = (pkgs.texlive.combine {
+    # Start with scheme-basic.
+    inherit (pkgs.texlive) scheme-basic
+      # Add in additional TeX packages (think CTAN package names).
+      wrapfig amsmath ulem hyperref capt-of
+
+      # TikZ.
+      pgf
+      xkeyval
+      fontspec
+
+      # Source Sans Pro font.
+      sourcesanspro
+      ;
+  });
+
 in
 
 # This is our development shell.
@@ -326,6 +368,11 @@ pkgs.mkShell ({
   buildInputs = [
     # Tangling and weaving for Literate Programming.
     pkgs.emacs29-nox
+
+    # Diagrams.
+    pkgs.inkscape
+    pkgs.pdf2svg
+    tex_for_orgmode
 
     # Misc
     pkgs.git
@@ -368,6 +415,9 @@ update-deps: package/nix/sources.json package/nix/sources.nix
 
 (setq org-cite-csl-styles-dir
       (concat (getenv "LILAC_ROOT") "/deps/styles/"))
+
+(setq org-latex-pdf-process
+  '("lualatex --shell-escape --interaction nonstopmode --output-directory=%o %f"))
 
 __NREF__codex-html-head
 #+end_src
