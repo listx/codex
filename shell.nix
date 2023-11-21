@@ -45,6 +45,9 @@ pkgs.mkShell ({
     # Spell checking.
     pkgs.typos
 
+    # Link checker.
+    pkgs.lychee
+
     # Python testing and linting.
     pkgs.python39Packages.hypothesis
     pkgs.python39Packages.mypy

@@ -86,7 +86,12 @@ check.verified: lint.verified test
 test: $(all_tests_verified)
 	touch test
 
-lint.verified: mypy.verified ruff.verified spellcheck.verified linelength.verified
+lint.verified: \
+		mypy.verified \
+		ruff.verified \
+		spellcheck.verified \
+		linelength.verified \
+		linkcheck.verified
 	touch lint.verified
 
 mypy.verified: $(all_tests_verified)
@@ -100,6 +105,8 @@ ruff.verified: $(all_tests_verified)
 __NREF__Makefile-spellcheck
 
 __NREF__Makefile-linelength
+
+__NREF__Makefile-linkcheck
 
 # Enter development environment.
 shell:
@@ -235,6 +242,7 @@ instead.
 ,**/*.py.verified
 check.verified
 lint.verified
+linkcheck.verified
 linelength.verified
 mypy.verified
 ruff.verified
@@ -387,6 +395,17 @@ linelength.verified: $(ORG_FILES)
 	touch linelength.verified
 #+end_src
 
+** Link checker
+
+#+name: __NREF__Makefile-linkcheck
+#+begin_src makefile
+HTML_FILES = $(shell find . -type f -name '*.html' | grep -v '^./deps')
+
+linkcheck.verified: $(HTML_FILES)
+	lychee --offline $(HTML_FILES)
+	touch linkcheck.verified
+#+end_src
+
 * Development environment (Nix shell)
 
 This is taken from https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1.
@@ -445,6 +464,9 @@ pkgs.mkShell ({
 
     # Spell checking.
     pkgs.typos
+
+    # Link checker.
+    pkgs.lychee
 
     # Python testing and linting.
     pkgs.python39Packages.hypothesis

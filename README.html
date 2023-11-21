@@ -278,6 +278,7 @@
 <ul>
 <li><a href="#h-Spell-checker">4.3.1. Spell checker</a></li>
 <li><a href="#h-Detect-long-lines">4.3.2. Detect long lines</a></li>
+<li><a href="#h-Link-checker">4.3.3. Link checker</a></li>
 </ul>
 </li>
 <li><a href="#h-Development-environment--Nix-shell">4.4. Development environment (Nix shell)</a>
@@ -612,7 +613,12 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 <span class="org-makefile-targets">test</span>: $(<span class="org-variable-name">all_tests_verified</span>)
     touch test
 
-<span class="org-makefile-targets">lint.verified</span>: mypy.verified ruff.verified spellcheck.verified linelength.verified
+<span class="org-makefile-targets">lint.verified</span>: \
+        mypy.verified \
+        ruff.verified \
+        spellcheck.verified \
+        linelength.verified \
+        linkcheck.verified
     touch lint.verified
 
 <span class="org-makefile-targets">mypy.verified</span>: $(<span class="org-variable-name">all_tests_verified</span>)
@@ -626,6 +632,8 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 <span class="lilac-child-link-from-parent"><a href="#__NREF__Makefile-spellcheck">Makefile-spellcheck</a></span>
 
 <span class="lilac-child-link-from-parent"><a href="#__NREF__Makefile-linelength">Makefile-linelength</a></span>
+
+<span class="lilac-child-link-from-parent"><a href="#__NREF__Makefile-linkcheck">Makefile-linkcheck</a></span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Enter development environment.</span>
 <span class="org-makefile-targets">shell</span>:
@@ -786,6 +794,7 @@ instead.
 **/*.py.verified
 check.verified
 lint.verified
+linkcheck.verified
 linelength.verified
 mypy.verified
 ruff.verified
@@ -955,6 +964,18 @@ word in the line.
 </pre></div></div>
 </div>
 </div>
+
+<div id="outline-container-h-Link-checker" class="outline-4">
+<h4 id="h-Link-checker"><span class="section-number-4">4.3.3.</span> Link checker</h4>
+<div class="outline-text-4" id="text-h-Link-checker">
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-linkcheck</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-linkcheck">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-linkcheck"><span class="org-variable-name">HTML_FILES</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'*.html'</span> | grep -v <span class="org-string">'^./deps'</span>)
+
+<span class="org-makefile-targets">linkcheck.verified</span>: $(<span class="org-variable-name">HTML_FILES</span>)
+    lychee --offline $(<span class="org-variable-name">HTML_FILES</span>)
+    touch linkcheck.verified
+</pre></div></div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h-Development-environment--Nix-shell" class="outline-3">
@@ -1017,6 +1038,9 @@ pkgs.mkShell ({
 
     <span class="org-comment"># Spell checking.</span>
     pkgs.typos
+
+    <span class="org-comment"># Link checker.</span>
+    pkgs.lychee
 
     <span class="org-comment"># Python testing and linting.</span>
     pkgs.python39Packages.hypothesis

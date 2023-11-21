@@ -147,7 +147,12 @@ check.verified: lint.verified test
 test: $(all_tests_verified)
 	touch test
 
-lint.verified: mypy.verified ruff.verified spellcheck.verified linelength.verified
+lint.verified: \
+		mypy.verified \
+		ruff.verified \
+		spellcheck.verified \
+		linelength.verified \
+		linkcheck.verified
 	touch lint.verified
 
 mypy.verified: $(all_tests_verified)
@@ -173,6 +178,12 @@ linelength.verified: $(ORG_FILES)
 		| xargs grep -n '^.\{90\}' > linelength_offenders.log` || true
 	test `wc --bytes linelength_offenders.log | cut -d\  -f1` -eq 0
 	touch linelength.verified
+
+HTML_FILES = $(shell find . -type f -name '*.html' | grep -v '^./deps')
+
+linkcheck.verified: $(HTML_FILES)
+	lychee --offline $(HTML_FILES)
+	touch linkcheck.verified
 
 # Enter development environment.
 shell:
