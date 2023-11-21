@@ -69,8 +69,8 @@ Raise a number =base= to the exponent =exp=. The form =3**4= is shorthand for
 
 ~round(number, ndigits=None)~
 
-From Python 3.11.3 docs: "Return number rounded to ndigits precision after the
-decimal point. If ndigits is omitted or is None, it returns the nearest integer
+From Python 3.11.3 docs: "Return number rounded to =ndigits= precision after the
+decimal point. If =ndigits= is omitted or is None, it returns the nearest integer
 to its input."
 
 This function doesn't see much use in programming problems because rounding
