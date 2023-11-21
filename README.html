@@ -204,6 +204,11 @@
 .problems-table col:nth-of-type(2) { width: 30%; }
 .problems-table col:nth-of-type(3) { width: 30%; }
 </style>
+<style type="text/css">
+.problems-table col:nth-of-type(1) { width:  40%; }
+.problems-table col:nth-of-type(2) { width: 30%; }
+.problems-table col:nth-of-type(3) { width: 30%; }
+</style>
 <script>
 // @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
      function CodeHighlightOn(elem, id)
@@ -239,7 +244,8 @@
 </li>
 <li><a href="#h-Problems">2. Problems</a>
 <ul>
-<li><a href="#h-Appendix">2.1. Appendix</a></li>
+<li><a href="#h-Data-structures">2.1. Data structures</a></li>
+<li><a href="#h-Appendix">2.2. Appendix</a></li>
 </ul>
 </li>
 <li><a href="#h-Tests">3. Tests</a></li>
@@ -328,9 +334,9 @@ libraries other than what's provided by Python's standard libraries.
 </p>
 
 <p>
-The problems are drawn from <a href="#citeproc_bib_item_1">[1]</a>. Other reference materials are cited
-where applicable. Below is a table of every problem, with tags that give a brief
-description of each one, and references.
+The problems are drawn mainly from <a href="#citeproc_bib_item_1">[1]</a>. Other reference materials are
+cited where applicable. Below is a table of every problem, with tags that give a
+brief description of each one, and references.
 </p>
 
 <table class="problems-table">
@@ -394,15 +400,44 @@ description of each one, and references.
 </tr>
 
 <tr>
-<td class="org-left"><a href="problem/implement_linked_list/README.html">Implement linked list</a></td>
-<td class="org-left">linked list</td>
-<td class="org-left"><a href="#citeproc_bib_item_1">[1, p. 91]</a></td>
-</tr>
-
-<tr>
 <td class="org-left"><a href="problem/merge_sorted_linked_lists/README.html">Merge sorted linked lists</a></td>
 <td class="org-left">linked list</td>
 <td class="org-left"><a href="#citeproc_bib_item_1">[1, p. 92]</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-h-Data-structures" class="outline-3">
+<h3 id="h-Data-structures"><span class="section-number-3">2.1.</span> Data structures</h3>
+<div class="outline-text-3" id="text-h-Data-structures">
+<p>
+Some problems can only be solved in an elegant way if we use particular data
+structures. See below for introductory discussions about some of these.
+</p>
+
+<table class="problems-table">
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Tags</th>
+<th scope="col" class="org-left">References</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="problem/implement_linked_list/README.html">Implement linked list</a></td>
+<td class="org-left">linked list</td>
+<td class="org-left"><a href="#citeproc_bib_item_1">[1, p. 91]</a></td>
 </tr>
 
 <tr>
@@ -410,12 +445,26 @@ description of each one, and references.
 <td class="org-left">stack</td>
 <td class="org-left"><a href="#citeproc_bib_item_1">[1, p. 106]</a></td>
 </tr>
+
+<tr>
+<td class="org-left"><a href="problem/implement_binary_tree/README.html">Implement binary tree</a></td>
+<td class="org-left">tree</td>
+<td class="org-left"><a href="#citeproc_bib_item_1">[1, p. 123]</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="problem/implement_binary_search_tree/README.html">Implement binary search tree</a></td>
+<td class="org-left">tree</td>
+<td class="org-left"><a href="#citeproc_bib_item_4">[4, p. 396]</a></td>
+</tr>
 </tbody>
 </table>
 </div>
+</div>
+
 
 <div id="outline-container-h-Appendix" class="outline-3">
-<h3 id="h-Appendix"><span class="section-number-3">2.1.</span> Appendix</h3>
+<h3 id="h-Appendix"><span class="section-number-3">2.2.</span> Appendix</h3>
 <div class="outline-text-3" id="text-h-Appendix">
 <dl class="org-dl">
 <div class="lilac-description-list-entry"><dt><a href="appendix/python_tricks/README.html">Python tricks</a></dt><dd>There are some Python-language-specific tricks available for
