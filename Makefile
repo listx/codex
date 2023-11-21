@@ -14,20 +14,32 @@ define run_emacs_nobatch
 		--eval="$(1)"
 endef
 src_problem = $(shell find problem/ -type f -name 'README.org')
-woven_html = $(patsubst problem/%/README.org, problem/%/README.html, $(src_problem)) \
-	appendix/mathematics/README.html appendix/python_tricks/README.html README.html
-# problem/foo problem/bar ...
+woven_html = \
+	$(patsubst \
+		problem/%/README.org, \
+		problem/%/README.html, \
+		$(src_problem)) \
+	appendix/mathematics/README.html \
+	appendix/python_tricks/README.html \
+	README.html
 problem_dirs = $(shell find problem -maxdepth 1 -type d | sort | tail -n+2)
-# foo bar ...
 problem_dirs_without_prefix = $(subst problem/,,$(problem_dirs))
-test_dirs = $(shell find . -type f -name '__init__.py' | sed 's|/__init__.py||')
+test_dirs = $(shell find . -type f -name '__init__.py' \
+		| sed 's|/__init__.py||')
 # All problem dirs with Tikz-generated images.
-image_dirs = $(shell find . -type f -name 'images.org' | sed -e 's|/[^/]*$$||' -e 's|^problem/||' | sort -u)
-all_tests_verified = $(patsubst %.py, %.py.verified, $(shell find . -type f -name 'test.py'))
+image_dirs = $(shell find . -type f -name 'images.org' \
+		| sed -e 's|/[^/]*$$||' -e 's|^problem/||' | sort -u)
+all_tests_verified = $(patsubst %.py, %.py.verified, \
+		$(shell find . -type f -name 'test.py'))
 
 define weave_org
 
-$(1): $(2) $(shell find $(3) -type f -name 'images.org' | xargs grep 'img.pdf' | sed -e 's|images.org:#+header: :file ||' -e 's|.img.pdf|.svg|') build-literate.org
+$(1): $(2) build-literate.org \
+		$(shell find $(3) -type f -name 'images.org' \
+			| xargs grep 'img.pdf' \
+			| sed \
+				-e 's|images.org:#+header: :file ||' \
+				-e 's|.img.pdf|.svg|')
 	@echo weaving $(2)
 	$(call run_emacs,(lilac-publish),$(2))
 
@@ -36,7 +48,15 @@ endef
 all: check.verified weave
 .PHONY: all
 
-build_literate_tangled = .gitattributes .gitignore codex.css codex.problem.css codex.el _typos.toml Makefile shell.nix
+build_literate_tangled = \
+		.gitattributes \
+		.gitignore \
+		_typos.toml \
+		codex.css \
+		codex.problem.css \
+		codex.el \
+		Makefile \
+		shell.nix
 $(build_literate_tangled) &: build-literate.org
 	$(call run_emacs,(org-babel-tangle),build-literate.org)
 	touch $(build_literate_tangled)
@@ -46,7 +66,10 @@ citations.bib: README.org
 	touch citations.bib
 
 define generate_img_pdfs
-$(shell grep 'img.pdf' $(1) | sed -e 's|^|$(1):|' -e 's|images.org:#+header: :file ||') &: $(1)
+$(shell grep 'img.pdf' $(1) \
+		| sed \
+			-e 's|^|$(1):|' \
+			-e 's|images.org:#+header: :file ||') &: $(1)
 	@echo generating images from $(1)
 	$(call run_emacs,(org-html-export-to-html),$(1))
 	rm -f $(patsubst %/images.org, %/images.html, $(1))
@@ -70,7 +93,9 @@ $(foreach p,$(image_dirs),\
 	$(eval $(call generate_img_pdfs,\
 	$(p)/images.org)))
 
-all_img_pdfs = $(shell find . -type f -name 'images.org' | xargs grep 'img.pdf' | sed 's|images.org:#+header: :file ||')
+all_img_pdfs = $(shell find . -type f -name 'images.org' \
+		| xargs grep 'img.pdf' \
+		| sed 's|images.org:#+header: :file ||')
 $(foreach img,$(all_img_pdfs),\
 	$(eval $(call generate_img_svgs,\
 	$(img))))
@@ -79,7 +104,8 @@ define tangle_tests
 $(1)/__init__.py $(1)/test.py &: $(1)/README.org
 	@echo tangling $(1)/README.org
 	$(call run_emacs,(org-babel-tangle),$(1)/README.org)
-	find $(1) -type f -name '*.py' -execdir sed -i 's/[[:blank:]]*$$$$//' {} +
+	find $(1) -type f -name '*.py' \
+		-execdir sed -i 's/[[:blank:]]*$$$$//' {} +
 endef
 
 # See https://stackoverflow.com/a/9694782/437583.
@@ -88,7 +114,9 @@ $(foreach d,$(test_dirs),\
 
 define verify_tests
 $(1)/test.py.verified: $(1)/test.py
-	python -m unittest discover --failfast --start-directory $(1) --top $(shell echo $(1) | sed -e 's|./||' -e 's|/.\+||')
+	python -m unittest discover \
+		--failfast --start-directory $(1) \
+		--top $(shell echo $(1) | sed -e 's|./||' -e 's|/.\+||')
 	touch $(1)/test.py.verified
 endef
 
@@ -106,7 +134,8 @@ $(foreach d,$(problem_dirs_without_prefix),\
 	problem/$(d)/README.html,\
 	problem/$(d)/README.org,problem)))
 
-appendix/mathematics/README.html: appendix/mathematics/README.org appendix/mathematics/twos-complement.org
+appendix/mathematics/README.html: appendix/mathematics/README.org \
+		appendix/mathematics/twos-complement.org
 	$(call run_emacs,(lilac-publish),appendix/mathematics/README.org)
 
 appendix/python_tricks/README.html: appendix/python_tricks/README.org

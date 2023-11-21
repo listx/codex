@@ -551,20 +551,32 @@ define run_emacs_nobatch
         <span class="org-variable-name">--eval</span>=<span class="org-string">"$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">)"</span>
 endef
 <span class="org-variable-name">src_problem</span> = $(<span class="org-variable-name">shell</span> find problem/ -type f -name <span class="org-string">'README.org'</span>)
-<span class="org-variable-name">woven_html</span> = $(<span class="org-variable-name">patsubst</span> problem/%/README.org, problem/%/README.html, $(<span class="org-variable-name">src_problem</span>)) \
-    appendix/mathematics/README.html appendix/python_tricks/README.html README.html
-<span class="org-comment-delimiter"># </span><span class="org-comment">problem/foo problem/bar ...</span>
+<span class="org-variable-name">woven_html</span> = \
+    $(<span class="org-variable-name">patsubst</span> \
+        problem/%/README.org, \
+        problem/%/README.html, \
+        $(<span class="org-variable-name">src_problem</span>)) \
+    appendix/mathematics/README.html \
+    appendix/python_tricks/README.html \
+    README.html
 <span class="org-variable-name">problem_dirs</span> = $(<span class="org-variable-name">shell</span> find problem -maxdepth 1 -type d | sort | tail -n+2)
-<span class="org-comment-delimiter"># </span><span class="org-comment">foo bar ...</span>
 <span class="org-variable-name">problem_dirs_without_prefix</span> = $(<span class="org-variable-name">subst</span> problem/,,$(<span class="org-variable-name">problem_dirs</span>))
-<span class="org-variable-name">test_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'__init__.py'</span> | sed <span class="org-string">'s|/__init__.py||'</span>)
+<span class="org-variable-name">test_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'__init__.py'</span> \
+        | sed <span class="org-string">'s|/__init__.py||'</span>)
 <span class="org-comment-delimiter"># </span><span class="org-comment">All problem dirs with Tikz-generated images.</span>
-<span class="org-variable-name">image_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'images.org'</span> | sed -e <span class="org-string">'s|/[^/]*$$||'</span> -e <span class="org-string">'s|^problem/||'</span> | sort -u)
-<span class="org-variable-name">all_tests_verified</span> = $(<span class="org-variable-name">patsubst</span> %.py, %.py.verified, $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'test.py'</span>))
+<span class="org-variable-name">image_dirs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'images.org'</span> \
+        | sed -e <span class="org-string">'s|/[^/]*$$||'</span> -e <span class="org-string">'s|^problem/||'</span> | sort -u)
+<span class="org-variable-name">all_tests_verified</span> = $(<span class="org-variable-name">patsubst</span> %.py, %.py.verified, \
+        $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'test.py'</span>))
 
 define weave_org
 
-<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">2</span>) $(<span class="org-variable-name">shell</span> find $(<span class="org-variable-name">3</span>) -type f -name <span class="org-string">'images.org'</span> | xargs grep <span class="org-string">'img.pdf'</span> | sed -e <span class="org-string">'s|images.org:#+header: :file ||'</span> -e <span class="org-string">'s|.img.pdf|.svg|'</span>) build-literate.org
+<span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)</span>: $(<span class="org-variable-name">2</span>) build-literate.org \
+        $(<span class="org-variable-name">shell</span> find $(<span class="org-variable-name">3</span>) -type f -name <span class="org-string">'images.org'</span> \
+            | xargs grep <span class="org-string">'img.pdf'</span> \
+            | sed \
+                -e <span class="org-string">'s|images.org:#+header: :file ||'</span> \
+                -e <span class="org-string">'s|.img.pdf|.svg|'</span>)
     <span class="org-type">@</span><span class="org-makefile-shell">echo weaving $(</span><span class="org-makefile-shell"><span class="org-variable-name">2</span></span><span class="org-makefile-shell">)</span>
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),$(<span class="org-variable-name">2</span>))
 
@@ -586,7 +598,8 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
     problem/$(<span class="org-variable-name">d</span>)/README.html,\
     problem/$(<span class="org-variable-name">d</span>)/README.org,problem)))
 
-<span class="org-makefile-targets">appendix/mathematics/README.html</span>: appendix/mathematics/README.org appendix/mathematics/twos-complement.org
+<span class="org-makefile-targets">appendix/mathematics/README.html</span>: appendix/mathematics/README.org \
+        appendix/mathematics/twos-complement.org
     $(<span class="org-variable-name">call</span> run_emacs,(lilac-publish),appendix/mathematics/README.org)
 
 <span class="org-makefile-targets">appendix/python_tricks/README.html</span>: appendix/python_tricks/README.org
@@ -794,7 +807,15 @@ code block is given a unique name.
 We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-tangle</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-variable-name">build_literate_tangled</span> = .gitattributes .gitignore codex.css codex.problem.css codex.el _typos.toml Makefile shell.nix
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-tangle</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-tangle">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-tangle"><span class="org-variable-name">build_literate_tangled</span> = \
+        .gitattributes \
+        .gitignore \
+        _typos.toml \
+        codex.css \
+        codex.problem.css \
+        codex.el \
+        Makefile \
+        shell.nix
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">build_literate_tangled</span></span><span class="org-makefile-targets">) &amp;</span>: build-literate.org
     $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),build-literate.org)
     touch $(<span class="org-variable-name">build_literate_tangled</span>)
@@ -804,7 +825,10 @@ We simply tangle all major <code>*.org</code> files in the toplevel Makefile.
     touch citations.bib
 
 define generate_img_pdfs
-$(<span class="org-variable-name">shell</span> grep <span class="org-string">'img.pdf'</span> $(<span class="org-variable-name">1</span>) | sed -e <span class="org-string">'s|^|$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">):|'</span> -e <span class="org-string">'s|images.org:#+header: :file ||'</span>) &amp;: $(<span class="org-variable-name">1</span>)
+$(<span class="org-variable-name">shell</span> grep <span class="org-string">'img.pdf'</span> $(<span class="org-variable-name">1</span>) \
+        | sed \
+            -e <span class="org-string">'s|^|$(</span><span class="org-string"><span class="org-variable-name">1</span></span><span class="org-string">):|'</span> \
+            -e <span class="org-string">'s|images.org:#+header: :file ||'</span>) &amp;: $(<span class="org-variable-name">1</span>)
     <span class="org-type">@</span><span class="org-makefile-shell">echo generating images from $(</span><span class="org-makefile-shell"><span class="org-variable-name">1</span></span><span class="org-makefile-shell">)</span>
     $(<span class="org-variable-name">call</span> run_emacs,(org-html-export-to-html),$(<span class="org-variable-name">1</span>))
     rm -f $(<span class="org-variable-name">patsubst</span> %/images.org, %/images.html, $(<span class="org-variable-name">1</span>))
@@ -828,7 +852,9 @@ $(<span class="org-variable-name">foreach</span> p,$(<span class="org-variable-n
     $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> generate_img_pdfs,\
     $(<span class="org-variable-name">p</span>)/images.org)))
 
-<span class="org-variable-name">all_img_pdfs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'images.org'</span> | xargs grep <span class="org-string">'img.pdf'</span> | sed <span class="org-string">'s|images.org:#+header: :file ||'</span>)
+<span class="org-variable-name">all_img_pdfs</span> = $(<span class="org-variable-name">shell</span> find . -type f -name <span class="org-string">'images.org'</span> \
+        | xargs grep <span class="org-string">'img.pdf'</span> \
+        | sed <span class="org-string">'s|images.org:#+header: :file ||'</span>)
 $(<span class="org-variable-name">foreach</span> img,$(<span class="org-variable-name">all_img_pdfs</span>),\
     $(<span class="org-variable-name">eval</span> $(<span class="org-variable-name">call</span> generate_img_svgs,\
     $(<span class="org-variable-name">img</span>))))
@@ -837,7 +863,8 @@ define tangle_tests
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/__init__.py $(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test.py &amp;</span>: $(<span class="org-variable-name">1</span>)/README.org
     <span class="org-type">@</span><span class="org-makefile-shell">echo tangling $(</span><span class="org-makefile-shell"><span class="org-variable-name">1</span></span><span class="org-makefile-shell">)/README.org</span>
     $(<span class="org-variable-name">call</span> run_emacs,(org-babel-tangle),$(<span class="org-variable-name">1</span>)/README.org)
-    find $(<span class="org-variable-name">1</span>) -type f -name <span class="org-string">'*.py'</span> -execdir sed -i <span class="org-string">'s/[[:blank:]]*$$$$//'</span> {} +
+    find $(<span class="org-variable-name">1</span>) -type f -name <span class="org-string">'*.py'</span> \
+        -execdir sed -i <span class="org-string">'s/[[:blank:]]*$$$$//'</span> {} +
 endef
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">See https://stackoverflow.com/a/9694782/437583.</span>
@@ -846,7 +873,9 @@ $(<span class="org-variable-name">foreach</span> d,$(<span class="org-variable-n
 
 define verify_tests
 <span class="org-makefile-targets">$(</span><span class="org-variable-name"><span class="org-makefile-targets">1</span></span><span class="org-makefile-targets">)/test.py.verified</span>: $(<span class="org-variable-name">1</span>)/test.py
-    python -m unittest discover --failfast --start-directory $(<span class="org-variable-name">1</span>) --top $(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">1</span>) | sed -e <span class="org-string">'s|./||'</span> -e <span class="org-string">'s|/.\+||'</span>)
+    python -m unittest discover \
+        --failfast --start-directory $(<span class="org-variable-name">1</span>) \
+        --top $(<span class="org-variable-name">shell</span> echo $(<span class="org-variable-name">1</span>) | sed -e <span class="org-string">'s|./||'</span> -e <span class="org-string">'s|/.\+||'</span>)
     touch $(<span class="org-variable-name">1</span>)/test.py.verified
 endef
 
