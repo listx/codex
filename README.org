@@ -98,8 +98,8 @@ structures. See below for introductory discussions about some of these.
 All solutions to the problems are implemented in Python, and tested with basic
 unit tests and the Hyothesis property-based testing framework. Each problem's
 discussion comes with its own test suite. All source code samples are linted as
-well with ruff and mypy. Suffice it to say that testing has been essential in
-checking the correctness of the puzzle solutions collected in this work.
+well with ruff and mypy. Testing has been extremely valuable in checking the
+correctness of the puzzle solutions collected in this work.
 
 * Literate Programming Build System
 
