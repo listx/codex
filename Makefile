@@ -147,7 +147,7 @@ check.verified: lint.verified test
 test: $(all_tests_verified)
 	touch test
 
-lint.verified: mypy.verified ruff.verified spellcheck.verified
+lint.verified: mypy.verified ruff.verified spellcheck.verified linelength.verified
 	touch lint.verified
 
 mypy.verified: $(all_tests_verified)
@@ -163,6 +163,16 @@ ORG_FILES = $(shell find . -type f -name '*.org')
 spellcheck.verified: $(ORG_FILES)
 	typos
 	touch spellcheck.verified
+
+linelength.verified: $(ORG_FILES)
+	`find . -type f -name '*.org' \
+		| grep -v '^./deps' \
+		| xargs grep '^#+begin_src.\+ :tangle ' \
+		| sed 's,[^/]\+.org.\+:tangle ,,' \
+		| grep -v citations.bib \
+		| xargs grep -n '^.\{90\}' > linelength_offenders.log` || true
+	test `wc --bytes linelength_offenders.log | cut -d\  -f1` -eq 0
+	touch linelength.verified
 
 # Enter development environment.
 shell:

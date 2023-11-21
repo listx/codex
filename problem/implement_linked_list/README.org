@@ -283,7 +283,7 @@ if __name__ == "__main__":
     unittest.main(exit=False)
 #+end_src
 
-#+begin_src python :tangle __init__.py :exports none
+#+begin_src python :exports none :tangle __init__.py
 #+end_src
 
 ** Initialization

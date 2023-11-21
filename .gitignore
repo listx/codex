@@ -7,6 +7,7 @@
 **/*.py.verified
 check.verified
 lint.verified
+linelength.verified
 mypy.verified
 ruff.verified
 spellcheck.verified

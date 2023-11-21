@@ -107,7 +107,7 @@ checking the correctness of the puzzle solutions collected in this work.
 
 * References
 
-#+begin_src bibtex :tangle citations.bib :eval no :exports none
+#+begin_src bibtex :eval no :exports none :tangle citations.bib
 @book{epip,
     title = {{Elements of Programming Interviews in Python: The Insiders'
                   Guide}},

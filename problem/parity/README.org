@@ -567,7 +567,7 @@ if __name__ == "__main__":
 The below =__init__.py= bit allows Python to discover the unit tests.
 #+end_comment
 
-#+begin_src python :tangle __init__.py :exports none
+#+begin_src python :exports none :tangle __init__.py
 #+end_src
 
 * References

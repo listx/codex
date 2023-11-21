@@ -9,7 +9,7 @@ it.
 
 #+name: Makefile
 #+caption: Makefile
-#+begin_src makefile :tangle Makefile :eval no
+#+begin_src makefile :eval no :tangle Makefile
 PROJ_ROOT := $(shell git rev-parse --show-toplevel)
 LILAC_ROOT := $(PROJ_ROOT)/deps/elisp/lilac
 PROCS := $(shell nproc)
@@ -86,7 +86,7 @@ check.verified: lint.verified test
 test: $(all_tests_verified)
 	touch test
 
-lint.verified: mypy.verified ruff.verified spellcheck.verified
+lint.verified: mypy.verified ruff.verified spellcheck.verified linelength.verified
 	touch lint.verified
 
 mypy.verified: $(all_tests_verified)
@@ -98,6 +98,8 @@ ruff.verified: $(all_tests_verified)
 	touch ruff.verified
 
 __NREF__Makefile-spellcheck
+
+__NREF__Makefile-linelength
 
 # Enter development environment.
 shell:
@@ -203,7 +205,7 @@ data.
 
 #+name: .gitattributes
 #+caption: .gitattributes
-#+begin_src gitattributes :tangle .gitattributes :eval no
+#+begin_src gitattributes :eval no :tangle .gitattributes
 ,* -diff
 ,**/*.org diff
 ,**/.gitattributes diff
@@ -223,7 +225,7 @@ instead.
 
 #+name: .gitignore
 #+caption: .gitignore
-#+begin_src gitignore :tangle .gitignore :eval no
+#+begin_src gitignore :eval no :tangle .gitignore
 ,**/__pycache__
 ,**/*.auctex-auto
 ,**/*.hypothesis
@@ -233,6 +235,7 @@ instead.
 ,**/*.py.verified
 check.verified
 lint.verified
+linelength.verified
 mypy.verified
 ruff.verified
 spellcheck.verified
@@ -336,7 +339,7 @@ check the original source material --- Org files.
 
 #+name: _typos.toml
 #+caption: _typos.toml
-#+begin_src toml :tangle _typos.toml :eval no
+#+begin_src toml :eval no :tangle _typos.toml
 [files]
 extend-exclude = [
     "*.html",
@@ -355,6 +358,35 @@ spellcheck.verified: $(ORG_FILES)
 	touch spellcheck.verified
 #+end_src
 
+** Detect long lines
+
+For code we tangle, we want lines to be roughly 80 characters. This limit is
+actually a bit difficult to enforce because sometimes the source code blocks we
+edit get placed into an indented location, and from the source code block itself
+we cannot tell how much this indentation is exactly. So set the maximum line
+length for tangled text to be 90 characters.
+
+We have to wrap the =find ...= invocation with =|| true= because =xargs= will
+exit with =123= if the last =grep= call can't find a match. That is, in our case
+not finding a match is a *good* thing but the inner =grep= doesn't know that.
+
+This code detects which files to look at by looking at lines in Org files that
+start with =#+begin_src= and end with =:tangle foo=, where =foo= is the last
+word in the line.
+
+#+name: __NREF__Makefile-linelength
+#+begin_src makefile
+linelength.verified: $(ORG_FILES)
+	`find . -type f -name '*.org' \
+		| grep -v '^./deps' \
+		| xargs grep '^#+begin_src.\+ :tangle ' \
+		| sed 's,[^/]\+.org.\+:tangle ,,' \
+		| grep -v citations.bib \
+		| xargs grep -n '^.\{90\}' > linelength_offenders.log` || true
+	test `wc --bytes linelength_offenders.log | cut -d\  -f1` -eq 0
+	touch linelength.verified
+#+end_src
+
 * Development environment (Nix shell)
 
 This is taken from https://github.com/tweag/haskell-stack-nix-example/blob/b9383e35416a2b0e21fbc97ed079538f9f395b6a/shell.nix#L1.
@@ -366,7 +398,7 @@ new problems).
 
 #+name: shell.nix
 #+caption: shell.nix
-#+begin_src nix :tangle shell.nix :eval no
+#+begin_src nix :eval no :tangle shell.nix
 let
   # Nixpkgs snapshot.
   sources = import ./package/nix/sources.nix;
@@ -434,7 +466,7 @@ update-deps: package/nix/sources.json package/nix/sources.nix
 
 #+name: codex.el
 #+caption: codex.el
-#+begin_src emacs-lisp :tangle codex.el :eval no
+#+begin_src emacs-lisp :eval no :tangle codex.el
 (setq org-cite-csl-styles-dir
       (concat (getenv "LILAC_ROOT") "/deps/styles/"))
 
