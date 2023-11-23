@@ -1,0 +1,23 @@
+* Height-balanced binary tree of height 4
+
+#+header: :eval yes
+#+header: :file binary_tree_height_balanced.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\usetikzlibrary {graphs,graphdrawing} \usegdlibrary {trees}
+\tikz \graph [binary tree layout, nodes={draw,circle}, sibling sep=0pt]
+  { 1 -- {2 -- {3 -- {4 -- {5, 6}, 7}, 8 -- {9, 10}}, 11 -- {12 -- {13, 14}, 15}}};
+#+end_src
+
+* Degenerate tree
+
+#+header: :eval yes
+#+header: :file binary_tree_degenerate.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\usetikzlibrary {graphs,graphdrawing} \usegdlibrary {trees}
+\tikz \graph [binary tree layout, nodes={draw,circle}, sibling sep=0pt]
+  { A -- {B -- {C -- {D -- {E,},},},}};
+#+end_src
