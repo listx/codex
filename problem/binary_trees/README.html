@@ -826,8 +826,8 @@ and right links included natively in each binary tree node.
 The version above needs to loop through <code>nodes_at_current_depth</code> twice in each
 outer <code>while</code> loop iteration. The version below only uses a single <code>for</code> loop
 inside the <code>while</code> loop, at the cost of needing to rename the
-<code>nodes_at_current_depth</code> variable (it is no longer only holding nodes at the
-current level, but instead at the current and next level as it gets mutated
+<code>nodes_at_current_depth</code> variable to <code>q</code> (it is no longer only holding nodes at
+the current level, but instead at the current and next level as it gets mutated
 in-place).
 </p>
 

@@ -473,8 +473,8 @@ def _bfs(self, x: Optional[Node], func: Callable[[Node], None]):
 The version above needs to loop through =nodes_at_current_depth= twice in each
 outer =while= loop iteration. The version below only uses a single =for= loop
 inside the =while= loop, at the cost of needing to rename the
-=nodes_at_current_depth= variable (it is no longer only holding nodes at the
-current level, but instead at the current and next level as it gets mutated
+=nodes_at_current_depth= variable to =q= (it is no longer only holding nodes at
+the current level, but instead at the current and next level as it gets mutated
 in-place).
 
 #+header: :noweb-ref __NREF__binary_tree_class_methods
