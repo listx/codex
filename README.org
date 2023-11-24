@@ -71,12 +71,13 @@ structures. See below for introductory discussions about some of these.
 #+HTML_HEAD: .problems-table col:nth-of-type(3) { width: 30%; }
 #+HTML_HEAD: </style>
 #+ATTR_HTML: :class problems-table
-| Name                       | Tags        | References            |
-|----------------------------+-------------+-----------------------|
-| [[file:problem/linked_lists/README.org][Linked lists]]               | linked list | [cite:@epip 91]       |
-| [[file:problem/stacks_with_max/README.org][Stacks (with "max" method)]] | stack       | [cite:@epip 106]      |
-| [[file:problem/binary_trees/README.org][Binary trees]]               | tree        | [cite:@epip 123]      |
-| [[file:problem/binary_search_trees/README.org][Binary search trees]]        | tree        | [cite:@sedgewick 396] |
+| Name                       | Tags                       | References            |
+|----------------------------+----------------------------+-----------------------|
+| [[file:problem/linked_lists/README.org][Linked lists]]               | linked list                | [cite:@epip 91]       |
+| [[file:problem/stacks_with_max/README.org][Stacks (with "max" method)]] | stack                      | [cite:@epip 106]      |
+| [[file:problem/binary_trees/README.org][Binary trees]]               | tree                       | [cite:@epip 123]      |
+| [[file:problem/binary_search_trees/README.org][Binary search trees]]        | tree                       | [cite:@sedgewick 396] |
+| [[file:problem/heap/README.org][Heaps]]                      | tree, heap, priority queue | [cite:@sedgewick 308] |
 
 
 ** Appendix
