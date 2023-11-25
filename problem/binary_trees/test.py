@@ -52,13 +52,13 @@ class Test(unittest.TestCase):
         self.assertRaises(ValueError, t.lookup, [])
         self.assertEqual(t.size(), 0)
 
-        t = self.make_perfect_tree(3)
+        t = self.make_complete_tree(3)
         self.assertEqual(t.lookup([]), 1)
         self.assertEqual(t.lookup([0]), 2)
         self.assertEqual(t.lookup([1]), 3)
         self.assertEqual(t.size(), 3)
 
-        t = self.make_perfect_tree(1)
+        t = self.make_complete_tree(1)
         self.assertEqual(t.lookup([]), 1)
         deleted = t.delete()
         self.assertEqual(deleted, 1)
@@ -66,7 +66,7 @@ class Test(unittest.TestCase):
         self.assertEqual(t.size(), 0)
 
         # Deleting the child of a leaf node is a NOP (there's nothing to delete).
-        t = self.make_perfect_tree(3)
+        t = self.make_complete_tree(3)
         self.assertEqual(t.lookup([]), 1)
         self.assertEqual(t.lookup([0]), 2)
         self.assertEqual(t.lookup([1]), 3)
@@ -82,7 +82,7 @@ class Test(unittest.TestCase):
         t.delete(self.tree_path(2))
         self.assertEqual(t.size(), 2)
 
-        t = self.make_perfect_tree(3)
+        t = self.make_complete_tree(3)
         self.assertEqual(t.size(), 3)
         t.delete([]) # Delete root node.
         self.assertEqual(t.lookup([]), 2)
@@ -92,7 +92,7 @@ class Test(unittest.TestCase):
         self.assertEqual(t.size(), 2)
 
         # Delete non-root, leaf node (no children).
-        t = self.make_perfect_tree(3)
+        t = self.make_complete_tree(3)
         self.assertEqual(t.lookup([]), 1)
         self.assertEqual(t.size(), 3)
         self.assertEqual(t.root.val, 1)
@@ -106,7 +106,7 @@ class Test(unittest.TestCase):
         self.assertEqual(t.size(), 1)
 
         # Delete non-root node (1 child). We want to delete 2, when 4 is its child.
-        t = self.make_perfect_tree(4)
+        t = self.make_complete_tree(4)
         self.assertEqual(t.size(), 4)
         self.assertEqual(t.lookup([0]), 2)
         self.assertEqual(t.lookup([0, 0]), 4)
@@ -118,7 +118,7 @@ class Test(unittest.TestCase):
         self.assertRaises(ValueError, t.lookup, [0])
 
         # Same as above, but the successor is the right child.
-        t = self.make_perfect_tree(6)
+        t = self.make_complete_tree(6)
         self.assertEqual(t.size(), 6)
         self.assertEqual(t.lookup([0]), 2)
         self.assertEqual(t.lookup([0, 0]), 4)
@@ -132,7 +132,7 @@ class Test(unittest.TestCase):
 
         # Delete non-root node which has 2 children. Expect its leftmost leaf node
         # to be its successor.
-        t = self.make_perfect_tree(8)
+        t = self.make_complete_tree(8)
         self.assertEqual(t.size(), 8)
         # Delete 2. This makes 8 the leftmost leaf node, making it its successor.
         t.delete([0])
@@ -199,8 +199,8 @@ class Test(unittest.TestCase):
         traversal_history = []
         t.bfs_single_pass(record_traversal_history)
         self.assertEqual(traversal_history, [5, 1, 9, 0, 4, 7, 10, 2])
-    # Helper function to create full trees of a given size.
-    def make_perfect_tree(self, size: int):
+    # Helper function to create complete trees of a given size.
+    def make_complete_tree(self, size: int):
         t = BinaryTree()
         for n in range(1, size + 1):
             t.insert(n, self.tree_path(n))
@@ -220,7 +220,7 @@ class Test(unittest.TestCase):
     @given(st.integers(min_value=1, max_value=30))
     def test_delete_random_at_root(self, deletions: int):
         starting_size = 31
-        t = self.make_perfect_tree(starting_size)
+        t = self.make_complete_tree(starting_size)
         # Repeatedly delete from the root node.
         for _ in range(deletions):
             t.delete([])
@@ -230,7 +230,7 @@ class Test(unittest.TestCase):
                     max_size=15))
     def test_delete_random_at_random(self, deletion_paths: list[int]):
         starting_size = 15
-        t = self.make_perfect_tree(starting_size)
+        t = self.make_complete_tree(starting_size)
         self.assertEqual(t.size(), 15)
 
         # Repeatedly delete from a random node in the tree.
