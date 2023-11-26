@@ -242,6 +242,14 @@ simulate using a fixed-size array, which would give the best performance (as
 long as we are operating within the allocated size of the array, we won't get
 hit with an array reallocation penalty if we needed to grow the array).
 
+#+begin_sidenote
+Instead of using =_get_key()=, we could just expect the objects to implement a
+=__lt()__= method, making them inherently comparable without an explicit /key/.
+But then the author of the object, not the caller, would have control over how
+the objects are compared. This may be a deal-breaker for users of our heap if
+they don't have control over how the =__lt()__= method is implemented.
+#+end_sidenote
+
 We also make use of a =_get_key()= function that returns the /key/ of an item in
 the heap. The idea is that you can provide custom functions for this so that you
 can compare arbitrary objects against each other (that is, this heap
