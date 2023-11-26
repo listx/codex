@@ -27,7 +27,7 @@ trees have a height difference of at most 1, such as in the example below.
 
 ** Brute force
 
-We reuse the [[file:../binary_trees/README.org][binary tree library we created earlier]].
+We reuse the [[file:../binary_tree/README.org][binary tree library we created earlier]].
 
 Basically, we just compute height of trees rooted at every node. Then it's just
 a matter of traversing the entire tree and making sure that the two subtrees
@@ -48,7 +48,7 @@ level.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-from binary_trees.binary_tree import BinaryTree, Node
+from binary_tree.binary_tree import BinaryTree, Node
 
 def height(x: Optional[Node]) -> int:
     if x is None:

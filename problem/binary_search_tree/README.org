@@ -25,7 +25,7 @@ Implement a binary search tree (BST) [cite:@sedgewick p. 396].
 
 ** Sorted binary trees
 
-Binary search trees are basically [[file:../binary_trees/README.org][binary trees]] with one major difference:
+Binary search trees are basically [[file:../binary_tree/README.org][binary trees]] with one major difference:
 instead of manually controlling exactly where nodes should go in the structure
 of the tree (during insertion), we give up this control in exchange for
 predictable (and typically very fast) performance.
@@ -222,7 +222,7 @@ def insert_int(self, *args: int):
 
 ** Size
 
-Just like we did for [[file:../binary_trees/README.org][binary trees]], getting the size is just a field lookup.
+Just like we did for [[file:../binary_tree/README.org][binary trees]], getting the size is just a field lookup.
 During insertion and deletion we make sure that the =count= field is updated.
 
 #+header: :noweb-ref __NREF__binary_search_tree_class_methods
@@ -259,7 +259,7 @@ def _lookup(self, x: Optional[Node], key: int):
 
 ** Deletion
 
-Deletion is tricky, for the same reasons that we had for [[file:../binary_trees/README.org][binary trees]].
+Deletion is tricky, for the same reasons that we had for [[file:../binary_tree/README.org][binary trees]].
 
 When we want to delete a node, we have to first search for the node we want to
 delete. Then once we find the node we want to delete, we again have 3 cases:
@@ -382,7 +382,7 @@ def _delete_min(self, x: Optional[Node]) -> Optional[Node]:
 
 ** Traversal
 
-The code here is identical to the code for [[file:../binary_trees/README.org][binary trees]]. See the discussion
+The code here is identical to the code for [[file:../binary_tree/README.org][binary trees]]. See the discussion
 around traversal there.
 
 #+header: :noweb-ref __NREF__binary_search_tree_class_methods

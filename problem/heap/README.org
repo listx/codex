@@ -163,7 +163,7 @@ because it minimizes the cost of =insert()= and =pop_max()=.
 
 We won't be implementing a tree-based heap though, mainly because in order to do
 so we need to be able to go up to a parent node from a child node, and our
-existing [[file:../binary_trees/README.org][binary trees]] implementation's nodes only has links to its children, not
+existing [[file:../binary_tree/README.org][binary trees]] implementation's nodes only has links to its children, not
 its parent.
 
 ** Optimal solution: array-based heap
@@ -198,7 +198,7 @@ respectively.
 
 In summary we use binary digits to mean "go left" (0) or "go right" (1), and if
 we use 0-based indexing we can very easily associate a binary number with a
-position in the binary tree. This scheme is the one we used in our [[file:../binary_trees/README.org][binary trees]]
+position in the binary tree. This scheme is the one we used in our [[file:../binary_tree/README.org][binary trees]]
 implementation to specify "directions" for figuring out the location of the node
 in the overall tree.
 

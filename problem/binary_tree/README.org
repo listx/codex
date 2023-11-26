@@ -37,7 +37,7 @@ algorithms than linked lists.
 
 ** Relation to binary search trees (BSTs)
 
-[[file:../binary_search_trees/README.org][Binary /search/ trees]], or BSTs, are binary trees with additional ordering
+[[file:../binary_search_tree/README.org][Binary /search/ trees]], or BSTs, are binary trees with additional ordering
 guarantees. Whereas BSTs are all about maintaining this ordering guarantee
 (basically that all children on the left node are smaller than all children on
 the right node), plain binary trees are concerned more with the actual structure

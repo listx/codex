@@ -2,7 +2,7 @@ from hypothesis import given, strategies as st
 import random
 import unittest
 
-from linked_lists.linked_list import LinkedList
+from linked_list.linked_list import LinkedList
 
 def merge(a: LinkedList, b: LinkedList) -> LinkedList:
     head = tail = LinkedList()

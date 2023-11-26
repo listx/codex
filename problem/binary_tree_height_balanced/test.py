@@ -3,7 +3,7 @@ from hypothesis import given, strategies as st
 from typing import Optional, NamedTuple
 import unittest
 
-from binary_trees.binary_tree import BinaryTree, Node
+from binary_tree.binary_tree import BinaryTree, Node
 
 def height(x: Optional[Node]) -> int:
     if x is None:

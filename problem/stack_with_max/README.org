@@ -32,14 +32,14 @@ value.
 
 #+header: :noweb-ref __NREF__code
 #+begin_src python
-from linked_lists.linked_list import LinkedList
+from linked_list.linked_list import LinkedList
 
 class StackNaive:
     __NREF__stack_naive_class_methods
 #+end_src
 
 We represent the stack with a linked list. We already implemented a linked list
-in [[file:../linked_lists/README.org]["Linked list"]], so we just reuse that here.
+in [[file:../linked_list/README.org]["Linked lists"]], so we just reuse that here.
 
 #+begin_sidenote
 [cite/t:@epip] use a native Python list to represent the stack. This is

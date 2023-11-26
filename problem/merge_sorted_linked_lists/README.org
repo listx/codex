@@ -20,7 +20,7 @@ to a /tail/ node. Otherwise if we keep appending from the head, we'll end up
 prepending things instead of appending things, ending up with nodes in reversed
 order.
 
-Note that we use the linked list library implemented in [[file:../linked_lists/README.org]["Implement linked
+Note that we use the linked list library implemented in [[file:../linked_list/README.org]["Linked
 lists"]]. There, the =insert()= method creates a new =LinkedList= object each
 time. This is a bit expensive because we already have the objects allocated in
 the input lists =a= and =b=.
@@ -131,7 +131,7 @@ from hypothesis import given, strategies as st
 import random
 import unittest
 
-from linked_lists.linked_list import LinkedList
+from linked_list.linked_list import LinkedList
 
 __NREF__merge
 
