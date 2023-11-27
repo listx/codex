@@ -641,6 +641,12 @@ def test_pop_max_bf(self):
 
 ** Property-based tests
 
+#+begin_sidenote
+Traditional heapsort actually does not use extra space. It "heapifies" the given
+array of items in-place. This is obviously an improvement over using an
+auxiliary heap as we do in =test_heap_sort()=.
+#+end_sidenote
+
 Check that we can use the heap to sort items (aka "heapsort"). We also check
 that the optimal version agrees with the brute force version.
 

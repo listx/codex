@@ -1006,6 +1006,15 @@ inherited from <code>MaxHeap</code>, because they don't make sense for a min-hea
 <div id="outline-container-h-Property-based-tests" class="outline-3">
 <h3 id="h-Property-based-tests"><span class="section-number-3">4.5.</span> Property-based tests</h3>
 <div class="outline-text-3" id="text-h-Property-based-tests">
+<div class="sidenote" id="org000002e">
+<p>
+Traditional heapsort actually does not use extra space. It "heapifies" the given
+array of items in-place. This is obviously an improvement over using an
+auxiliary heap as we do in <code>test_heap_sort()</code>.
+</p>
+
+</div>
+
 <p>
 Check that we can use the heap to sort items (aka "heapsort"). We also check
 that the optimal version agrees with the brute force version.
