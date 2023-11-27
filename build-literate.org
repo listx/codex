@@ -350,7 +350,7 @@ $(foreach d,$(test_dirs),\
 
 ** Spell checker
 
-We use [[https://crates.io/crates/typos-cli][typos-cli]] to check for spelling errors. Below we configure it to only
+We use [[https://github.com/crate-ci/typos][typos-cli]] to check for spelling errors. Below we configure it to only
 check the original source material --- Org files.
 
 #+name: _typos.toml
