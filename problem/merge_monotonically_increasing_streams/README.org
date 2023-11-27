@@ -123,6 +123,18 @@ def merge_optimal(streams: List[Iterator[int]]) -> Iterator[int]:
             heapq.heappush(buf, (next_item, stream_id))
 #+end_src
 
+Python's =heapq= module comes with a =merge()= method, so we can use that
+directly as well (and also use in our tests).
+
+#+name: __NREF__optimal_pythonic
+#+begin_src python
+def merge_optimal_pythonic(streams: List[Iterator[int]]) -> Iterator[int]:
+    combined_stream = heapq.merge(*streams)
+
+    for item in combined_stream:
+        yield item
+#+end_src
+
 * Tests
 
 #+name: __NREF__Tests
@@ -137,6 +149,7 @@ import unittest
 
 __NREF__brute_force
 __NREF__optimal
+__NREF__optimal_pythonic
 
 # Utilities.
 def drain(stream: Iterator[int]) -> List[int]:
@@ -203,10 +216,16 @@ def test_random(self, streams: List[List[int]]):
     # Create an identical set of streams (will be drained by the optimal
     # solution).
     iters_2 = copy.deepcopy(iters)
+    iters_3 = copy.deepcopy(iters)
 
+    # Run the streams through the available implementations.
     result_bf = drain(merge_brute_force(iters))
     result_optimal = drain(merge_optimal(iters_2))
-    self.assertEqual(result_bf, result_optimal)
+    result_pythonic = drain(merge_optimal_pythonic(iters_3))
+
+    # Do the solutions agree with each other?
+    self.assertEqual(result_pythonic, result_bf)
+    self.assertEqual(result_pythonic, result_optimal)
 #+end_src
 
 * References

@@ -37,6 +37,11 @@ def merge_optimal(streams: List[Iterator[int]]) -> Iterator[int]:
         next_item = next(streams[stream_id], None)
         if next_item is not None:
             heapq.heappush(buf, (next_item, stream_id))
+def merge_optimal_pythonic(streams: List[Iterator[int]]) -> Iterator[int]:
+    combined_stream = heapq.merge(*streams)
+
+    for item in combined_stream:
+        yield item
 
 # Utilities.
 def drain(stream: Iterator[int]) -> List[int]:
@@ -82,10 +87,16 @@ class Test(unittest.TestCase):
         # Create an identical set of streams (will be drained by the optimal
         # solution).
         iters_2 = copy.deepcopy(iters)
+        iters_3 = copy.deepcopy(iters)
 
+        # Run the streams through the available implementations.
         result_bf = drain(merge_brute_force(iters))
         result_optimal = drain(merge_optimal(iters_2))
-        self.assertEqual(result_bf, result_optimal)
+        result_pythonic = drain(merge_optimal_pythonic(iters_3))
+
+        # Do the solutions agree with each other?
+        self.assertEqual(result_pythonic, result_bf)
+        self.assertEqual(result_pythonic, result_optimal)
 
 if __name__ == "__main__":
     unittest.main(exit=False)
