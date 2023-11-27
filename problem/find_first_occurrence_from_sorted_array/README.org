@@ -1,0 +1,216 @@
+#+title: Find first occurrence from sorted array
+#+SETUPFILE: ../../lilac.theme
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+OPTIONS: ^:{}
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+Given a sorted array, find the first occurrence of an item /k/ in the array
+[cite:@epip 155]. If the item does not exist, return =None=.
+
+#+begin_example
+Input: [1, 2, 4, 7, 8], k=7
+Output: 3 (index 3)
+
+Input: [1], k=2
+Output: None
+#+end_example
+
+* Insights
+
+** Duplicate keys
+
+If there are no duplicate keys (best-case scenario), then we can do binary
+search to get to the first occurrence.
+
+If there are duplicates though (what if all items are equal to /k/?), then a
+single binary search iteration will not be enough.
+
+Hint: if the middle element of the input is equal to /k/, we can eliminate all
+candidates to the right.
+
+* Solution
+
+** Brute force
+
+The most obvious solution is to just iterate through the list, checking each
+item to see if it equals /k/.
+
+#+name: __NREF__brute_force
+#+begin_src python
+def find_first_occurrence_brute_force(haystack: List[int],
+                                      needle: int) -> Optional[int]:
+    for i, item in enumerate(haystack):
+        if item == needle:
+            return i
+    return None
+#+end_src
+
+** Optimal
+
+We can do a binary search once to figure out if the item exists in the array.
+Then we can do a linear search to the left in case the one we binary-searched-to
+is a duplicate, to find the first occurrence.
+
+Obviously, the worst case complexity is quite bad. If there are 1 million items
+all with the same item /k/, then binary search will terminate after a single
+pass at the middle (500,000th) element. Then we'd still need to iterate 500,000
+times to the left to find the first occurrence at index 0. As the number of
+items $n$ in the array grow, the worst-case time complexity also grows linearly
+in proportion to $n$. So our worst-case time complexity is $O(n)$.
+
+We can instead continually do a binary search until we find the first occurrence
+of the element. Whereas normal binary search stops when it finds the item, in
+our modified version we can eliminate everything to the right, because at best
+they will contain non-first duplicates of /k/ or non-/k/ items.
+
+#+name: __NREF__optimal
+#+begin_src python
+def find_first_occurrence_optimal(haystack: List[int], needle: int) -> Optional[int]:
+    left = 0
+    right = len(haystack) - 1
+    result = None
+
+    # Search the entire haystack to find the first occurrence.
+    while left <= right:
+        mid = (left + right) // 2
+
+        # Reduce the search space by 1/2 on every iteration. If the midpoint is
+        # lower than the needle, move the left bound to just past the middle.
+        # Otherwise (including the case where the midpoint is equal to or
+        # greater than the needle), move the right bound to just below the
+        # middle. This way we can continue to search even if we get a search
+        # hit.
+        if haystack[mid] < needle:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+        # We got a search hit; record the location for now, but don't break the
+        # loop because we want to continue searching until the left/right
+        # pointers cross.
+        if haystack[mid] == needle:
+            result = mid
+
+    return result
+#+end_src
+
+** Optimal (Pythonic)
+
+The Pythonic solution is to use the built-in =index()= method for arrays, or the
+=bisect= module. Both of these solutions delegate the implementation details, so
+there's not much work for us to do.
+
+#+name: __NREF__optimal_pythonic
+#+begin_src python
+def find_first_occurrence_pythonic(haystack: List[int], needle: int) -> Optional[int]:
+    result = None
+
+    try:
+        i = haystack.index(needle)
+    except ValueError:
+        pass
+    else:
+        result = i
+
+    return result
+
+def find_first_occurrence_pythonic_bisect(haystack: List[int],
+                                          needle: int) -> Optional[int]:
+    result = None
+
+    i = bisect.bisect_left(haystack, needle)
+    if i != len(haystack) and haystack[i] == needle:
+        result = i
+
+    return result
+#+end_src
+
+* Tests
+
+#+name: __NREF__Tests
+#+caption: Tests
+#+begin_src python :eval no :session test :tangle test.py
+import bisect
+from hypothesis import given, strategies as st
+from typing import List, Optional
+import unittest
+
+__NREF__brute_force
+__NREF__optimal
+__NREF__optimal_pythonic
+
+class Test(unittest.TestCase):
+    __NREF__test_cases
+
+if __name__ == "__main__":
+    unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :exports none :tangle __init__.py
+#+end_src
+
+** Basic tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_basic(self):
+    # Empty search space.
+    haystack = []
+    needle = 1
+    result = find_first_occurrence_brute_force(haystack, needle)
+    self.assertEqual(result, None)
+
+    # Simplest search hit.
+    haystack = [1]
+    needle = 1
+    result = find_first_occurrence_brute_force(haystack, needle)
+    self.assertEqual(result, 0)
+
+    # Basic examples, as described in the problem statement.
+    haystack = [1, 2, 4, 7, 8]
+    needle = 7
+    result = find_first_occurrence_brute_force(haystack, needle)
+    self.assertEqual(result, 3)
+    haystack = [1]
+    needle = 2
+    result = find_first_occurrence_brute_force(haystack, needle)
+    self.assertEqual(result, None)
+
+    # Pathological case.
+    haystack = [1] * 100
+    needle = 1
+    result = find_first_occurrence_brute_force(haystack, needle)
+    self.assertEqual(result, 0)
+#+end_src
+
+** Property-based tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+@given(st.lists(st.integers(min_value=1, max_value=50),
+                min_size=1,
+                max_size=50),
+       st.integers(min_value=1, max_value=50))
+def test_random(self, haystack: List[int], needle: int):
+    # The input has to be sorted, per the rules of the problem.
+    haystack.sort()
+
+    result_bf = find_first_occurrence_brute_force(haystack, needle)
+    result_optimal = find_first_occurrence_optimal(haystack, needle)
+    result_pythonic = find_first_occurrence_pythonic(haystack, needle)
+    result_pythonic_bisect = find_first_occurrence_pythonic_bisect(haystack, needle)
+
+    # Do the solutions agree with each other?
+    self.assertEqual(result_bf, result_optimal)
+    self.assertEqual(result_optimal, result_pythonic)
+    self.assertEqual(result_pythonic, result_pythonic_bisect)
+#+end_src
+
+* References
+#+CITE_EXPORT: csl apa.csl
+#+PRINT_BIBLIOGRAPHY:

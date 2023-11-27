@@ -48,18 +48,19 @@ brief description of each one, and references.
 #+HTML_HEAD: .problems-table col:nth-of-type(3) { width: 30%; }
 #+HTML_HEAD: </style>
 #+ATTR_HTML: :class problems-table
-| Name                                   | Tags                | References                                                                                   |
-|----------------------------------------+---------------------+----------------------------------------------------------------------------------------------|
-| [[file:problem/parity/README.org][Parity]]                                 | bitwise             | [cite:@epip 27; @hd 96]                                                                      |
-| [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]                      | geometry            | [cite:@epip 39]                                                                              |
-| [[file:problem/rearrange_list_even_odd/README.org][Rearrange list]]                         | array, partitioning | [cite:@epip 41]                                                                              |
-| [[file:problem/dutch_national_flag/README.org][Dutch national flag]]                    | array, partitioning | [cite:@epip 43; @levitin 200; @sedgewick 296-301; @pearls 123; @cormen 186; @skiena 125-126] |
-| [[file:problem/buy_sell_stock_once/README.org][Buy and sell stock once]]                | array               | [cite:@epip 51]                                                                              |
-| [[file:problem/buy_sell_stock_twice/README.org][Buy and sell stock twice]]               | array               | [cite:@epip 53]                                                                              |
-| [[file:problem/interconvert_strings_and_integers/README.org][Interconvert strings and integers]]      | array, string       | [cite:@epip 75]                                                                              |
-| [[file:problem/merge_sorted_linked_lists/README.org][Merge sorted linked lists]]              | linked list         | [cite:@epip 92]                                                                              |
-| [[file:problem/binary_tree_height_balanced/README.org][Height-balanced binary trees]]           | binary tree         | [cite:@epip 124]                                                                             |
-| [[file:problem/merge_monotonically_increasing_streams/README.org][Merge monotonically increasing streams]] | priority queue      | [cite:@epip 144]                                                                             |
+| Name                                    | Tags                | References                                                                                   |
+|-----------------------------------------+---------------------+----------------------------------------------------------------------------------------------|
+| [[file:problem/parity/README.org][Parity]]                                  | bitwise             | [cite:@epip 27; @hd 96]                                                                      |
+| [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]                       | geometry            | [cite:@epip 39]                                                                              |
+| [[file:problem/rearrange_list_even_odd/README.org][Rearrange list]]                          | array, partitioning | [cite:@epip 41]                                                                              |
+| [[file:problem/dutch_national_flag/README.org][Dutch national flag]]                     | array, partitioning | [cite:@epip 43; @levitin 200; @sedgewick 296-301; @pearls 123; @cormen 186; @skiena 125-126] |
+| [[file:problem/buy_sell_stock_once/README.org][Buy and sell stock once]]                 | array               | [cite:@epip 51]                                                                              |
+| [[file:problem/buy_sell_stock_twice/README.org][Buy and sell stock twice]]                | array               | [cite:@epip 53]                                                                              |
+| [[file:problem/interconvert_strings_and_integers/README.org][Interconvert strings and integers]]       | array, string       | [cite:@epip 75]                                                                              |
+| [[file:problem/merge_sorted_linked_lists/README.org][Merge sorted linked lists]]               | linked list         | [cite:@epip 92]                                                                              |
+| [[file:problem/binary_tree_height_balanced/README.org][Height-balanced binary trees]]            | binary tree         | [cite:@epip 124]                                                                             |
+| [[file:problem/merge_monotonically_increasing_streams/README.org][Merge monotonically increasing streams]]  | priority queue      | [cite:@epip 144]                                                                             |
+| [[file:problem/find_first_occurrence_from_sorted_array/README.org][Find first occurrence from sorted array]] | binary search       | [cite:@epip 155]                                                                             |
 
 ** Data structures
 
