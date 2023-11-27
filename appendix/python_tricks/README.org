@@ -212,6 +212,18 @@ Convert given =iterable= into a set.
 
 Return a new sorted list from the items in iterable.
 
+***** Example
+
+Sort tuples by the second element, not the first (default).
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_sort(self):
+    xs = [("a", 9), ("b", 5), ("c", 1)]
+    result = sorted(xs, key=lambda x: x[1])
+    self.assertEqual(result, [("c", 1), ("b", 5), ("a", 9)])
+#+end_src
+
 **** ~sum()~
 
 ~sum(iterable, /, start=0)~
@@ -237,7 +249,7 @@ element in a string or list.
 
 Negative indices are allowed.
 
-#+name: __NREF__test_indices
+#+header: :noweb-ref __NREF__test_cases
 #+begin_src python
 def test_indices(self):
   self.assertEqual('abcdefg'[0], 'a')
@@ -259,7 +271,7 @@ Whereas indexing returns a single element in a list-like structure, /slicing/
 returns a substring (a series of consecutive elements inside the list). The
 syntax is =<start index (included)>:<final index (excluded)>=.
 
-#+header: :noweb-ref __NREF__test_slices
+#+header: :noweb-ref __NREF__test_cases
 #+begin_src python
 def test_slices(self):
   self.assertEqual('abcdefg'[0:2], 'ab')
@@ -270,7 +282,7 @@ If the start index is omitted, it defaults to =0=. If the final index is
 omitted, it defaults to the length of the string (so it's the same as grabbing
 all remaining elements).
 
-#+header: :noweb-ref __NREF__test_slices
+#+header: :noweb-ref __NREF__test_cases
 #+begin_src python
   self.assertEqual('abcdefg'[:2], 'ab')
   self.assertEqual('abcdefg'[2:], 'cdefg')
@@ -279,7 +291,7 @@ all remaining elements).
 Slices indexes that are out of range are handled gracefully (they do not raise
 an error).
 
-#+header: :noweb-ref __NREF__test_slices
+#+header: :noweb-ref __NREF__test_cases
 #+begin_src python
   self.assertEqual('abcdefg'[1000:], '')
   self.assertEqual('abcdefg'[:1000], 'abcdefg')
@@ -310,12 +322,7 @@ import unittest
 __NREF__tricks
 
 class Test(unittest.TestCase):
-
-  __NREF__test_indices
-  __NREF__test_slices
-
-  def test_simple_cases(self):
-    pass
+  __NREF__test_cases
 
 if __name__ == "__main__":
   unittest.main(exit=False)
