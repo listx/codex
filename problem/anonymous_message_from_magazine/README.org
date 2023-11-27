@@ -136,7 +136,7 @@ The Pythonic way is to just use subtraction on the =Counter= hash table type
 directly. This may not be the fastest because we build up two hash tables
 instead of one.
 
-#+name: __NREF__optimal_pythonic
+#+name: __NREF__pythonic
 #+begin_src python
 def is_message_from_magazine_pythonic(message: str, magazine: str) -> bool:
     if not message:
@@ -157,7 +157,7 @@ import unittest
 
 __NREF__brute_force
 __NREF__optimal
-__NREF__optimal_pythonic
+__NREF__pythonic
 
 class Test(unittest.TestCase):
     __NREF__test_cases
