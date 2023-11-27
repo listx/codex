@@ -61,6 +61,7 @@ brief description of each one, and references.
 | [[file:problem/binary_tree_height_balanced/README.org][Height-balanced binary trees]]            | binary tree         | [cite:@epip 124]                                                                             |
 | [[file:problem/merge_monotonically_increasing_streams/README.org][Merge monotonically increasing streams]]  | priority queue      | [cite:@epip 144]                                                                             |
 | [[file:problem/find_first_occurrence_from_sorted_array/README.org][Find first occurrence from sorted array]] | binary search       | [cite:@epip 155]                                                                             |
+| [[file:problem/anonymous_message_from_magazine/README.org][Anonymous message from magazine]]         | hash table          | [cite:@epip 175]                                                                             |
 
 ** Data structures
 

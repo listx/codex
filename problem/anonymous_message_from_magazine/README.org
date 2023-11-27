@@ -1,0 +1,211 @@
+#+title: Anonymous message from magazine
+#+SETUPFILE: ../../lilac.theme
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+OPTIONS: ^:{}
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+Given two input texts /message/ and /magazine/, determine if the message can be
+reconstructed by consuming the letters from the magazine [cite:@epip 175].
+
+#+begin_example
+Input: message = "hello", magazine = "old"
+Output: False
+
+Input: message = "hello", magazine = "old elf hat"
+Output: True
+#+end_example
+
+* Insights
+
+** Set theory
+
+The message can only be constructed from the magazine if it is a subset of the
+magazine text.
+
+If we simplify the problem to just 1 letter (let's say that the message can
+only be constructed out of 1 letter), then it's just a matter of whether the
+magazine has enough copies of that letter. For example, if the message
+requirse 5 "e" letters but the magazine (in total) has only 4 of them, then
+we cannot construct the message from the magazine.
+
+The original problem is just checking whether /all/ letters in the message
+satisfy the above constraint.
+
+* Solution
+
+** Brute force
+
+Search to see if each letter in the message is found in the magazine. Each time
+we find the letter in the magazine, shrink the magazine by slicing out that
+letter.
+
+The above algorithm mimics how we as humans would solve the problem naively.
+
+#+name: __NREF__brute_force
+#+begin_src python
+def is_message_from_magazine_brute_force(message: str, magazine: str) -> bool:
+    # An empty message is always constructible, regardless of the magazine.
+    if not message:
+        return True
+
+    for c in message:
+        # Find the first occurrence of the letter in the magazine.
+        i = magazine.find(c)
+        if i == -1:
+            return False
+        # Remove found letter from magazine. "Cut" it out of the magazine.
+        magazine = magazine[:i] + magazine[i+1:]
+
+    return True
+#+end_src
+
+The time complexity is at least $O(m)$ where $m$ is the length of the message.
+But it is much worse than that because =magazine.find(c)= itself has $O(t)$ time
+complexity where $t$ is the length of the magazine text, as the magazine is not
+sorted. It may be that Python's =find()= method sorts the string internally
+first to cut this cost down, but that is beyond the scope of this exercise (one
+could argue that the Python implementation has a custom =find()= method that is
+not the one found in CPython, for example).
+
+The magazine reconstruction is also costly, and could very well involve
+wholesale copying of arrays, which also have $O(L)$ cost where $L$ is the length
+of the array backing the magazine text. So in total the time complexity would be
+$O(m * (t + L))$. Because of the way $t$ and $L$ follow each other closely (the
+time to run =find()= shrinks as the new magazine allocation shrinks by 1 on each
+iteration), we could simplify to $O(m * n)$ where $n$ is the length of the
+magazine text. If $m$ and $n$ are of similar size, this degenerates to quadratic
+time complexity!
+
+** Optimal
+
+We can instead use hash tables. Just run the input texts through a corresponding
+hash table, and then check that the letter frequencies in the message text are
+less than or equal to the letter frequencies in the magazine text.
+
+Even better, only use one hash table for the message text. Then iterate through
+the magazine text and tick off the character frequency values until we hit 0 for
+all letters.
+
+#+name: __NREF__optimal
+#+begin_src python
+def is_message_from_magazine_optimal(message: str, magazine: str) -> bool:
+    if not message:
+        return True
+
+    # Build up character frequency hash table for input message.
+    message_char_freq = collections.Counter(message)
+
+    for c in magazine:
+        if c in message_char_freq:
+            message_char_freq[c] -= 1
+            if message_char_freq[c] == 0:
+                # Remove this key to speed up subsequent lookups into
+                # message_char_freq.
+                del message_char_freq[c]
+                # If the hash table becomes empty, we're done!
+                if not message_char_freq:
+                    return True
+
+    return False
+#+end_src
+
+The time complexity is $O(m + n)$, where $m$ and $n$ are the lengths of the
+message and magazine, respectively. The $O(m)$ comes from the cost of
+constructing the hash table, which must iterate through every character in the
+message (insertion into a hash table is $O(1)$).
+
+The $O(n)$ comes from the worst-case scenario where we have to check every
+letter in the magazine (the above =for= loop has to run its course).
+
+The space complexity is $O(L)$ where $L$ is the size of the hash table.
+
+If the input alphabets of the message is known to be within some small range,
+such as ASCII, then we could avoid using a hash table and instead just use a
+fixed size array and record the counts of each letter into the corresponding
+index in this array. This optimization doesn't improve the time or space
+complexity, though.
+
+** Pythonic
+
+The Pythonic way is to just use subtraction on the =Counter= hash table type
+directly. This may not be the fastest because we build up two hash tables
+instead of one.
+
+#+name: __NREF__optimal_pythonic
+#+begin_src python
+def is_message_from_magazine_pythonic(message: str, magazine: str) -> bool:
+    if not message:
+        return True
+
+    return (not collections.Counter(message) -
+            collections.Counter(magazine))
+#+end_src
+
+* Tests
+
+#+name: __NREF__Tests
+#+caption: Tests
+#+begin_src python :eval no :session test :tangle test.py
+import collections
+from hypothesis import given, strategies as st
+import unittest
+
+__NREF__brute_force
+__NREF__optimal
+__NREF__optimal_pythonic
+
+class Test(unittest.TestCase):
+    __NREF__test_cases
+
+if __name__ == "__main__":
+    unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :exports none :tangle __init__.py
+#+end_src
+
+** Basic tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_basic(self):
+    # Empty inputs.
+    message = ""
+    magazine = ""
+    result = is_message_from_magazine_brute_force(message, magazine)
+    self.assertEqual(result, True)
+
+    # Basic examples, as described in the problem statement.
+    message = "hello"
+    magazine = "old"
+    result = is_message_from_magazine_brute_force(message, magazine)
+    self.assertEqual(result, False)
+    message = "hello"
+    magazine = "old elf hat"
+    result = is_message_from_magazine_brute_force(message, magazine)
+    self.assertEqual(result, True)
+#+end_src
+
+** Property-based tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+@given(st.text(max_size=20), st.text(max_size=100))
+def test_random(self, message: str, magazine: str):
+    result_bf = is_message_from_magazine_brute_force(message, magazine)
+    result_optimal = is_message_from_magazine_optimal(message, magazine)
+    result_pythonic = is_message_from_magazine_pythonic(message, magazine)
+
+    # Do the solutions agree with each other?
+    self.assertEqual(result_bf, result_optimal)
+    self.assertEqual(result_optimal, result_pythonic)
+#+end_src
+
+* References
+#+CITE_EXPORT: csl apa.csl
+#+PRINT_BIBLIOGRAPHY:
