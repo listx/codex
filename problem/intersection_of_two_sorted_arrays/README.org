@@ -1,0 +1,229 @@
+#+title: Intersection of two sorted arrays
+#+SETUPFILE: ../../lilac.theme
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+OPTIONS: ^:{}
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+Compute the intersection of two sorted arrays [cite:@epip 194]. Deduplicate the
+output.
+
+#+begin_example
+Input: [1, 2] [3, 4]
+Output: []
+
+Input: [1, 1, 1, 2] [1, 2, 2, 3]
+Output: [1, 2]
+#+end_example
+
+* Insights
+
+** Sorted inputs
+
+This problem is begging us to exploit the fact that the inputs are already
+sorted.
+
+* Solution
+
+** Hash tables
+
+We could use hash tables. We simply create two =set()= objects (essentially hash
+tables that only have keys, without associated values), and then get the
+intersection between them.
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def brute1(xs: List[int], ys: List[int]) -> List[int]:
+    result = list(set(xs) & set(ys))
+    result.sort()
+    return result
+#+end_src
+
+The downside is the space complexity, which is $O(mn)$ to store the additional
+sets for each of the arrays, not to mention the =sort()= we have to run because
+the =set()= function does not preserve order.
+
+Also, using a hash table here is wasteful, because we are not taking advatage of
+the fact that the inputs are sorted.
+
+We should try to find a solution that tries to avoid prohibitively expensive
+space complexity.
+
+** Brute force
+
+We can compare all letters with overy other letter, by looping over twice.
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def brute2(xs: List[int], ys: List[int]) -> List[int]:
+    result = []
+    for x in xs:
+        # Go to next x if it's a dupe.
+        if x in result:
+            continue
+        for y in ys:
+            # Similarly, skip over dupes in y.
+            if y in result:
+                continue
+            if x == y:
+                result.append(x)
+                break
+    return result
+#+end_src
+
+This has time complexity $O(xy)$ where $x$ and $y$ are lengths of the =xs= and
+=ys= arrays. It's actually worse than this because we're assuming that the
+expressions =x in result= and =y in result= run in constant time, which is
+simply not true. But as the time complexity is already bad, we leave it at that.
+
+** Binary search
+
+Instead of a nested loop, we can remove the inner loop with explicit binary
+search using the =bisect= module.
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def better(xs: List[int], ys: List[int]) -> List[int]:
+    def has(needle: int, haystack: List[int]):
+        i = bisect.bisect_left(haystack, needle)
+        return i < len(haystack) and haystack[i] == needle
+
+    result = []
+    for i, x in enumerate(xs):
+        # Only add this element if it is inside ys (intersection confirmed) and
+        # if it is not a duplicate.
+        if has(x, ys) and (i == 0 or x != xs[i - 1]):
+            result.append(x)
+    return result
+#+end_src
+
+The condition ~(i == 0 or x != xs[i - 1])~ avoids using duplicate =x= entries,
+by ensuring that the current =x= is not the same as the previous element in
+=xs=. The ~i == 0~ merely bypasses this filtering of duplicates because there's
+no point in checking for duplicates for the very first element under
+consideration.
+
+The time complexity is $O(m \log_{n})$ where $m$ is the length of the outer
+array we iterate over (=xs=). The $\log_{n}$ comes from the time complexity of
+binary search over the searched array, =ys=.
+
+We can squeeze more performance out of this by using the shorter of the two
+arrays, =xs= and =ys=, as the array to loop over. This way, we can iterate a
+small number of times and then use the logarithmic power of binary search
+against the larger array. Otherwise we'd be iterating over a large number of
+items while binary searching over a small (tiny) array, where the performance
+benefits of binary search won't be as apparent.
+
+** Optimal
+
+In [[file:../merge_sorted_linked_lists/README.org][merged linked lists together]], we saw that we only needed to traverse through
+the two linked lists once because they were already sorted. We can apply the
+same principle here and only traverse through the =xs= and =ys= lists once. The
+trick is to have a generic loop and within this loop, have two separate indices
+for each array. Then we advance the index for =xs= or =ys= depending on how we
+process the current item pointed to by each of these indices.
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def optimal(xs: List[int], ys: List[int]) -> List[int]:
+    i = 0
+    j = 0
+    result = []
+
+    while i < len(xs) and j < len(ys):
+        # Skip over non-matching items (including duplicates).
+        if xs[i] < ys[j]:
+            i += 1
+        elif xs[i] > ys[j]:
+            j += 1
+        # We have a match.
+        else:
+            # Again, avoid adding the same item twice into the result.
+            if i == 0 or xs[i] != xs[i - 1]:
+                result.append(xs[i])
+
+            # We've consumed the information pointed to by both pointers, so
+            # they are useless now. Advance the pointers to fetch new content
+            # for the next iteration.
+            i += 1
+            j += 1
+
+    return result
+#+end_src
+
+* Tests
+
+#+name: __NREF__Tests
+#+caption: Tests
+#+begin_src python :eval no :session test :tangle test.py
+import bisect
+from hypothesis import given, strategies as st
+from typing import List
+import unittest
+
+__NREF__solution
+
+class Test(unittest.TestCase):
+    __NREF__test_cases
+
+if __name__ == "__main__":
+    unittest.main(exit=False)
+#+end_src
+
+#+begin_src python :exports none :tangle __init__.py
+#+end_src
+
+** Basic tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_basic(self):
+    # Empty inputs.
+    xs = []
+    ys = []
+    result = brute1(xs, ys)
+    self.assertEqual(result, [])
+
+    # Basic examples, as described in the problem statement.
+    xs = [1, 2]
+    ys = [3, 4]
+    result = brute1(xs, ys)
+    self.assertEqual(result, [])
+    xs = [1, 1, 1, 2]
+    ys = [1, 2, 2, 3]
+    result = brute1(xs, ys)
+    self.assertEqual(result, [1, 2])
+#+end_src
+
+** Property-based tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+@given(st.lists(st.integers(min_value=1, max_value=50),
+                min_size=1,
+                max_size=50),
+       st.lists(st.integers(min_value=1, max_value=50),
+                min_size=1,
+                max_size=50))
+def test_random(self, xs: List[int], ys: List[int]):
+    xs.sort()
+    ys.sort()
+
+    result_brute1 = brute1(xs, ys)
+    result_brute2 = brute2(xs, ys)
+    result_better = better(xs, ys)
+    result_optimal = optimal(xs, ys)
+
+    # Do the solutions agree with each other?
+    self.assertEqual(result_brute1, result_brute2)
+    self.assertEqual(result_brute2, result_better)
+    self.assertEqual(result_better, result_optimal)
+#+end_src
+
+* References
+#+CITE_EXPORT: csl apa.csl
+#+PRINT_BIBLIOGRAPHY:
