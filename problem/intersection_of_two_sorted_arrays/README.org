@@ -155,6 +155,9 @@ def optimal(xs: List[int], ys: List[int]) -> List[int]:
     return result
 #+end_src
 
+Time complexity is $O(m+n)$, because we spend $O(1)$ time per element across
+both inputs.
+
 * Tests
 
 #+name: __NREF__Tests
