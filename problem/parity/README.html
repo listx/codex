@@ -1009,8 +1009,8 @@ AND-ing it with 1 will still get us 0 (parity 0) which is the correct answer.
 <h3 id="h-16-bit-caching"><span class="section-number-3">4.5.</span> 16-bit caching</h3>
 <div class="outline-text-3" id="text-h-16-bit-caching">
 <p>
-Because there are \(2^64\) possible values, we cannot use a hash table for 64-bit
-inputs directly. Instead we can use a 16-bit input (\(2^16 = 65536\) values), and
+Because there are \(2^{64}\) possible values, we cannot use a hash table for 64-bit
+inputs directly. Instead we can use a 16-bit input (\(2^{16} = 65536\) values), and
 just do 4 16-bit word lookups (because there are 4 16-bit words in a 64-bit
 word). Then we just take the XOR of these lookups to get the overall parity.
 Because the keys for the lookups can just be the raw 16-bit words, we can use
@@ -1036,7 +1036,7 @@ only grab the relevant 16-bit areas.
 <p>
 The time complexity is just \(O(n/L)\), where \(L\) is the width of the cached
 results and \(n\) is the word size. This assumes that the shift operations take
-\(O(1)\) time. In our case, \(L\) is 16 and \(n\) is 64, so there are \(64/16 = 4\)
+\(O(1)\) time. In our case, \(L\) is 16 and \(n\) is 64, so there are \(\frac{64}{16} = 4\)
 terms to look up.
 </p>
 </div>
@@ -1093,24 +1093,24 @@ greater speedup.
 
     <span class="org-keyword">def</span> <span class="org-function-name">test_simple_cases</span>(<span class="org-keyword">self</span>):
         <span class="org-keyword">for</span> word, parity_bit <span class="org-keyword">in</span> <span class="org-keyword">self</span>.cases:
-            <span class="org-keyword">self</span>.assertEqual(brute_force(word), parity_bit)
-            <span class="org-keyword">self</span>.assertEqual(clear_lsb(word), parity_bit)
-            <span class="org-keyword">self</span>.assertEqual(xor_fold(word), parity_bit)
-            <span class="org-keyword">self</span>.assertEqual(xor_fold_lookup(word), parity_bit)
-            <span class="org-keyword">self</span>.assertEqual(caching(word), parity_bit)
-            <span class="org-keyword">self</span>.assertEqual(xor_fold_caching(word), parity_bit)
-            <span class="org-keyword">self</span>.assertEqual(xor_fold_nibbles(word), parity_bit)
+            <span class="org-keyword">self</span>.assertEqual(parity_bit, brute_force(word))
+            <span class="org-keyword">self</span>.assertEqual(parity_bit, clear_lsb(word))
+            <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold(word))
+            <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold_lookup(word))
+            <span class="org-keyword">self</span>.assertEqual(parity_bit, caching(word))
+            <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold_caching(word))
+            <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold_nibbles(word))
 
     <span class="org-type">@given</span>(st.integers(min_value<span class="org-operator">=</span>0, max_value<span class="org-operator">=</span>((1<span class="org-operator">&lt;&lt;</span>64) <span class="org-operator">-</span> 1)))
     <span class="org-keyword">def</span> <span class="org-function-name">test_random</span>(<span class="org-keyword">self</span>, word):
         <span class="org-variable-name">parity_bit</span> <span class="org-operator">=</span> xor_fold_nibbles(word)
-        <span class="org-keyword">self</span>.assertEqual(brute_force(word), parity_bit)
-        <span class="org-keyword">self</span>.assertEqual(clear_lsb(word), parity_bit)
-        <span class="org-keyword">self</span>.assertEqual(xor_fold(word), parity_bit)
-        <span class="org-keyword">self</span>.assertEqual(xor_fold_lookup(word), parity_bit)
-        <span class="org-keyword">self</span>.assertEqual(caching(word), parity_bit)
-        <span class="org-keyword">self</span>.assertEqual(xor_fold_caching(word), parity_bit)
-        <span class="org-keyword">self</span>.assertEqual(xor_fold_nibbles(word), parity_bit)
+        <span class="org-keyword">self</span>.assertEqual(parity_bit, brute_force(word))
+        <span class="org-keyword">self</span>.assertEqual(parity_bit, clear_lsb(word))
+        <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold(word))
+        <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold_lookup(word))
+        <span class="org-keyword">self</span>.assertEqual(parity_bit, caching(word))
+        <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold_caching(word))
+        <span class="org-keyword">self</span>.assertEqual(parity_bit, xor_fold_nibbles(word))
 
 <span class="org-keyword">if</span> <span class="org-builtin">__name__</span> <span class="org-operator">==</span> <span class="org-string">"__main__"</span>:
     unittest.main(<span class="org-constant">exit</span><span class="org-operator">=</span><span class="org-constant">False</span>)

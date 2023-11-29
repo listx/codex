@@ -68,24 +68,24 @@ class TestParity(unittest.TestCase):
 
     def test_simple_cases(self):
         for word, parity_bit in self.cases:
-            self.assertEqual(brute_force(word), parity_bit)
-            self.assertEqual(clear_lsb(word), parity_bit)
-            self.assertEqual(xor_fold(word), parity_bit)
-            self.assertEqual(xor_fold_lookup(word), parity_bit)
-            self.assertEqual(caching(word), parity_bit)
-            self.assertEqual(xor_fold_caching(word), parity_bit)
-            self.assertEqual(xor_fold_nibbles(word), parity_bit)
+            self.assertEqual(parity_bit, brute_force(word))
+            self.assertEqual(parity_bit, clear_lsb(word))
+            self.assertEqual(parity_bit, xor_fold(word))
+            self.assertEqual(parity_bit, xor_fold_lookup(word))
+            self.assertEqual(parity_bit, caching(word))
+            self.assertEqual(parity_bit, xor_fold_caching(word))
+            self.assertEqual(parity_bit, xor_fold_nibbles(word))
 
     @given(st.integers(min_value=0, max_value=((1<<64) - 1)))
     def test_random(self, word):
         parity_bit = xor_fold_nibbles(word)
-        self.assertEqual(brute_force(word), parity_bit)
-        self.assertEqual(clear_lsb(word), parity_bit)
-        self.assertEqual(xor_fold(word), parity_bit)
-        self.assertEqual(xor_fold_lookup(word), parity_bit)
-        self.assertEqual(caching(word), parity_bit)
-        self.assertEqual(xor_fold_caching(word), parity_bit)
-        self.assertEqual(xor_fold_nibbles(word), parity_bit)
+        self.assertEqual(parity_bit, brute_force(word))
+        self.assertEqual(parity_bit, clear_lsb(word))
+        self.assertEqual(parity_bit, xor_fold(word))
+        self.assertEqual(parity_bit, xor_fold_lookup(word))
+        self.assertEqual(parity_bit, caching(word))
+        self.assertEqual(parity_bit, xor_fold_caching(word))
+        self.assertEqual(parity_bit, xor_fold_nibbles(word))
 
 if __name__ == "__main__":
     unittest.main(exit=False)
