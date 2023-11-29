@@ -66,27 +66,16 @@ def bfs(t: BinaryTree) -> bool:
 
     class QueueEntry(NamedTuple):
         node: Optional[Node]
-        lo: Optional[int]
-        hi: Optional[int]
+        lo: float
+        hi: float
 
-    q = collections.deque([QueueEntry(t.root, None, None)])
+    q = collections.deque([QueueEntry(t.root, float("-inf"), float("inf"))])
 
     while q:
         x, lo, hi = q.popleft()
 
         if x:
-            # Root node. Check children directly, because our starting ranges lo and
-            # hi are both None (rendering our checks useless).
-            if not lo and not hi:
-                if x.left and not x.left.val < x.val:
-                    return False
-                if x.right and not x.val < x.right.val:
-                    return False
-
-            # Non-root node.
-            if lo and not lo < x.val:
-                return False
-            if hi and not x.val < hi:
+            if not lo < x.val < hi:
                 return False
 
             q.append(QueueEntry(x.left, lo, x.val))
