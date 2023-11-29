@@ -1,0 +1,11 @@
+* BST subtree ranges
+
+#+header: :eval yes
+#+header: :file bst_subtree_ranges.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\usetikzlibrary {graphs,graphdrawing} \usegdlibrary {trees}
+\tikz \graph [binary tree layout, nodes={draw,circle}, sibling sep=0pt]
+  { 50 -- {25 -- {A, B}, 75 -- {C, D}}};
+#+end_src

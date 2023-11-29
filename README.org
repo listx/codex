@@ -63,6 +63,7 @@ brief description of each one, and references.
 | [[file:problem/find_first_occurrence_from_sorted_array/README.org][Find first occurrence from sorted array]] | binary search       | [cite:@epip 155]                                                                             |
 | [[file:problem/anonymous_message_from_magazine/README.org][Anonymous message from magazine]]         | hash table          | [cite:@epip 175]                                                                             |
 | [[file:problem/intersection_of_two_sorted_arrays/README.org][Intersection of two sorted arrays]]       | sorting             | [cite:@epip 194]                                                                             |
+| [[file:problem/binary_tree_validate_as_BST/README.org][Validate binary tree as BST]]       | binary tree         | [cite:@epip 213]                                                                             |
 
 ** Data structures
 
