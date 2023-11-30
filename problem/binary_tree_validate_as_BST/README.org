@@ -10,7 +10,6 @@
 * Problem statement
 
 Check if a given binary tree is also (already) a binary search tree (BST) [cite:@epip 213].
-output.
 
 * Insights
 
