@@ -1,5 +1,4 @@
 from binary_tree.binary_tree import BinaryTree, Node
-#from binary_search_tree.binary_search_tree import BinarySearchTree
 import binary_search_tree.binary_search_tree as BST
 import collections
 from hypothesis import given, strategies as st
