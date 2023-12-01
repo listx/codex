@@ -1,0 +1,15 @@
+* Call tree for recursive algorithm
+
+#+header: :eval yes
+#+header: :file recursive_call_tree.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\usetikzlibrary {graphs,graphdrawing} \usegdlibrary {trees}
+\tikz \graph [binary tree layout, nodes={draw}, sibling sep=5pt]
+  { "3,A,B,C" -- {"2,A,C,B" -- {"1,A,B,C", "1,B,C,A"}, "2,C,B,A" -- {"1,C,A,B", x/"1,A,B,C"}}};
+#+end_src
+
+The "x/..." syntax is to give the node a unique ID called "x", but with the
+display contents of "...". Here we have "1,A,B,C" appear twice so we can't use
+it again as is and have to use the aforementioned syntax.
