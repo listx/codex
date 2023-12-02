@@ -2,7 +2,6 @@
 **/*.auctex-auto
 **/*.hypothesis
 **/*.pdf
-**/*.svg
 **/*.log
 **/*.py.verified
 check.verified
