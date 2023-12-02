@@ -17,6 +17,8 @@ let
 
       # Source Sans Pro font.
       sourcesanspro
+      # Source Code Pro font.
+      sourcecodepro
       ;
   });
 

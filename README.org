@@ -54,7 +54,7 @@ brief description of each one, and references.
 | [[file:problem/rectangle_overlap/README.org][Rectangle overlap]]                       | geometry            | [cite:@epip 39]                                                                              |
 | [[file:problem/rearrange_list_even_odd/README.org][Rearrange list]]                          | array, partitioning | [cite:@epip 41]                                                                              |
 | [[file:problem/dutch_national_flag/README.org][Dutch national flag]]                     | array, partitioning | [cite:@epip 43; @levitin 200; @sedgewick 296-301; @pearls 123; @cormen 186; @skiena 125-126] |
-| [[file:problem/buy_sell_stock_once/README.org][Buy and sell stock once]]                 | array               | [cite:@epip 51]                                                                              |
+| [[file:problem/buy_sell_stock_once/README.org][Buy and sell stock once]]                 | array               | [cite:@epip 51; @cormen 69]                                                                            |
 | [[file:problem/buy_sell_stock_twice/README.org][Buy and sell stock twice]]                | array               | [cite:@epip 53]                                                                              |
 | [[file:problem/interconvert_strings_and_integers/README.org][Interconvert strings and integers]]       | array, string       | [cite:@epip 75]                                                                              |
 | [[file:problem/merge_sorted_linked_lists/README.org][Merge sorted linked lists]]               | linked list         | [cite:@epip 92]                                                                              |
@@ -65,6 +65,7 @@ brief description of each one, and references.
 | [[file:problem/intersection_of_two_sorted_arrays/README.org][Intersection of two sorted arrays]]       | sorting             | [cite:@epip 194]                                                                             |
 | [[file:problem/binary_tree_validate_as_BST/README.org][Validate binary tree as BST]]       | binary tree         | [cite:@epip 213]                                                                             |
 | [[file:problem/tower_of_hanoi/README.org][Tower of Hanoi]]   | recursion, binary tree | [cite:@epip 233]                                                                           |
+| [[file:problem/maximum_subarray/README.org][Maximum Subarray]] | divide and conquer, dynamic programming | [cite:@epip 250; @pearls 77]                                                         |
 
 ** Data structures
 
@@ -152,7 +153,7 @@ correctness of the puzzle solutions collected in this work.
 
 @book{cormen,
     title = {{Introduction to Algorithms}},
-    editor = {Cormen, Thomas H.},
+    author = {Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L. and Stein, Clifford},
     edition = {3rd ed},
     year = {2009},
     isbn = {9780262033848 9780262533058},
@@ -253,6 +254,15 @@ correctness of the puzzle solutions collected in this work.
                   Computer languages, Operating systems, Internet, Strips,
                   Pipelines},
     pages = {97--105},
+}
+
+@misc{daescu2018kmaximum,
+      title={k-Maximum Subarrays for Small k: Divide-and-Conquer made simpler},
+      author={Ovidiu Daescu and Hemant Malik},
+      year={2018},
+      eprint={1804.05956},
+      archivePrefix={arXiv},
+      primaryClass={cs.DS}
 }
 #+end_src
 

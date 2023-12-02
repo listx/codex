@@ -1,0 +1,148 @@
+* Divide and conquer
+
+** Division of array into parts =a= and =b=
+
+#+header: :eval yes
+#+header: :file dac_a_b.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usetikzlibrary{shapes.multipart}" "\\usepackage[default]{sourcesanspro}" "\\usepackage[default]{sourcecodepro}")
+#+begin_src latex
+\begin{tikzpicture}
+  \node [rectangle split, rectangle split parts=2, rectangle split horizontal, draw, anchor=center, align=center, inner xsep=0, inner ysep=2mm] at (0,0)
+    { \nodepart[text width=4cm]{one} \texttt{a}
+      \nodepart[text width=4cm]{two} \texttt{b}};
+
+  % Center divider.
+  \draw [thick, align=center] (0cm,-0.5cm) -- (0cm,0.5cm);
+\end{tikzpicture}
+#+end_src
+
+** Maximum subarrays found in sections =a= and =b=
+
+The first and last three segments total to 4cm, so that the middle dividing line
+divides the overall 8cm rectangle exactly in half, so that this line coincides
+with the middle line dividing =a= and =b= in the previous illustration.
+
+#+header: :eval yes
+#+header: :file dac_ma_mb.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usetikzlibrary{shapes.multipart}" "\\usepackage[default]{sourcesanspro}" "\\usepackage[default]{sourcecodepro}")
+#+begin_src latex
+\begin{tikzpicture}
+  \node [name=myarray, rectangle split, rectangle split parts=6, rectangle split horizontal, draw, anchor=center, align=center, inner xsep=0, inner ysep=2mm, rectangle split part fill={white,red!20,white,white,blue!20,white}] at (0,0)
+    {
+      \nodepart[text width=1.5cm]{one}   {}
+      \nodepart[text width=2.0cm]{two}   {$M_a$}
+      \nodepart[text width=0.5cm]{three} {}
+      \nodepart[text width=1.6cm]{four}  {}
+      \nodepart[text width=1.7cm]{five}  {$M_b$}
+      \nodepart[text width=0.7cm]{six}   {}
+    };
+
+  % Center divider.
+  \draw [thick, align=center] (0cm,-0.5cm) -- (0cm,0.5cm);
+  % Outer boundaries of M_a and M_b. This is here for illustrative purposes for
+  % doing positioning of lines, shifting them by anchors (shift=...).
+  \draw [opacity=0, red, thick, shift=(myarray.one split)] (0cm,-0.5cm) -- (0cm,0.5cm);
+  \draw [opacity=0, blue, thick, shift=(myarray.five split)] (0cm,-0.5cm) -- (0cm,0.5cm);
+\end{tikzpicture}
+#+end_src
+
+** Maximum subarray crossing into both =a= and =b=
+
+#+header: :eval yes
+#+header: :file dac_mc.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usetikzlibrary{shapes.multipart}" "\\usepackage[default]{sourcesanspro}" "\\usepackage[default]{sourcecodepro}")
+#+begin_src latex
+\begin{tikzpicture}
+  \node [rectangle split, rectangle split parts=3, rectangle split horizontal, draw, anchor=center, align=center, inner xsep=0, inner ysep=2mm, rectangle split part fill={white,green!20,white}] at (0,0)
+    {
+      \nodepart[text width=2cm]{one}   {}
+      \nodepart[text width=3cm]{two}   {$M_c$}
+      \nodepart[text width=3cm]{three} {}
+    };
+
+  % Center divider.
+  \draw [thick, align=center] (0cm,-0.5cm) -- (0cm,0.5cm);
+\end{tikzpicture}
+#+end_src
+
+* Pieces of max crossing subarray
+
+#+header: :eval yes
+#+header: :file dacl_mc_parts.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usetikzlibrary{decorations.pathreplacing}" "\\usetikzlibrary{shapes.multipart}" "\\usepackage[default]{sourcesanspro}" "\\usepackage[default]{sourcecodepro}")
+#+begin_src latex
+\begin{tikzpicture}
+  \node [name=a, rectangle split, rectangle split parts=8, rectangle split horizontal,
+  draw, anchor=center, align=center, inner xsep=0, inner ysep=2mm,
+  rectangle split part fill={
+    white,
+    white,
+    yellow!20,
+    yellow!20,
+    cyan!30,
+    white,
+    white,
+    white}] at (0,0)
+    {
+      \nodepart[text width=1cm]{one}   {}
+      \nodepart[text width=1cm]{two}   {}
+      \nodepart[text width=1cm]{three} {}
+      \nodepart[text width=1cm]{four}  {}
+      \nodepart[text width=1cm]{five}  {}
+      \nodepart[text width=1cm]{six}   {}
+      \nodepart[text width=1cm]{seven} {}
+      \nodepart[text width=1cm]{eight} {}
+    };
+
+  % Center divider.
+  \draw [thick, align=center] (0cm,-0.5cm) -- (0cm,0.5cm);
+
+  % Curly brace showing M_c segment.
+  \draw [decorate, decoration={brace, amplitude=4mm}]
+    (-2, 0.5)--node[above=4mm]{$M_c$} (1, 0.5);
+\end{tikzpicture}
+#+end_src
+
+* Computing =max_L=
+
+#+header: :eval yes
+#+header: :file dacl_max_L.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usetikzlibrary{decorations.pathreplacing}" "\\usetikzlibrary{shapes.multipart}" "\\usepackage[default]{sourcesanspro}" "\\usepackage[default]{sourcecodepro}")
+#+begin_src latex
+\begin{tikzpicture}[font=\sffamily]
+  \node [name=a, rectangle split, rectangle split parts=8, rectangle split horizontal,
+  draw, anchor=center, align=center, inner xsep=0, inner ysep=2mm,
+  rectangle split part fill={
+    cyan!30,
+    cyan!20,
+    cyan!20,
+    cyan!20,
+    cyan!30,
+    white,
+    white,
+    white}] at (0,0)
+    {
+      \nodepart[text width=1cm]{one}   {}
+      \nodepart[text width=1cm]{two}   {}
+      \nodepart[text width=1cm]{three} {}
+      \nodepart[text width=1cm]{four}  {}
+      \nodepart[text width=1cm]{five}  {}
+      \nodepart[text width=1cm]{six}   {}
+      \nodepart[text width=1cm]{seven} {}
+      \nodepart[text width=1cm]{eight} {}
+    };
+
+  % Center divider.
+  \draw [thick, align=center] (0cm,-0.5cm) -- (0cm,0.5cm);
+
+  \draw [decorate, decoration={brace, amplitude=4mm}]
+    (-4, 0.5)--node[above=4mm]{\footnotesize Left half plus right half's \texttt{max\textunderscore{}L}} (1, 0.5);
+  \draw [decorate, decoration={brace, amplitude=2mm, mirror}]
+    (-4, -0.5)--node[below=4mm]{\footnotesize Left half's \texttt{max\textunderscore{}L}} (-3, -0.5);
+\end{tikzpicture}
+#+end_src

@@ -3,6 +3,8 @@ import unittest
 
 from typing import Optional
 
+from maximum_subarray.maximum_subarray import dp
+
 def brute_force(prices: list[int]) -> Optional[tuple[int, int, int]]:
     if not prices:
         return None
@@ -46,6 +48,17 @@ def optimal(prices: list[int]) -> Optional[tuple[int, int, int]]:
     # If no profitable trade found, return None.
     return None
 
+def via_max_subarray(prices: list[int]) -> Optional[tuple[int, int, int]]:
+    if not prices:
+        return None
+
+    changes = [b - a for (a, b) in zip(prices, prices[1:])]
+    max_subarray = dp(changes)
+    if max_subarray is None:
+        return None
+
+    return (max_subarray.end, max_subarray.end, max_subarray.sum)
+
 class Test(unittest.TestCase):
     cases = [
         ([],                      None),
@@ -61,6 +74,14 @@ class Test(unittest.TestCase):
             self.assertEqual(brute_force(given_prices), expected)
             self.assertEqual(optimal(given_prices), expected)
 
+            # Check via_max_subarray() (partial) solution. We can't check the
+            # exact buy/sell dates because of off-by-1 errors.
+            result = via_max_subarray(given_prices)
+            if expected is not None and result is not None:
+                self.assertEqual(result[2], expected[2])
+            else:
+                self.assertEqual(result, expected)
+
     @given(st.lists(st.integers(min_value=1, max_value=100), min_size=0,
                     max_size=14))
     def test_random(self, given_prices: list[int]):
@@ -73,6 +94,14 @@ class Test(unittest.TestCase):
 
         # Check that the optimal solution agrees with brute force.
         self.assertEqual(optimal(given_prices), got)
+
+        # Check via_max_subarray() (partial) solution, like we did for
+        # test_simple_cases().
+        result = via_max_subarray(given_prices)
+        if got is not None and result is not None:
+            self.assertEqual(result[2], got[2])
+        else:
+            self.assertEqual(result, got)
 
 if __name__ == "__main__":
     unittest.main(exit=False)
