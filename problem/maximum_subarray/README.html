@@ -924,10 +924,10 @@ is a negative number.
 <p>
 The result, then, is that if the <code>subarray_sum</code> reaches 0 or becomes negative,
 we will use the very next iteration of the loop to start tracking a new
-subarray, starting at that iteration's <code>x</code> as the initiail value (the <code>else</code>
+subarray, starting at that iteration's <code>x</code> as the initial value (the <code>else</code>
 block in the code above). This makes sense because if a subarray is zero or
-negative in value, it is not going to help make any other subarray larger. We're
-"done" looking at that subarray, and it's safe to stop considering it.
+negative, it is not going to help make any other subarray larger. We're
+done looking at that subarray, and it's safe to stop considering it.
 </p>
 
 <p>
@@ -953,7 +953,7 @@ remembering the "best subarray sum" seen so far.
 
 <p>
 Kadane's algorithm is a good example of dynamic programming, where we build up
-the solution to a smaller version of the problem to solve the bigger problem. It
+the solution from a smaller version of the problem to solve the bigger problem. It
 basically boils down the problem to checking whether we want to keep the current
 number to grow into the current subarray, or treat it as the start of a new
 subarray. As we now know which subarrays to look at, it's easy to calculate
