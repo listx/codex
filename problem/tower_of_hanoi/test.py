@@ -1,7 +1,3 @@
-#from binary_tree.binary_tree import BinaryTree, Node
-#import binary_search_tree.binary_search_tree as BST
-#import collections
-#from hypothesis import given, strategies as st
 from typing import List, NamedTuple
 import unittest
 
