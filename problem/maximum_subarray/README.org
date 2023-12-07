@@ -561,12 +561,56 @@ number to grow into the current subarray, or treat it as the start of a new
 subarray. As we now know which subarrays to look at, it's easy to calculate
 their sums and to record the maximum among them.
 
+** Variant using a running sum
+
+[cite/t:@epip 251] propose using cumulative sums to do the check. The version
+shown here uses the same idea, but also tracks beginning and ending indices.
+
+Instead of only tracking the maximum subarray, this version instead tracks the
+minimum. The idea is that whenever we hit a new low, we'll mark off the next
+element as the start of a new subarray which we need to measure. Tracking the
+current subarray sum is just a matter of taking the difference between the
+current running sum, and the previous minimum sum we've observed (because again,
+the minimum is the starting point of a new subarray).
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def dp_running_sum(xs: List[int]) -> Optional[SubSum]:
+    max_subarray_sum = 0
+    max_subarray_beg = 0
+    max_subarray_end = 0
+    min_subarray_sum = 0
+    subarray_beg = 0
+    for i, running_sum in enumerate(itertools.accumulate(xs)):
+        subarray_end = i
+        if running_sum < min_subarray_sum:
+            min_subarray_sum = running_sum
+            # If we hit a new low, we know that the next iteration (if it has a
+            # positive element) will be the start of a new subarray.
+            subarray_beg = i + 1
+
+        subarray_sum = running_sum - min_subarray_sum
+        if subarray_sum > max_subarray_sum:
+            max_subarray_sum = subarray_sum
+            max_subarray_beg = subarray_beg
+            max_subarray_end = subarray_end
+
+    if max_subarray_sum > 0:
+        return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+
+    return None
+#+end_src
+
+This also has linear running time, but is a bit more complicated because we have
+to build up cumulative sums, which is unnecessary in Kadane's algorithm.
+
 * Tests
 
 #+name: __NREF__Tests
 #+caption: Tests
 #+begin_src python :eval no :session test :tangle test.py
 from hypothesis import given, strategies as st
+import itertools
 from typing import List, NamedTuple, Optional
 import unittest
 
@@ -626,6 +670,7 @@ def test_basic(self):
         self.assertEqual(want, dac(xs))
         self.assertEqual(want, dac_linear(xs))
         self.assertEqual(want, dp(xs))
+        self.assertEqual(want, dp_running_sum(xs))
 #+end_src
 
 ** Property-based tests
@@ -641,6 +686,7 @@ def test_random(self, xs: List[int]):
     # Do the solutions agree with each other?
     self.assertEqual(result_brute, brute_quadratic(xs))
     self.assertEqual(result_brute, brute_quadratic_alt(xs))
+    self.assertEqual(result_brute, dp_running_sum(xs))
 
     def helper(want, algos):
         for algo in algos:
@@ -661,13 +707,14 @@ def test_random(self, xs: List[int]):
                 # information possible by doing an assertion.
                 self.assertEqual(want, got)
 
-    helper(result_brute, [dac, dac_linear, dp])
+    helper(result_brute, [dac, dac_linear, dp, dp_running_sum])
 #+end_src
 
 * Export
 
 #+begin_src python :eval no :session test :tangle maximum_subarray.py
 from __future__ import annotations
+import itertools
 from typing import List, NamedTuple, Optional
 
 __NREF__boilerplate

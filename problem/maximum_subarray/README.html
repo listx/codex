@@ -269,6 +269,7 @@
 <li><a href="#h-Divide-and-conquer---O-n--log-n---">3.4. Divide-and-conquer (\(O(n \log{n})\))</a></li>
 <li><a href="#h-Divide-and-conquer--linear">3.5. Divide-and-conquer (linear)</a></li>
 <li><a href="#h-Optimal--Kadane-s-algorithm--linear">3.6. Optimal (Kadane's algorithm, linear)</a></li>
+<li><a href="#h-Variant-using-a-running-sum">3.7. Variant using a running sum</a></li>
 </ul>
 </li>
 <li><a href="#h-Tests">4. Tests</a>
@@ -341,7 +342,7 @@ implementations to capture the answer.
 <div id="outline-container-h-Brute-force--cubic" class="outline-3">
 <h3 id="h-Brute-force--cubic"><span class="section-number-3">3.1.</span> Brute force (cubic)</h3>
 <div class="outline-text-3" id="text-h-Brute-force--cubic">
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(1/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-1"><span class="org-keyword">def</span> <span class="org-function-name">brute_cubic</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(1/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-1"><span class="org-keyword">def</span> <span class="org-function-name">brute_cubic</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
     <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">end</span> <span class="org-operator">=</span> 0
@@ -381,7 +382,7 @@ Instead of computing <code>subsum</code> from scratch on every inner loop iterat
 just build it up within the outer <code>for</code> loop.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(2/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-2"><span class="org-keyword">def</span> <span class="org-function-name">brute_quadratic</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(2/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-2"><span class="org-keyword">def</span> <span class="org-function-name">brute_quadratic</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
     <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">end</span> <span class="org-operator">=</span> 0
@@ -437,7 +438,7 @@ Going with the example above, if we want to compute the sum of <code>xs[1, 2]</c
 csum[0]</code>.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(3/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-3"><span class="org-keyword">def</span> <span class="org-function-name">brute_quadratic_alt</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(3/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-3"><span class="org-keyword">def</span> <span class="org-function-name">brute_quadratic_alt</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
     <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">end</span> <span class="org-operator">=</span> 0
@@ -565,7 +566,7 @@ Note that \(M_c\) may include \(M_a\) or \(M_b\), but whether this happens depen
 the input.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(4/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-4"><span class="org-keyword">def</span> <span class="org-function-name">dac</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(4/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-4">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-4"><span class="org-keyword">def</span> <span class="org-function-name">dac</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
     <span class="org-keyword">def</span> <span class="org-function-name">helper</span>(lo, hi):
         <span class="org-comment-delimiter"># </span><span class="org-comment">Zero elements. For simplicity of comparisons between M_a, M_b, and</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">M_c, we use a proxy value for None, SubSum(0, -1, -1).</span>
@@ -698,7 +699,7 @@ is a bit long, but it's mainly because we also keep track of all the indices
 involved.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(5/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-5"><span class="org-keyword">class</span> <span class="org-type">Sums</span>(NamedTuple):
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(5/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-5">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-5"><span class="org-keyword">class</span> <span class="org-type">Sums</span>(NamedTuple):
     <span class="org-comment-delimiter"># </span><span class="org-comment">Sum of all elements in the given array.</span>
     total_sum: <span class="org-builtin">int</span>
 
@@ -818,7 +819,7 @@ The divide and conquer solution is admittedly a bit long-winded. Kadane's
 algorithm is much simpler, although it may not appear obvious at first sight.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(6/6) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-6"><span class="org-comment-delimiter"># </span><span class="org-comment">Kadane's algorithm. It's named "dp" here because it is a good example of</span>
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(6/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-6"><span class="org-comment-delimiter"># </span><span class="org-comment">Kadane's algorithm. It's named "dp" here because it is a good example of</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">dynamic programming.</span>
 <span class="org-keyword">def</span> <span class="org-function-name">dp</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
     <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> 0
@@ -961,12 +962,61 @@ their sums and to record the maximum among them.
 </p>
 </div>
 </div>
+
+<div id="outline-container-h-Variant-using-a-running-sum" class="outline-3">
+<h3 id="h-Variant-using-a-running-sum"><span class="section-number-3">3.7.</span> Variant using a running sum</h3>
+<div class="outline-text-3" id="text-h-Variant-using-a-running-sum">
+<p>
+Aziz et al. (<a href="#citeproc_bib_item_1">2018, p. 251</a>) propose using cumulative sums to do the check. The version
+shown here uses the same idea, but also tracks beginning and ending indices.
+</p>
+
+<p>
+Instead of only tracking the maximum subarray, this version instead tracks the
+minimum. The idea is that whenever we hit a new low, we'll mark off the next
+element as the start of a new subarray which we need to measure. Tracking the
+current subarray sum is just a matter of taking the difference between the
+current running sum, and the previous minimum sum we've observed (because again,
+the minimum is the starting point of a new subarray).
+</p>
+
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(7/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-7"><span class="org-keyword">def</span> <span class="org-function-name">dp_running_sum</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
+    <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_subarray_beg</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_subarray_end</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">min_subarray_sum</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">subarray_beg</span> <span class="org-operator">=</span> 0
+    <span class="org-keyword">for</span> i, running_sum <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(itertools.accumulate(xs)):
+        <span class="org-variable-name">subarray_end</span> <span class="org-operator">=</span> i
+        <span class="org-keyword">if</span> running_sum <span class="org-operator">&lt;</span> min_subarray_sum:
+            <span class="org-variable-name">min_subarray_sum</span> <span class="org-operator">=</span> running_sum
+            <span class="org-comment-delimiter"># </span><span class="org-comment">If we hit a new low, we know that the next iteration (if it has a</span>
+            <span class="org-comment-delimiter"># </span><span class="org-comment">positive element) will be the start of a new subarray.</span>
+            <span class="org-variable-name">subarray_beg</span> <span class="org-operator">=</span> i <span class="org-operator">+</span> 1
+
+        <span class="org-variable-name">subarray_sum</span> <span class="org-operator">=</span> running_sum <span class="org-operator">-</span> min_subarray_sum
+        <span class="org-keyword">if</span> subarray_sum <span class="org-operator">&gt;</span> max_subarray_sum:
+            <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> subarray_sum
+            <span class="org-variable-name">max_subarray_beg</span> <span class="org-operator">=</span> subarray_beg
+            <span class="org-variable-name">max_subarray_end</span> <span class="org-operator">=</span> subarray_end
+
+    <span class="org-keyword">if</span> max_subarray_sum <span class="org-operator">&gt;</span> 0:
+        <span class="org-keyword">return</span> SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+
+    <span class="org-keyword">return</span> <span class="org-constant">None</span>
+</pre></div></div><p>
+This also has linear running time, but is a bit more complicated because we have
+to build up cumulative sums, which is unnecessary in Kadane's algorithm.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-h-Tests" class="outline-2">
 <h2 id="h-Tests"><span class="section-number-2">4.</span> Tests</h2>
 <div class="outline-text-2" id="text-h-Tests">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><label class="org-src-name">Tests</label><span class="lilac-caption-link-symbol"><a href="#Tests">&#x1f517;</a></span></div><pre class="src src-python" id="Tests"><span class="org-keyword">from</span> hypothesis <span class="org-keyword">import</span> given, strategies <span class="org-keyword">as</span> st
+<span class="org-keyword">import</span> itertools
 <span class="org-keyword">from</span> typing <span class="org-keyword">import</span> List, NamedTuple, Optional
 <span class="org-keyword">import</span> unittest
 
@@ -1023,6 +1073,7 @@ their sums and to record the maximum among them.
         <span class="org-keyword">self</span>.assertEqual(want, dac(xs))
         <span class="org-keyword">self</span>.assertEqual(want, dac_linear(xs))
         <span class="org-keyword">self</span>.assertEqual(want, dp(xs))
+        <span class="org-keyword">self</span>.assertEqual(want, dp_running_sum(xs))
 </pre></div></div>
 </div>
 </div>
@@ -1039,6 +1090,7 @@ their sums and to record the maximum among them.
     <span class="org-comment-delimiter"># </span><span class="org-comment">Do the solutions agree with each other?</span>
     <span class="org-keyword">self</span>.assertEqual(result_brute, brute_quadratic(xs))
     <span class="org-keyword">self</span>.assertEqual(result_brute, brute_quadratic_alt(xs))
+    <span class="org-keyword">self</span>.assertEqual(result_brute, dp_running_sum(xs))
 
     <span class="org-keyword">def</span> <span class="org-function-name">helper</span>(want, algos):
         <span class="org-keyword">for</span> algo <span class="org-keyword">in</span> algos:
@@ -1059,7 +1111,7 @@ their sums and to record the maximum among them.
                 <span class="org-comment-delimiter"># </span><span class="org-comment">information possible by doing an assertion.</span>
                 <span class="org-keyword">self</span>.assertEqual(want, got)
 
-    helper(result_brute, [dac, dac_linear, dp])
+    helper(result_brute, [dac, dac_linear, dp, dp_running_sum])
 </pre></div></div>
 </div>
 </div>
@@ -1069,6 +1121,7 @@ their sums and to record the maximum among them.
 <h2 id="h-Export"><span class="section-number-2">5.</span> Export</h2>
 <div class="outline-text-2" id="text-h-Export">
 <div class="org-src-container"><pre class="src src-python" id="org0000006"><span class="org-keyword">from</span> __future__ <span class="org-keyword">import</span> annotations
+<span class="org-keyword">import</span> itertools
 <span class="org-keyword">from</span> typing <span class="org-keyword">import</span> List, NamedTuple, Optional
 
 <span class="lilac-child-link-from-parent"><a href="#__NREF__boilerplate">boilerplate</a></span>

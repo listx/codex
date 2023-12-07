@@ -1,4 +1,5 @@
 from __future__ import annotations
+import itertools
 from typing import List, NamedTuple, Optional
 
 class SubSum(NamedTuple):
@@ -270,6 +271,30 @@ def dp(xs: List[int]) -> Optional[SubSum]:
             subarray_beg = i
 
         # Keep track of the largest subarray_sum we've seen.
+        if subarray_sum > max_subarray_sum:
+            max_subarray_sum = subarray_sum
+            max_subarray_beg = subarray_beg
+            max_subarray_end = subarray_end
+
+    if max_subarray_sum > 0:
+        return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+
+    return None
+def dp_running_sum(xs: List[int]) -> Optional[SubSum]:
+    max_subarray_sum = 0
+    max_subarray_beg = 0
+    max_subarray_end = 0
+    min_subarray_sum = 0
+    subarray_beg = 0
+    for i, running_sum in enumerate(itertools.accumulate(xs)):
+        subarray_end = i
+        if running_sum < min_subarray_sum:
+            min_subarray_sum = running_sum
+            # If we hit a new low, we know that the next iteration (if it has a
+            # positive element) will be the start of a new subarray.
+            subarray_beg = i + 1
+
+        subarray_sum = running_sum - min_subarray_sum
         if subarray_sum > max_subarray_sum:
             max_subarray_sum = subarray_sum
             max_subarray_beg = subarray_beg

@@ -1,4 +1,5 @@
 from hypothesis import given, strategies as st
+import itertools
 from typing import List, NamedTuple, Optional
 import unittest
 
@@ -280,6 +281,30 @@ def dp(xs: List[int]) -> Optional[SubSum]:
         return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
 
     return None
+def dp_running_sum(xs: List[int]) -> Optional[SubSum]:
+    max_subarray_sum = 0
+    max_subarray_beg = 0
+    max_subarray_end = 0
+    min_subarray_sum = 0
+    subarray_beg = 0
+    for i, running_sum in enumerate(itertools.accumulate(xs)):
+        subarray_end = i
+        if running_sum < min_subarray_sum:
+            min_subarray_sum = running_sum
+            # If we hit a new low, we know that the next iteration (if it has a
+            # positive element) will be the start of a new subarray.
+            subarray_beg = i + 1
+
+        subarray_sum = running_sum - min_subarray_sum
+        if subarray_sum > max_subarray_sum:
+            max_subarray_sum = subarray_sum
+            max_subarray_beg = subarray_beg
+            max_subarray_end = subarray_end
+
+    if max_subarray_sum > 0:
+        return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+
+    return None
 
 class Test(unittest.TestCase):
     def test_basic(self):
@@ -321,6 +346,7 @@ class Test(unittest.TestCase):
             self.assertEqual(want, dac(xs))
             self.assertEqual(want, dac_linear(xs))
             self.assertEqual(want, dp(xs))
+            self.assertEqual(want, dp_running_sum(xs))
     @given(st.lists(st.integers(min_value=-50, max_value=50),
                     min_size=0,
                     max_size=50))
@@ -330,6 +356,7 @@ class Test(unittest.TestCase):
         # Do the solutions agree with each other?
         self.assertEqual(result_brute, brute_quadratic(xs))
         self.assertEqual(result_brute, brute_quadratic_alt(xs))
+        self.assertEqual(result_brute, dp_running_sum(xs))
 
         def helper(want, algos):
             for algo in algos:
@@ -350,7 +377,7 @@ class Test(unittest.TestCase):
                     # information possible by doing an assertion.
                     self.assertEqual(want, got)
 
-        helper(result_brute, [dac, dac_linear, dp])
+        helper(result_brute, [dac, dac_linear, dp, dp_running_sum])
 
 if __name__ == "__main__":
     unittest.main(exit=False)
