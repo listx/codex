@@ -66,6 +66,7 @@ brief description of each one, and references.
 | [[file:problem/binary_tree_validate_as_BST/README.org][Validate binary tree as BST]]       | binary tree         | [cite:@epip 213]                                                                             |
 | [[file:problem/tower_of_hanoi/README.org][Tower of Hanoi]]   | recursion, binary tree | [cite:@epip 233]                                                                           |
 | [[file:problem/maximum_subarray/README.org][Maximum Subarray]] | divide and conquer, dynamic programming | [cite:@epip 250; @pearls 77]                                                         |
+| [[file:problem/making_change/README.org][Making Change]] | dynamic programming | [cite:@epip 253; @taocp1 sec. 1.2.9]]                                                        |
 
 ** Data structures
 
@@ -138,6 +139,17 @@ correctness of the puzzle solutions collected in this work.
     publisher = {Addison-Wesley},
     keywords = {Computer programming},
     address = {Upper Saddle River, NJ},
+}
+
+@book{taocp1,
+    title = {{The Art of Computer Programming: Fundamental Algorithms}},
+    author = {Knuth, Donald Ervin},
+    edition = {3rd ed},
+    year = {1997},
+    isbn = {0-201-89683-4},
+    publisher = {Addison-Wesley},
+    keywords = {Computer programming, Computer algorithms},
+    address = {Reading, Mass},
 }
 
 @book{taocp3,

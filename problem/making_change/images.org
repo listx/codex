@@ -1,0 +1,56 @@
+* DFS decision tree
+
+#+header: :eval yes
+#+header: :file decision_tree.img.pdf
+#+header: :imagemagick yes
+#+header: :headers '("\\usepackage{tikz}" "\\usepackage{tikz-qtree}" "\\usepackage[default]{sourcesanspro}")
+#+begin_src latex
+\begin{tikzpicture}[every tree node/.style={draw,circle},
+   level distance=1.25cm,sibling distance=1cm,
+   edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}]
+\Tree
+[.10
+    \edge node[auto=right] {$-10$};
+    [.0 ]
+    \edge node[auto=left] {$-5$};
+    [.5
+        \edge node[auto=right] {$-5$};
+        [.0 ]
+        \edge node[auto=left] {$-1$};
+        [.4
+            \edge node[auto=left,pos=.6] {$-1$};
+            [.3
+                [.... ]
+            ]
+            ]
+        ]
+    \edge node[auto=left,pos=.6] {$-1$};
+    [.9
+        \edge node[auto=left,pos=.6] {$-5$};
+        [.4
+            \edge node[auto=left,pos=.6] {$-1$};
+            [.3
+                [.... ]
+            ]
+        ]
+        \edge node[auto=left,pos=.6] {$-1$};
+        [.8
+            \edge node[auto=left,pos=.6] {$-5$};
+            [.3
+                \edge node[auto=left,pos=.6] {$-1$};
+                [.2
+                    [.... ]
+                ]
+            ]
+            \edge node[auto=left,pos=.6] {$-1$};
+            [.7
+                \edge node[auto=left,pos=.6] {$-1$};
+                [.6
+                    [.... ]
+                ]
+            ]
+        ]
+    ]
+]
+\end{tikzpicture}
+#+end_src

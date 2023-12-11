@@ -1,0 +1,493 @@
+#+title: Making Change
+#+SETUPFILE: ../../lilac.theme
+#+PROPERTY: header-args :noweb no-export
+#+OPTIONS: H:5
+
+#+OPTIONS: ^:{}
+
+#+BIBLIOGRAPHY: ../../citations.bib
+
+* Problem statement
+
+#+begin_sidenote
+[cite/t:@epip 253] mentions this problem but uses the analogy of points scored
+in a sports game, where the game has some number of "plays" defined and each
+play is worth a fixed number of points. The problem remains the same.
+#+end_sidenote
+
+Given some US monetary amount $A$, count how many different combination of coins
+can be used to reach that sum. The recognized coins are pennies, nickels, dimes,
+and quarters.
+
+#+begin_example
+Input: $0.10
+Output: 4 (1 dime, 2 nickels, 1 nickel and 5 pennies, 10 pennies)
+#+end_example
+
+* Insights
+
+This problem is a special case of the integer partitioning problem, where the
+problem is to find all the ways of partitioning a positive integer into other
+integers whose sum equals the starting integer. In this case we are given only a
+particular set of integers $\{1, 5, 10, 25\}$ that we can use, whereas the
+integer partitioning problem considers the set of all positive integers $\{1, 2,
+3, 4, 5, \cdots{}\}$.
+
+The key to using dynamic programming in this problem is to recognize that
+computing the solution for the amount $A$ is related to finding the solution for
+the sum $A-1$ (successively smaller amounts), and also the solution for the
+cases with fewer and fewer coins availble (down to the empty set of coins).
+
+* Solution
+
+** Brute force
+
+You could rewrite the problem statement as the following equation
+
+\[
+A = p + 5n + 10d + 25q
+\]
+
+such the question could be rephrased as finding all non-negative integer
+variables $p$, $n$, $d$, $q$ that sum up to $A$.
+
+The obvious brute force approach would be to enumerate across each of these coin
+types (4 =for= loops, nested together), where the lower bound is =0= and the
+upper bound is $A$. And then whenever we find a set of variables that work,
+we can save this in a hash table to remember that winning combination. Then when
+we're done iterating, we can just count how many entries there are in the hash
+table to get the total number of combinations of coins that sum to $A$.
+
+It's a bit tricky to use a dynamic number of nested loops though (we don't know
+how many number of coins we'll be given), so instead we can use a composite
+counter variable. For the case of coins $\{1, 5, 10, 25\}$, we have a list of 4
+zeroes (one for each variable). We count from =[0, 0, 0, 0]= to the point we
+are "maxed out," where "maxed out" means that we have tried out all possible
+combinations of coins.  Assuming the target amount is 100 cents, we would
+increment the variables like this:
+
+#+begin_example
+[0, 0, 0, 0]
+[1, 0, 0, 0]
+[2, 0, 0, 0]
+[3, 0, 0, 0]
+...
+[100, 0, 0, 0]
+[0, 1, 0, 0]
+[1, 1, 0, 0]
+[2, 1, 0, 0]
+[3, 1, 0, 0]
+...
+[100, 1, 0, 0]
+[0, 2, 0, 0]
+[1, 2, 0, 0]
+[2, 2, 0, 0]
+[3, 2, 0, 0] # 3 pennies, 2 nickels
+...
+[100, 20, 0, 0]
+[0, 0, 1, 0]
+[1, 0, 1, 0]
+[2, 0, 1, 0]
+...
+[100, 20, 10, 0] # 100 pennies, 20 nickels, 10 dimes
+[0, 0, 0, 1]
+[1, 0, 0, 1]
+[2, 0, 0, 1]
+[3, 0, 0, 1]
+...
+[100, 20, 10, 4] # Maxed out (each coin denomination totals 100 cents)
+#+end_example
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def brute_exponential(amount: int, coins: List[int]) -> int:
+    combinations = 0
+
+    # Assume that coins is sorted already (e.g., [1, 5, 10, 25]).
+    variables = [0] * len(coins)
+
+    def maxed_out(variables):
+        bools = [False] * len(variables)
+        for i, coin in enumerate(coins):
+            if variables[i] * coin >= amount:
+                bools[i] = True
+        return all(bools)
+
+    def increment(variables):
+        for i, coin in enumerate(coins):
+            if variables[i] * coin < amount:
+                variables[i] += 1
+                # If we increment a higher base, we need to reset all lower
+                # bases.
+                if i > 0:
+                    for x in range(i):
+                        variables[x] = 0
+                break
+        return variables
+
+    while not maxed_out(variables):
+        variables = increment(variables)
+        got = 0
+        for i, coin in enumerate(coins):
+            got += (variables[i] * coin)
+
+        if got == amount:
+            combinations += 1
+
+    return combinations
+#+end_src
+
+You can see how this solution, while correct, has terrible performance because
+every additional coin denomination will essentially give us another "nested
+loop". So the time complexity is $O(a^d)$ where $a$ is the target amount and $d$
+is the number of coin denominations.
+
+** Brute force using DFS
+
+This approach treats the problem as a tree problem; you can use depth-first
+search over a decision tree. The root node of this tree is the target amount.
+Then you have child nodes equal to the number of coin types, such that picking a
+coin reduces the value from the root node by the value of the chosen coin. You
+do this repeatedly at each level, reducing the value you've started with from
+the root node. When you reach a child node of zero value, the coins you've
+picked to get there are solutions to the equation.
+
+You can use a hash table to speed up the search here by memoizing (remembering)
+previously seen results (child nodes). This way, you won't recompute
+already-computed values all over again.
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def brute_dfs(amount: int, coins: List[int]) -> int:
+    cache: Dict[int, int] = {}
+
+    def dfs(amt, i):
+        if i == len(coins):
+            return 0
+        if amt - coins[i] == 0:
+            return 1
+        if amt < 0:
+            return 0
+        if (amt, i) in cache:
+            return cache[(amt, i)]
+
+        # Include all ways to reach an amount that is smaller than the current
+        # coin value, but using the same coin (index "i" is unchanged in this
+        # call).
+        combos = dfs(amt - coins[i], i)
+
+        # Include all ways to get the current amount using other coins other
+        # than this one (because using the current one does not get us to zero
+        # (if it did, we would've returned early above)).
+        combos += dfs(amt, i + 1)
+
+        # Remember the result in the cache (memoization).
+        cache[(amt, i)] = combos
+
+        return combos
+
+    return dfs(amount, 0)
+#+end_src
+
+The time complexity is $O(a*d)$, because we only do work for each unique
+possible =(amt, i)= argument for the =dfs()= helper function /once/ because
+every repeated call with a previously seen argument will be cached. Because
+there are $amt * i$ different possible arguments, the time complexity is also
+$O(a*d)$.
+
+#+caption: Decision tree (partially drawn) for $A = 10$ and coins $\{1, 5, 10\}$.
+#+ATTR_HTML: :width 600px
+[[./decision_tree.svg]]
+
+** Dynamic programming (DP)
+
+The tree-driven approach above gives us a clue about breaking down the original
+problem into sub-problems. What if starting with the target sum and choosing
+among all possible coin denominations, we started out with 0 and no coins,
+successively building up these smaller problems, slowing increasing the sum on
+one dimension and the number of coin types allowed in the other dimension? This
+is the key to the dynamic programming approach.
+
+To be fair, the DFS solution above could also be solved the same way (start from
+amount 0, then build out our tree to find all sums that reach the amount we
+want) --- but the downside is that the shape of the final tree (search paths)
+is not really predictable. The advantage of the DP solution is that the data
+structure we use (a 2D array) is always consistent and simple, making it also
+much easier to reason about. Plus, we don't need to keep a hash table around,
+further simplifying the data structures involved.
+
+Let's talk about the table. For the case of 10 cents and pennies, nickels, and
+dimes (we'll skip quarters because the amount of 10 cents is too small to
+consider quarters), we first begin constructing the table with the columns set
+to the amounts leading up to 10 cents and the rows describing the different ways
+in which we can get the amount using the coin.
+
+#+caption: Ways to reach amounts (in cents) using only pennies.
+|   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---+---+---+---+---+---+---+---+---+---+---+----|
+| p | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |  1 |
+
+This table says "no matter what amount, if we're only using pennies, there is
+always only 1 combination of coins we can use to reach that amount --- all
+pennies, every time". Note that also the amount 0 has a value of 1; this
+encodes the act of being unable to use pennies to get to a sum of 0 cents, by
+using *no* pennies.
+
+The mathematics here are subtle, but suffice it to say that
+we need to use a value of 1 for the case of 0 cents, to act as our base case. In
+fact, this is how we would start filling in the table for the very first coin
+--- by starting out with this initial cell value of 1 for amount 0. The
+algorithm is then as follows: for each empty cell on the right, use the column
+that is /penny/ spaces away on the left. Because the penny has a value of 1, we
+use the column immediately to the left. This is why all cells have the same
+value of 1 because the initial 1 value is copied over to the right.
+
+The above description is a mechanical description of how we can construct this
+table when only pennies are involved, but there's a deeper explanation. The
+point is that to fill out the current cell $p_a$ where $a$ is the amount, we
+use the following formula:
+
+\[
+p_a = p_{a - 1} + x_a
+\]
+
+where $p_{a - 1}$ is the number of combinations to make change for an amount
+reduced by the value of the penny ($a - 1$ because the penny is worth $1$) and
+$x_a$ is the answer for the total number of combinations of making change with
+the set of coins without the penny for the same amount. The $p_{a - 1}$ is what
+we described  in the previous paragraph --- it's the column to the immediate
+left. But what about $x_a$? Well actually, the table starts out with a default
+row, the /empty set/ of coins (where we have no coins). So the real table looks
+like this initially:
+
+#+caption: Default "base case" row for the set of no coins.
+|        | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|--------+---+---+---+---+---+---+---+---+---+---+----|
+| $\{\}$ | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  0 |
+
+This table reads: if there are no coins available, then if the amount we need is
+0, there is 1 way to make change --- by choosing nothing. However, if we need to
+make change for some amount greater than 0, we are unable to fulfill that
+request because we don't have any coins we can use. So because we are unable to
+honor the request, we put in a $0$ for those positive sums.
+
+Now let's go back to filling out the row for the pennies.
+
+#+caption: Filling out the pennies row.
+|         | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---------+---+---+---+---+---+---+---+---+---+---+----|
+| $\{\}$  | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  0 |
+| $\{p\}$ | 1 | ? | ? | ? | ? | ? | ? | ? | ? | ? |  ? |
+
+For amount 0, the answer is always 1 (as discussed previously). For amount 1, we
+use the formula $p_{a - 1} + x_a$, which in this case is $1 + 0$ (the 1 comes
+from the answer for amount $1 - 1 = 0$, and the 0 comes from the row above, for
+the empty set which does not have the penny available). In this fashion, we can
+fill out the row again, one cell at a time, and each time the solution is $1 +
+0 = 1$. So now we get the following:
+
+#+caption: Pennies row filled out.
+|         | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---------+---+---+---+---+---+---+---+---+---+---+----|
+| $\{\}$  | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  0 |
+| $\{p\}$ | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |  1 |
+
+What about nickels? Let's see how nickel behave in isolation first, and then
+let's consider them in conjunction with pennies.
+
+#+caption: Nickels row filled out.
+|         | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---------+---+---+---+---+---+---+---+---+---+---+----|
+| $\{\}$  | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  0 |
+| $\{n\}$ | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |  1 |
+
+The table tells us that nickels can only make change (with itself) if the amount
+is divisible evenly by 5, or if the amount is 0. If we add in pennies to the
+mix, then the table gets more interesting because we gain the ability to make
+change for amounts that are not divisible by 5 (by using pennies).
+
+#+caption: Nickels row filled out with pennies.
+|            | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|------------+---+---+---+---+---+---+---+---+---+---+----|
+| $\{\}$     | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  0 |
+| $\{p\}$    | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |  1 |
+| $\{p, n\}$ | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 2 |  3 |
+
+For nickels, our formula is
+
+\[
+n_a = n_{a - 5} + p_a.
+\]
+
+The $p_a$ is there because, we want to consider all the ways we can make the
+amount $a$ using pennies (we're building on top of that answer). For the $n_{a -
+5}$, we are also building on top of a previous answer --- the case where the
+amount was exactly one nickel's worth smaller than the current amount. Again for
+the first column (amount 0), the answer is 1 by definition. But for all
+subsequent amounts we have to use our formula. For amounts 1 through 4, the
+$n_{a-5}$ term is zero because there is no corresponding value (it would point
+to a negative amount also, which is not valid). But for the amount of 5 cents,
+we can use the nickel as the amount is big enough.
+
+It's worth repeating the meaning of the formula in plain English. The formula
+written above means, "the count of all combinations of nickels and pennies for
+an amount $a$ is equal to (1) the number of combinations without using nickels
+for the same amount ($p_a$) and (2) the number of combinations of using a nickel
+to reduce the amount by 5 cents and whatever the overall answer is for that
+reduced amount ($n_{a - 5}$)." The second step might be a bit unintuitive, but
+it makes sense if you think about the DFS solution. There, each time we decide
+to use a coin of some value, we reduced the amount by that value and we had to
+choose all over again at the next tree depth down. Going left on the table is
+akin to choosing to use the current coin denomination (because the amount is
+large enough) in DFS, but which in and of itself doesn't give us any answers (we
+still need to solve for the subproblem of the reduced amount using nickels and
+pennies).
+
+We can use the same reasoning to fill out the rest of the table with dimes and
+quarters. The table below uses increments of 5 to save space, but the ideas are
+the same as before.
+
+#+caption: Table for  quarters, dimes, nickels, and pennies.
+|                  | 0 | 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50 |
+|------------------+---+---+----+----+----+----+----+----+----+----+----|
+| $\{\}$           | 1 | 0 |  0 |  0 |  0 |  0 |  0 |  0 |  0 |  0 |  0 |
+| $\{p\}$          | 1 | 1 |  1 |  1 |  1 |  1 |  1 |  1 |  1 |  1 |  1 |
+| $\{p, n\}$       | 1 | 2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 |
+| $\{p, n, d\}$    | 1 | 2 |  4 |  6 |  9 | 12 | 16 | 20 | 25 | 30 | 36 |
+| $\{p, n, d, q\}$ | 1 | 2 |  4 |  6 |  9 | 13 | 18 | 24 | 31 | 39 | 49 |
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def dp(amount: int, coins: List[int]) -> int:
+    # These are special condition to match the behavior of our brute force and
+    # DFS solutions.
+    if not coins:
+        return 0
+    if not amount:
+        return 0
+
+    table = [[1] + [0] * amount
+             for _ in coins]
+
+    for i, coin in enumerate(coins):
+        for amt in range(1, amount + 1):
+            with_coin = table[i][amt - coin] if amt >= coin else 0
+            without_coin = table[i - 1][amt] if i > 0 else 0
+            table[i][amt] = with_coin + without_coin
+
+    return table[-1][amount]
+#+end_src
+
+The time complexity is $O(a*d)$ because there are two loops, one for the number
+of coins $d$ and another nested one inside it for the amount $a$. The space
+complexity is also $O(a*d)$ because we create a about $a*d$ cells (not counting
+the initial =[1]= cell for each row's first column).
+
+** Using $O(a)$ space
+
+The solution below only uses one row of the table at a time, essentially
+collapsing the rows as we build up to the last row.
+
+#+header: :noweb-ref __NREF__solution
+#+begin_src python
+def dp_optimized(amount: int, coins: List[int]) -> int:
+    # These are special condition to match the behavior of our brute force and
+    # DFS solutions.
+    if not coins:
+        return 0
+    if not amount:
+        return 0
+
+    table = [1] + [0] * amount
+
+    for coin in coins:
+        for amt in range(amount + 1):
+            # Skip over negative sums.
+            if amt - coin < 0:
+                continue
+            table[amt] += table[amt - coin]
+
+    return table[amount]
+#+end_src
+
+** Generating functions
+
+Generating functions [cite:@taocp1 sec. 1.2.9] give us a $O(1)$ time solution, but the implementation is
+omitted here because the solution boils down to a series of algebraic
+manipulations. It is purely mathematical and would require implementing
+functionality found in computer algebra systems, which transcends the original
+spirit of this problem from a coding sense.
+
+* Tests
+
+#+name: __NREF__Tests
+#+caption: Tests
+#+begin_src python :eval no :session test :tangle test.py
+from hypothesis import given, strategies as st
+from typing import Dict, List
+import unittest
+
+__NREF__boilerplate
+__NREF__solution
+
+class Test(unittest.TestCase):
+    __NREF__test_cases
+
+if __name__ == "__main__":
+    unittest.main(exit=False)
+#+end_src
+
+** Basic tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+def test_basic(self):
+    cases = [
+        # No combination to make sum of 0, with no coins.
+        (0,     0,      []),
+        # No combination to make sum of 0, with smallest possible coin (penny).
+        (0,     0,      [1]),
+        # Some basic cases.
+        (1,     1,      [1]),
+        (4,     12,     [2, 3, 7]),
+        # Some values from Table 7 in the text.
+        (9,     20,     [1, 5, 10, 25]),
+        (18,    30,     [1, 5, 10, 25]),
+        (24,    35,     [1, 5, 10, 25]),
+        (31,    40,     [1, 5, 10, 25]),
+        (39,    45,     [1, 5, 10, 25]),
+        (49,    50,     [1, 5, 10, 25]),
+        (293,   100,    [1, 5, 10, 25, 50, 100]),
+    ]
+    for want, amount, coins in cases:
+        self.assertEqual(want, brute_exponential(amount, coins))
+        self.assertEqual(want, brute_dfs(amount, coins))
+        self.assertEqual(want, dp(amount, coins))
+        self.assertEqual(want, dp_optimized(amount, coins))
+#+end_src
+
+** Property-based tests
+
+#+header: :noweb-ref __NREF__test_cases
+#+begin_src python
+@given(st.integers(min_value=0, max_value=50),
+       st.lists(st.integers(min_value=1, max_value=50),
+                min_size=0,
+                max_size=4,
+                unique=True))
+def test_random(self, amount: int, coins: List[int]):
+    # Sort the coins.
+    coins.sort()
+
+    result_brute = brute_exponential(amount, coins)
+
+    # Do the solutions agree with each other?
+    self.assertEqual(result_brute, brute_dfs(amount, coins))
+    self.assertEqual(result_brute, dp(amount, coins))
+    self.assertEqual(result_brute, dp_optimized(amount, coins))
+#+end_src
+
+* References
+
+#+CITE_EXPORT: csl apa.csl
+#+PRINT_BIBLIOGRAPHY:

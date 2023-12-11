@@ -14,6 +14,7 @@ let
       pgf
       xkeyval
       fontspec
+      tikz-qtree
 
       # Source Sans Pro font.
       sourcesanspro
