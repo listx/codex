@@ -2,7 +2,6 @@ from hypothesis import given, strategies as st
 from typing import Dict, List
 import unittest
 
-
 def brute_exponential(amount: int, coins: List[int]) -> int:
     combinations = 0
 

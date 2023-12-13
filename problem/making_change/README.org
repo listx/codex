@@ -36,7 +36,7 @@ integer partitioning problem considers the set of all positive integers $\{1, 2,
 The key to using dynamic programming in this problem is to recognize that
 computing the solution for the amount $A$ is related to finding the solution for
 the sum $A-1$ (successively smaller amounts), and also the solution for the
-cases with fewer and fewer coins availble (down to the empty set of coins).
+cases with fewer and fewer coins available (down to the empty set of coins).
 
 * Solution
 
@@ -427,7 +427,6 @@ from hypothesis import given, strategies as st
 from typing import Dict, List
 import unittest
 
-__NREF__boilerplate
 __NREF__solution
 
 class Test(unittest.TestCase):
