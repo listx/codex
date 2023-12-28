@@ -830,6 +830,7 @@ data.
 **/.gitattributes diff
 **/.gitmodules diff
 **/.gitignore diff
+package/nix/sources.json diff
 COPYRIGHT diff
 LICENSE diff
 </pre></div></div><p>
@@ -1112,8 +1113,8 @@ pkgs.mkShell ({
     pkgs.lychee
 
     <span class="org-comment"># Python testing and linting.</span>
-    pkgs.python39Packages.hypothesis
-    pkgs.python39Packages.mypy
+    pkgs.python3Packages.hypothesis
+    pkgs.python3Packages.mypy
     pkgs.ruff
   ];
 })
@@ -1127,7 +1128,7 @@ pkgs.mkShell ({
 This is based on Lilac's own code for updating Nix dependencies with <a href="https://github.com/nmattia/niv"><code>niv</code></a>.
 </p>
 
-<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-update-deps</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-update-deps">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-update-deps"><span class="org-variable-name">nixpkgs_stable_channel</span> := nixos-23.05
+<div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Makefile">Makefile-update-deps</a></span><span class="lilac-caption-link-symbol"><a href="#__NREF__Makefile-update-deps">&#x1f517;</a></span></div><pre class="src src-makefile" id="__NREF__Makefile-update-deps"><span class="org-variable-name">nixpkgs_stable_channel</span> := nixos-23.11
 <span class="org-makefile-targets">update-deps</span>: package/nix/sources.json package/nix/sources.nix
     cd package &amp;&amp; niv update nixpkgs --branch $(<span class="org-variable-name">nixpkgs_stable_channel</span>)
     cd package &amp;&amp; niv update

@@ -52,8 +52,8 @@ pkgs.mkShell ({
     pkgs.lychee
 
     # Python testing and linting.
-    pkgs.python39Packages.hypothesis
-    pkgs.python39Packages.mypy
+    pkgs.python3Packages.hypothesis
+    pkgs.python3Packages.mypy
     pkgs.ruff
   ];
 })

@@ -224,6 +224,7 @@ data.
 ,**/.gitattributes diff
 ,**/.gitmodules diff
 ,**/.gitignore diff
+package/nix/sources.json diff
 COPYRIGHT diff
 LICENSE diff
 #+end_src
@@ -479,8 +480,8 @@ pkgs.mkShell ({
     pkgs.lychee
 
     # Python testing and linting.
-    pkgs.python39Packages.hypothesis
-    pkgs.python39Packages.mypy
+    pkgs.python3Packages.hypothesis
+    pkgs.python3Packages.mypy
     pkgs.ruff
   ];
 })
@@ -492,7 +493,7 @@ This is based on Lilac's own code for updating Nix dependencies with [[https://g
 
 #+name: __NREF__Makefile-update-deps
 #+begin_src makefile
-nixpkgs_stable_channel := nixos-23.05
+nixpkgs_stable_channel := nixos-23.11
 update-deps: package/nix/sources.json package/nix/sources.nix
 	cd package && niv update nixpkgs --branch $(nixpkgs_stable_channel)
 	cd package && niv update
