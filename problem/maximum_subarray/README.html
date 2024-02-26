@@ -343,10 +343,9 @@ implementations to capture the answer.
 <h3 id="h-Brute-force--cubic"><span class="section-number-3">3.1.</span> Brute force (cubic)</h3>
 <div class="outline-text-3" id="text-h-Brute-force--cubic">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(1/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-1"><span class="org-keyword">def</span> <span class="org-function-name">brute_cubic</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
-    <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
     <span class="org-variable-name">beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">end</span> <span class="org-operator">=</span> 0
-    <span class="org-variable-name">found_max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">False</span>
 
     <span class="org-keyword">if</span> <span class="org-keyword">not</span> xs:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
@@ -354,17 +353,18 @@ implementations to capture the answer.
     <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(0, <span class="org-builtin">len</span>(xs)):
         <span class="org-keyword">for</span> j <span class="org-keyword">in</span> <span class="org-builtin">range</span>(i, <span class="org-builtin">len</span>(xs)):
             <span class="org-variable-name">subsum</span> <span class="org-operator">=</span> <span class="org-builtin">sum</span>(xs[i:j<span class="org-operator">+</span>1])
-            <span class="org-keyword">if</span> max_so_far <span class="org-operator">&lt;</span> subsum:
+            <span class="org-keyword">if</span> (max_so_far <span class="org-keyword">is</span> <span class="org-constant">None</span>) <span class="org-keyword">or</span> max_so_far <span class="org-operator">&lt;</span> subsum:
                 <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> subsum
                 <span class="org-variable-name">beg</span> <span class="org-operator">=</span> i
                 <span class="org-variable-name">end</span> <span class="org-operator">=</span> j
-                <span class="org-variable-name">found_max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">True</span>
 
-    <span class="org-keyword">if</span> found_max_so_far:
-        <span class="org-keyword">return</span> SubSum(max_so_far, beg, end)
+    <span class="org-comment-delimiter"># </span><span class="org-comment">The Python type system is unable to see that this condition is impossible.</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">So, make it explicit. Otherwise we get an error suggesting that we are</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">providing an optional type for the "sum" field of SubSum, because Python</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">thinks that max_so_far can still be None at this point.</span>
+    <span class="org-keyword">assert</span> max_so_far <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">No max subarray found (all elements were negative).</span>
-    <span class="org-keyword">return</span> <span class="org-constant">None</span>
+    <span class="org-keyword">return</span> SubSum(max_so_far, beg, end)
 </pre></div></div><p>
 Time complexity is \(O(n^3)\) (aka cubic algorithm), because we have 2 <code>for</code>
 loops, both that go over the entire range of input, which by themselves make it
@@ -383,10 +383,9 @@ just build it up within the outer <code>for</code> loop.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(2/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-2">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-2"><span class="org-keyword">def</span> <span class="org-function-name">brute_quadratic</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
-    <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
     <span class="org-variable-name">beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">end</span> <span class="org-operator">=</span> 0
-    <span class="org-variable-name">found_max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">False</span>
 
     <span class="org-keyword">if</span> <span class="org-keyword">not</span> xs:
         <span class="org-keyword">return</span> <span class="org-constant">None</span>
@@ -395,17 +394,14 @@ just build it up within the outer <code>for</code> loop.
         <span class="org-variable-name">subsum</span> <span class="org-operator">=</span> 0
         <span class="org-keyword">for</span> j <span class="org-keyword">in</span> <span class="org-builtin">range</span>(i, <span class="org-builtin">len</span>(xs)):
             <span class="org-variable-name">subsum</span> <span class="org-operator">+=</span> xs[j]
-            <span class="org-keyword">if</span> max_so_far <span class="org-operator">&lt;</span> subsum:
+            <span class="org-keyword">if</span> (max_so_far <span class="org-keyword">is</span> <span class="org-constant">None</span>) <span class="org-keyword">or</span> max_so_far <span class="org-operator">&lt;</span> subsum:
                 <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> subsum
                 <span class="org-variable-name">beg</span> <span class="org-operator">=</span> i
                 <span class="org-variable-name">end</span> <span class="org-operator">=</span> j
-                <span class="org-variable-name">found_max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">True</span>
 
-    <span class="org-keyword">if</span> found_max_so_far:
-        <span class="org-keyword">return</span> SubSum(max_so_far, beg, end)
+    <span class="org-keyword">assert</span> max_so_far <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">No max subarray found (all elements were negative).</span>
-    <span class="org-keyword">return</span> <span class="org-constant">None</span>
+    <span class="org-keyword">return</span> SubSum(max_so_far, beg, end)
 </pre></div></div><p>
 Time complexity is \(O(n^2)\), because we use a nested <code>for</code> loop over all
 elements.
@@ -439,10 +435,9 @@ csum[0]</code>.
 </p>
 
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(3/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-3">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-3"><span class="org-keyword">def</span> <span class="org-function-name">brute_quadratic_alt</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
-    <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
     <span class="org-variable-name">beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">end</span> <span class="org-operator">=</span> 0
-    <span class="org-variable-name">found_max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">False</span>
     <span class="org-variable-name">csums</span>: List[<span class="org-builtin">int</span>] <span class="org-operator">=</span> []
 
     <span class="org-keyword">if</span> <span class="org-keyword">not</span> xs:
@@ -462,17 +457,14 @@ csum[0]</code>.
                 <span class="org-variable-name">subsum</span> <span class="org-operator">=</span> csums[j] <span class="org-operator">-</span> csums[i <span class="org-operator">-</span> 1]
             <span class="org-keyword">else</span>:
                 <span class="org-variable-name">subsum</span> <span class="org-operator">=</span> csums[j]
-            <span class="org-keyword">if</span> max_so_far <span class="org-operator">&lt;</span> subsum:
+            <span class="org-keyword">if</span> (max_so_far <span class="org-keyword">is</span> <span class="org-constant">None</span>) <span class="org-keyword">or</span> max_so_far <span class="org-operator">&lt;</span> subsum:
                 <span class="org-variable-name">max_so_far</span> <span class="org-operator">=</span> subsum
                 <span class="org-variable-name">beg</span> <span class="org-operator">=</span> i
                 <span class="org-variable-name">end</span> <span class="org-operator">=</span> j
-                <span class="org-variable-name">found_max_so_far</span> <span class="org-operator">=</span> <span class="org-constant">True</span>
 
-    <span class="org-keyword">if</span> found_max_so_far:
-        <span class="org-keyword">return</span> SubSum(max_so_far, beg, end)
+    <span class="org-keyword">assert</span> max_so_far <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">No max subarray found (all elements were negative).</span>
-    <span class="org-keyword">return</span> <span class="org-constant">None</span>
+    <span class="org-keyword">return</span> SubSum(max_so_far, beg, end)
 </pre></div></div><p>
 This algorithm is still quadratic, because we still use a nested <code>for</code> loop for
 the main computation.
@@ -575,10 +567,7 @@ the input.
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">One element.</span>
         <span class="org-keyword">if</span> lo <span class="org-operator">==</span> hi:
-            <span class="org-keyword">if</span> xs[lo] <span class="org-operator">&lt;=</span> 0:
-                <span class="org-keyword">return</span> SubSum(0, <span class="org-operator">-</span>1, <span class="org-operator">-</span>1)
-            <span class="org-keyword">else</span>:
-                <span class="org-keyword">return</span> SubSum(<span class="org-builtin">max</span>(0, xs[lo]), lo, hi)
+            <span class="org-keyword">return</span> SubSum(xs[lo], lo, hi)
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">Note that the above two statements are enough to compute M_a and M_b,</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">through recursion. Now we need to compute M_c.</span>
@@ -592,7 +581,7 @@ the input.
         <span class="org-variable-name">M_b</span> <span class="org-operator">=</span> helper(mid <span class="org-operator">+</span> 1, hi)
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">Find max crossing over to the left.</span>
-        <span class="org-variable-name">M_c_left_sum</span> <span class="org-operator">=</span> 0
+        <span class="org-variable-name">M_c_left_sum</span> <span class="org-operator">=</span> <span class="org-builtin">float</span>(<span class="org-string">"-inf"</span>)
         <span class="org-builtin">sum</span> <span class="org-operator">=</span> 0
         <span class="org-variable-name">M_c_beg</span> <span class="org-operator">=</span> mid
         <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(mid, lo <span class="org-operator">-</span> 1, <span class="org-operator">-</span>1):
@@ -602,7 +591,7 @@ the input.
                 <span class="org-variable-name">M_c_beg</span> <span class="org-operator">=</span> i
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">Find max crossing over to the right.</span>
-        <span class="org-variable-name">M_c_right_sum</span> <span class="org-operator">=</span> 0
+        <span class="org-variable-name">M_c_right_sum</span> <span class="org-operator">=</span> <span class="org-builtin">float</span>(<span class="org-string">"-inf"</span>)
         <span class="org-builtin">sum</span> <span class="org-operator">=</span> 0
         <span class="org-variable-name">M_c_end</span> <span class="org-operator">=</span> mid <span class="org-operator">+</span> 1
         <span class="org-keyword">for</span> i <span class="org-keyword">in</span> <span class="org-builtin">range</span>(mid <span class="org-operator">+</span> 1, hi <span class="org-operator">+</span> 1):
@@ -797,15 +786,11 @@ involved.
                         max_R, max_R_beg, max_R_end,
                         M_c, cross_beg, cross_end)
 
+    <span class="org-keyword">if</span> <span class="org-keyword">not</span> xs:
+        <span class="org-keyword">return</span> <span class="org-constant">None</span>
+
     <span class="org-variable-name">result</span> <span class="org-operator">=</span> helper(0, <span class="org-builtin">len</span>(xs) <span class="org-operator">-</span> 1)
-    <span class="org-keyword">if</span> result.max_sub_beg <span class="org-operator">==</span> <span class="org-operator">-</span>1:
-        <span class="org-keyword">return</span> <span class="org-constant">None</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">For the case of [-1 , 0], the algorithm will return indices beg=1, end=1</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">to indicate that the right subarray (consisting of just [0]) has the max</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">subarray sum. But because we want to align with the brute force result</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">of returning None in the same case, we also return None.</span>
-    <span class="org-keyword">elif</span> result.max_sub <span class="org-operator">&lt;=</span> 0:
-        <span class="org-keyword">return</span> <span class="org-constant">None</span>
+
     <span class="org-keyword">return</span> SubSum(result.max_sub, result.max_sub_beg, result.max_sub_end)
 </pre></div></div>
 </div>
@@ -822,10 +807,14 @@ algorithm is much simpler, although it may not appear obvious at first sight.
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(6/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-6">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-6"><span class="org-comment-delimiter"># </span><span class="org-comment">Kadane's algorithm. It's named "dp" here because it is a good example of</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">dynamic programming.</span>
 <span class="org-keyword">def</span> <span class="org-function-name">dp</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
-    <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
     <span class="org-variable-name">max_subarray_beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">max_subarray_end</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">subarray_sum</span> <span class="org-operator">=</span> 0
+
+    <span class="org-keyword">if</span> <span class="org-keyword">not</span> xs:
+        <span class="org-keyword">return</span> <span class="org-constant">None</span>
+
     <span class="org-keyword">for</span> i, x <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(xs):
         <span class="org-variable-name">subarray_end</span> <span class="org-operator">=</span> i
         <span class="org-keyword">if</span> subarray_sum <span class="org-operator">+</span> x <span class="org-operator">&gt;</span> x:
@@ -835,15 +824,14 @@ algorithm is much simpler, although it may not appear obvious at first sight.
             <span class="org-variable-name">subarray_beg</span> <span class="org-operator">=</span> i
 
         <span class="org-comment-delimiter"># </span><span class="org-comment">Keep track of the largest subarray_sum we've seen.</span>
-        <span class="org-keyword">if</span> subarray_sum <span class="org-operator">&gt;</span> max_subarray_sum:
+        <span class="org-keyword">if</span> (max_subarray_sum <span class="org-keyword">is</span> <span class="org-constant">None</span>) <span class="org-keyword">or</span> subarray_sum <span class="org-operator">&gt;</span> max_subarray_sum:
             <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> subarray_sum
             <span class="org-variable-name">max_subarray_beg</span> <span class="org-operator">=</span> subarray_beg
             <span class="org-variable-name">max_subarray_end</span> <span class="org-operator">=</span> subarray_end
 
-    <span class="org-keyword">if</span> max_subarray_sum <span class="org-operator">&gt;</span> 0:
-        <span class="org-keyword">return</span> SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+    <span class="org-keyword">assert</span> max_subarray_sum <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
 
-    <span class="org-keyword">return</span> <span class="org-constant">None</span>
+    <span class="org-keyword">return</span> SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
 </pre></div></div><p>
 Kadane's algorithm gives each element in the subarray two options:
 </p>
@@ -980,12 +968,35 @@ current running sum, and the previous minimum sum we've observed (because again,
 the minimum is the starting point of a new subarray).
 </p>
 
+<p>
+The downside is that this version cannot handle negative numbers. That is, it
+will return <code>0</code> as the maximum sum even for the input <code>[-1]</code>. To get around this
+deficiency, when we encounter an array with all negative numbers or zeroes, we
+do a separate search for the highest single integer found, and return that
+instead.
+</p>
+
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">solution</a></span><span class="lilac-caption-parent-link"><a href="#org0000006">2</a></span>(7/7) <span class="lilac-caption-link-symbol"><a href="#__NREF__solution-7">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__solution-7"><span class="org-keyword">def</span> <span class="org-function-name">dp_running_sum</span>(xs: List[<span class="org-builtin">int</span>]) <span class="org-operator">-&gt;</span> Optional[SubSum]:
-    <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> 0
+    <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> <span class="org-constant">None</span>
     <span class="org-variable-name">max_subarray_beg</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">max_subarray_end</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">min_subarray_sum</span> <span class="org-operator">=</span> 0
     <span class="org-variable-name">subarray_beg</span> <span class="org-operator">=</span> 0
+
+    <span class="org-keyword">if</span> <span class="org-keyword">not</span> xs:
+        <span class="org-keyword">return</span> <span class="org-constant">None</span>
+
+    <span class="org-keyword">if</span> <span class="org-builtin">all</span>(<span class="org-builtin">map</span>(<span class="org-keyword">lambda</span> x: x <span class="org-operator">&lt;=</span> 0, xs)):
+        <span class="org-variable-name">idx</span> <span class="org-operator">=</span> 0
+        <span class="org-keyword">for</span> i, x <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(xs):
+            <span class="org-keyword">if</span> (max_subarray_sum <span class="org-keyword">is</span> <span class="org-constant">None</span>) <span class="org-keyword">or</span> x <span class="org-operator">&gt;</span> max_subarray_sum:
+                <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> x
+                <span class="org-variable-name">idx</span> <span class="org-operator">=</span> i
+
+        <span class="org-keyword">assert</span> max_subarray_sum <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
+
+        <span class="org-keyword">return</span> SubSum(max_subarray_sum, idx, idx)
+
     <span class="org-keyword">for</span> i, running_sum <span class="org-keyword">in</span> <span class="org-builtin">enumerate</span>(itertools.accumulate(xs)):
         <span class="org-variable-name">subarray_end</span> <span class="org-operator">=</span> i
         <span class="org-keyword">if</span> running_sum <span class="org-operator">&lt;</span> min_subarray_sum:
@@ -995,15 +1006,14 @@ the minimum is the starting point of a new subarray).
             <span class="org-variable-name">subarray_beg</span> <span class="org-operator">=</span> i <span class="org-operator">+</span> 1
 
         <span class="org-variable-name">subarray_sum</span> <span class="org-operator">=</span> running_sum <span class="org-operator">-</span> min_subarray_sum
-        <span class="org-keyword">if</span> subarray_sum <span class="org-operator">&gt;</span> max_subarray_sum:
+        <span class="org-keyword">if</span> (max_subarray_sum <span class="org-keyword">is</span> <span class="org-constant">None</span>) <span class="org-keyword">or</span> subarray_sum <span class="org-operator">&gt;</span> max_subarray_sum:
             <span class="org-variable-name">max_subarray_sum</span> <span class="org-operator">=</span> subarray_sum
             <span class="org-variable-name">max_subarray_beg</span> <span class="org-operator">=</span> subarray_beg
             <span class="org-variable-name">max_subarray_end</span> <span class="org-operator">=</span> subarray_end
 
-    <span class="org-keyword">if</span> max_subarray_sum <span class="org-operator">&gt;</span> 0:
-        <span class="org-keyword">return</span> SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+    <span class="org-keyword">assert</span> max_subarray_sum <span class="org-keyword">is</span> <span class="org-keyword">not</span> <span class="org-constant">None</span>
 
-    <span class="org-keyword">return</span> <span class="org-constant">None</span>
+    <span class="org-keyword">return</span> SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
 </pre></div></div><p>
 This also has linear running time, but is a bit more complicated because we have
 to build up cumulative sums, which is unnecessary in Kadane's algorithm.
@@ -1035,14 +1045,22 @@ to build up cumulative sums, which is unnecessary in Kadane's algorithm.
 <h3 id="h-Basic-tests"><span class="section-number-3">4.1.</span> Basic tests</h3>
 <div class="outline-text-3" id="text-h-Basic-tests">
 <div class="org-src-container"><div class="lilac-pre-with-caption"><div class="lilac-caption"><span class="lilac-caption-parent-link"><a href="#Tests">test_cases</a></span>(1/2) <span class="lilac-caption-link-symbol"><a href="#__NREF__test_cases-1">&#x1f517;</a></span></div><pre class="src src-python" id="__NREF__test_cases-1"><span class="org-keyword">def</span> <span class="org-function-name">test_basic</span>(<span class="org-keyword">self</span>):
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Empty, or all negative inputs result in no answer.</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Empty input results in no answer.</span>
     <span class="org-keyword">self</span>.assertEqual(<span class="org-constant">None</span>, brute_cubic([]))
-    <span class="org-keyword">self</span>.assertEqual(<span class="org-constant">None</span>, brute_cubic([<span class="org-operator">-</span>1]))
-    <span class="org-keyword">self</span>.assertEqual(<span class="org-constant">None</span>, brute_cubic([<span class="org-operator">-</span>1, <span class="org-operator">-</span>2]))
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Zeroes can be tricky. They should not count because they are meaningless.</span>
-    <span class="org-keyword">self</span>.assertEqual(<span class="org-constant">None</span>, brute_cubic([0]))
-    <span class="org-keyword">self</span>.assertEqual(<span class="org-constant">None</span>, brute_cubic([0, 0]))
+    <span class="org-comment-delimiter"># </span><span class="org-comment">All-negative input results in the largest integer found.</span>
+    <span class="org-keyword">self</span>.assertEqual(SubSum(<span class="org-operator">-</span>1, 0, 0), brute_cubic([<span class="org-operator">-</span>1]))
+    <span class="org-keyword">self</span>.assertEqual(SubSum(<span class="org-operator">-</span>1, 0, 0), brute_cubic([<span class="org-operator">-</span>1, <span class="org-operator">-</span>2]))
+    <span class="org-keyword">self</span>.assertEqual(SubSum(<span class="org-operator">-</span>1, 1, 1), brute_cubic([<span class="org-operator">-</span>2, <span class="org-operator">-</span>1, <span class="org-operator">-</span>3]))
+
+    <span class="org-comment-delimiter"># </span><span class="org-comment">For all-zeroes, the maximum is the first zero found, as the rest of the</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">zeroes are meaningless.</span>
+    <span class="org-keyword">self</span>.assertEqual(SubSum(0, 0, 0), brute_cubic([0]))
+    <span class="org-keyword">self</span>.assertEqual(SubSum(0, 0, 0), brute_cubic([0, 0]))
+
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Mixed zero/negative inputs.</span>
+    <span class="org-keyword">self</span>.assertEqual(SubSum(0, 0, 0), brute_cubic([0, <span class="org-operator">-</span>1, 0]))
+    <span class="org-keyword">self</span>.assertEqual(SubSum(0, 1, 1), brute_cubic([<span class="org-operator">-</span>1, 0, <span class="org-operator">-</span>1]))
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">Array of all-positive integers is the entire array itself.</span>
     <span class="org-keyword">self</span>.assertEqual(SubSum(1, 0, 0), brute_cubic([1]))
@@ -1059,8 +1077,9 @@ to build up cumulative sums, which is unnecessary in Kadane's algorithm.
     <span class="org-keyword">self</span>.assertEqual(SubSum(2, 0, 3),
                      brute_cubic([1, 0, 0, 1]))
 
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Examples used earlier up in the discussion.</span>
     <span class="org-variable-name">want_xs</span> <span class="org-operator">=</span> [
+        (SubSum(<span class="org-operator">-</span>1, 1, 1), [<span class="org-operator">-</span>2, <span class="org-operator">-</span>1, <span class="org-operator">-</span>3]),
+        <span class="org-comment-delimiter"># </span><span class="org-comment">Examples used earlier up in the discussion.</span>
         (SubSum(6, 3, 6), [<span class="org-operator">-</span>2, 1, <span class="org-operator">-</span>3, 4, <span class="org-operator">-</span>1, 2, 1, <span class="org-operator">-</span>5, 4]),
         (SubSum(6, 1, 3), [<span class="org-operator">-</span>1, 1, 2, 3, <span class="org-operator">-</span>1, <span class="org-operator">-</span>2, <span class="org-operator">-</span>1, 1, 1, 1, <span class="org-operator">-</span>1]),
         (SubSum(7, 1, 8), [<span class="org-operator">-</span>1, 1, 2, 3, <span class="org-operator">-</span>1, <span class="org-operator">-</span>1, 1, 1, 1, <span class="org-operator">-</span>1]),

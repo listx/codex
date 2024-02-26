@@ -8,10 +8,9 @@ class SubSum(NamedTuple):
     beg: int
     end: int
 def brute_cubic(xs: List[int]) -> Optional[SubSum]:
-    max_so_far = 0
+    max_so_far = None
     beg = 0
     end = 0
-    found_max_so_far = False
 
     if not xs:
         return None
@@ -19,22 +18,22 @@ def brute_cubic(xs: List[int]) -> Optional[SubSum]:
     for i in range(0, len(xs)):
         for j in range(i, len(xs)):
             subsum = sum(xs[i:j+1])
-            if max_so_far < subsum:
+            if (max_so_far is None) or max_so_far < subsum:
                 max_so_far = subsum
                 beg = i
                 end = j
-                found_max_so_far = True
 
-    if found_max_so_far:
-        return SubSum(max_so_far, beg, end)
+    # The Python type system is unable to see that this condition is impossible.
+    # So, make it explicit. Otherwise we get an error suggesting that we are
+    # providing an optional type for the "sum" field of SubSum, because Python
+    # thinks that max_so_far can still be None at this point.
+    assert max_so_far is not None
 
-    # No max subarray found (all elements were negative).
-    return None
+    return SubSum(max_so_far, beg, end)
 def brute_quadratic(xs: List[int]) -> Optional[SubSum]:
-    max_so_far = 0
+    max_so_far = None
     beg = 0
     end = 0
-    found_max_so_far = False
 
     if not xs:
         return None
@@ -43,22 +42,18 @@ def brute_quadratic(xs: List[int]) -> Optional[SubSum]:
         subsum = 0
         for j in range(i, len(xs)):
             subsum += xs[j]
-            if max_so_far < subsum:
+            if (max_so_far is None) or max_so_far < subsum:
                 max_so_far = subsum
                 beg = i
                 end = j
-                found_max_so_far = True
 
-    if found_max_so_far:
-        return SubSum(max_so_far, beg, end)
+    assert max_so_far is not None
 
-    # No max subarray found (all elements were negative).
-    return None
+    return SubSum(max_so_far, beg, end)
 def brute_quadratic_alt(xs: List[int]) -> Optional[SubSum]:
-    max_so_far = 0
+    max_so_far = None
     beg = 0
     end = 0
-    found_max_so_far = False
     csums: List[int] = []
 
     if not xs:
@@ -78,17 +73,14 @@ def brute_quadratic_alt(xs: List[int]) -> Optional[SubSum]:
                 subsum = csums[j] - csums[i - 1]
             else:
                 subsum = csums[j]
-            if max_so_far < subsum:
+            if (max_so_far is None) or max_so_far < subsum:
                 max_so_far = subsum
                 beg = i
                 end = j
-                found_max_so_far = True
 
-    if found_max_so_far:
-        return SubSum(max_so_far, beg, end)
+    assert max_so_far is not None
 
-    # No max subarray found (all elements were negative).
-    return None
+    return SubSum(max_so_far, beg, end)
 def dac(xs: List[int]) -> Optional[SubSum]:
     def helper(lo, hi):
         # Zero elements. For simplicity of comparisons between M_a, M_b, and
@@ -98,10 +90,7 @@ def dac(xs: List[int]) -> Optional[SubSum]:
 
         # One element.
         if lo == hi:
-            if xs[lo] <= 0:
-                return SubSum(0, -1, -1)
-            else:
-                return SubSum(max(0, xs[lo]), lo, hi)
+            return SubSum(xs[lo], lo, hi)
 
         # Note that the above two statements are enough to compute M_a and M_b,
         # through recursion. Now we need to compute M_c.
@@ -115,7 +104,7 @@ def dac(xs: List[int]) -> Optional[SubSum]:
         M_b = helper(mid + 1, hi)
 
         # Find max crossing over to the left.
-        M_c_left_sum = 0
+        M_c_left_sum = float("-inf")
         sum = 0
         M_c_beg = mid
         for i in range(mid, lo - 1, -1):
@@ -125,7 +114,7 @@ def dac(xs: List[int]) -> Optional[SubSum]:
                 M_c_beg = i
 
         # Find max crossing over to the right.
-        M_c_right_sum = 0
+        M_c_right_sum = float("-inf")
         sum = 0
         M_c_end = mid + 1
         for i in range(mid + 1, hi + 1):
@@ -245,23 +234,23 @@ def dac_linear(xs: List[int]) -> Optional[SubSum]:
                         max_R, max_R_beg, max_R_end,
                         M_c, cross_beg, cross_end)
 
+    if not xs:
+        return None
+
     result = helper(0, len(xs) - 1)
-    if result.max_sub_beg == -1:
-        return None
-    # For the case of [-1 , 0], the algorithm will return indices beg=1, end=1
-    # to indicate that the right subarray (consisting of just [0]) has the max
-    # subarray sum. But because we want to align with the brute force result
-    # of returning None in the same case, we also return None.
-    elif result.max_sub <= 0:
-        return None
+
     return SubSum(result.max_sub, result.max_sub_beg, result.max_sub_end)
 # Kadane's algorithm. It's named "dp" here because it is a good example of
 # dynamic programming.
 def dp(xs: List[int]) -> Optional[SubSum]:
-    max_subarray_sum = 0
+    max_subarray_sum = None
     max_subarray_beg = 0
     max_subarray_end = 0
     subarray_sum = 0
+
+    if not xs:
+        return None
+
     for i, x in enumerate(xs):
         subarray_end = i
         if subarray_sum + x > x:
@@ -271,21 +260,35 @@ def dp(xs: List[int]) -> Optional[SubSum]:
             subarray_beg = i
 
         # Keep track of the largest subarray_sum we've seen.
-        if subarray_sum > max_subarray_sum:
+        if (max_subarray_sum is None) or subarray_sum > max_subarray_sum:
             max_subarray_sum = subarray_sum
             max_subarray_beg = subarray_beg
             max_subarray_end = subarray_end
 
-    if max_subarray_sum > 0:
-        return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+    assert max_subarray_sum is not None
 
-    return None
+    return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
 def dp_running_sum(xs: List[int]) -> Optional[SubSum]:
-    max_subarray_sum = 0
+    max_subarray_sum = None
     max_subarray_beg = 0
     max_subarray_end = 0
     min_subarray_sum = 0
     subarray_beg = 0
+
+    if not xs:
+        return None
+
+    if all(map(lambda x: x <= 0, xs)):
+        idx = 0
+        for i, x in enumerate(xs):
+            if (max_subarray_sum is None) or x > max_subarray_sum:
+                max_subarray_sum = x
+                idx = i
+
+        assert max_subarray_sum is not None
+
+        return SubSum(max_subarray_sum, idx, idx)
+
     for i, running_sum in enumerate(itertools.accumulate(xs)):
         subarray_end = i
         if running_sum < min_subarray_sum:
@@ -295,12 +298,11 @@ def dp_running_sum(xs: List[int]) -> Optional[SubSum]:
             subarray_beg = i + 1
 
         subarray_sum = running_sum - min_subarray_sum
-        if subarray_sum > max_subarray_sum:
+        if (max_subarray_sum is None) or subarray_sum > max_subarray_sum:
             max_subarray_sum = subarray_sum
             max_subarray_beg = subarray_beg
             max_subarray_end = subarray_end
 
-    if max_subarray_sum > 0:
-        return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
+    assert max_subarray_sum is not None
 
-    return None
+    return SubSum(max_subarray_sum, max_subarray_beg, max_subarray_end)
